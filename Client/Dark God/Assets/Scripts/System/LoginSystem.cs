@@ -11,7 +11,14 @@ public class LoginSystem : MonoSingleton<LoginSystem>
 
     public void OnLoginEnter()
     {
-        ResService.Instance.LoadSceneAsync(Message.SceneLogin);
-        
+        ResService.Instance.LoadSceneAsync(Message.SceneLogin, () =>
+        {
+            GameRoot.Instance.loginWin.SetWinState();
+            AudioService.Instance.PlayerBGMusic(Message.BGLogin);
+        });
+
+
     }
+
+
 }

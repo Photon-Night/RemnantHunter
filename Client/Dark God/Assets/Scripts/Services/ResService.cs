@@ -11,10 +11,9 @@ public class ResService : MonoSingleton<ResService>
     }
 
     private System.Action PrgCB = null;
-    public void LoadSceneAsync(string sceneName)
+    public void LoadSceneAsync(string sceneName, System.Action loaded = null)   
     {
-        GameRoot.Instance.loadingWin.InitWin();
-        GameRoot.Instance.loadingWin.gameObject.SetActive(true);
+        GameRoot.Instance.loadingWin.SetWinState();
         AsyncOperation sceneAsync = SceneManager.LoadSceneAsync(sceneName);
         PrgCB = () =>
         {
@@ -24,7 +23,11 @@ public class ResService : MonoSingleton<ResService>
             {
                 PrgCB = null;
                 sceneAsync = null;
-                GameRoot.Instance.loadingWin.gameObject.SetActive(false);
+                GameRoot.Instance.loadingWin.SetWinState(false);
+                if(loaded != null)
+                {
+                    loaded();
+                }
             }
         };
     }
@@ -33,5 +36,20 @@ public class ResService : MonoSingleton<ResService>
     {
         if (PrgCB != null)
             PrgCB();
+    }
+
+    private Dictionary<string, AudioClip> adDic = new Dictionary<string, AudioClip>();
+    public AudioClip LoadAudio(string path, bool cache = false)
+    {
+        AudioClip au = null;
+        if(!adDic.TryGetValue(path, out au))
+        {
+            au = Resources.Load<AudioClip>(path);
+            if(cache)
+            {
+                adDic.Add(path, au);
+            }
+        }
+        return au;
     }
 }

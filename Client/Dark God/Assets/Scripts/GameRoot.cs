@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameRoot : MonoSingleton<GameRoot>
 {
     public LoadingWin loadingWin;
-
+    public LoginWin loginWin;
 
 
     // Start is called before the first frame update
@@ -22,6 +22,9 @@ public class GameRoot : MonoSingleton<GameRoot>
         res.ServiceInit();
         LoginSystem login = GetComponent<LoginSystem>();
         login.SystemInit();
+
+        AudioService audio = GetComponent<AudioService>();
+        audio.ServiceInit();
 
         //
         login.OnLoginEnter();
