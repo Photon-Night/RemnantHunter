@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoginSystem : MonoSingleton<LoginSystem>
+public class LoginSystem : SystemRoot
 {
+    public static LoginSystem Instance = null;
+
    public void SystemInit()
     {
         Debug.Log("LoginSystem Loading");
+        Instance = this;
+        base.InitSys();
     }
 
     public void OnLoginEnter()
     {
-        ResService.Instance.LoadSceneAsync(Message.SceneLogin, () =>
+        resSvc.LoadSceneAsync(Message.SceneLogin, () =>
         {
             GameRoot.Instance.loginWin.SetWinState();
-            AudioService.Instance.PlayerBGMusic(Message.BGLogin);
+            audioSvc.PlayerBGMusic(Message.BGLogin);
         });
 
 

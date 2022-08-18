@@ -6,6 +6,7 @@ public class GameRoot : MonoSingleton<GameRoot>
 {
     public LoadingWin loadingWin;
     public LoginWin loginWin;
+    public DynamicWin dynamicWin;
 
 
     // Start is called before the first frame update

@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class WinRoot : MonoBehaviour
 {
-    ResService res = null;
+    protected ResService resSvc = null;
+    protected AudioService audioSvc = null;
     public void SetWinState(bool isActive = true)
     {
         if(this.gameObject.activeSelf != isActive)
@@ -23,12 +24,14 @@ public class WinRoot : MonoBehaviour
 
     protected virtual void InitWin()
     {
-        res = ResService.Instance;
+        resSvc = ResService.Instance;
+        audioSvc = AudioService.Instance;
     }
 
     protected virtual void ClearWin()
     {
-        res = null;
+        resSvc = null;
+        audioSvc = null;
     }
 
     protected void SetActive(GameObject go, bool isActive = true)
