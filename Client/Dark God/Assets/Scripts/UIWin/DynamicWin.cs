@@ -8,6 +8,9 @@ public class DynamicWin : WinRoot
     public Animation tipsAnim;
     public Text txtTips;
 
+    private bool isTipsShow;
+
+    private Queue<string> tipsQue = new Queue<string>();
     protected override void InitWin()
     {
         base.InitWin();
@@ -15,17 +18,39 @@ public class DynamicWin : WinRoot
         SetActive(txtTips, false);
     }
 
+    public void AddTips(string tips)
+    {
+        lock(tipsQue)
+        {
+            tipsQue.Enqueue(tips);
+        }
+    }
+
+    private void Update()
+    {
+        if(tipsQue.Count > 0 && !isTipsShow)
+        {
+                
+            lock(tipsQue)
+            {
+                string tip = tipsQue.Dequeue();
+                isTipsShow = true;
+                SetTips(tip);
+            }
+        }
+    }
+
     public void SetTips(string tips)
     {
         SetActive(txtTips);
         SetText(txtTips, tips);
-
         AnimationClip clip = tipsAnim.GetClip("TipEnter");
         tipsAnim.Play();
         //ÑÓÊ±¹Ø±Õ
         StartCoroutine(AnimPlayDone(clip.length, () =>
         {
             SetActive(txtTips, false);
+            isTipsShow = false;
         }));
     }
 

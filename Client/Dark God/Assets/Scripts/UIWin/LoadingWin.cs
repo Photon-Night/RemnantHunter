@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class LoadingWin : WinRoot
 {
-    public Text txtTips;
     public Text txtPrg;
     public Image imgFG;
     public Image imgPoint;
@@ -14,9 +13,9 @@ public class LoadingWin : WinRoot
 
     protected override void InitWin()
     {
+        base.InitWin();
         fgWidth = imgFG.GetComponent<RectTransform>().sizeDelta.x;
 
-        SetText(txtTips, "Tips: 这是一个提示");
         SetText(txtPrg, "0%");
         imgFG.fillAmount = 0;
         imgPoint.transform.localPosition = new Vector3(-860, 0, 0);
@@ -29,4 +28,6 @@ public class LoadingWin : WinRoot
         float posX = (fgWidth * prg) - 860;
         imgPoint.GetComponent<RectTransform>().anchoredPosition = new Vector2(posX, 0);
     }
+
+ 
 }

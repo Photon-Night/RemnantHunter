@@ -61,6 +61,7 @@ public class WinRoot : MonoBehaviour
 
     protected void SetText(Text text, string context = "")
     {
+        Debug.Log(context);
         text.text = context;
     }
 

@@ -7,12 +7,14 @@ public class GameRoot : MonoSingleton<GameRoot>
     public LoadingWin loadingWin;
     public LoginWin loginWin;
     public DynamicWin dynamicWin;
+    public CreateWin createWin;
 
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Game Start");
+        ClearUIRoot();
         Init();
     }
 
@@ -29,5 +31,21 @@ public class GameRoot : MonoSingleton<GameRoot>
 
         //
         login.OnLoginEnter();
+    }
+
+     private void ClearUIRoot()
+    {
+        Transform canvas = this.transform.Find("Canvas");
+        for(int i = 0; i < canvas.childCount; i++)
+        {
+            canvas.GetChild(i).gameObject.SetActive(false);
+        }
+
+        dynamicWin.SetWinState();
+    }
+
+    public static void AddTips(string tip)
+    {
+        Instance.dynamicWin.AddTips(tip);
     }
 }
