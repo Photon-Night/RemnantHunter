@@ -28,7 +28,7 @@ public class DynamicWin : WinRoot
 
     private void Update()
     {
-        if(tipsQue.Count > 0 && !isTipsShow)
+         if(tipsQue.Count > 0 && !isTipsShow)
         {
                 
             lock(tipsQue)

@@ -25,7 +25,7 @@ public class AudioService : MonoSingleton<AudioService>
 
     public void PlayUIAudio(string name)
     {
-        AudioClip audio = ResService.Instance.LoadAudio("ResAudio/" + name, true);
+        AudioClip audio = ResService.Instance.LoadAudio("ResAudio/" + name, false);
         uiAudio.clip = audio;
         uiAudio.Play();
     }
