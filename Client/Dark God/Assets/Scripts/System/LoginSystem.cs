@@ -6,11 +6,11 @@ public class LoginSystem : SystemRoot
 {
     public static LoginSystem Instance = null;
 
-   public void SystemInit()
+     public override void InitSystem()
     {
+        base.InitSystem();
         Debug.Log("LoginSystem Loading");
         Instance = this;
-        base.InitSys();
     }
 
     public void OnLoginEnter()

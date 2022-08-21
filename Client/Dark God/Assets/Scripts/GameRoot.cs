@@ -24,7 +24,7 @@ public class GameRoot : MonoSingleton<GameRoot>
         ResService res = GetComponent<ResService>();
         res.ServiceInit();
         LoginSystem login = GetComponent<LoginSystem>();
-        login.SystemInit();
+        login.InitSystem();
 
         AudioService audio = GetComponent<AudioService>();
         audio.ServiceInit();
