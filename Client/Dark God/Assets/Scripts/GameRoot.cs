@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PEProtocol;
 
 public class GameRoot : MonoSingleton<GameRoot>
 {
@@ -13,7 +14,7 @@ public class GameRoot : MonoSingleton<GameRoot>
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Game Start");
+        PECommon.Log("Game Start");
         ClearUIRoot();
         Init();
     }
@@ -21,14 +22,13 @@ public class GameRoot : MonoSingleton<GameRoot>
     private void Init()
     {
         //组件初始化加载
-        ResService res = GetComponent<ResService>();
-        res.ServiceInit();
+        ResService.Instance.ServiceInit();
+        NetService.Instance.ServiceInit();
+        AudioService.Instance.ServiceInit();
+
+
         LoginSystem login = GetComponent<LoginSystem>();
         login.InitSystem();
-
-        AudioService audio = GetComponent<AudioService>();
-        audio.ServiceInit();
-
         //
         login.OnLoginEnter();
     }

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Xml;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using PEProtocol;
 
 public class ResService : MonoSingleton<ResService>
 {
     public void ServiceInit()
     {
-        Debug.Log("ResService Loading");
+        PECommon.Log("ResService Loading");
         InitRDNameCfg();
     }
 
@@ -64,7 +65,7 @@ public class ResService : MonoSingleton<ResService>
         TextAsset xml = Resources.Load<TextAsset>(PathDefine.RDNameCfg);
         if(!xml)
         {
-            Debug.LogError("xml file: " + PathDefine.RDNameCfg + "is not exist");
+            PECommon.Log("xml file: " + PathDefine.RDNameCfg + "is not exist", PEProtocol.LogType.Error);
 
         }
         else
@@ -114,7 +115,7 @@ public class ResService : MonoSingleton<ResService>
         {
             rdName += womanList[PETools.RdInt(0, womanList.Count, rd)];
         }
-        Debug.Log(rdName);
+        PECommon.Log(rdName);
         return rdName;
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using PEProtocol;
 public class AudioService : MonoSingleton<AudioService>
 {
     public AudioSource bgAudio;
@@ -9,7 +9,7 @@ public class AudioService : MonoSingleton<AudioService>
 
     public void ServiceInit()
     {
-        Debug.Log("AudioService Loading");
+        PECommon.Log("AudioService Loading");
     }
 
     public void PlayerBGMusic(string name, bool isLoop = true)

@@ -56,22 +56,26 @@
     <Compile Include="Assets\Scripts\UIWin\LoginWin.cs" />
     <Compile Include="Assets\Scripts\Common\MonoSingleton.cs" />
     <Compile Include="Assets\Scripts\UIWin\LoadingWin.cs" />
+    <Compile Include="Assets\Scripts\Common\PathDefine.cs" />
     <Compile Include="Assets\Scripts\System\LoginSystem.cs" />
     <Compile Include="Assets\Scripts\Services\ResService.cs" />
     <Compile Include="Assets\Scripts\UIWin\CreateWin.cs" />
+    <Compile Include="Assets\Scripts\Net\ClientSession.cs" />
     <Compile Include="Assets\Scripts\System\SystemRoot.cs" />
     <Compile Include="Assets\Scripts\Services\AudioService.cs" />
+    <Compile Include="Assets\Scripts\Services\NetService.cs" />
+    <Compile Include="Assets\Scripts\Common\PETools.cs" />
     <Compile Include="Assets\Scripts\Common\Message.cs" />
     <Compile Include="Assets\Scripts\Common\Singleton.cs" />
     <Compile Include="Assets\Scripts\GameRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\WInRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
-    <Compile Include="Assets\Scripts\Common\PathDefine.cs" />
-    <Compile Include="Assets\Scripts\Common\PETools.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Scripts\Net\PESocket.dll" />
     <None Include="Assets\Resources\ResCfgs\rdname.xml" />
     <None Include="Assets\Compond\Shader\MogoSkybox.shader" />
+    <None Include="Assets\Scripts\Net\PEProtocol.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -298,6 +302,12 @@
     </Reference>
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>D:\unity3d\2020.3.21f1c1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="PESocket">
+      <HintPath>Assets\Scripts\Net\PESocket.dll</HintPath>
+    </Reference>
+    <Reference Include="PEProtocol">
+      <HintPath>Assets\Scripts\Net\PEProtocol.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>

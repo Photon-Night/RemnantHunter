@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PEProtocol;
 
 public class LoginSystem : SystemRoot
 {
@@ -9,7 +10,7 @@ public class LoginSystem : SystemRoot
      public override void InitSystem()
     {
         base.InitSystem();
-        Debug.Log("LoginSystem Loading");
+        PECommon.Log("LoginSystem Loading");
         Instance = this;
     }
 
