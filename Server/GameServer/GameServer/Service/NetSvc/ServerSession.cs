@@ -4,7 +4,7 @@ using PEProtocol;
 
 namespace GameServer
 {
-    class ServerSession : PESession<GameMsg>
+    public class ServerSession : PESession<GameMsg>
     {
         protected override void OnConnected()
         {
@@ -19,8 +19,8 @@ namespace GameServer
 
         protected override void OnReciveMsg(GameMsg msg)
         {
-            PECommon.Log("Client Req:" );
-           
+            PECommon.Log("Client Req:"  + ((CMD)msg.cmd).ToString());
+            NetSvc.Instance.AddMsgQue(this, msg); 
         }
     }
 }

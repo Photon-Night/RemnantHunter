@@ -36,4 +36,9 @@ public class NetService : MonoSingleton<NetService>
         });
         client.StartAsClient(ServerCfg.srvIP, ServerCfg.srvPort);
     }
+
+    public void SendMessage(GameMsg msg)
+    {
+        client.session.SendMsg(msg);
+    }
 }

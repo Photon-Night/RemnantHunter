@@ -10,10 +10,17 @@ namespace GameServer
     {
         public void Init()
         {
+            //服务层
             NetSvc.Instance.Init();
-
+            CacheSvc.Instance.Init();
+            //业务层
             LoginSys.Instance.Init();
         }
 
+
+        public void Update()
+        {
+            NetSvc.Instance.Update();
+        }
     }
 }

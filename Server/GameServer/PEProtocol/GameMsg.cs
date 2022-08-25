@@ -7,6 +7,7 @@ namespace PEProtocol
     public class GameMsg : PEMsg
     {
         public ReqLogin reqLogin;
+        public RspLogin rspLogin;
     }
 
     public class ServerCfg
@@ -21,6 +22,22 @@ namespace PEProtocol
         public string acc;
         public string pas;
     }
+    [System.Serializable]
+    public class RspLogin
+    {
+        //TODO
+    }
+
+    public class PlayerData
+    {
+        public int id;
+        public string name;
+        public int lv;
+        public int exp;
+        public int power;
+        public int coin;
+        public int diamond;
+    }
 
     public enum CMD
     {
@@ -28,5 +45,12 @@ namespace PEProtocol
         ReqLogin = 101,
         RspLogin = 102,
     }
+
+    public enum ErrorCode
+    {
+        None = 0,
+        AccountIsOnline,
+    }
+
 
 }

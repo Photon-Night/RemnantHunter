@@ -11,7 +11,10 @@ namespace GameServer
         static void Main(string[] args)
         {
             ServerRoot.Instance.Init();
-
+            while(true)
+            {
+                ServerRoot.Instance.Update();
+            }
         }
     }
 }

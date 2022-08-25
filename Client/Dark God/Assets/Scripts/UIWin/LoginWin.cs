@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using PEProtocol;
 
 public class LoginWin : WinRoot
 {
@@ -29,26 +30,28 @@ public class LoginWin : WinRoot
     public void ClickEnterBtn()
     {
         audioSvc.PlayUIAudio(Message.UILoginBtn);
-        if(CheckInput())
-        {
-            LoginSystem.Instance.OnLoginRsp();
-        }
-    }
+        string _acc = accInput.text;
+        string _pas = pasInput.text;
 
-    private bool CheckInput()
-    {
-        string acc = accInput.text;
-        string pas = pasInput.text;
-
-        if (acc != "" && pas != "")
+        if (_acc != "" && _pas != "")
         {
-            PlayerPrefs.SetString("acc", acc);
-            PlayerPrefs.SetString("pas", pas);
-            return true;
+            PlayerPrefs.SetString("acc", _acc);
+            PlayerPrefs.SetString("pas", _pas);
+            GameMsg msg = new GameMsg
+            {
+                cmd = (int)CMD.ReqLogin,
+                reqLogin = new ReqLogin 
+                {
+                    acc = _acc,
+                    pas = _pas
+                }
+            };
+
+            netSvc.SendMessage(msg);
         }
 
         else
             GameRoot.AddTips("«Î ‰»Î’À∫≈√‹¬Î");
-            return false;
     }
+   
 }
