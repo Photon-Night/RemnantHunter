@@ -48,4 +48,18 @@ public class GameRoot : MonoSingleton<GameRoot>
     {
         Instance.dynamicWin.AddTips(tip);
     }
+
+    private PlayerData playerData = null;
+    public PlayerData PlayerData
+    {
+        get
+        {
+            return playerData;
+        }
+    }
+
+    public void SetPlayerData(RspLogin data)
+    {
+        playerData = data.playerData;
+    }
 }

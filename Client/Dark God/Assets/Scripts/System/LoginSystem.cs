@@ -25,11 +25,21 @@ public class LoginSystem : SystemRoot
 
     }
 
-    public void OnLoginRsp()
+    public void OnLoginRsp(GameMsg msg)
     {
         GameRoot.AddTips("µÇÂ¼³É¹¦");
+
+        GameRoot.Instance.SetPlayerData(msg.rspLogin);
+        if (msg.rspLogin.playerData.name == "")
+        {
+            GameRoot.Instance.createWin.SetWinState();
+        }
+        else
+        {
+            //TODO
+        }
         GameRoot.Instance.loginWin.SetWinState(false);
-        GameRoot.Instance.createWin.SetWinState();
+
     }
 
 }

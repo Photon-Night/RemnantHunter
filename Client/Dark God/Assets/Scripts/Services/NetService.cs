@@ -8,10 +8,13 @@ public class NetService : MonoSingleton<NetService>
 {
 
     PESocket<ClientSession, GameMsg> client = null;
+    private Queue<GameMsg> msgQue = null;
+    private static readonly string obj = "lock";
     public void ServiceInit()
     {
         PECommon.Log("NetService Loading");
         client = new PESocket<ClientSession, GameMsg>();
+        msgQue = new Queue<GameMsg>();
         client.SetLog(true, (string msg, int lv) =>
         {
             switch (lv)
@@ -40,5 +43,48 @@ public class NetService : MonoSingleton<NetService>
     public void SendMessage(GameMsg msg)
     {
         client.session.SendMsg(msg);
+    }
+
+    public void AddNetPkg(GameMsg msg)
+    {
+        lock(obj)
+        {
+            msgQue.Enqueue(msg);
+        }
+    }
+
+    private void ProcessMsg(GameMsg msg)
+    {
+        if(msg.err != (int)ErrorCode.None)
+        {
+            switch ((ErrorCode)msg.err)
+            {
+                case ErrorCode.AccountIsOnline:
+                    GameRoot.AddTips("当前账号已上线");
+                    break;
+
+                case ErrorCode.WrongPass:
+                    GameRoot.AddTips("密码错误");
+                    break;
+            }
+            return;
+        }
+
+        switch ((CMD)msg.cmd)
+        {
+            case CMD.RspLogin:
+                LoginSystem.Instance.OnLoginRsp(msg);
+                break;
+        }
+
+    }
+
+    private void Update()
+    {
+        if(msgQue.Count > 0)
+        {
+            GameMsg msg = msgQue.Dequeue();
+            ProcessMsg(msg);
+        }
     }
 }

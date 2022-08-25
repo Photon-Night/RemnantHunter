@@ -26,6 +26,7 @@ namespace PEProtocol
     public class RspLogin
     {
         //TODO
+        public PlayerData playerData;
     }
 
     public class PlayerData
@@ -50,6 +51,7 @@ namespace PEProtocol
     {
         None = 0,
         AccountIsOnline,
+        WrongPass,
     }
 
 
