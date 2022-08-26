@@ -8,9 +8,12 @@ namespace GameServer
     {
         private Dictionary<string, ServerSession> onlineAccDic = new Dictionary<string, ServerSession>();
         private Dictionary<ServerSession, PlayerData> onlineSession = new Dictionary<ServerSession, PlayerData>();
+
+        private DBMgr dbMgr = null;
         public void Init()
         {
             PECommon.Log("CacheService Loading");
+            dbMgr = DBMgr.Instance;
         }
 
         public bool IsAccOnLine(string acc)
@@ -27,7 +30,7 @@ namespace GameServer
         {
             //TODO 
             //数据库查找
-            return null;
+            return dbMgr.QUeryPlayerData(acc, pas);
         }
         /// <summary>
         /// 账号上线，数据缓存

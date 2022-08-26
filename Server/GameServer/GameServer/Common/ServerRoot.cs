@@ -15,6 +15,8 @@ namespace GameServer
             CacheSvc.Instance.Init();
             //业务层
             LoginSys.Instance.Init();
+
+            DBMgr.Instance.Init();
         }
 
 

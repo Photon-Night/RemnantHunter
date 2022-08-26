@@ -9,3 +9,4 @@ D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\obj\Debug\GameSer
 D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\obj\Debug\GameServer.csproj.CopyComplete
 D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\obj\Debug\GameServer.exe
 D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\obj\Debug\GameServer.pdb
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\bin\Debug\MySql.Data.dll

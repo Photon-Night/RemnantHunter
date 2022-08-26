@@ -11,7 +11,6 @@ public class PETools
             rd = new System.Random();
         }
         int val = rd.Next(min, max + 1);
-        PECommon.Log(val + " " + max);
         return val;
     }
 

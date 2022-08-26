@@ -28,7 +28,7 @@ namespace PEProtocol
         //TODO
         public PlayerData playerData;
     }
-
+    [System.Serializable]
     public class PlayerData
     {
         public int id;
