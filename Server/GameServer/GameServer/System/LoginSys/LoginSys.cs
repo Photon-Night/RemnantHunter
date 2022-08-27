@@ -45,5 +45,38 @@ namespace GameServer
 
             pack.session.SendMsg(msg);
         }
+
+        public void ReqRename(MsgPack pack)
+        {
+            ReqRename data = pack.msg.reqRename;
+            GameMsg msg = new GameMsg
+            {
+                cmd = (int)CMD.RspRename
+            };
+
+            if(cacheSvc.IsNameExist(data.name))
+            {
+                msg.err = (int)ErrorCode.NameIsExist;
+            }
+            else
+            {
+                PlayerData playerData = cacheSvc.GetPlayerDataBySession(pack.session);
+                playerData.name = data.name; 
+                if(!cacheSvc.UpdatePlayerData(playerData.id, playerData))
+                {
+                    msg.err = (int)ErrorCode.UpdateDBError;
+                }
+                else
+                {
+                    msg.rspRename = new RspRename 
+                    { 
+                        name = data.name
+                    };
+
+                }
+            }
+
+            pack.session.SendMsg(msg);
+        }
     }
 }

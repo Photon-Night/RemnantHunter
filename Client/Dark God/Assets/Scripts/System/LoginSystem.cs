@@ -42,4 +42,10 @@ public class LoginSystem : SystemRoot
 
     }
 
+    public void OnRenameRsp(GameMsg msg)
+    {
+        GameRoot.Instance.SetPlayerName(msg.rspRename.name);
+
+
+    }
 }

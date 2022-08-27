@@ -8,6 +8,8 @@ namespace PEProtocol
     {
         public ReqLogin reqLogin;
         public RspLogin rspLogin;
+        public ReqRename reqRename;
+        public RspRename rspRename;
     }
 
     public class ServerCfg
@@ -28,6 +30,19 @@ namespace PEProtocol
         //TODO
         public PlayerData playerData;
     }
+
+    [System.Serializable]
+    public class ReqRename
+    {
+        public string name;
+    }
+
+    [System.Serializable]
+    public class RspRename
+    {
+        public string name;
+    }
+
     [System.Serializable]
     public class PlayerData
     {
@@ -45,6 +60,8 @@ namespace PEProtocol
         None = 0,
         ReqLogin = 101,
         RspLogin = 102,
+        ReqRename = 103,
+        RspRename = 104,
     }
 
     public enum ErrorCode
@@ -52,6 +69,8 @@ namespace PEProtocol
         None = 0,
         AccountIsOnline,
         WrongPass,
+        NameIsExist,
+        UpdateDBError,
     }
 
 

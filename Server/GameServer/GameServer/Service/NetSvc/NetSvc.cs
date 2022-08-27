@@ -46,9 +46,14 @@ namespace GameServer
                 case CMD.ReqLogin:
                     LoginSys.Instance.ReqLogin(pack);
                     break;
+
+                case CMD.ReqRename:
+                    LoginSys.Instance.ReqRename(pack);
+                    break;
             }
 
         }
+
     }
 
     public class MsgPack

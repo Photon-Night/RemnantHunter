@@ -30,7 +30,7 @@ namespace GameServer
         {
             //TODO 
             //数据库查找
-            return dbMgr.QUeryPlayerData(acc, pas);
+            return dbMgr.QueryPlayerData(acc, pas);
         }
         /// <summary>
         /// 账号上线，数据缓存
@@ -42,6 +42,33 @@ namespace GameServer
         {
             onlineAccDic.Add(acc, session);
             onlineSession.Add(session, playerData);
+        }
+
+        public bool IsNameExist(string name)
+        {
+            return dbMgr.QueryNameData(name);
+        }
+
+        public PlayerData GetPlayerDataBySession(ServerSession session)
+        {
+            if (onlineSession.TryGetValue(session, out PlayerData playerData))
+            {
+                return playerData;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public bool UpdatePlayerData(int id, PlayerData playerData)
+        {           
+            return dbMgr.UpdatePlayerData(id, playerData);
+        }
+
+        public void ReleaseCache(ServerSession session)
+        {
+            
         }
     }
 }

@@ -62,4 +62,9 @@ public class GameRoot : MonoSingleton<GameRoot>
     {
         playerData = data.playerData;
     }
+
+    public void SetPlayerName(string name)
+    {
+        PlayerData.name = name;
+    }
 }

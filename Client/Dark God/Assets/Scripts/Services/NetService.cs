@@ -66,6 +66,13 @@ public class NetService : MonoSingleton<NetService>
                 case ErrorCode.WrongPass:
                     GameRoot.AddTips("密码错误");
                     break;
+                case ErrorCode.NameIsExist:
+                    GameRoot.AddTips("当前名字已存在");
+                    break;
+                case ErrorCode.UpdateDBError:
+                    GameRoot.AddTips("网络不稳定");
+                    PECommon.Log("数据库更新异常");
+                    break;
             }
             return;
         }
@@ -74,6 +81,10 @@ public class NetService : MonoSingleton<NetService>
         {
             case CMD.RspLogin:
                 LoginSystem.Instance.OnLoginRsp(msg);
+                break;
+
+            case CMD.RspRename:
+                LoginSystem.Instance.OnRenameRsp(msg);
                 break;
         }
 

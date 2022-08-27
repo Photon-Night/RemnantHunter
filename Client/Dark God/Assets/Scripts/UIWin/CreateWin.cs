@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using PEProtocol;
+using PENet;
 
 public class CreateWin : WinRoot
 {
@@ -18,5 +20,28 @@ public class CreateWin : WinRoot
     {
         iptName.text = resSvc.GetRDNameData();
         audioSvc.PlayUIAudio(Message.UIClickBtn);
+    }
+
+    public void ClickCreateBtn()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+
+        if(iptName.text != "")
+        {
+            GameMsg msg = new GameMsg
+            {
+                cmd = (int)CMD.ReqRename,
+                reqRename = new ReqRename
+                {
+                    name = iptName.text
+                }
+            };
+
+            netSvc.SendMessage(msg);
+        }
+        else
+        {
+            GameRoot.AddTips("当前名字不规范");
+        }
     }
 }
