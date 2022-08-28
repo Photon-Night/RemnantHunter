@@ -59,7 +59,15 @@ namespace GameServer
                             exp = reader.GetInt32("exp"),
                             power = reader.GetInt32("power"),
                             coin = reader.GetInt32("coin"),
-                            diamond = reader.GetInt32("diamond")
+                            diamond = reader.GetInt32("diamond"),
+                             hp = reader.GetInt32("hp"),
+                            ad = reader.GetInt32("ad"),
+                            ap = reader.GetInt32("ap"),
+                            addef = reader.GetInt32("addef"),
+                            apdef = reader.GetInt32("apdef"),
+                            dodge = reader.GetInt32("dodge"),
+                            pierce = reader.GetInt32("pierce"),
+                            critical = reader.GetInt32("critical")
                         };
 
                     }
@@ -84,7 +92,16 @@ namespace GameServer
                         exp = 0,
                         power = 150,
                         coin = 5000,
-                        diamond = 500
+                        diamond = 500,
+
+                        hp = 2000,
+                        ad = 275,
+                        ap = 265,
+                        addef = 67,
+                        apdef = 43,
+                        dodge = 7,
+                        pierce = 5,
+                        critical = 2,
                     };
 
                     playerData.id = InsertNewAccData(acc, pas, playerData);
@@ -104,7 +121,10 @@ namespace GameServer
                     "insert into account set acc= @acc," +
                     "pas =@pas,name=@name,level=@level," +
                     "exp=@exp,power=@power,coin=@coin," +
-                    "diamond=@diamond", conn);
+                    "diamond=@diamond,hp=@hp,ad=@ad," +
+                    "ap=@ap,addef=@addef,apdef=@apdef," +
+                    "dodge=@dodge,pierce=@pierce," +
+                    "critical=@critical", conn);
                 cmd.Parameters.AddWithValue("acc", acc);
                 cmd.Parameters.AddWithValue("pas", pas);
                 cmd.Parameters.AddWithValue("name", pd.name);
@@ -113,6 +133,15 @@ namespace GameServer
                 cmd.Parameters.AddWithValue("power", pd.power);
                 cmd.Parameters.AddWithValue("coin", pd.coin);
                 cmd.Parameters.AddWithValue("diamond", pd.diamond);
+
+                cmd.Parameters.AddWithValue("hp", pd.hp);
+                cmd.Parameters.AddWithValue("ad", pd.ad);
+                cmd.Parameters.AddWithValue("ap", pd.ap);
+                cmd.Parameters.AddWithValue("addef", pd.addef);
+                cmd.Parameters.AddWithValue("apdef", pd.apdef);
+                cmd.Parameters.AddWithValue("dodge", pd.dodge);
+                cmd.Parameters.AddWithValue("pierce", pd.pierce);
+                cmd.Parameters.AddWithValue("critical", pd.critical);
 
                 cmd.ExecuteNonQuery();
                 _id = (int)cmd.LastInsertedId;
@@ -152,23 +181,34 @@ namespace GameServer
             return exist;
         }
 
-        public bool UpdatePlayerData(int id, PlayerData playerData)
+        public bool UpdatePlayerData(int id, PlayerData pd)
         {
             try
             {
                 MySqlCommand cmd = new MySqlCommand(
                "update account set name=@name," +
                "level=@level,exp=@exp,power=@power," +
-               "coin=@coin,diamond=@diamond where id =@id", conn);
+               "coin=@coin,diamond=@diamond,hp=@hp," +
+               "ad=@ad,ap=@ap,addef=@addef,apdef=@apdef," +
+               "dodge=@dodge,pierce=@pierce,critical=@critical " +
+               "where id =@id,", conn);
 
                 cmd.Parameters.AddWithValue("id", id);
-                cmd.Parameters.AddWithValue("name", playerData.name);
-                cmd.Parameters.AddWithValue("level", playerData.lv);
-                cmd.Parameters.AddWithValue("exp", playerData.exp);
-                cmd.Parameters.AddWithValue("power", playerData.power);
-                cmd.Parameters.AddWithValue("coin", playerData.coin);
-                cmd.Parameters.AddWithValue("diamond", playerData.diamond);
+                cmd.Parameters.AddWithValue("name", pd.name);
+                cmd.Parameters.AddWithValue("level", pd.lv);
+                cmd.Parameters.AddWithValue("exp", pd.exp);
+                cmd.Parameters.AddWithValue("power", pd.power);
+                cmd.Parameters.AddWithValue("coin", pd.coin);
+                cmd.Parameters.AddWithValue("diamond", pd.diamond);
 
+                cmd.Parameters.AddWithValue("hp", pd.hp);
+                cmd.Parameters.AddWithValue("ad", pd.ad);
+                cmd.Parameters.AddWithValue("ap", pd.ap);
+                cmd.Parameters.AddWithValue("addef", pd.addef);
+                cmd.Parameters.AddWithValue("apdef", pd.apdef);
+                cmd.Parameters.AddWithValue("dodge", pd.dodge);
+                cmd.Parameters.AddWithValue("pierce", pd.pierce);
+                cmd.Parameters.AddWithValue("critical", pd.critical);
                 //TOADD Others
                 cmd.ExecuteNonQuery();
             }

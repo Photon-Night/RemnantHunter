@@ -5,11 +5,8 @@ using PEProtocol;
 
 public class GameRoot : MonoSingleton<GameRoot>
 {
-    public LoadingWin loadingWin;
-    public LoginWin loginWin;
+    public LoadingWin loadingWin;  
     public DynamicWin dynamicWin;
-    public CreateWin createWin;
-
 
     // Start is called before the first frame update
     void Start()
@@ -26,11 +23,12 @@ public class GameRoot : MonoSingleton<GameRoot>
         NetService.Instance.ServiceInit();
         AudioService.Instance.ServiceInit();
 
+        MainCitySystem mainCitySys = GetComponent<MainCitySystem>();
+        mainCitySys.InitSystem();
 
-        LoginSystem login = GetComponent<LoginSystem>();
-        login.InitSystem();
-        //
-        login.OnLoginEnter();
+        LoginSystem loginSys = GetComponent<LoginSystem>();
+        loginSys.InitSystem();
+        loginSys.OnLoginEnter();
     }
 
      private void ClearUIRoot()

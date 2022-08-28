@@ -7,7 +7,9 @@ public class LoginSystem : SystemRoot
 {
     public static LoginSystem Instance = null;
 
-     public override void InitSystem()
+    public LoginWin loginWin;
+    public CreateWin createWin;
+    public override void InitSystem()
     {
         base.InitSystem();
         PECommon.Log("LoginSystem Loading");
@@ -18,7 +20,7 @@ public class LoginSystem : SystemRoot
     {
         resSvc.LoadSceneAsync(Message.SceneLogin, () =>
         {
-            GameRoot.Instance.loginWin.SetWinState();
+            loginWin.SetWinState();
             audioSvc.PlayerBGMusic(Message.BGLogin);
         });
 
@@ -32,13 +34,13 @@ public class LoginSystem : SystemRoot
         GameRoot.Instance.SetPlayerData(msg.rspLogin);
         if (msg.rspLogin.playerData.name == "")
         {
-            GameRoot.Instance.createWin.SetWinState();
+            createWin.SetWinState();
         }
         else
         {
-            //TODO
+            MainCitySystem.Instance.EnterMainCity();
         }
-        GameRoot.Instance.loginWin.SetWinState(false);
+        loginWin.SetWinState(false);
 
     }
 
@@ -46,6 +48,7 @@ public class LoginSystem : SystemRoot
     {
         GameRoot.Instance.SetPlayerName(msg.rspRename.name);
 
-
+        MainCitySystem.Instance.EnterMainCity();
+        createWin.SetWinState(false);
     }
 }
