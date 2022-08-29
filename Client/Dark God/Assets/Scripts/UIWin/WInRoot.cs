@@ -67,6 +67,10 @@ public class WinRoot : MonoBehaviour
         text.text = context;
     }
 
+    protected void SetText(Text text, int num = 0)
+    {
+        text.text = num.ToString();
+    }
     protected void SetText(Transform trans, string context = "")
     {
         SetText(trans.GetComponent<Text>(), context);

@@ -68,7 +68,21 @@ namespace GameServer
 
         public void ReleaseCache(ServerSession session)
         {
-            
+            var ge = onlineAccDic.GetEnumerator();
+            string _acc = "";
+            while(ge.MoveNext())
+            {
+                if(ge.Current.Value == session)
+                {
+                    _acc = ge.Current.Key;
+                    break;
+                }
+            }
+            bool succ = onlineAccDic.Remove(_acc);
+            bool succ2 = onlineSession.Remove(session);
+
+            PECommon.Log("OffLine Result: SessionID:" + session.sessionID + "___Account Release:" + succ + "___Session Release:" + succ2);
+            ge.Dispose();
         }
     }
 }

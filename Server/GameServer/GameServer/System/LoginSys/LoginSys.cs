@@ -78,5 +78,10 @@ namespace GameServer
 
             pack.session.SendMsg(msg);
         }
+
+        public void ClearOffLine(ServerSession session)
+        {
+            cacheSvc.ReleaseCache(session);
+        }
     }
 }
