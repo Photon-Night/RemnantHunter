@@ -15,6 +15,7 @@ public class Message
     //UIAudio
     public const string UIClickBtn = "uiClickBtn";
     public const string UILoginBtn = "uiLoginBtn";
+    public const string UIExtenBtn = "uiExtenBtn";
 
     //ScreenStandardWidthAndHeight
     public const int ScreenStandardWidth = 1920;

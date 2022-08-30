@@ -14,6 +14,9 @@ public class MainCityWin : WinRoot
     public Text txtExpPrg;
 
     public Transform expPrgTrans;
+    public Animation menuRootAnim;
+
+    private bool menuRootState = true;
 
     protected override void InitWin()
     {
@@ -64,8 +67,19 @@ public class MainCityWin : WinRoot
 
     }
 
-    private void RefreshExpLine(int index)
+    public void OnClickMenuRoot()
     {
-        
+        menuRootState = !menuRootState;
+        AnimationClip clip;
+        if(menuRootState)
+        {
+            clip = menuRootAnim.GetClip("MenuOpen");
+        }
+        else
+        {
+            clip = menuRootAnim.GetClip("MenuClose");
+        }
+        audioSvc.PlayUIAudio(Message.UIExtenBtn);
+        menuRootAnim.Play(clip.name);
     }
 }
