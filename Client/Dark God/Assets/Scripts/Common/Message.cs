@@ -20,4 +20,7 @@ public class Message
     //ScreenStandardWidthAndHeight
     public const int ScreenStandardWidth = 1920;
     public const int ScreenStandardHeight = 1080;
+
+    //“°∏Àµ„“°∂Ø∑∂Œß
+    public const int ScreenOPDis = 90;
 }

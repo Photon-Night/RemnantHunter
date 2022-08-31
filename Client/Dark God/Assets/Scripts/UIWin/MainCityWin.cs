@@ -2,10 +2,17 @@ using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MainCityWin : WinRoot
 {
+
+    public Image imgDirBg;
+    public Image imgDirPoint;
+    public Image imgTouch;
+
+
     public Text txtFight;
     public Text txtPower;
     public Image imgPowerPrg;
@@ -18,11 +25,17 @@ public class MainCityWin : WinRoot
 
     private bool menuRootState = true;
 
+    private float pointDis;
+    private Vector2 startPos;
+    private Vector2 defaultPos;
     protected override void InitWin()
     {
         base.InitWin();
-
+        pointDis = Screen.height * 1f / Message.ScreenStandardHeight * Message.ScreenOPDis;
+        defaultPos = imgDirBg.transform.position;
+        SetActive(imgDirPoint, false);
         RefreshUI();
+        RegisterTouchEvts();
     }
 
     private void RefreshUI()
@@ -81,5 +94,38 @@ public class MainCityWin : WinRoot
         }
         audioSvc.PlayUIAudio(Message.UIExtenBtn);
         menuRootAnim.Play(clip.name);
+    }
+
+    public void RegisterTouchEvts()
+    {
+        OnClickDown(imgTouch.gameObject, (PointerEventData evt) => 
+        {
+            startPos = evt.position;
+            SetActive(imgDirPoint);
+            imgDirBg.transform.position = evt.position;
+        });
+
+        OnClickUp(imgTouch.gameObject, (PointerEventData evt) => 
+        {
+            imgDirBg.transform.position = defaultPos;
+            SetActive(imgDirPoint, false);
+            imgDirPoint.transform.localPosition = Vector2.zero;
+
+        });
+
+        OnDrag(imgTouch.gameObject, (PointerEventData evt) =>
+        {
+            Vector2 _dir = evt.position - startPos;
+            float len = _dir.magnitude;
+            if(len > pointDis)
+            {
+                Vector2 clampDir = Vector2.ClampMagnitude(_dir, Message.ScreenOPDis);
+                imgDirPoint.transform.position = startPos + clampDir;
+            }
+            else
+            {
+                imgDirPoint.transform.position = evt.position;
+            }
+        });
     }
 }
