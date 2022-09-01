@@ -60,9 +60,11 @@
     <Compile Include="Assets\Scripts\Common\PathDefine.cs" />
     <Compile Include="Assets\Scripts\System\LoginSystem.cs" />
     <Compile Include="Assets\Scripts\Services\ResService.cs" />
+    <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\UIWin\CreateWin.cs" />
     <Compile Include="Assets\Scripts\Net\ClientSession.cs" />
     <Compile Include="Assets\Scripts\System\SystemRoot.cs" />
+    <Compile Include="Assets\Scripts\Common\PEListener.cs" />
     <Compile Include="Assets\Scripts\Services\AudioService.cs" />
     <Compile Include="Assets\Scripts\Services\NetService.cs" />
     <Compile Include="Assets\Scripts\System\MainCitySystem.cs" />
@@ -72,8 +74,7 @@
     <Compile Include="Assets\Scripts\GameRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\WInRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Common\PEListener.cs" />
+    <Compile Include="Assets\Scripts\Common\BaseData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />
@@ -85,6 +86,7 @@
     <None Include="Assets\Compond\Shader\Mul-skybox.shader" />
     <None Include="Assets\Compond\Shader\MonsterShader.shader" />
     <None Include="Assets\Scripts\Net\PEProtocol.dll" />
+    <None Include="Assets\Resources\ResCfgs\map.xml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

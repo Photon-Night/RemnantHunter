@@ -110,6 +110,7 @@ public class MainCityWin : WinRoot
             imgDirBg.transform.position = defaultPos;
             SetActive(imgDirPoint, false);
             imgDirPoint.transform.localPosition = Vector2.zero;
+            MainCitySystem.Instance.SetMoveDir(Vector2.zero);
 
         });
 
@@ -126,6 +127,7 @@ public class MainCityWin : WinRoot
             {
                 imgDirPoint.transform.position = evt.position;
             }
+            MainCitySystem.Instance.SetMoveDir(_dir.normalized);
         });
     }
 }

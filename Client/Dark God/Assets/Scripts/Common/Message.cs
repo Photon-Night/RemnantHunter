@@ -8,6 +8,8 @@ public class Message
     public const string SceneLogin = "SceneLogin";
     public const string SceneMainCity = "SceneMainCity";
 
+    public const int MainCityMapID = 10000;
+
     //GameBGM
     public const string BGLogin = "bgLogin";
     public const string BGMMainCity = "bgMainCity";
@@ -23,4 +25,12 @@ public class Message
 
     //“°∏Àµ„“°∂Ø∑∂Œß
     public const int ScreenOPDis = 90;
+
+    public const int PlayerMoveSpeed = 8;
+    public const int MonsterMoveSpeed = 4;
+
+    public const float AccelerSpeed = 7;
+
+    public const int BlendIdle = 0;
+    public const int BlendWalk = 1;
 }
