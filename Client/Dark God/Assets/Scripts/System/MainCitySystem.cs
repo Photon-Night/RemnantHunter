@@ -7,7 +7,10 @@ public class MainCitySystem : SystemRoot
 {
     public static MainCitySystem Instance = null;
     public MainCityWin mainCityWin;
+    public InfoWin infoWin;
+
     private PlayerController pc = null;
+    private Transform charShowCam = null;
     public override void InitSystem()
     {
         base.InitSystem();
@@ -32,6 +35,11 @@ public class MainCitySystem : SystemRoot
             audioSvc.PlayerBGMusic(Message.BGMMainCity);
             
             //TODO …Ë÷√»ÀŒÔ
+
+            if(charShowCam != null)
+            {
+                charShowCam.gameObject.SetActive(false);
+            }
         });
     }
 
@@ -61,4 +69,18 @@ public class MainCitySystem : SystemRoot
         }
         pc.Dir = dir;
     }
+
+    public void OpenInfoWin()
+    {
+        if(charShowCam == null)
+        {
+            charShowCam = GameObject.FindGameObjectWithTag("CharShowCam").transform;
+        }
+        charShowCam.localPosition = pc.transform.position + pc.transform.forward * 2.6f + new Vector3(0, 1.5f, 0);
+        charShowCam.transform.localEulerAngles = new Vector3(0,180 + pc.transform.localEulerAngles.y, 0);
+        charShowCam.localScale = Vector3.one;
+
+        charShowCam.gameObject.SetActive(true);
+        infoWin.SetWinState();
+    }    
 }

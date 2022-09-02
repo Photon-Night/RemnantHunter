@@ -53,6 +53,7 @@
     <UnityVersion>2020.3.21f1c1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Common\BaseData.cs" />
     <Compile Include="Assets\Scripts\UIWin\LoginWin.cs" />
     <Compile Include="Assets\Scripts\Common\MonoSingleton.cs" />
     <Compile Include="Assets\Scripts\UIWin\LoadingWin.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="Assets\Scripts\GameRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\WInRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
-    <Compile Include="Assets\Scripts\Common\BaseData.cs" />
+    <Compile Include="Assets\Scripts\UIWin\InfoWin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />
