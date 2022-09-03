@@ -2,6 +2,7 @@ using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InfoWin : WinRoot
@@ -19,10 +20,27 @@ public class InfoWin : WinRoot
     public Text txtHurt;
     public Text txtDef;
 
+    public RawImage imgChar;
+
+    public Transform detailTrans;
+
+    public Text dtxHP;
+    public Text dtxAD;
+    public Text dtxDodge;
+    public Text dtxAP;
+    public Text dtxADDef;
+    public Text dtxAPDef;
+    public Text dtxPierce;
+    public Text dtxCritical;
+
     #endregion
+
+
+    private Vector2 startPos; 
     protected override void InitWin()
     {
         base.InitWin();
+        RegTouchEvts();
         RefreshUI();
     }
 
@@ -40,11 +58,48 @@ public class InfoWin : WinRoot
         SetText(txtHP, "ÉúÃü        " + pd.hp);
         SetText(txtHurt, "ÉËº¦        " + (pd.ad + pd.ap));
         SetText(txtDef, "·ÀÓù        " + (pd.apdef + pd.apdef));
+
+        SetText(dtxHP, pd.hp);
+        SetText(dtxAD, pd.ad);
+        SetText(dtxAP, pd.ap);
+        SetText(dtxADDef, pd.addef);
+        SetText(dtxAPDef, pd.apdef);
+        SetText(dtxPierce, pd.pierce + "%");
+        SetText(dtxDodge, pd.dodge + "%");
+        SetText(dtxCritical, pd.critical + "%");
+
     }
 
     public void OnClickCloseBtn()
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
-        SetWinState(false);
+        MainCitySystem.Instance.CloseInfoWin();
+    }
+
+    private void RegTouchEvts()
+    {
+        OnClickDown(imgChar.gameObject, (PointerEventData evt) =>
+        {
+            startPos = evt.position;
+            MainCitySystem.Instance.SetStartRoate();
+        });
+
+        OnDrag(imgChar.gameObject, (PointerEventData evt) =>
+        {
+            float roate = (startPos.x - evt.position.x) * 0.4f;
+            MainCitySystem.Instance.SetPlayerRoate(roate);
+        });
+    }
+
+    public void OnClickOpenDetail()
+    {
+        audioSvc.PlayUIAudio(Message.UIOpenPage);
+        detailTrans.gameObject.SetActive(true);
+    }
+
+    public void OnClickCloseDetail()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+        detailTrans.gameObject.SetActive(false);
     }
 }

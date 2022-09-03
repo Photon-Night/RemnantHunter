@@ -76,11 +76,31 @@ public class MainCitySystem : SystemRoot
         {
             charShowCam = GameObject.FindGameObjectWithTag("CharShowCam").transform;
         }
-        charShowCam.localPosition = pc.transform.position + pc.transform.forward * 2.6f + new Vector3(0, 1.5f, 0);
+        charShowCam.localPosition = pc.transform.position + pc.transform.forward * 2.6f + new Vector3(0, 1.3f, 0);
         charShowCam.transform.localEulerAngles = new Vector3(0,180 + pc.transform.localEulerAngles.y, 0);
         charShowCam.localScale = Vector3.one;
 
         charShowCam.gameObject.SetActive(true);
         infoWin.SetWinState();
     }    
+
+    public void CloseInfoWin()
+    {
+        if(charShowCam != null)
+        {
+            charShowCam.gameObject.SetActive(false);
+        }
+        infoWin.SetWinState(false);
+    }
+
+    private float startRoate = 0;
+    public void SetStartRoate()
+    {
+        startRoate = pc.transform.localEulerAngles.y;
+    }
+
+    public void SetPlayerRoate(float roate)
+    {
+        pc.transform.localEulerAngles = new Vector3(0, startRoate + roate, 0);
+    }
 }

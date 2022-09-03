@@ -49,7 +49,6 @@ public class MainCityWin : WinRoot
 
         
         int expPrgVal = (int)(pd.exp * 100f / PECommon.GetExpUpValByLv(pd.lv));
-        Debug.Log(expPrgVal +" "+ pd.exp);
         SetText(txtExpPrg, expPrgVal + "%");
 
         //设置经验条显示。计算经验格排列自适应，计算经验显示

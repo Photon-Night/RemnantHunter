@@ -191,7 +191,7 @@ namespace GameServer
                "coin=@coin,diamond=@diamond,hp=@hp," +
                "ad=@ad,ap=@ap,addef=@addef,apdef=@apdef," +
                "dodge=@dodge,pierce=@pierce,critical=@critical " +
-               "where id =@id,", conn);
+               "where id =@id", conn);
 
                 cmd.Parameters.AddWithValue("id", id);
                 cmd.Parameters.AddWithValue("name", pd.name);
