@@ -12,7 +12,7 @@ public class NetService : MonoSingleton<NetService>
     private static readonly string obj = "lock";
     public void ServiceInit()
     {
-        PECommon.Log("NetService Loading");
+        
         client = new PESocket<ClientSession, GameMsg>();
         msgQue = new Queue<GameMsg>();
         client.SetLog(true, (string msg, int lv) =>
@@ -38,6 +38,7 @@ public class NetService : MonoSingleton<NetService>
             }
         });
         client.StartAsClient(ServerCfg.srvIP, ServerCfg.srvPort);
+        PECommon.Log("NetService Loading", PEProtocol.LogType.log);
     }
 
     public void SendMessage(GameMsg msg)

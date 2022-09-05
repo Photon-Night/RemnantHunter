@@ -20,6 +20,8 @@ public class MainCityWin : WinRoot
     public Text txtName;
     public Text txtExpPrg;
 
+    public Button btnGuide;
+
     public Transform expPrgTrans;
     public Animation menuRootAnim;
 
@@ -28,6 +30,8 @@ public class MainCityWin : WinRoot
     private float pointDis;
     private Vector2 startPos;
     private Vector2 defaultPos;
+
+    private GuideCfg currentTaskData;
     protected override void InitWin()
     {
         base.InitWin();
@@ -76,6 +80,38 @@ public class MainCityWin : WinRoot
             else
                 img.fillAmount = 0;
         }
+
+        currentTaskData = resSvc.GetGuideCfgData(pd.guideID);
+        if(currentTaskData != null)
+        {
+            SetGuideBtnIcon(currentTaskData.npcID);
+        }
+        else
+        {
+            SetGuideBtnIcon(-1);
+        }
+    }
+
+    private void SetGuideBtnIcon(int npcID)
+    {
+        string spPath = "";
+        Image img = btnGuide.GetComponent<Image>();
+        switch (npcID)
+        {
+            case Message.NPCArtisan:
+                spPath = PathDefine.ArtisanHead;
+                break;
+            case Message.NPCGeneral:
+                spPath = PathDefine.GeneralHead;
+                break;
+            case Message.NPCTrader:
+                spPath = PathDefine.TraderHead;
+                break;
+            case Message.NPCWiseMan:
+                spPath = PathDefine.WiseManHead;
+                break;
+        }
+        SetSprite(img, spPath);
 
     }
 

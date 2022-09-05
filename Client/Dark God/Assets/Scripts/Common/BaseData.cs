@@ -17,3 +17,11 @@ public class MapCfg : BaseData<MapCfg>
     public Vector3 playerBornRote;
 }
 
+public class GuideCfg : BaseData<GuideCfg>
+{
+    public int npcID;
+    public string dilogArr;
+    public int actID;
+    public int coin;
+    public int exp;
+}

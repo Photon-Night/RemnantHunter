@@ -11,16 +11,16 @@ public class GameRoot : MonoSingleton<GameRoot>
     // Start is called before the first frame update
     void Start()
     {
-        PECommon.Log("Game Start");
         ClearUIRoot();
         Init();
+        PECommon.Log("Game Start");
     }
 
     private void Init()
     {
         //组件初始化加载
-        ResService.Instance.ServiceInit();
         NetService.Instance.ServiceInit();
+        ResService.Instance.ServiceInit();
         AudioService.Instance.ServiceInit();
 
         MainCitySystem mainCitySys = GetComponent<MainCitySystem>();

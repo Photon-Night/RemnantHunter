@@ -60,14 +60,15 @@ namespace GameServer
                             power = reader.GetInt32("power"),
                             coin = reader.GetInt32("coin"),
                             diamond = reader.GetInt32("diamond"),
-                             hp = reader.GetInt32("hp"),
+                            hp = reader.GetInt32("hp"),
                             ad = reader.GetInt32("ad"),
                             ap = reader.GetInt32("ap"),
                             addef = reader.GetInt32("addef"),
                             apdef = reader.GetInt32("apdef"),
                             dodge = reader.GetInt32("dodge"),
                             pierce = reader.GetInt32("pierce"),
-                            critical = reader.GetInt32("critical")
+                            critical = reader.GetInt32("critical"),
+                            guideID = reader.GetInt32("guideid")
                         };
 
                     }
@@ -102,6 +103,7 @@ namespace GameServer
                         dodge = 7,
                         pierce = 5,
                         critical = 2,
+                        guideID = 1001
                     };
 
                     playerData.id = InsertNewAccData(acc, pas, playerData);
@@ -124,7 +126,7 @@ namespace GameServer
                     "diamond=@diamond,hp=@hp,ad=@ad," +
                     "ap=@ap,addef=@addef,apdef=@apdef," +
                     "dodge=@dodge,pierce=@pierce," +
-                    "critical=@critical", conn);
+                    "critical=@critical, guideid=@guideid", conn);
                 cmd.Parameters.AddWithValue("acc", acc);
                 cmd.Parameters.AddWithValue("pas", pas);
                 cmd.Parameters.AddWithValue("name", pd.name);
@@ -142,6 +144,7 @@ namespace GameServer
                 cmd.Parameters.AddWithValue("dodge", pd.dodge);
                 cmd.Parameters.AddWithValue("pierce", pd.pierce);
                 cmd.Parameters.AddWithValue("critical", pd.critical);
+                cmd.Parameters.AddWithValue("guideid", pd.guideID);
 
                 cmd.ExecuteNonQuery();
                 _id = (int)cmd.LastInsertedId;
@@ -190,8 +193,8 @@ namespace GameServer
                "level=@level,exp=@exp,power=@power," +
                "coin=@coin,diamond=@diamond,hp=@hp," +
                "ad=@ad,ap=@ap,addef=@addef,apdef=@apdef," +
-               "dodge=@dodge,pierce=@pierce,critical=@critical " +
-               "where id =@id", conn);
+               "dodge=@dodge,pierce=@pierce,critical=@critical," +
+               " guideid=@guideid where id =@id", conn);
 
                 cmd.Parameters.AddWithValue("id", id);
                 cmd.Parameters.AddWithValue("name", pd.name);
@@ -209,6 +212,7 @@ namespace GameServer
                 cmd.Parameters.AddWithValue("dodge", pd.dodge);
                 cmd.Parameters.AddWithValue("pierce", pd.pierce);
                 cmd.Parameters.AddWithValue("critical", pd.critical);
+                cmd.Parameters.AddWithValue("guideid", pd.guideID);
                 //TOADD Others
                 cmd.ExecuteNonQuery();
             }

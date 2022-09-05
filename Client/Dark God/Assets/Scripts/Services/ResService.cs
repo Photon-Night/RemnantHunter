@@ -10,8 +10,10 @@ public class ResService : MonoSingleton<ResService>
     public void ServiceInit()
     {
         PECommon.Log("ResService Loading");
+        
         InitRDNameCfg(PathDefine.RDNameCfg);
         InitMapCfg(PathDefine.MapCfg);
+        InitGuideCfg(PathDefine.GuideCfg);
     }
 
     private System.Action PrgCB = null;
@@ -186,9 +188,9 @@ public class ResService : MonoSingleton<ResService>
                 }
                 mapCfgDataDic.Add(ID, mc);
             }
-            Debug.Log(mapCfgDataDic.Count);
         }
     }
+    
     public MapCfg GetMapCfgData(int id)
     {
         MapCfg data = null;
@@ -202,6 +204,70 @@ public class ResService : MonoSingleton<ResService>
         }
     }
 
+    private Dictionary<int, GuideCfg> guideTaskDic = new Dictionary<int, GuideCfg>();
+    private void InitGuideCfg(string path)
+    {
+        TextAsset xml = Resources.Load<TextAsset>(path);
+        if (xml == null)
+        {
+            PECommon.Log("xml file:" + path + "is not existed", PEProtocol.LogType.Error);
+        }
+        else
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml.text);
+            XmlNodeList nodLst = doc.SelectSingleNode("root").ChildNodes;
+            for(int i = 0; i < nodLst.Count; i++)
+            {
+                XmlElement ele = nodLst[i] as XmlElement;
+                if(ele.GetAttributeNode("ID") == null)
+                {
+                    continue;
+                }
+
+                int ID = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
+                GuideCfg gc = new GuideCfg()
+                { ID = ID };
+                foreach (XmlElement e  in ele)
+                {
+                    switch (e.Name)
+                    {
+                        case "npcID":
+                            gc.npcID = int.Parse(e.InnerText);
+                            break;
+                        case "dilogArr":
+                            gc.dilogArr = e.InnerText;
+                            break;
+                        case "actID":
+                            gc.actID = int.Parse(e.InnerText);
+                            break;
+                        case "coin":
+                            gc.coin = int.Parse(e.InnerText);
+                            break;
+                        case "exp":
+                            gc.exp = int.Parse(e.InnerText);
+                            break;
+                    }
+                }
+
+                guideTaskDic.Add(ID, gc);
+            }
+        }
+    }
+
+    public GuideCfg GetGuideCfgData(int id)
+    {
+
+        GuideCfg data = null;
+        if(guideTaskDic.TryGetValue(id, out data))
+        {
+            return data;
+        }
+        else
+        {
+            return null;
+        }
+    }
 
     private Dictionary<string, GameObject> goDic = new Dictionary<string, GameObject>();
     public GameObject LoadPrefab(string path, bool isCache = false)
@@ -221,5 +287,28 @@ public class ResService : MonoSingleton<ResService>
             go = Instantiate(prefab);
         }
         return go;
+    }
+
+
+    private Dictionary<string, Sprite> sprDic = new Dictionary<string, Sprite>(); 
+    public Sprite LoadSprite(string path, bool isCache = false)
+    {
+        Sprite sp = null;
+        if(!sprDic.TryGetValue(path, out sp))
+        {
+            sp = Resources.Load<Sprite>(path);
+            if(sp == null)
+            {
+                PECommon.Log("Sprite:" + path + "is not exited", PEProtocol.LogType.Error);
+                return null;
+            }
+            if(isCache)
+            {
+                sprDic.Add(path, sp);
+            }
+        }
+        return sp;
+
+        
     }
 }

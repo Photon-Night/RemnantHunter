@@ -111,4 +111,13 @@ public class WinRoot : MonoBehaviour
         listener.onDrag = cb;
 
     }
+
+    protected void SetSprite(Image img, string path)
+    {
+        Sprite sp = resSvc.LoadSprite(path);
+        if(sp != null)
+        {
+            img.sprite = sp;
+        }
+    }
 }

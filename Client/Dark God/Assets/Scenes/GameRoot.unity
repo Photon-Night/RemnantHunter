@@ -185,6 +185,7 @@ MonoBehaviour:
   txtLevel: {fileID: 529235047}
   txtName: {fileID: 979422073}
   txtExpPrg: {fileID: 1259737150}
+  btnGuide: {fileID: 2099679344}
   expPrgTrans: {fileID: 1417901568}
   menuRootAnim: {fileID: 1954469882}
 --- !u!1 &8101529

@@ -34,4 +34,10 @@ public class Message
 
     public const int BlendIdle = 0;
     public const int BlendWalk = 1;
+
+    //npcID
+    public const int NPCWiseMan = 0;
+    public const int NPCGeneral = 1;
+    public const int NPCArtisan = 2;
+    public const int NPCTrader = 3;
 }
