@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 camOffest;
     private bool isMove;
 
+    public bool isGuide = false;
+
     private float currentBlend;
     private float targetBlend;
 
@@ -70,6 +72,10 @@ public class PlayerController : MonoBehaviour
         {
             SetDir();
             SetMove();
+        }
+
+        if(isMove || isGuide)
+        {
             SetCam();
         }
     }
@@ -86,7 +92,7 @@ public class PlayerController : MonoBehaviour
         cc.Move(transform.forward * Time.deltaTime * Message.PlayerMoveSpeed);
     }
 
-    private void SetCam()
+    public void SetCam()
     {
         if(camTrans != null)
         {

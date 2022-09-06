@@ -171,4 +171,18 @@ public class MainCityWin : WinRoot
             MainCitySystem.Instance.SetMoveDir(_dir.normalized);
         });
     }
+
+    public void OnCLickGuideBtn()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+
+        if(currentTaskData != null)
+        {
+            MainCitySystem.Instance.RunTask(currentTaskData);
+        }
+        else
+        {
+            GameRoot.AddTips("无更多任务");
+        }
+    }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PEProtocol;
+using UnityEngine.AI;
 
 public class MainCitySystem : SystemRoot
 {
@@ -11,6 +12,12 @@ public class MainCitySystem : SystemRoot
 
     private PlayerController pc = null;
     private Transform charShowCam = null;
+
+    private Transform[] npcPosTrans;
+
+    private NavMeshAgent agent;
+
+    private GuideCfg currentTaskData = null;
     public override void InitSystem()
     {
         base.InitSystem();
@@ -40,6 +47,10 @@ public class MainCitySystem : SystemRoot
             {
                 charShowCam.gameObject.SetActive(false);
             }
+
+            GameObject map = GameObject.FindGameObjectWithTag("MapRoot");
+            MainCityMap mcm = map.GetComponent<MainCityMap>();
+            npcPosTrans = mcm.NPCPosTrans;
         });
     }
 
@@ -53,6 +64,7 @@ public class MainCitySystem : SystemRoot
         Camera.main.transform.localEulerAngles = mapData.mainCamRote;
 
         pc = player.GetComponent<PlayerController>();
+        agent = player.GetComponent<NavMeshAgent>();
         pc.Init();
         
     }
@@ -102,5 +114,41 @@ public class MainCitySystem : SystemRoot
     public void SetPlayerRoate(float roate)
     {
         pc.transform.localEulerAngles = new Vector3(0, startRoate + roate, 0);
+    }
+
+    public void RunTask(GuideCfg gc)
+    {
+        if(gc != null)
+        {
+            currentTaskData = gc;
+        }
+        if(currentTaskData.npcID != -1)
+        {
+            float dis = Vector3.Distance(pc.transform.position, npcPosTrans[gc.npcID].position);
+            if(dis < .5f)
+            {
+                pc.isGuide = false;
+                agent.enabled = false;
+                agent.isStopped = true;
+                pc.SetBlend(Message.BlendIdle);
+            }
+            else
+            {
+                pc.isGuide = true;
+                agent.enabled = true;
+                agent.speed = Message.PlayerMoveSpeed;
+                agent.SetDestination(npcPosTrans[gc.npcID].position);
+                pc.SetBlend(Message.BlendWalk);
+            }
+        }
+        else
+        {
+            OpenGuideWin();
+        }
+    }
+
+    private void OpenGuideWin()
+    {
+
     }
 }
