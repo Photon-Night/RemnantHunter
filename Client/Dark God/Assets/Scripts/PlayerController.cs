@@ -72,12 +72,12 @@ public class PlayerController : MonoBehaviour
         {
             SetDir();
             SetMove();
-        }
-
-        if(isMove || isGuide)
-        {
             SetCam();
         }
+
+        
+        
+        
     }
 
     private void SetDir()

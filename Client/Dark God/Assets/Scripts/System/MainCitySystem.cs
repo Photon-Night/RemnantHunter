@@ -9,6 +9,7 @@ public class MainCitySystem : SystemRoot
     public static MainCitySystem Instance = null;
     public MainCityWin mainCityWin;
     public InfoWin infoWin;
+    public GuideWIn guideWin;
 
     private PlayerController pc = null;
     private Transform charShowCam = null;
@@ -18,6 +19,8 @@ public class MainCitySystem : SystemRoot
     private NavMeshAgent agent;
 
     private GuideCfg currentTaskData = null;
+
+    private bool isGuide;
     public override void InitSystem()
     {
         base.InitSystem();
@@ -71,6 +74,7 @@ public class MainCitySystem : SystemRoot
 
     public void SetMoveDir(Vector2 dir)
     {
+        StopNavTask();
         if(dir == Vector2.zero)
         {
             pc.SetBlend(Message.BlendIdle);
@@ -84,6 +88,8 @@ public class MainCitySystem : SystemRoot
 
     public void OpenInfoWin()
     {
+        StopNavTask();
+
         if(charShowCam == null)
         {
             charShowCam = GameObject.FindGameObjectWithTag("CharShowCam").transform;
@@ -125,16 +131,18 @@ public class MainCitySystem : SystemRoot
         if(currentTaskData.npcID != -1)
         {
             float dis = Vector3.Distance(pc.transform.position, npcPosTrans[gc.npcID].position);
-            if(dis < .5f)
+            if(dis < 1f)
             {
-                pc.isGuide = false;
+                isGuide = false;
                 agent.enabled = false;
                 agent.isStopped = true;
                 pc.SetBlend(Message.BlendIdle);
+
+                OpenGuideWin();
             }
             else
             {
-                pc.isGuide = true;
+                isGuide = true;
                 agent.enabled = true;
                 agent.speed = Message.PlayerMoveSpeed;
                 agent.SetDestination(npcPosTrans[gc.npcID].position);
@@ -147,8 +155,45 @@ public class MainCitySystem : SystemRoot
         }
     }
 
+    private void IsArriveNavPos()
+    {
+        float dis = Vector3.Distance(pc.transform.position, npcPosTrans[currentTaskData.npcID].position);
+        if(dis <= 1f)
+        {
+            StopNavTask();
+
+            OpenGuideWin();
+        }
+    }
+
+    private void StopNavTask()
+    {
+        if(isGuide)
+        {
+            isGuide = false;
+            agent.isStopped = true;
+            agent.enabled = false;
+            pc.SetBlend(Message.BlendIdle);
+        }
+        
+    }
+
+    public void Update()
+    {
+        if(isGuide)
+        {
+            IsArriveNavPos();
+            pc.SetCam();
+        }
+    }
+
     private void OpenGuideWin()
     {
+        guideWin.SetWinState();
+    }
 
+    public GuideCfg GetCurrentTaskData()
+    {
+        return currentTaskData;
     }
 }
