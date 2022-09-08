@@ -10,6 +10,8 @@ namespace PEProtocol
         public RspLogin rspLogin;
         public ReqRename reqRename;
         public RspRename rspRename;
+        public ReqGuide reqGuide;
+        public RspGuide rspGuide;
     }
 
     public class ServerCfg
@@ -44,6 +46,25 @@ namespace PEProtocol
     }
 
     [System.Serializable]
+
+    public class ReqGuide
+    {
+        public int guideid;
+    }
+
+    [System.Serializable]
+
+    public class RspGuide
+    {
+        public int guideid;
+        public int coin;
+        public int lv;
+        public int exp;
+    }
+
+
+
+    [System.Serializable]
     public class PlayerData
     {
         public int id;
@@ -63,7 +84,7 @@ namespace PEProtocol
         public int pierce;//穿透比率
         public int critical;//暴击概率
 
-        public int guideID;
+        public int guideid;
     }
 
     public enum CMD
@@ -73,6 +94,8 @@ namespace PEProtocol
         RspLogin = 102,
         ReqRename = 103,
         RspRename = 104,
+        ReqGuide = 200,
+        RspGuide = 201,
     }
 
     public enum ErrorCode
@@ -82,6 +105,7 @@ namespace PEProtocol
         WrongPass,
         NameIsExist,
         UpdateDBError,
+        ServerDataError
     }
 
 

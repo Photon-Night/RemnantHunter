@@ -68,7 +68,7 @@ namespace GameServer
                             dodge = reader.GetInt32("dodge"),
                             pierce = reader.GetInt32("pierce"),
                             critical = reader.GetInt32("critical"),
-                            guideID = reader.GetInt32("guideid")
+                            guideid = reader.GetInt32("guideid")
                         };
 
                     }
@@ -103,7 +103,7 @@ namespace GameServer
                         dodge = 7,
                         pierce = 5,
                         critical = 2,
-                        guideID = 1001
+                        guideid = 1001
                     };
 
                     playerData.id = InsertNewAccData(acc, pas, playerData);
@@ -144,7 +144,7 @@ namespace GameServer
                 cmd.Parameters.AddWithValue("dodge", pd.dodge);
                 cmd.Parameters.AddWithValue("pierce", pd.pierce);
                 cmd.Parameters.AddWithValue("critical", pd.critical);
-                cmd.Parameters.AddWithValue("guideid", pd.guideID);
+                cmd.Parameters.AddWithValue("guideid", pd.guideid);
 
                 cmd.ExecuteNonQuery();
                 _id = (int)cmd.LastInsertedId;
@@ -212,7 +212,7 @@ namespace GameServer
                 cmd.Parameters.AddWithValue("dodge", pd.dodge);
                 cmd.Parameters.AddWithValue("pierce", pd.pierce);
                 cmd.Parameters.AddWithValue("critical", pd.critical);
-                cmd.Parameters.AddWithValue("guideid", pd.guideID);
+                cmd.Parameters.AddWithValue("guideid", pd.guideid);
                 //TOADD Others
                 cmd.ExecuteNonQuery();
             }
