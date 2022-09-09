@@ -42,7 +42,7 @@ public class MainCityWin : WinRoot
         RegisterTouchEvts();
     }
 
-    private void RefreshUI()
+    public void RefreshUI()
     {
         PlayerData pd = GameRoot.Instance.PlayerData;
         SetText(txtFight, PECommon.GetFightByProps(pd));
@@ -81,7 +81,7 @@ public class MainCityWin : WinRoot
                 img.fillAmount = 0;
         }
 
-        currentTaskData = resSvc.GetGuideCfgData(pd.guideID);
+        currentTaskData = resSvc.GetGuideCfgData(pd.guideid);
         if(currentTaskData != null)
         {
             SetGuideBtnIcon(currentTaskData.npcID);
@@ -109,6 +109,9 @@ public class MainCityWin : WinRoot
                 break;
             case Message.NPCWiseMan:
                 spPath = PathDefine.WiseManHead;
+                break;
+            default:
+                spPath = PathDefine.TaskHead;
                 break;
         }
         SetSprite(img, spPath);

@@ -74,6 +74,10 @@ public class NetService : MonoSingleton<NetService>
                     GameRoot.AddTips("网络不稳定");
                     PECommon.Log("数据库更新异常");
                     break;
+
+                case ErrorCode.ServerDataError:
+                    GameRoot.AddTips("客户端数据异常");
+                    break;
             }
             return;
         }
@@ -86,6 +90,10 @@ public class NetService : MonoSingleton<NetService>
 
             case CMD.RspRename:
                 LoginSystem.Instance.OnRenameRsp(msg);
+                break;
+
+            case CMD.RspGuide:
+                MainCitySystem.Instance.RspGuide(msg);
                 break;
         }
 

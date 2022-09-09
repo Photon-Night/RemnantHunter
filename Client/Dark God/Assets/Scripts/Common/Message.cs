@@ -40,4 +40,17 @@ public class Message
     public const int NPCGeneral = 1;
     public const int NPCArtisan = 2;
     public const int NPCTrader = 3;
+
+    //Color
+    public const string ColorRed = "<color=#FF0000FF>";
+    public const string ColorGreen = "<color=00FF00FF>";
+    public const string ColorBlue = "<color=#00B4FFFF>";
+    public const string ColorYellow = "<color=#FFFF00FF>";
+    public const string ColorEnd = "</color>";
+    
+    public static string Color(string str, string color)
+    {
+        string result = color + str + ColorEnd;
+        return result;
+    }
 }

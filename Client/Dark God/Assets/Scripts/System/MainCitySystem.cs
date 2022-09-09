@@ -196,4 +196,42 @@ public class MainCitySystem : SystemRoot
     {
         return currentTaskData;
     }
+
+    public void RspGuide(GameMsg msg)
+    {
+        GameRoot.AddTips("任务结算完成");
+        GameRoot.AddTips("金币 " + msg.rspGuide.coin);
+        GameRoot.AddTips("经验 " + msg.rspGuide.exp);
+        switch (currentTaskData.actID)
+        {
+            case 0:
+
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+
+            case 3:
+
+                break;
+
+            case 4:
+
+                break;
+
+            case 5:
+
+                break;
+
+            default:
+                break;
+
+        }
+
+        GameRoot.Instance.SetPlayerDataByGuide(msg.rspGuide);
+        mainCityWin.RefreshUI();
+    }
 }

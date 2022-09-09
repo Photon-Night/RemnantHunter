@@ -13,8 +13,11 @@ namespace GameServer
             //服务层
             NetSvc.Instance.Init();
             CacheSvc.Instance.Init();
+            CfgSvc.Instance.Init();
             //业务层
             LoginSys.Instance.Init();
+
+            GuideSys.Instance.Init();
 
             DBMgr.Instance.Init();
         }

@@ -70,7 +70,16 @@ public class GuideWIn : WinRoot
         index += 1;
         if(index == dialogArr.Length)
         {
+            GameMsg msg = new GameMsg
+            { 
+                cmd = (int)CMD.ReqGuide 
+            };
+
+            msg.reqGuide = new ReqGuide { guideid = currentTaskData.ID };
+
+            netSvc.SendMessage(msg);
             SetWinState(false);
+
         }
         else
         SetTalk();

@@ -15,6 +15,7 @@ namespace GameServer
         public void Init()
         {
             cacheSvc = CacheSvc.Instance;
+            cfgSvc = CfgSvc.Instance;
             PECommon.Log("GuideSystem Loading");
         }
 
@@ -37,7 +38,7 @@ namespace GameServer
                 pd.coin += gc.coin;
                 CalcExp(pd, gc.exp);
 
-                if(cacheSvc.UpdatePlayerData(pd.id, pd))
+                if(!cacheSvc.UpdatePlayerData(pd.id, pd))
                 {
                     msg.err = (int)ErrorCode.UpdateDBError;
                 }
@@ -71,7 +72,7 @@ namespace GameServer
 
             while(true)
             {
-                int upNeedExp = PECommon.GetExpUpValByLv(currentLv) - currentLv;
+                int upNeedExp = PECommon.GetExpUpValByLv(currentLv) - currentExp;
                 if(addRestExp >= upNeedExp)
                 {
                     currentLv += 1;
@@ -80,7 +81,7 @@ namespace GameServer
                 }
                 else
                 {
-                    pd.lv = currentExp;
+                    pd.lv = currentLv;
                     pd.exp = currentExp + addRestExp;
                     break;
                 }
