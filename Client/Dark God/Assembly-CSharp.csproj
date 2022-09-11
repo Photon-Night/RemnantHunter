@@ -61,7 +61,7 @@
     <Compile Include="Assets\Scripts\Common\PathDefine.cs" />
     <Compile Include="Assets\Scripts\System\LoginSystem.cs" />
     <Compile Include="Assets\Scripts\Services\ResService.cs" />
-    <Compile Include="Assets\MainCityMap.cs" />
+    <Compile Include="Assets\Scripts\MainCityMap.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\UIWin\CreateWin.cs" />
     <Compile Include="Assets\Scripts\UIWin\InfoWin.cs" />
@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\GameRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\WInRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
+    <Compile Include="Assets\Scripts\UIWin\StrongWin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />
