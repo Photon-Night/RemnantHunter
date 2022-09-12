@@ -188,4 +188,10 @@ public class MainCityWin : WinRoot
             GameRoot.AddTips("无更多任务");
         }
     }
+
+    public void OnClickStrongBtn()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+        MainCitySystem.Instance.OpenStrongWin();
+    }
 }

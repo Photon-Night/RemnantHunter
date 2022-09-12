@@ -10,6 +10,7 @@ public class MainCitySystem : SystemRoot
     public MainCityWin mainCityWin;
     public InfoWin infoWin;
     public GuideWIn guideWin;
+    public StrongWin strongWin;
 
     private PlayerController pc = null;
     private Transform charShowCam = null;
@@ -28,7 +29,6 @@ public class MainCitySystem : SystemRoot
         Instance = this;
         PECommon.Log("MainCitySystem Loading");
     }
-
     public void EnterMainCity()
     {
         MapCfg mapData = resSvc.GetMapCfgData(Message.MainCityMapID);
@@ -57,6 +57,7 @@ public class MainCitySystem : SystemRoot
         });
     }
 
+    #region LoadSetting
     private void LoadPlayer(MapCfg mapData)
     {
         GameObject player = resSvc.LoadPrefab(PathDefine.AssissnCityPlayerPrefab, true);        
@@ -85,7 +86,18 @@ public class MainCitySystem : SystemRoot
         }
         pc.Dir = dir;
     }
+    private float startRoate = 0;
+    public void SetStartRoate()
+    {
+        startRoate = pc.transform.localEulerAngles.y;
+    }
+    public void SetPlayerRoate(float roate)
+    {
+        pc.transform.localEulerAngles = new Vector3(0, startRoate + roate, 0);
+    }
+    #endregion
 
+    #region InfoWin
     public void OpenInfoWin()
     {
         StopNavTask();
@@ -110,18 +122,9 @@ public class MainCitySystem : SystemRoot
         }
         infoWin.SetWinState(false);
     }
+    #endregion
 
-    private float startRoate = 0;
-    public void SetStartRoate()
-    {
-        startRoate = pc.transform.localEulerAngles.y;
-    }
-
-    public void SetPlayerRoate(float roate)
-    {
-        pc.transform.localEulerAngles = new Vector3(0, startRoate + roate, 0);
-    }
-
+    #region GuideSetting
     public void RunTask(GuideCfg gc)
     {
         if(gc != null)
@@ -186,7 +189,6 @@ public class MainCitySystem : SystemRoot
             pc.SetCam();
         }
     }
-
     private void OpenGuideWin()
     {
         guideWin.SetWinState();
@@ -234,4 +236,14 @@ public class MainCitySystem : SystemRoot
         GameRoot.Instance.SetPlayerDataByGuide(msg.rspGuide);
         mainCityWin.RefreshUI();
     }
+    #endregion
+
+    #region StrongWin
+
+    public void OpenStrongWin()
+    {
+        strongWin.SetWinState();
+    }
+
+    #endregion
 }

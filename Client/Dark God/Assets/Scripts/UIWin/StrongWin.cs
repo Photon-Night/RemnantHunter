@@ -1,18 +1,41 @@
+using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class StrongWin : MonoBehaviour
+public class StrongWin : WinRoot
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public Transform imgGrp;
+
+    protected override void InitWin()
     {
-        
+        base.InitWin();
+
+        RegisterClickEvt();
+    }
+    private void RegisterClickEvt()
+    {
+        for (int i = 0; i < imgGrp.childCount; i++)
+        {
+            var img = imgGrp.GetChild(i);
+            OnClick(img.gameObject, i, (object args) =>
+            {
+                audioSvc.PlayUIAudio(Message.UIClickBtn);
+                ClickPosItem((int)args);
+            });
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ClickPosItem(int index)
     {
-        
+        PECommon.Log(index.ToString());
+    }
+
+    public void OnClickCloseBtn()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+        SetWinState(false);
     }
 }

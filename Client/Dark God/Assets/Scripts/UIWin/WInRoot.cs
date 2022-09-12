@@ -93,6 +93,13 @@ public class WinRoot : MonoBehaviour
         return t;
     }
 
+    protected void OnClick(GameObject go, object args, Action<object> cb)
+    {
+        PEListener listener = GetOrAddComponect<PEListener>(go);
+        listener.onClick = cb;
+        listener.args = args;
+    }
+
     protected void OnClickDown(GameObject go, Action<PointerEventData> cb)
     {
         PEListener listener = GetOrAddComponect<PEListener>(go);
