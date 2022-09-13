@@ -14,8 +14,10 @@ public class ResService : MonoSingleton<ResService>
         InitRDNameCfg(PathDefine.RDNameCfg);
         InitMapCfg(PathDefine.MapCfg);
         InitGuideCfg(PathDefine.GuideCfg);
+        InitStrongCfg(PathDefine.StrongCfg);
     }
 
+    #region SceneLoad
     private System.Action PrgCB = null;
     public void LoadSceneAsync(string sceneName, System.Action loaded = null)
     {
@@ -43,7 +45,9 @@ public class ResService : MonoSingleton<ResService>
         if (PrgCB != null)
             PrgCB();
     }
+    #endregion
 
+    #region Audio
     private Dictionary<string, AudioClip> adDic = new Dictionary<string, AudioClip>();
     public AudioClip LoadAudio(string path, bool cache = false)
     {
@@ -58,8 +62,9 @@ public class ResService : MonoSingleton<ResService>
         }
         return au;
     }
+    #endregion
 
-
+    #region Name
     private List<string> surnameList = new List<string>();
     private List<string> manList = new List<string>();
     private List<string> womanList = new List<string>();
@@ -121,8 +126,9 @@ public class ResService : MonoSingleton<ResService>
         PECommon.Log(rdName);
         return rdName;
     }
+    #endregion
 
-
+    #region MapData
     private Dictionary<int, MapCfg> mapCfgDataDic = new Dictionary<int, MapCfg>();
     private void InitMapCfg(string path)
     {
@@ -203,7 +209,9 @@ public class ResService : MonoSingleton<ResService>
             return null;
         }
     }
+    #endregion
 
+    #region GuideData
     private Dictionary<int, GuideCfg> guideTaskDic = new Dictionary<int, GuideCfg>();
     private void InitGuideCfg(string path)
     {
@@ -268,7 +276,94 @@ public class ResService : MonoSingleton<ResService>
             return null;
         }
     }
+    #endregion
 
+    #region StrongData
+    private Dictionary<int, Dictionary<int, StrongCfg>> strongDic = new Dictionary<int, Dictionary<int, StrongCfg>>();
+    private void InitStrongCfg(string path)
+    {
+        TextAsset xml = Resources.Load<TextAsset>(path);
+        if(xml == null)
+        {
+            PECommon.Log("xml file:" + path + "is not existed", PEProtocol.LogType.Error);
+        }
+        else
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml.text);
+            XmlNodeList nodLst = doc.SelectSingleNode("root").ChildNodes;
+            for (int i = 0; i < nodLst.Count; i++)
+            {
+                XmlElement ele = nodLst[i] as XmlElement;
+                if (ele.GetAttributeNode("ID") == null)
+                {
+                    continue;
+                }
+                int ID = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
+                StrongCfg sc = new StrongCfg{ ID = ID };
+                foreach (XmlElement e in ele)
+                {
+                    int val = int.Parse(e.InnerText);
+                    switch (e.Name)
+                    {
+                        case "pos":
+                            sc.pos = val;
+                            break;
+                        case "starlv":
+                            sc.starLv = val;
+                            break;
+                        case "addhp":
+                            sc.addHp = val;
+                            break;
+                        case "addhurt":
+                            sc.addHurt = val;
+                            break;
+                        case "adddef":
+                            sc.addDef = val;
+                            break;
+                        case "minlv":
+                            sc.minLv = val;
+                            break;
+                        case "coin":
+                            sc.coin = val;
+                            break;
+                        case "crystal":
+                            sc.crystal = val;
+                            break;
+                    }
+                }
+
+                Dictionary<int, StrongCfg> dic = null;
+                if(strongDic.TryGetValue(sc.pos, out dic))
+                {
+                    dic.Add(sc.starLv, sc);
+                }
+                else
+                {
+                    dic = new Dictionary<int, StrongCfg>();
+                    dic.Add(sc.starLv, sc);
+                    strongDic.Add(sc.pos, dic);
+                }
+            }
+        }
+    }
+
+    public StrongCfg GetStrongCfgData(int pos, int starLv)
+    {
+        Dictionary<int, StrongCfg> dic = null;
+        if(strongDic.TryGetValue(pos, out dic))
+        {
+            StrongCfg sc = null;
+            if(dic.TryGetValue(starLv, out sc))
+            {
+                return sc;
+            }
+        }
+        return null;
+    }
+    #endregion
+
+    #region Prefab
     private Dictionary<string, GameObject> goDic = new Dictionary<string, GameObject>();
     public GameObject LoadPrefab(string path, bool isCache = false)
     {
@@ -288,8 +383,9 @@ public class ResService : MonoSingleton<ResService>
         }
         return go;
     }
+    #endregion
 
-
+    #region Sprite
     private Dictionary<string, Sprite> sprDic = new Dictionary<string, Sprite>(); 
     public Sprite LoadSprite(string path, bool isCache = false)
     {
@@ -311,4 +407,5 @@ public class ResService : MonoSingleton<ResService>
 
         
     }
+    #endregion
 }

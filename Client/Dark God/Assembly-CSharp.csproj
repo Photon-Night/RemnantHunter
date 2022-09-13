@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{C6289FE8-06E0-576D-B3A2-F965ED839D71}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -74,16 +73,17 @@
     <Compile Include="Assets\Scripts\System\MainCitySystem.cs" />
     <Compile Include="Assets\Scripts\Common\PETools.cs" />
     <Compile Include="Assets\Scripts\Common\Message.cs" />
+    <Compile Include="Assets\Scripts\UIWin\StrongWin.cs" />
     <Compile Include="Assets\Scripts\UIWin\GuideWIn.cs" />
     <Compile Include="Assets\Scripts\Common\Singleton.cs" />
     <Compile Include="Assets\Scripts\GameRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
-    <Compile Include="Assets\Scripts\UIWin\StrongWin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />
     <None Include="Assets\Scripts\Net\PESocket.dll" />
+    <None Include="Assets\Resources\ResCfgs\strong.xml" />
     <None Include="Assets\Compond\MakeChar\Shader\MogoFakeLight.shader" />
     <None Include="Assets\Compond\MakeScene\SceneShader\MogoTransparentDiffuse.shader" />
     <None Include="Assets\Resources\ResCfgs\rdname.xml" />
