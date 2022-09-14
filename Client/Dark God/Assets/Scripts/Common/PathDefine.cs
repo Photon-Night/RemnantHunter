@@ -25,6 +25,17 @@ public class PathDefine
     public const string ArtisanIcon = "ResImages/npc2";
     public const string TraderIcon = "ResImages/npc3";
 
+    public const string ItemTouKui = "ResImages/toukui";
+    public const string ItemBody = "ResImages/body";
+    public const string ItemYaobu = "ResImages/yaobu";
+    public const string ItemHand = "ResImages/hand";
+    public const string ItemLeg = "ResImages/leg";
+    public const string ItemFoot = "ResImages/Foot";
+
+    public const string SpStar1 = "ResImages/star1";
+    public const string SpStar2 = "ResImages/star2";
+
+
     public const string ItemArrorBG = "ResImages/btnstrong";
     public const string ItemPlatBG = "ResImages/charbg3";
 

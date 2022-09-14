@@ -4,3 +4,4 @@ D:\UnityProject\Dark God\Dark-God\Server\GameServer\PEProtocol\obj\Debug\PEProto
 D:\UnityProject\Dark God\Dark-God\Server\GameServer\PEProtocol\obj\Debug\PEProtocol.csproj.CopyComplete
 D:\UnityProject\Dark God\Dark-God\Server\GameServer\PEProtocol\obj\Debug\PEProtocol.dll
 D:\UnityProject\Dark God\Dark-God\Server\GameServer\PEProtocol\obj\Debug\PEProtocol.pdb
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\PEProtocol\obj\Debug\PEProtocol.csproj.AssemblyReference.cache

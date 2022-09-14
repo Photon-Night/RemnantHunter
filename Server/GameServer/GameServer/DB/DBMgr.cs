@@ -71,6 +71,26 @@ namespace GameServer
                             guideid = reader.GetInt32("guideid")
                         };
 
+                        string[] strong_strArr = reader.GetString("strong").Split('#');
+                        int[] strongArr = new int[6];
+                        for(int i = 0; i < strong_strArr.Length; i++)
+                        {
+                            if(strong_strArr[i] == "")
+                            {
+                                continue;
+                            }
+                            if(int.TryParse(strong_strArr[i], out int num))
+                            {
+                                strongArr[i] = num;
+                            }
+                            else
+                            {
+                                PECommon.Log("Parse Strong String Error", LogType.Error);
+                            }
+                        }
+
+                        playerData.strong = strongArr;
+
                     }
                 }
             }
@@ -103,7 +123,9 @@ namespace GameServer
                         dodge = 7,
                         pierce = 5,
                         critical = 2,
-                        guideid = 1001
+                        guideid = 1001,
+
+                        strong = new int[6],
                     };
 
                     playerData.id = InsertNewAccData(acc, pas, playerData);
@@ -126,7 +148,7 @@ namespace GameServer
                     "diamond=@diamond,hp=@hp,ad=@ad," +
                     "ap=@ap,addef=@addef,apdef=@apdef," +
                     "dodge=@dodge,pierce=@pierce," +
-                    "critical=@critical, guideid=@guideid", conn);
+                    "critical=@critical, guideid=@guideid,strong=@strong", conn);
                 cmd.Parameters.AddWithValue("acc", acc);
                 cmd.Parameters.AddWithValue("pas", pas);
                 cmd.Parameters.AddWithValue("name", pd.name);
@@ -146,6 +168,15 @@ namespace GameServer
                 cmd.Parameters.AddWithValue("critical", pd.critical);
                 cmd.Parameters.AddWithValue("guideid", pd.guideid);
 
+                int[] _strongArr = pd.strong;
+                string strongDBInfo = "";
+                for (int i = 0; i < _strongArr.Length; i++)
+                {
+                    strongDBInfo += _strongArr[i];
+                    strongDBInfo += "#";
+                }
+
+                cmd.Parameters.AddWithValue("strong", strongDBInfo);
                 cmd.ExecuteNonQuery();
                 _id = (int)cmd.LastInsertedId;
             }
@@ -194,7 +225,7 @@ namespace GameServer
                "coin=@coin,diamond=@diamond,hp=@hp," +
                "ad=@ad,ap=@ap,addef=@addef,apdef=@apdef," +
                "dodge=@dodge,pierce=@pierce,critical=@critical," +
-               "guideid=@guideid where id =@id", conn);
+               "guideid=@guideid,strong=@strong where id =@id", conn);
 
                 cmd.Parameters.AddWithValue("id", id);
                 cmd.Parameters.AddWithValue("name", pd.name);
@@ -213,6 +244,15 @@ namespace GameServer
                 cmd.Parameters.AddWithValue("pierce", pd.pierce);
                 cmd.Parameters.AddWithValue("critical", pd.critical);
                 cmd.Parameters.AddWithValue("guideid", pd.guideid);
+                int[] _strongArr = pd.strong;
+                string strongDBInfo = "";
+                for (int i = 0; i < _strongArr.Length; i++)
+                {
+                    strongDBInfo += _strongArr[i];
+                    strongDBInfo += "#";
+                }
+
+                cmd.Parameters.AddWithValue("strong", strongDBInfo);
                 //TOADD Others
                 cmd.ExecuteNonQuery();
             }

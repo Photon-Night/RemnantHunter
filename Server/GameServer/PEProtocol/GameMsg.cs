@@ -85,6 +85,7 @@ namespace PEProtocol
         public int critical;//暴击概率
 
         public int guideid;
+        public int[] strong;
     }
 
     public enum CMD

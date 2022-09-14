@@ -79,7 +79,7 @@ namespace GameServer
                     currentExp = 0;
                     addRestExp -= upNeedExp;
                 }
-                else
+                else   
                 {
                     pd.lv = currentLv;
                     pd.exp = currentExp + addRestExp;
