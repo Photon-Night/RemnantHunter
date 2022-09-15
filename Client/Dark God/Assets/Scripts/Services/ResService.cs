@@ -347,7 +347,6 @@ public class ResService : MonoSingleton<ResService>
             }
         }
     }
-
     public StrongCfg GetStrongCfgData(int pos, int starLv)
     {
         Dictionary<int, StrongCfg> dic = null;
@@ -360,6 +359,35 @@ public class ResService : MonoSingleton<ResService>
             }
         }
         return null;
+    }
+    public int GetPropAddValPreLv(int pos, int starLv, int type)
+    {
+        int val = 0;
+        Dictionary<int, StrongCfg> posDic = null;
+        if(strongDic.TryGetValue(pos, out posDic))
+        {
+            for (int i = 0; i < starLv; i ++)
+            {
+                StrongCfg sd;
+                if(posDic.TryGetValue(i, out sd))
+                {
+                    switch (type)
+                    {
+                        case 1:
+                            val += sd.addHp;
+                            break;
+                        case 2:
+                            val += sd.addHurt;
+                            break;
+                        case 3:
+                            val += sd.addDef;
+                            break;
+
+                    }
+                }
+            }
+        }
+        return val;
     }
     #endregion
 
@@ -383,7 +411,7 @@ public class ResService : MonoSingleton<ResService>
         }
         return go;
     }
-    #endregion
+    #endregion 
 
     #region Sprite
     private Dictionary<string, Sprite> sprDic = new Dictionary<string, Sprite>(); 
