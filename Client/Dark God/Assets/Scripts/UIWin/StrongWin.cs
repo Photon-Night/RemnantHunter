@@ -33,6 +33,8 @@ public class StrongWin : WinRoot
     private List<Image> imgs = new List<Image>();
     private int currentIndex;
     private PlayerData pd;
+
+    private StrongCfg sd;
     protected override void InitWin()
     {
         base.InitWin();
@@ -129,7 +131,7 @@ public class StrongWin : WinRoot
         SetText(propDef1, "+" + sumAddDef);
 
         int nextLv = currentLv + 1;
-        StrongCfg sd = resSvc.GetStrongCfgData(currentIndex, nextLv);
+        sd = resSvc.GetStrongCfgData(currentIndex, nextLv);
         if (sd != null)
         {
             SetActive(costInfoRoot);
@@ -147,7 +149,7 @@ public class StrongWin : WinRoot
 
             SetText(txtNeedLv, sd.minLv);
             SetText(txtCostCoin, sd.coin);
-            SetText(txtCostCrystal, sd.crystal + "/" + );
+            SetText(txtCostCrystal, sd.crystal + "/" + pd.crystal);
 
         }
         else
@@ -166,5 +168,40 @@ public class StrongWin : WinRoot
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         SetWinState(false);
+    }
+
+    public void OnClickStrongBtn()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+        if(pd.strong[currentIndex] < 10)
+        {
+            if(pd.lv < sd.minLv)
+            {
+                GameRoot.AddTips("等级不足");
+            }
+            else if(pd.coin < sd.coin)
+            {
+                GameRoot.AddTips("金币不足");
+            }
+            else if(pd.crystal < sd.crystal)
+            {
+                GameRoot.AddTips("水晶不足");
+            }
+            else
+            {
+                GameMsg msg = new GameMsg();
+                ReqStrong rs = new ReqStrong
+                {
+                    pos = currentIndex
+                };
+                msg.reqStrong = rs;
+
+                netSvc.SendMessage(msg);
+            }          
+        }
+        else
+        {
+            GameRoot.AddTips("等级已达到上限");
+        }
     }
 }

@@ -12,6 +12,8 @@ namespace PEProtocol
         public RspRename rspRename;
         public ReqGuide reqGuide;
         public RspGuide rspGuide;
+        public ReqStrong reqStrong;
+        public RspStrong rspStrong;
     }
 
     public class ServerCfg
@@ -53,13 +55,31 @@ namespace PEProtocol
     }
 
     [System.Serializable]
-
     public class RspGuide
     {
         public int guideid;
         public int coin;
         public int lv;
         public int exp;
+    }
+
+    [System.Serializable]
+    public class ReqStrong
+    {
+        public int pos;
+    }
+
+    [System.Serializable]
+    public class RspStrong
+    {
+        public int coin;
+        public int crystal;
+        public int hp;
+        public int ad;
+        public int ap;
+        public int addef;
+        public int apdef;
+        public int[] strong;
     }
 
 
@@ -86,17 +106,22 @@ namespace PEProtocol
 
         public int guideid;
         public int[] strong;
+        public int crystal;
     }
 
     public enum CMD
     {
         None = 0,
+
         ReqLogin = 101,
         RspLogin = 102,
         ReqRename = 103,
         RspRename = 104,
+
         ReqGuide = 200,
         RspGuide = 201,
+        ReqStrong = 202,
+        RspStrong = 203,
     }
 
     public enum ErrorCode
@@ -105,8 +130,13 @@ namespace PEProtocol
         AccountIsOnline,
         WrongPass,
         NameIsExist,
+
         UpdateDBError,
-        ServerDataError
+        ServerDataError,
+
+        LackLevel,
+        LackCoin,
+        LackCrystal,
     }
 
 

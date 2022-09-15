@@ -54,6 +54,10 @@ namespace GameServer
                 case CMD.ReqGuide:
                     GuideSys.Instance.ResqGuide(pack);
                     break;
+
+                case CMD.ReqStrong:
+                    //TODO
+                    break;
             }
 
         }
