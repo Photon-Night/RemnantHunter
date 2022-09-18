@@ -64,6 +64,7 @@
     <Compile Include="SIngleton.cs" />
     <Compile Include="System\GuideSys\GuideSys.cs" />
     <Compile Include="System\LoginSys\LoginSys.cs" />
+    <Compile Include="System\StrongSys\StrongSys.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

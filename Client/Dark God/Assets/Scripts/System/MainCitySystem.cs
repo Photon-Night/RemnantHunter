@@ -245,5 +245,14 @@ public class MainCitySystem : SystemRoot
         strongWin.SetWinState();
     }
 
+    public void RspStrong(GameMsg msg)
+    {
+        int lastFight = PECommon.GetFightByProps(GameRoot.Instance.PlayerData);
+        GameRoot.Instance.SetPlayerDataByStrong(msg.rspStrong);
+        int currentFight = PECommon.GetFightByProps(GameRoot.Instance.PlayerData);
+
+        GameRoot.AddTips(Message.Color("Õ½Á¦ÌáÉý" + (currentFight - lastFight), Message.ColorBlue));
+    }
+
     #endregion
 }

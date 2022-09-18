@@ -73,5 +73,19 @@ public class GameRoot : MonoSingleton<GameRoot>
         playerData.lv = data.lv;
         playerData.guideid = data.guideid;
     }
+
+    public void SetPlayerDataByStrong(RspStrong data)
+    {
+        playerData.coin = data.coin;
+        playerData.crystal = data.crystal;
+        playerData.hp = data.hp;
+        playerData.ad = data.ad;
+        playerData.ap = data.ap;
+        playerData.addef = data.addef;
+        playerData.apdef = data.apdef;
+
+        playerData.strong = data.strong;
+
+    }
   
 }

@@ -56,7 +56,7 @@ namespace GameServer
                     break;
 
                 case CMD.ReqStrong:
-                    //TODO
+                    StrongSys.Instance.ReqStrong(pack);
                     break;
             }
 

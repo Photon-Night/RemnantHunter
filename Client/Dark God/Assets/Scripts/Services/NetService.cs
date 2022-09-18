@@ -67,6 +67,7 @@ public class NetService : MonoSingleton<NetService>
                 case ErrorCode.WrongPass:
                     GameRoot.AddTips("密码错误");
                     break;
+
                 case ErrorCode.NameIsExist:
                     GameRoot.AddTips("当前名字已存在");
                     break;
@@ -77,6 +78,18 @@ public class NetService : MonoSingleton<NetService>
 
                 case ErrorCode.ServerDataError:
                     GameRoot.AddTips("客户端数据异常");
+                    break;
+
+                case ErrorCode.LackCoin:
+                    GameRoot.AddTips("金币不足");
+                    break;
+
+                case ErrorCode.LackCrystal:
+                    GameRoot.AddTips("水晶不足");
+                    break;
+
+                case ErrorCode.LackLevel:
+                    GameRoot.AddTips("等级不足");
                     break;
             }
             return;
@@ -94,6 +107,9 @@ public class NetService : MonoSingleton<NetService>
 
             case CMD.RspGuide:
                 MainCitySystem.Instance.RspGuide(msg);
+                break;
+            case CMD.RspStrong:
+                MainCitySystem.Instance.RspStrong(msg);
                 break;
         }
 

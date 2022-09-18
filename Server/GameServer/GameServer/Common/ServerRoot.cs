@@ -18,7 +18,7 @@ namespace GameServer
             LoginSys.Instance.Init();
 
             GuideSys.Instance.Init();
-
+            StrongSys.Instance.Init();
             DBMgr.Instance.Init();
         }
 
