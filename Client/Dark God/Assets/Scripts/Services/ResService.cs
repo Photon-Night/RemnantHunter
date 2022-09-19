@@ -366,7 +366,7 @@ public class ResService : MonoSingleton<ResService>
         Dictionary<int, StrongCfg> posDic = null;
         if(strongDic.TryGetValue(pos, out posDic))
         {
-            for (int i = 0; i < starLv; i ++)
+            for (int i = 1; i < starLv + 1; i ++)
             {
                 StrongCfg sd;
                 if(posDic.TryGetValue(i, out sd))

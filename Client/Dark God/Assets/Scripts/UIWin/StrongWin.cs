@@ -189,7 +189,10 @@ public class StrongWin : WinRoot
             }
             else
             {
-                GameMsg msg = new GameMsg();
+                GameMsg msg = new GameMsg
+                {
+                    cmd = (int)CMD.ReqStrong
+                };
                 ReqStrong rs = new ReqStrong
                 {
                     pos = currentIndex
@@ -203,5 +206,11 @@ public class StrongWin : WinRoot
         {
             GameRoot.AddTips("等级已达到上限");
         }
+    }
+
+    public void RefreshUI()
+    {
+        audioSvc.PlayUIAudio(Message.FBItem);
+        ClickPosItem(currentIndex);
     }
 }

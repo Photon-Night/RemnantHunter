@@ -252,6 +252,9 @@ public class MainCitySystem : SystemRoot
         int currentFight = PECommon.GetFightByProps(GameRoot.Instance.PlayerData);
 
         GameRoot.AddTips(Message.Color("Õ½Á¦ÌáÉý" + (currentFight - lastFight), Message.ColorBlue));
+
+        strongWin.RefreshUI();
+        mainCityWin.RefreshUI();
     }
 
     #endregion
