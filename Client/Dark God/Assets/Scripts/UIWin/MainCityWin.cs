@@ -21,6 +21,7 @@ public class MainCityWin : WinRoot
     public Text txtExpPrg;
 
     public Button btnGuide;
+    public Button btnChat;
 
     public Transform expPrgTrans;
     public Animation menuRootAnim;
@@ -193,5 +194,11 @@ public class MainCityWin : WinRoot
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         MainCitySystem.Instance.OpenStrongWin();
+    }
+
+    public void OnClickChatBtn()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+        MainCitySystem.Instance.chatWin.SetWinState();
     }
 }

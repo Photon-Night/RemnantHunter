@@ -7,10 +7,12 @@ using UnityEngine.AI;
 public class MainCitySystem : SystemRoot
 {
     public static MainCitySystem Instance = null;
+
     public MainCityWin mainCityWin;
     public InfoWin infoWin;
     public GuideWIn guideWin;
     public StrongWin strongWin;
+    public ChatWin chatWin;
 
     private PlayerController pc = null;
     private Transform charShowCam = null;

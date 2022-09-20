@@ -35,6 +35,8 @@ public class PathDefine
     public const string SpStar1 = "ResImages/star1";
     public const string SpStar2 = "ResImages/star2";
 
+    public const string BtnType1 = "ResImages/btntype1";
+    public const string BtnType2 = "ResImages/btntype2";
 
     public const string ItemArrorBG = "ResImages/btnstrong";
     public const string ItemPlatBG = "ResImages/charbg3";

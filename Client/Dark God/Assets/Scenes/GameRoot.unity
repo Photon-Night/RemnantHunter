@@ -186,6 +186,7 @@ MonoBehaviour:
   txtName: {fileID: 979422073}
   txtExpPrg: {fileID: 1259737150}
   btnGuide: {fileID: 2099679344}
+  btnChat: {fileID: 1603818938}
   expPrgTrans: {fileID: 1417901568}
   menuRootAnim: {fileID: 1954469882}
 --- !u!1 &8101529
@@ -5162,7 +5163,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 394166513}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 736863608}
+        m_TargetAssemblyTypeName: ChatWin, Assembly-CSharp
+        m_MethodName: OmClickChangeChatTypeBtn
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &394166513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7250,7 +7263,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 577078731}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 736863608}
+        m_TargetAssemblyTypeName: ChatWin, Assembly-CSharp
+        m_MethodName: OmClickChangeChatTypeBtn
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &577078731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9073,13 +9098,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 736863607}
+  - component: {fileID: 736863608}
   m_Layer: 5
   m_Name: chatWin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &736863607
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9098,11 +9124,28 @@ RectTransform:
   m_Father: {fileID: 1999540102}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: -1820, y: -980}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &736863608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736863606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c159e71ed0519844a35d8d7c46f6907, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imgWorld: {fileID: 394166513}
+  imgGuild: {fileID: 1745383844}
+  imgFriend: {fileID: 577078731}
+  txtChat: {fileID: 1052405007}
+  iptChat: {fileID: 1434059853}
 --- !u!1 &748981448
 GameObject:
   m_ObjectHideFlags: 0
@@ -12402,11 +12445,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.1
-  m_Text: "New Text New Text New Text New\nNew Text New Text New Text New\nNew Text
-    New Text New Text New\nNew Text New Text New Text New \nNew Text New Text New
-    Text New \nNew Text New Text New Text New\nNew Text New Text New Text New\nNew
-    Text New Text New Text New\nNew Text New Text New Text New \nNew Text New Text
-    New Text New "
+  m_Text: "\u9ED1\u6697\u6218\u795E\u9ED1\u6697\u6218\u795E\u9ED1\u6697\u6218\u795E\u9ED1\u6697\u6218\u795E\u9ED1\nNew
+    Text New Text New Text New\nNew Text New Text New Text New\nNew Text New Text
+    New Text New \nNew Text New Text New Text New \nNew Text New Text New Text New\nNew
+    Text New Text New Text New\nNew Text New Text New Text New\nNew Text New Text
+    New Text New \nNew Text New Text New Text New "
 --- !u!222 &1052405008
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13539,7 +13582,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1192463630}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 736863608}
+        m_TargetAssemblyTypeName: ChatWin, Assembly-CSharp
+        m_MethodName: OnClickSendBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1192463630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15049,6 +15104,7 @@ MonoBehaviour:
   infoWin: {fileID: 391329367}
   guideWin: {fileID: 859446581}
   strongWin: {fileID: 1895252488}
+  chatWin: {fileID: 736863608}
 --- !u!81 &1360933519
 AudioListener:
   m_ObjectHideFlags: 0
@@ -17878,7 +17934,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1557437994}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 736863608}
+        m_TargetAssemblyTypeName: ChatWin, Assembly-CSharp
+        m_MethodName: OnClickCloseBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1557437994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18340,7 +18408,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1603818939}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6810701}
+        m_TargetAssemblyTypeName: MainCityWin, Assembly-CSharp
+        m_MethodName: OnClickChatBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1603818939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20113,7 +20193,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1745383844}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 736863608}
+        m_TargetAssemblyTypeName: ChatWin, Assembly-CSharp
+        m_MethodName: OmClickChangeChatTypeBtn
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1745383844
 MonoBehaviour:
   m_ObjectHideFlags: 0
