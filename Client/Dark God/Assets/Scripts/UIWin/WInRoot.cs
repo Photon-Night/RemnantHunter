@@ -39,6 +39,11 @@ public class WinRoot : MonoBehaviour
         netSvc = null;
     }
 
+    protected bool GetWinState()
+    {
+        return gameObject.activeSelf;
+    }
+
     protected void SetActive(GameObject go, bool isActive = true)
     {
         go.SetActive(isActive);
@@ -106,12 +111,14 @@ public class WinRoot : MonoBehaviour
         listener.onClickDown = cb;
 
     }
+
     protected void OnClickUp(GameObject go, Action<PointerEventData> cb)
     {
         PEListener listener = GetOrAddComponect<PEListener>(go);
         listener.onClickUp = cb;
 
     }
+
     protected void OnDrag(GameObject go, Action<PointerEventData> cb)
     {
         PEListener listener = GetOrAddComponect<PEListener>(go);

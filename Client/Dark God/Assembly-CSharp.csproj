@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\Common\PEListener.cs" />
     <Compile Include="Assets\Scripts\Services\AudioService.cs" />
     <Compile Include="Assets\Scripts\Services\NetService.cs" />
+    <Compile Include="Assets\Scripts\UIWin\ChatWin.cs" />
     <Compile Include="Assets\Scripts\System\MainCitySystem.cs" />
     <Compile Include="Assets\Scripts\Common\PETools.cs" />
     <Compile Include="Assets\Scripts\Common\Message.cs" />
@@ -79,7 +80,6 @@
     <Compile Include="Assets\Scripts\GameRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
-    <Compile Include="Assets\Scripts\UIWin\ChatWin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />

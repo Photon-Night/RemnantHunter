@@ -58,6 +58,10 @@ namespace GameServer
                 case CMD.ReqStrong:
                     StrongSys.Instance.ReqStrong(pack);
                     break;
+
+                case CMD.SendChat:
+                    ChatSys.Instance.SendChat(pack);
+                    break;
             }
 
         }

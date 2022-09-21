@@ -111,6 +111,10 @@ public class NetService : MonoSingleton<NetService>
             case CMD.RspStrong:
                 MainCitySystem.Instance.RspStrong(msg);
                 break;
+            case CMD.PushChat:
+                MainCitySystem.Instance.PushChat(msg);
+                break;
+                
         }
 
     }

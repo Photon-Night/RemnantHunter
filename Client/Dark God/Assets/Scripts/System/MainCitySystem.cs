@@ -260,4 +260,10 @@ public class MainCitySystem : SystemRoot
     }
 
     #endregion
+    public void PushChat(GameMsg msg)
+    {
+        PushChat data = msg.pushCHat;
+        chatWin.AddChatMsg(data);
+
+    }
 }

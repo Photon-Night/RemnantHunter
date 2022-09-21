@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using PEProtocol;
 
 public class ChatWin : WinRoot
 {
@@ -12,12 +13,11 @@ public class ChatWin : WinRoot
     public InputField iptChat;
 
     private int chatType;
-    private string[] chatLst;
+    private List<string> chatLst = new List<string>();
 
     protected override void InitWin()
     {
         base.InitWin();
-
         chatType = 0;
     }
 
@@ -33,10 +33,10 @@ public class ChatWin : WinRoot
         if(chatType == 0)
         {
             string chatMsg = "";
-            //for (int i = 0; i < chatLst.Length; i++)
-            //{
-            //    chatMsg += chatLst[i] + "\n";
-            //}
+            for (int i = 0; i < chatLst.Count; i++)
+            {
+                chatMsg += chatLst[i] + "\n";
+            }
             SetText(txtChat, chatMsg);
 
             SetSprite(imgWorld, PathDefine.BtnType1);
@@ -77,12 +77,37 @@ public class ChatWin : WinRoot
             }
             else
             {
+                GameMsg msg = new GameMsg
+                {
+                    cmd = (int)CMD.SendChat
+                };
 
+                msg.sendChat = new SendChat
+                {
+                    chat = iptChat.text
+                };
+
+                netSvc.SendMessage(msg);
+
+                iptChat.text = "";
             }
         }
         else
         {
             GameRoot.AddTips("ÇëÊäÈëÎÄ×Ö");
+        }
+    }
+    public void AddChatMsg(PushChat data)
+    {
+        string chat = Message.Color(data.name, Message.ColorBlue) + ": " + data.chat;
+        chatLst.Add(chat);
+        if(chatLst.Count > 12)
+        {
+            chatLst.RemoveAt(0);
+        }
+        if (GetWinState())
+        {
+            RefreshUI();
         }
     }
 }

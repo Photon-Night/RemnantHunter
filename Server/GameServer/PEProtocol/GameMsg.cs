@@ -14,6 +14,8 @@ namespace PEProtocol
         public RspGuide rspGuide;
         public ReqStrong reqStrong;
         public RspStrong rspStrong;
+        public SendChat sendChat;
+        public PushChat pushCHat;
     }
 
     public class ServerCfg
@@ -83,6 +85,19 @@ namespace PEProtocol
     }
 
 
+    [System.Serializable]
+    public class SendChat
+    {
+        public string chat;
+    }
+
+    [System.Serializable]
+    public class PushChat
+    {
+        public string name;
+        public string chat;
+    }
+
 
     [System.Serializable]
     public class PlayerData
@@ -122,6 +137,9 @@ namespace PEProtocol
         RspGuide = 201,
         ReqStrong = 202,
         RspStrong = 203,
+
+        SendChat = 204,
+        PushChat = 205,
     }
 
     public enum ErrorCode

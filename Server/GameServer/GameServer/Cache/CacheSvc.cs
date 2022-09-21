@@ -84,5 +84,15 @@ namespace GameServer
             PECommon.Log("OffLine Result: SessionID:" + session.sessionID + "___Account Release:" + succ + "___Session Release:" + succ2);
             ge.Dispose();
         }
+
+        public List<ServerSession> GetOnlineSession()
+        {
+            List<ServerSession> sessions = new List<ServerSession>();
+            foreach (var item in onlineSession)
+            {
+                sessions.Add(item.Key);
+            }
+            return sessions;
+        }
     }
 }
