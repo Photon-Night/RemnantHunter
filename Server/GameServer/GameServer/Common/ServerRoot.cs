@@ -20,6 +20,7 @@ namespace GameServer
             GuideSys.Instance.Init();
             StrongSys.Instance.Init();
             ChatSys.Instance.Init();
+            BuySys.Instance.Init();
             DBMgr.Instance.Init();
         }
 

@@ -62,6 +62,7 @@
     <Compile Include="Service\NetSvc\NetSvc.cs" />
     <Compile Include="Service\NetSvc\ServerSession.cs" />
     <Compile Include="SIngleton.cs" />
+    <Compile Include="System\BuySys\BuySys.cs" />
     <Compile Include="System\ChatSys\ChatSys.cs" />
     <Compile Include="System\GuideSys\GuideSys.cs" />
     <Compile Include="System\LoginSys\LoginSys.cs" />

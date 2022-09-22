@@ -44,11 +44,14 @@ public class Message
 
     //Color
     public const string ColorRed = "<color=#FF0000FF>";
-    public const string ColorGreen = "<color=00FF00FF>";
+    public const string ColorGreen = "<color=#00FF00FF>";
     public const string ColorBlue = "<color=#00B4FFFF>";
     public const string ColorYellow = "<color=#FFFF00FF>";
     public const string ColorEnd = "</color>";
-    
+
+    public const int BuyCoin = 0;
+    public const int BuyPower = 1;
+
     public static string Color(string str, string color)
     {
         string result = color + str + ColorEnd;

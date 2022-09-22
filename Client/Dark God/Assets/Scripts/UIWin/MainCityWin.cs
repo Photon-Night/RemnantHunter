@@ -201,4 +201,16 @@ public class MainCityWin : WinRoot
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         MainCitySystem.Instance.chatWin.SetWinState();
     }
+
+    public void OnClickMakeBtn()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+        MainCitySystem.Instance.OpenBuyWin(Message.BuyCoin);
+    }
+
+    public void OnCLickBuyPowerBtn()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+        MainCitySystem.Instance.OpenBuyWin(Message.BuyPower);
+    }
 }

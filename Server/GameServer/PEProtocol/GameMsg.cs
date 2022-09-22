@@ -16,6 +16,8 @@ namespace PEProtocol
         public RspStrong rspStrong;
         public SendChat sendChat;
         public PushChat pushCHat;
+        public ReqBuy reqBuy;
+        public RspBuy rspBuy;
     }
 
     public class ServerCfg
@@ -98,6 +100,23 @@ namespace PEProtocol
         public string chat;
     }
 
+    [System.Serializable]
+    public class ReqBuy
+    {
+        public int buyType;
+        public int diamond;
+    }
+
+    [System.Serializable]
+    public class RspBuy
+    {
+        public int buyType;
+        public int diamond;
+        public int power;
+        public int coin;
+    }
+
+
 
     [System.Serializable]
     public class PlayerData
@@ -140,6 +159,9 @@ namespace PEProtocol
 
         SendChat = 204,
         PushChat = 205,
+
+        ReqBuy = 206,
+        RspBuy = 207,
     }
 
     public enum ErrorCode
@@ -155,6 +177,7 @@ namespace PEProtocol
         LackLevel,
         LackCoin,
         LackCrystal,
+        LackDiamond,
     }
 
 

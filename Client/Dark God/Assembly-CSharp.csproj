@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\GameRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
+    <Compile Include="Assets\Scripts\UIWin\BuyWin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />

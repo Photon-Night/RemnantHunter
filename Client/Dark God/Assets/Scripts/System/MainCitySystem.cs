@@ -13,6 +13,7 @@ public class MainCitySystem : SystemRoot
     public GuideWIn guideWin;
     public StrongWin strongWin;
     public ChatWin chatWin;
+    public BuyWin buyWin;
 
     private PlayerController pc = null;
     private Transform charShowCam = null;
@@ -259,6 +260,14 @@ public class MainCitySystem : SystemRoot
         mainCityWin.RefreshUI();
     }
 
+    #endregion
+
+    #region BuyWin
+    public void OpenBuyWin(int type)
+    {
+        buyWin.SetBuyType(type);
+        buyWin.SetWinState();
+    }
     #endregion
     public void PushChat(GameMsg msg)
     {

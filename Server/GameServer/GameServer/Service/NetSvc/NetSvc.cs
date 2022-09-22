@@ -62,6 +62,9 @@ namespace GameServer
                 case CMD.SendChat:
                     ChatSys.Instance.SendChat(pack);
                     break;
+                case CMD.ReqBuy:
+                    BuySys.Instance.ReqBuy(pack);
+                    break;
             }
 
         }
