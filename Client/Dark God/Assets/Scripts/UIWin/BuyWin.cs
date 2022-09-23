@@ -39,7 +39,7 @@ public class BuyWin : WinRoot
         msg.reqBuy = new ReqBuy
         {
             buyType = buyType,
-            diamond = pd.diamond
+            diamond = 100
         };
 
         netSvc.SendMessage(msg);

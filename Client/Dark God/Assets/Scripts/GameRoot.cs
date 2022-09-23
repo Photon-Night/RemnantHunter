@@ -87,5 +87,12 @@ public class GameRoot : MonoSingleton<GameRoot>
         playerData.strong = data.strong;
 
     }
+
+    public void SetPlayerDataByBuy(RspBuy data)
+    {
+        PlayerData.coin = data.coin;
+        PlayerData.diamond = data.diamond;
+        PlayerData.power = data.power;
+    }
   
 }

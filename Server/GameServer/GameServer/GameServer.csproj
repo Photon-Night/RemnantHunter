@@ -61,6 +61,7 @@
     <Compile Include="Service\CfgSvc\CfgSvc.cs" />
     <Compile Include="Service\NetSvc\NetSvc.cs" />
     <Compile Include="Service\NetSvc\ServerSession.cs" />
+    <Compile Include="Service\TimerSvc\TimerSvc.cs" />
     <Compile Include="SIngleton.cs" />
     <Compile Include="System\BuySys\BuySys.cs" />
     <Compile Include="System\ChatSys\ChatSys.cs" />
@@ -82,6 +83,9 @@
     </Reference>
     <Reference Include="PESocket">
       <HintPath>..\..\Libs\PESocket.dll</HintPath>
+    </Reference>
+    <Reference Include="PETimer">
+      <HintPath>..\..\Libs\PETimer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

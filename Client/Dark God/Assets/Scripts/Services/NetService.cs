@@ -91,6 +91,10 @@ public class NetService : MonoSingleton<NetService>
                 case ErrorCode.LackLevel:
                     GameRoot.AddTips("等级不足");
                     break;
+
+                case ErrorCode.LackDiamond:
+                    GameRoot.AddTips("钻石不足");
+                    break;
             }
             return;
         }
@@ -114,7 +118,9 @@ public class NetService : MonoSingleton<NetService>
             case CMD.PushChat:
                 MainCitySystem.Instance.PushChat(msg);
                 break;
-                
+            case CMD.RspBuy:
+                MainCitySystem.Instance.RspBuy(msg);
+                break;
         }
 
     }

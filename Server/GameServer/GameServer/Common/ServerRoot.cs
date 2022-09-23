@@ -14,20 +14,22 @@ namespace GameServer
             NetSvc.Instance.Init();
             CacheSvc.Instance.Init();
             CfgSvc.Instance.Init();
+            TimerSvc.Instance.Init();
             //业务层
             LoginSys.Instance.Init();
-
             GuideSys.Instance.Init();
             StrongSys.Instance.Init();
             ChatSys.Instance.Init();
-            BuySys.Instance.Init();
+            BuySys.Instance.Init(); 
             DBMgr.Instance.Init();
+         
         }
 
 
         public void Update()
         {
             NetSvc.Instance.Update();
+            TimerSvc.Instance.Update();
         }
 
         private int SessionID = 0;

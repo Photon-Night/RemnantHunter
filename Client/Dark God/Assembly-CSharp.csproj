@@ -53,6 +53,7 @@
     <UnityVersion>2020.3.21f1c1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\UIWin\BuyWin.cs" />
     <Compile Include="Assets\Scripts\Common\BaseData.cs" />
     <Compile Include="Assets\Scripts\UIWin\LoginWin.cs" />
     <Compile Include="Assets\Scripts\Common\MonoSingleton.cs" />
@@ -80,7 +81,7 @@
     <Compile Include="Assets\Scripts\GameRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
-    <Compile Include="Assets\Scripts\UIWin\BuyWin.cs" />
+    <Compile Include="Assets\Scripts\Services\TimerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />
@@ -91,6 +92,7 @@
     <None Include="Assets\Resources\ResCfgs\rdname.xml" />
     <None Include="Assets\Compond\Shader\MogoSkybox.shader" />
     <None Include="Assets\Compond\Shader\Mul-skybox.shader" />
+    <None Include="Assets\Scripts\Timer\PETimer.dll" />
     <None Include="Assets\Compond\Shader\MonsterShader.shader" />
     <None Include="Assets\Scripts\Net\PEProtocol.dll" />
     <None Include="Assets\Resources\ResCfgs\map.xml" />
@@ -330,6 +332,9 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PETimer">
+      <HintPath>Assets\Scripts\Timer\PETimer.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>D:\unity3d\2020.3.21f1c1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>

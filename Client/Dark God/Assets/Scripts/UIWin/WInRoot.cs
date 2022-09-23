@@ -10,6 +10,7 @@ public class WinRoot : MonoBehaviour
     protected ResService resSvc = null;
     protected AudioService audioSvc = null;
     protected NetService netSvc = null;
+    protected TimerService timerSvc = null;
     public void SetWinState(bool isActive = true)
     {
         if(this.gameObject.activeSelf != isActive)
@@ -30,6 +31,7 @@ public class WinRoot : MonoBehaviour
         resSvc = ResService.Instance;
         audioSvc = AudioService.Instance;
         netSvc = NetService.Instance;
+        timerSvc = TimerService.Instance;
     }
 
     protected virtual void ClearWin()

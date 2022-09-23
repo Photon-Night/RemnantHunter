@@ -46,10 +46,10 @@ public class MainCitySystem : SystemRoot
             mainCityWin.SetWinState();
 
             audioSvc.PlayerBGMusic(Message.BGMMainCity);
-            
+
             //TODO …Ë÷√»ÀŒÔ
 
-            if(charShowCam != null)
+            if (charShowCam != null)
             {
                 charShowCam.gameObject.SetActive(false);
             }
@@ -63,7 +63,7 @@ public class MainCitySystem : SystemRoot
     #region LoadSetting
     private void LoadPlayer(MapCfg mapData)
     {
-        GameObject player = resSvc.LoadPrefab(PathDefine.AssissnCityPlayerPrefab, true);        
+        GameObject player = resSvc.LoadPrefab(PathDefine.AssissnCityPlayerPrefab, true);
         player.transform.localEulerAngles = mapData.playerBornRote;
         player.transform.position = mapData.playerBornPos;
         player.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
@@ -73,13 +73,13 @@ public class MainCitySystem : SystemRoot
         pc = player.GetComponent<PlayerController>();
         agent = player.GetComponent<NavMeshAgent>();
         pc.Init();
-        
+
     }
 
     public void SetMoveDir(Vector2 dir)
     {
         StopNavTask();
-        if(dir == Vector2.zero)
+        if (dir == Vector2.zero)
         {
             pc.SetBlend(Message.BlendIdle);
         }
@@ -105,21 +105,21 @@ public class MainCitySystem : SystemRoot
     {
         StopNavTask();
 
-        if(charShowCam == null)
+        if (charShowCam == null)
         {
             charShowCam = GameObject.FindGameObjectWithTag("CharShowCam").transform;
         }
         charShowCam.localPosition = pc.transform.position + pc.transform.forward * 2.6f + new Vector3(0, 1.3f, 0);
-        charShowCam.transform.localEulerAngles = new Vector3(0,180 + pc.transform.localEulerAngles.y, 0);
+        charShowCam.transform.localEulerAngles = new Vector3(0, 180 + pc.transform.localEulerAngles.y, 0);
         charShowCam.localScale = Vector3.one;
 
         charShowCam.gameObject.SetActive(true);
         infoWin.SetWinState();
-    }    
+    }
 
     public void CloseInfoWin()
     {
-        if(charShowCam != null)
+        if (charShowCam != null)
         {
             charShowCam.gameObject.SetActive(false);
         }
@@ -130,14 +130,14 @@ public class MainCitySystem : SystemRoot
     #region GuideSetting
     public void RunTask(GuideCfg gc)
     {
-        if(gc != null)
+        if (gc != null)
         {
             currentTaskData = gc;
         }
-        if(currentTaskData.npcID != -1)
+        if (currentTaskData.npcID != -1)
         {
             float dis = Vector3.Distance(pc.transform.position, npcPosTrans[gc.npcID].position);
-            if(dis < 1f)
+            if (dis < 1f)
             {
                 isGuide = false;
                 agent.enabled = false;
@@ -164,7 +164,7 @@ public class MainCitySystem : SystemRoot
     private void IsArriveNavPos()
     {
         float dis = Vector3.Distance(pc.transform.position, npcPosTrans[currentTaskData.npcID].position);
-        if(dis <= 1f)
+        if (dis <= 1f)
         {
             StopNavTask();
 
@@ -174,19 +174,19 @@ public class MainCitySystem : SystemRoot
 
     private void StopNavTask()
     {
-        if(isGuide)
+        if (isGuide)
         {
             isGuide = false;
             agent.isStopped = true;
             agent.enabled = false;
             pc.SetBlend(Message.BlendIdle);
         }
-        
+
     }
 
     public void Update()
     {
-        if(isGuide)
+        if (isGuide)
         {
             IsArriveNavPos();
             pc.SetCam();
@@ -268,11 +268,21 @@ public class MainCitySystem : SystemRoot
         buyWin.SetBuyType(type);
         buyWin.SetWinState();
     }
+
+    public void RspBuy(GameMsg msg)
+    {
+        GameRoot.Instance.SetPlayerDataByBuy(msg.rspBuy);
+        mainCityWin.RefreshUI();
+        buyWin.SetWinState(false);
+    }
     #endregion
+
+    #region ChatWin
     public void PushChat(GameMsg msg)
     {
         PushChat data = msg.pushCHat;
         chatWin.AddChatMsg(data);
 
     }
+    #endregion
 }
