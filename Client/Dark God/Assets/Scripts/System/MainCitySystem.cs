@@ -285,4 +285,13 @@ public class MainCitySystem : SystemRoot
 
     }
     #endregion
+
+    #region Power
+    public void PushPower(GameMsg msg)
+    {
+        PushPower data = msg.pushPower;
+        GameRoot.Instance.SetPlayerDataByPower(data);
+        mainCityWin.RefreshUI();
+    }
+    #endregion
 }

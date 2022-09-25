@@ -121,6 +121,9 @@ public class NetService : MonoSingleton<NetService>
             case CMD.RspBuy:
                 MainCitySystem.Instance.RspBuy(msg);
                 break;
+            case CMD.PushPower:
+                MainCitySystem.Instance.PushPower(msg);
+                break;
         }
 
     }

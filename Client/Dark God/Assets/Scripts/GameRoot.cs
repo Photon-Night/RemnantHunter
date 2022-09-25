@@ -94,5 +94,10 @@ public class GameRoot : MonoSingleton<GameRoot>
         PlayerData.diamond = data.diamond;
         PlayerData.power = data.power;
     }
+
+    public void SetPlayerDataByPower(PushPower data)
+    {
+        PlayerData.power = data.power;
+    }
   
 }
