@@ -25,6 +25,9 @@ namespace PEProtocol
         {
             return 100 * lv * lv;
         }
+
+        public const int PowerAddSpace = 5;
+        public const int PowerAddCount = 2;
     }
 
    public enum LogType

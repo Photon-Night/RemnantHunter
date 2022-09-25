@@ -51,6 +51,7 @@
     <Compile Include="Cache\CacheSvc.cs" />
     <Compile Include="Common\Program.cs" />
     <Compile Include="DB\DBMgr.cs" />
+    <Compile Include="System\PowerSys\PowerSys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\ServerRoot.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

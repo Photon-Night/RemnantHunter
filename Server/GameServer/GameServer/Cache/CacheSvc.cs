@@ -62,7 +62,7 @@ namespace GameServer
         }
 
         public bool UpdatePlayerData(int id, PlayerData playerData)
-        {           
+        {
             return dbMgr.UpdatePlayerData(id, playerData);
         }
 
@@ -70,9 +70,9 @@ namespace GameServer
         {
             var ge = onlineAccDic.GetEnumerator();
             string _acc = "";
-            while(ge.MoveNext())
+            while (ge.MoveNext())
             {
-                if(ge.Current.Value == session)
+                if (ge.Current.Value == session)
                 {
                     _acc = ge.Current.Key;
                     break;
@@ -93,6 +93,10 @@ namespace GameServer
                 sessions.Add(item.Key);
             }
             return sessions;
+        }
+        public Dictionary<ServerSession, PlayerData> GetOnlineCache()
+        {
+            return onlineSession;
         }
     }
 }

@@ -18,6 +18,7 @@ namespace PEProtocol
         public PushChat pushCHat;
         public ReqBuy reqBuy;
         public RspBuy rspBuy;
+        public PushPower pushPower;
     }
 
     public class ServerCfg
@@ -116,6 +117,13 @@ namespace PEProtocol
         public int coin;
     }
 
+    [System.Serializable]
+    public class PushPower
+    {
+        public int power;
+    }
+
+
 
 
     [System.Serializable]
@@ -162,6 +170,8 @@ namespace PEProtocol
 
         ReqBuy = 206,
         RspBuy = 207,
+
+        PushPower = 208,
     }
 
     public enum ErrorCode
