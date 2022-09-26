@@ -123,9 +123,6 @@ namespace PEProtocol
         public int power;
     }
 
-
-
-
     [System.Serializable]
     public class PlayerData
     {
@@ -149,6 +146,8 @@ namespace PEProtocol
         public int guideid;
         public int[] strong;
         public int crystal;
+
+        public long time;
     }
 
     public enum CMD

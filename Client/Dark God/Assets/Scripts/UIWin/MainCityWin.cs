@@ -39,8 +39,8 @@ public class MainCityWin : WinRoot
         pointDis = Screen.height * 1f / Message.ScreenStandardHeight * Message.ScreenOPDis;
         defaultPos = imgDirBg.transform.position;
         SetActive(imgDirPoint, false);
-        RefreshUI();
         RegisterTouchEvts();
+        RefreshUI();
     }
 
     public void RefreshUI()

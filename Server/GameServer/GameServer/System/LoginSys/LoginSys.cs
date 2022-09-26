@@ -7,10 +7,12 @@ namespace GameServer
     {
 
         private CacheSvc cacheSvc;
+        private TimerSvc timerSvc;
         public void Init()
         {
             PECommon.Log("LoginSystem Loading");
             cacheSvc = CacheSvc.Instance;
+            timerSvc = TimerSvc.Instance;
         }
 
         public void ReqLogin(MsgPack pack)
@@ -34,6 +36,28 @@ namespace GameServer
                 }
                 else
                 {
+                    int power = _playerData.power;
+                    long nowTime = timerSvc.GetNowTime();
+                    long millisecond = nowTime - _playerData.time;
+                    int addPower = (int)(millisecond / (60 * 1000 * PECommon.PowerAddSpace)) * PECommon.PowerAddCount;
+                    if(addPower > 0)
+                    {
+                        int powerMax = PECommon.GetPowerLimit(_playerData.lv);
+                        if (_playerData.power < powerMax)
+                        {
+                            _playerData.power += addPower;
+                            if (_playerData.power > powerMax)
+                            {
+                                _playerData.power = powerMax;
+                            }
+                        }
+                    }
+
+                    if(power != _playerData.power)
+                    { 
+                        cacheSvc.UpdatePlayerData(_playerData.id, _playerData);
+                    }
+
                     msg.rspLogin = new RspLogin
                     {
                         playerData = _playerData
@@ -81,6 +105,16 @@ namespace GameServer
 
         public void ClearOffLine(ServerSession session)
         {
+            PlayerData pd = cacheSvc.GetPlayerDataBySession(session);
+            if (pd != null)
+            {
+                pd.time = timerSvc.GetNowTime();
+
+                if (!cacheSvc.UpdatePlayerData(pd.id, pd))
+                {
+                    PECommon.Log("Update Offline Time Error");
+                }
+            }
             cacheSvc.ReleaseCache(session);
         }
     }

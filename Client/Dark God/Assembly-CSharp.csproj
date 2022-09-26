@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\UIWin\CreateWin.cs" />
     <Compile Include="Assets\Scripts\UIWin\InfoWin.cs" />
     <Compile Include="Assets\Scripts\Net\ClientSession.cs" />
+    <Compile Include="Assets\Scripts\Services\TimerService.cs" />
     <Compile Include="Assets\Scripts\System\SystemRoot.cs" />
     <Compile Include="Assets\Scripts\Common\PEListener.cs" />
     <Compile Include="Assets\Scripts\Services\AudioService.cs" />
@@ -81,7 +82,6 @@
     <Compile Include="Assets\Scripts\GameRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
-    <Compile Include="Assets\Scripts\Services\TimerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />

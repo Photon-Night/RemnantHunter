@@ -25,9 +25,9 @@ namespace GameServer
 
             pt.SetHandle((Action<int> cb, int tid) =>
             {
-                if(cb != null)
+                if (cb != null)
                 {
-                    lock(tpQueLock)
+                    lock (tpQueLock)
                     {
                         tpQue.Enqueue(new TaskPack(tid, cb));
                     }
@@ -37,17 +37,17 @@ namespace GameServer
 
         public void Update()
         {
-            if(tpQue.Count > 0)
+            if (tpQue.Count > 0)
             {
                 TaskPack tp = null;
-                lock(tpQueLock)
+                lock (tpQueLock)
                 {
                     tp = tpQue.Dequeue();
                 }
 
-                if(tp != null)
+                if (tp != null)
                 {
-                    tp.cb(tp.tid); 
+                    tp.cb(tp.tid);
                 }
             }
         }
@@ -55,6 +55,10 @@ namespace GameServer
         public int AddTimeTask(Action<int> callback, double delay, PETimeUnit timeUnit = PETimeUnit.Millisecond, int count = 1)
         {
             return pt.AddTimeTask(callback, delay, timeUnit, count);
+        }
+        public long GetNowTime()
+        {
+            return (long)pt.GetMillisecondsTime();
         }
     }
 
@@ -68,4 +72,5 @@ namespace GameServer
             this.cb = cb;
         }
     }
+
 }

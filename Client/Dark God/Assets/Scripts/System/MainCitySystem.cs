@@ -291,7 +291,10 @@ public class MainCitySystem : SystemRoot
     {
         PushPower data = msg.pushPower;
         GameRoot.Instance.SetPlayerDataByPower(data);
-        mainCityWin.RefreshUI();
+        if (mainCityWin.gameObject.activeSelf)
+        {
+            mainCityWin.RefreshUI();
+        }
     }
     #endregion
 }

@@ -10,9 +10,11 @@ namespace GameServer
     class PowerSys : Singleton<PowerSys>
     {
         private CacheSvc cacheSvc = null;
+        private TimerSvc timerSvc = null;
         public void Init()
         {
             cacheSvc = CacheSvc.Instance;
+            timerSvc = TimerSvc.Instance;
             TimerSvc.Instance.AddTimeTask(CalcPowerAdd, PECommon.PowerAddSpace, PETimeUnit.Minute, 0);
             PECommon.Log("PowerSystem Loading");
         }
@@ -41,6 +43,7 @@ namespace GameServer
                 else
                 {
                     _data.power += PECommon.PowerAddCount;
+                    _data.time = timerSvc.GetNowTime();
                     if(_data.power > powerMax)
                     {
                         _data.power = powerMax;
@@ -58,6 +61,7 @@ namespace GameServer
                     _session.SendMsg(msg);
                 }
             }
+            e.Dispose();
         }
     }
 }

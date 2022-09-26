@@ -69,7 +69,8 @@ namespace GameServer
                             pierce = reader.GetInt32("pierce"),
                             critical = reader.GetInt32("critical"),
                             guideid = reader.GetInt32("guideid"),
-                            crystal = reader.GetInt32("crystal"), 
+                            crystal = reader.GetInt32("crystal"),
+                            time = reader.GetInt64("time"),
                         };
 
                         string[] strong_strArr = reader.GetString("strong").Split('#');
@@ -128,6 +129,7 @@ namespace GameServer
 
                         strong = new int[6],
                         crystal = 500,
+                        time = TimerSvc.Instance.GetNowTime(),
                     };
 
                     playerData.id = InsertNewAccData(acc, pas, playerData);
@@ -151,7 +153,7 @@ namespace GameServer
                     "ap=@ap,addef=@addef,apdef=@apdef," +
                     "dodge=@dodge,pierce=@pierce," +
                     "critical=@critical, guideid=@guideid," +
-                    "strong=@strong,crystal=@crystal", conn);
+                    "strong=@strong,crystal=@crystal,time=@time", conn);
                 cmd.Parameters.AddWithValue("acc", acc);
                 cmd.Parameters.AddWithValue("pas", pas);
                 cmd.Parameters.AddWithValue("name", pd.name);
@@ -171,6 +173,7 @@ namespace GameServer
                 cmd.Parameters.AddWithValue("critical", pd.critical);
                 cmd.Parameters.AddWithValue("guideid", pd.guideid);
                 cmd.Parameters.AddWithValue("crystal", pd.crystal);
+                cmd.Parameters.AddWithValue("time", pd.time);
                 int[] _strongArr = pd.strong;
                 string strongDBInfo = "";
                 for (int i = 0; i < _strongArr.Length; i++)
@@ -228,7 +231,7 @@ namespace GameServer
                "coin=@coin,diamond=@diamond,hp=@hp," +
                "ad=@ad,ap=@ap,addef=@addef,apdef=@apdef," +
                "dodge=@dodge,pierce=@pierce,critical=@critical," +
-               "guideid=@guideid,strong=@strong,crystal=@crystal" +
+               "guideid=@guideid,strong=@strong,crystal=@crystal,time=@time" +
                " where id =@id", conn);
 
                 cmd.Parameters.AddWithValue("id", id);
@@ -258,6 +261,7 @@ namespace GameServer
                 }
 
                 cmd.Parameters.AddWithValue("strong", strongDBInfo);
+                cmd.Parameters.AddWithValue("time", pd.time);
                 //TOADD Others
                 cmd.ExecuteNonQuery();
             }
