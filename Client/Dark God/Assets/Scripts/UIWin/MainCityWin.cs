@@ -208,9 +208,15 @@ public class MainCityWin : WinRoot
         MainCitySystem.Instance.OpenBuyWin(Message.BuyCoin);
     }
 
-    public void OnCLickBuyPowerBtn()
+    public void OnClickBuyPowerBtn()
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         MainCitySystem.Instance.OpenBuyWin(Message.BuyPower);
+    }
+
+    public void OnClickTaskBtn()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+        MainCitySystem.Instance.OpenTaskWin();
     }
 }

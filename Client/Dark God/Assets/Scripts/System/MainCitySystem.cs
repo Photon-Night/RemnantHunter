@@ -14,6 +14,7 @@ public class MainCitySystem : SystemRoot
     public StrongWin strongWin;
     public ChatWin chatWin;
     public BuyWin buyWin;
+    public TaskWin taskWin;
 
     private PlayerController pc = null;
     private Transform charShowCam = null;
@@ -295,6 +296,13 @@ public class MainCitySystem : SystemRoot
         {
             mainCityWin.RefreshUI();
         }
+    }
+    #endregion
+
+    #region Task
+    public void OpenTaskWin()
+    {
+        taskWin.SetWinState();
     }
     #endregion
 }

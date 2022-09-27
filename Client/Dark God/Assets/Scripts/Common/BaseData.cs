@@ -38,3 +38,10 @@ public class StrongCfg : BaseData<StrongCfg>
     public int crystal;
 }
 
+public class TaskRewardData : BaseData<TaskRewardData>
+{
+    public int prgs;
+    public bool taked;
+}
+
+
