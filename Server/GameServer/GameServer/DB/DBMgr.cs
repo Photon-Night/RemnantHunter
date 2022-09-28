@@ -93,6 +93,24 @@ namespace GameServer
 
                         playerData.strong = strongArr;
 
+                        string[] task_strArr = reader.GetString("task").Split('#');
+                        playerData.task = new string[task_strArr.Length];
+                        for (int i = 0; i < task_strArr.Length; i++)
+                        {
+                            if (strong_strArr[i] == "")
+                            {
+                                continue;
+                            }
+                            else if (task_strArr[i].Length >= 5)
+                            {
+                                playerData.task[i] = task_strArr[i];
+                            }
+                            else
+                            {
+                                PECommon.Log("Data Error",LogType.Error);
+                            }
+                        }
+
                     }
                 }
             }
@@ -130,7 +148,17 @@ namespace GameServer
                         strong = new int[6],
                         crystal = 500,
                         time = TimerSvc.Instance.GetNowTime(),
+                        task = new string[CfgSvc.Instance.GetTaskConut()],
+
                     };
+
+                    string[] _taskArr = playerData.task;
+                    PECommon.Log(_taskArr.Length + "");
+                    for (int i = 0; i < _taskArr.Length; i++)
+                    {
+                        _taskArr[i] = (i+1) + "|0|0";
+                    }
+
 
                     playerData.id = InsertNewAccData(acc, pas, playerData);
                 }
@@ -153,7 +181,7 @@ namespace GameServer
                     "ap=@ap,addef=@addef,apdef=@apdef," +
                     "dodge=@dodge,pierce=@pierce," +
                     "critical=@critical, guideid=@guideid," +
-                    "strong=@strong,crystal=@crystal,time=@time", conn);
+                    "strong=@strong,crystal=@crystal,time=@time,task=@task", conn);
                 cmd.Parameters.AddWithValue("acc", acc);
                 cmd.Parameters.AddWithValue("pas", pas);
                 cmd.Parameters.AddWithValue("name", pd.name);
@@ -183,6 +211,16 @@ namespace GameServer
                 }
 
                 cmd.Parameters.AddWithValue("strong", strongDBInfo);
+
+                string[] _taskArr = pd.task;
+                string taskDBInfo = "";
+                for (int i = 0; i < _taskArr.Length; i++)
+                {
+                    taskDBInfo += _taskArr[i];
+                    taskDBInfo += "#";
+                }
+                cmd.Parameters.AddWithValue("task", taskDBInfo);
+
                 cmd.ExecuteNonQuery();
                 _id = (int)cmd.LastInsertedId;
             }
@@ -231,7 +269,8 @@ namespace GameServer
                "coin=@coin,diamond=@diamond,hp=@hp," +
                "ad=@ad,ap=@ap,addef=@addef,apdef=@apdef," +
                "dodge=@dodge,pierce=@pierce,critical=@critical," +
-               "guideid=@guideid,strong=@strong,crystal=@crystal,time=@time" +
+               "guideid=@guideid,strong=@strong,crystal=@crystal," +
+               "time=@time,task=@task" + 
                " where id =@id", conn);
 
                 cmd.Parameters.AddWithValue("id", id);
@@ -261,7 +300,18 @@ namespace GameServer
                 }
 
                 cmd.Parameters.AddWithValue("strong", strongDBInfo);
+
                 cmd.Parameters.AddWithValue("time", pd.time);
+
+                string[] _taskArr = pd.task;
+                string taskDBInfo = "";
+                for (int i = 0; i < _taskArr.Length; i++)
+                {
+                    taskDBInfo += _taskArr[i];
+                    taskDBInfo += '#';
+                }
+
+                cmd.Parameters.AddWithValue("task", taskDBInfo);
                 //TOADD Others
                 cmd.ExecuteNonQuery();
             }

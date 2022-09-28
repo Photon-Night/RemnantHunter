@@ -15,6 +15,7 @@ public class ResService : MonoSingleton<ResService>
         InitMapCfg(PathDefine.MapCfg);
         InitGuideCfg(PathDefine.GuideCfg);
         InitStrongCfg(PathDefine.StrongCfg);
+        InitTaskCfg(PathDefine.TaskCfg);
     }
 
     #region SceneLoad
@@ -278,6 +279,69 @@ public class ResService : MonoSingleton<ResService>
     }
     #endregion
 
+
+    #region TaskData
+    private Dictionary<int, TaskCfg> taskDic = new Dictionary<int, TaskCfg>();
+    private void InitTaskCfg(string path)
+    {
+        TextAsset xml = Resources.Load<TextAsset>(path);
+        if(xml == null)
+        {
+            PECommon.Log("xml file:" + path + "is not existed", PEProtocol.LogType.Error);
+        }
+        else
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml.text);
+            XmlNodeList nodeLst = doc.SelectSingleNode("root").ChildNodes;
+
+            for (int i = 0; i < nodeLst.Count; i++)
+            {
+                XmlElement ele = nodeLst[i] as XmlElement;
+                if(ele.GetAttributeNode("ID") == null)
+                {
+                    continue;
+                }
+
+                int id = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
+                TaskCfg task = new TaskCfg
+                { ID = id};
+
+                foreach (XmlElement e in ele)
+                {
+                    switch (e.Name)
+                    {
+                        case "taskName":
+                            task.taskName = e.InnerText;
+                            break;
+                        case "count":
+                            task.count = int.Parse(e.InnerText);
+                            break;
+                        case "exp":
+                            task.exp = int.Parse(e.InnerText);
+                            break;
+                        case "coin":
+                            task.coin = int.Parse(e.InnerText);
+                            break;
+                    }
+                }
+
+                taskDic.Add(id, task);
+            }
+        }
+    }
+
+    public TaskCfg GetTaskCfgData(int id)
+    {
+        TaskCfg data = null;
+        if(taskDic.TryGetValue(id, out data))
+        {
+            return null;
+        }
+        else
+        return data;
+    }
+    #endregion
     #region StrongData
     private Dictionary<int, Dictionary<int, StrongCfg>> strongDic = new Dictionary<int, Dictionary<int, StrongCfg>>();
     private void InitStrongCfg(string path)

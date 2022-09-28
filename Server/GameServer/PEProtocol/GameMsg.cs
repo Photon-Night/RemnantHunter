@@ -148,6 +148,8 @@ namespace PEProtocol
         public int crystal;
 
         public long time;
+
+        public string[] task;
     }
 
     public enum CMD

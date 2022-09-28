@@ -23,12 +23,12 @@ public class GameRoot : MonoSingleton<GameRoot>
         ResService.Instance.ServiceInit();
         AudioService.Instance.ServiceInit();
 
-        MainCitySystem mainCitySys = GetComponent<MainCitySystem>();
-        mainCitySys.InitSystem();
+        MainCitySystem.Instance.InitSystem();
 
-        LoginSystem loginSys = GetComponent<LoginSystem>();
-        loginSys.InitSystem();
-        loginSys.OnLoginEnter();
+        LoginSystem.Instance.InitSystem();
+        LoginSystem.Instance.OnLoginEnter();
+
+        TaskSystem.Instance.InitSystem();
     }
 
      private void ClearUIRoot()

@@ -4,9 +4,8 @@ using UnityEngine;
 using PEProtocol;
 using UnityEngine.AI;
 
-public class MainCitySystem : SystemRoot
+public class MainCitySystem : SystemRoot<MainCitySystem>
 {
-    public static MainCitySystem Instance = null;
 
     public MainCityWin mainCityWin;
     public InfoWin infoWin;
@@ -29,8 +28,6 @@ public class MainCitySystem : SystemRoot
     public override void InitSystem()
     {
         base.InitSystem();
-
-        Instance = this;
         PECommon.Log("MainCitySystem Loading");
     }
     public void EnterMainCity()

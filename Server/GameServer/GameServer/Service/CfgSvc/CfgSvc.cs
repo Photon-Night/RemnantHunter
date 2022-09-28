@@ -11,10 +11,13 @@ namespace GameServer
     class CfgSvc : Singleton<CfgSvc>
     {
         private Dictionary<int, GuideCfg> guideTaskDic = new Dictionary<int, GuideCfg>();
+        private Dictionary<int, Dictionary<int, StrongCfg>> strongDic = new Dictionary<int, Dictionary<int, StrongCfg>>();
+        private Dictionary<int, TaskCfg> taskDic = new Dictionary<int, TaskCfg>();
         public void Init()
         {
             InitGuideCfg();
             InitStrongCfg();
+            InitTaskCfg();
             PECommon.Log("CfgService Loading");
         }
         private void InitGuideCfg()
@@ -25,6 +28,7 @@ namespace GameServer
             if (doc == null)
             {
                 PECommon.Log("Guide cfg is not exist");
+                return;
             }
             XmlNodeList nodLst = doc.SelectSingleNode("root").ChildNodes;
             for (int i = 0; i < nodLst.Count; i++)
@@ -66,14 +70,15 @@ namespace GameServer
             }
         }
 
-        private Dictionary<int, Dictionary<int, StrongCfg>> strongDic = new Dictionary<int, Dictionary<int, StrongCfg>>();
+
         private void InitStrongCfg()
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(@"D:\UnityProject\Dark God\Dark-God\Client\Dark God\Assets\Resources\ResCfgs\strong.xml");
-            if(doc == null)
+            if (doc == null)
             {
                 PECommon.Log("strong cfg is not exist");
+                return;
             }
             XmlNodeList nodLst = doc.SelectSingleNode("root").ChildNodes;
             for (int i = 0; i < nodLst.Count; i++)
@@ -144,7 +149,70 @@ namespace GameServer
             }
             return null;
         }
+
+        private void InitTaskCfg()
+        {
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(@"D:\UnityProject\Dark God\Dark-God\Client\Dark God\Assets\Resources\ResCfgs\task.xml");
+            if (doc == null)
+            {
+                PECommon.Log("Task cfg is not exist");
+                return;
+            }
+            XmlNodeList nodeLst = doc.SelectSingleNode("root").ChildNodes;
+
+            for (int i = 0; i < nodeLst.Count; i++)
+            {
+                XmlElement ele = nodeLst[i] as XmlElement;
+                if (ele.GetAttributeNode("ID") == null)
+                {
+                    continue;
+                }
+
+                int id = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
+                TaskCfg task = new TaskCfg
+                { ID = id };
+
+                foreach (XmlElement e in ele)
+                {
+                    switch (e.Name)
+                    {
+                        case "taskName":
+                            task.taskName = e.InnerText;
+                            break;
+                        case "count":
+                            task.count = int.Parse(e.InnerText);
+                            break;
+                        case "exp":
+                            task.exp = int.Parse(e.InnerText);
+                            break;
+                        case "coin":
+                            task.coin = int.Parse(e.InnerText);
+                            break;
+                    }
+                }
+
+                taskDic.Add(id, task);
+            }
+        }
+        public TaskCfg GetTaskCfgData(int id)
+        {
+            TaskCfg data = null;
+            if (taskDic.TryGetValue(id, out data))
+            {
+                return null;
+            }
+            else
+                return data;
+        }
+
+        public int GetTaskConut()
+        {
+            return taskDic.Count;
+        }
     }
+}
 
     public class BaseData<T>
     {
@@ -166,9 +234,20 @@ namespace GameServer
         public int coin;
         public int crystal;
     }
+    public class TaskRewardData : BaseData<TaskRewardData>
+    {
+        public int prgs;
+        public bool taked;
+    }
+    public class TaskCfg : BaseData<TaskCfg>
+    {
+        public string taskName;
+        public int count;
+        public int coin;
+        public int exp;
+    }
 
 
 
 
 
-}

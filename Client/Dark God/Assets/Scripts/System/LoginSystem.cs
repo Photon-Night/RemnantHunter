@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using PEProtocol;
 
-public class LoginSystem : SystemRoot
+public class LoginSystem : SystemRoot<LoginSystem>
 {
-    public static LoginSystem Instance = null;
-
     public LoginWin loginWin;
     public CreateWin createWin;
     public override void InitSystem()
     {
         base.InitSystem();
         PECommon.Log("LoginSystem Loading");
-        Instance = this;
     }
 
     public void OnLoginEnter()

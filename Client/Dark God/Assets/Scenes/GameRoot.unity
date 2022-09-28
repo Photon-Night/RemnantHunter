@@ -18131,6 +18131,7 @@ GameObject:
   - component: {fileID: 1360933516}
   - component: {fileID: 1360933517}
   - component: {fileID: 1360933518}
+  - component: {fileID: 1360933520}
   - component: {fileID: 1360933519}
   m_Layer: 0
   m_Name: GameRoot
@@ -18164,6 +18165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88d87c73d9dcf514185e90ada7b34112, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  global: 1
   loginWin: {fileID: 58443712}
   createWin: {fileID: 1695325312}
 --- !u!114 &1360933514
@@ -18239,6 +18241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44e4d8f777ddea043abd656beddcd7c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  global: 1
   mainCityWin: {fileID: 6810701}
   infoWin: {fileID: 391329367}
   guideWin: {fileID: 859446581}
@@ -18254,6 +18257,19 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1360933511}
   m_Enabled: 1
+--- !u!114 &1360933520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360933511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ba337a4c7bc784d957cb338be4e538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  global: 1
 --- !u!1 &1387538135
 GameObject:
   m_ObjectHideFlags: 0

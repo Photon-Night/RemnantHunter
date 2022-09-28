@@ -44,4 +44,13 @@ public class TaskRewardData : BaseData<TaskRewardData>
     public bool taked;
 }
 
+public class TaskCfg : BaseData<TaskCfg>
+{
+    public string taskName;
+    public int count;
+    public int coin;
+    public int exp;
+}
+
+
 
