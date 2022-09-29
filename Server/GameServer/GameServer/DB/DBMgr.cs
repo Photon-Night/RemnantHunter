@@ -94,10 +94,10 @@ namespace GameServer
                         playerData.strong = strongArr;
 
                         string[] task_strArr = reader.GetString("task").Split('#');
-                        playerData.task = new string[task_strArr.Length];
-                        for (int i = 0; i < task_strArr.Length; i++)
+                        playerData.task = new string[task_strArr.Length - 1];
+                        for (int i = 0; i < playerData.task.Length; i++)
                         {
-                            if (strong_strArr[i] == "")
+                            if (task_strArr[i] == "")
                             {
                                 continue;
                             }
@@ -153,7 +153,6 @@ namespace GameServer
                     };
 
                     string[] _taskArr = playerData.task;
-                    PECommon.Log(_taskArr.Length + "");
                     for (int i = 0; i < _taskArr.Length; i++)
                     {
                         _taskArr[i] = (i+1) + "|0|0";
@@ -219,6 +218,7 @@ namespace GameServer
                     taskDBInfo += _taskArr[i];
                     taskDBInfo += "#";
                 }
+
                 cmd.Parameters.AddWithValue("task", taskDBInfo);
 
                 cmd.ExecuteNonQuery();
@@ -305,11 +305,13 @@ namespace GameServer
 
                 string[] _taskArr = pd.task;
                 string taskDBInfo = "";
+                
                 for (int i = 0; i < _taskArr.Length; i++)
                 {
                     taskDBInfo += _taskArr[i];
-                    taskDBInfo += '#';
+                    taskDBInfo += "#";
                 }
+
 
                 cmd.Parameters.AddWithValue("task", taskDBInfo);
                 //TOADD Others

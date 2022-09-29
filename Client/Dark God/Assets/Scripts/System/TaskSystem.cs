@@ -5,11 +5,15 @@ using UnityEngine;
 
 public class TaskSystem : SystemRoot<TaskSystem>
 {
+   
 
     public override void InitSystem()
     {
         base.InitSystem();
         PECommon.Log("TaskSystem Loading");
+        
     }
+
+   
 
 }

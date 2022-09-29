@@ -15,10 +15,12 @@ namespace GameServer
         private Dictionary<int, TaskCfg> taskDic = new Dictionary<int, TaskCfg>();
         public void Init()
         {
+            PECommon.Log("CfgService Loading");
+            PECommon.Log("//--------------------Cfg Loading--------------------//");
             InitGuideCfg();
             InitStrongCfg();
             InitTaskCfg();
-            PECommon.Log("CfgService Loading");
+            PECommon.Log("//--------------------Load Complete--------------------//");
         }
         private void InitGuideCfg()
         {
@@ -56,6 +58,8 @@ namespace GameServer
                 }
                 guideTaskDic.Add(ID, gc);
             }
+
+            PECommon.Log("Load Guide Data " + guideTaskDic.Count);
         }
         public GuideCfg GetGuideCfgData(int id)
         {
@@ -135,6 +139,8 @@ namespace GameServer
                 }
 
             }
+
+            PECommon.Log("Load Strong Data " + strongDic.Count);
         }
         public StrongCfg GetStrongCfgData(int pos, int starLv)
         {
@@ -195,6 +201,8 @@ namespace GameServer
 
                 taskDic.Add(id, task);
             }
+
+            PECommon.Log("Load Task Data " + taskDic.Count);
         }
         public TaskCfg GetTaskCfgData(int id)
         {

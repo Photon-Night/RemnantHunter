@@ -42,6 +42,6 @@ public class PathDefine
     public const string ItemArrorBG = "ResImages/btnstrong";
     public const string ItemPlatBG = "ResImages/charbg3";
 
-
+    public const string TaskItem = "PrefabUI/TaskItem";
 
 }
