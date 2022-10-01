@@ -95,6 +95,10 @@ public class NetService : MonoSingleton<NetService>
                 case ErrorCode.LackDiamond:
                     GameRoot.AddTips("钻石不足");
                     break;
+
+                case ErrorCode.ClientDataError:
+                    GameRoot.AddTips("客户端数据异常");
+                    break;
             }
             return;
         }
@@ -123,6 +127,9 @@ public class NetService : MonoSingleton<NetService>
                 break;
             case CMD.PushPower:
                 MainCitySystem.Instance.PushPower(msg);
+                break;
+            case CMD.RspTakeTaskReward:
+                TaskSystem.Instance.RspTakeTaskReward(msg);
                 break;
         }
 

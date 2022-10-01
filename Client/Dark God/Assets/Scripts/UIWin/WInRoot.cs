@@ -136,4 +136,16 @@ public class WinRoot : MonoBehaviour
             img.sprite = sp;
         }
     }
+
+    protected Transform GetTransform(Transform parent, string name)
+    {
+        if(parent != null)
+        {
+            return parent.Find(name);
+        }
+        else
+        {
+            return transform.Find(name);
+        }
+    }
 }

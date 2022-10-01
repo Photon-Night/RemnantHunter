@@ -19,6 +19,8 @@ namespace PEProtocol
         public ReqBuy reqBuy;
         public RspBuy rspBuy;
         public PushPower pushPower;
+        public ReqTakeTaskReward reqTakeTaskReward;
+        public RspTakeTaskReward rspTakeTaskReward;
     }
 
     public class ServerCfg
@@ -124,6 +126,21 @@ namespace PEProtocol
     }
 
     [System.Serializable]
+    public class ReqTakeTaskReward
+    {
+        public int rid;
+    }
+
+    [System.Serializable]
+    public class RspTakeTaskReward
+    {
+        public int coin;
+        public int exp;
+        public int lv;
+        public string[] taskArr;
+    }
+
+    [System.Serializable]
     public class PlayerData
     {
         public int id;
@@ -173,6 +190,8 @@ namespace PEProtocol
         RspBuy = 207,
 
         PushPower = 208,
+        ReqTakeTaskReward = 209,
+        RspTakeTaskReward = 210,
     }
 
     public enum ErrorCode
@@ -189,6 +208,7 @@ namespace PEProtocol
         LackCoin,
         LackCrystal,
         LackDiamond,
+        ClientDataError,
     }
 
 

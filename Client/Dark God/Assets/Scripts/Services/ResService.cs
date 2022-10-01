@@ -326,7 +326,7 @@ public class ResService : MonoSingleton<ResService>
                     }
                 }
 
-                taskDic.Add(id, task);
+                taskDic.Add(task.ID, task);
             }
         }
     }
@@ -336,10 +336,10 @@ public class ResService : MonoSingleton<ResService>
         TaskCfg data = null;
         if(taskDic.TryGetValue(id, out data))
         {
-            return null;
+            return data;
         }
         else
-        return data;
+        return null;
     }
     #endregion
     #region StrongData

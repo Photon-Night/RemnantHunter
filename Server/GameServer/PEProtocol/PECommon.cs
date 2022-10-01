@@ -26,6 +26,30 @@ namespace PEProtocol
             return 100 * lv * lv;
         }
 
+        public static void CalcExp(PlayerData pd, int addExp)
+        {
+            int currentLv = pd.lv;
+            int currentExp = pd.exp;
+            int addRestExp = addExp;
+
+            while (true)
+            {
+                int upNeedExp = GetExpUpValByLv(currentLv) - currentExp;
+                if (addRestExp >= upNeedExp)
+                {
+                    currentLv += 1;
+                    currentExp = 0;
+                    addRestExp -= upNeedExp;
+                }
+                else
+                {
+                    pd.lv = currentLv;
+                    pd.exp = currentExp + addRestExp;
+                    break;
+                }
+            }
+        }
+
         public const int PowerAddSpace = 2;
         public const int PowerAddCount = 2;
     }

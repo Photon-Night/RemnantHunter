@@ -36,7 +36,7 @@ namespace GameServer
                 pd.guideid += 1;
 
                 pd.coin += gc.coin;
-                CalcExp(pd, gc.exp);
+                PECommon.CalcExp(pd, gc.exp);
 
                 if(!cacheSvc.UpdatePlayerData(pd.id, pd))
                 {
@@ -64,29 +64,7 @@ namespace GameServer
 
         }
 
-        private void CalcExp(PlayerData pd, int addExp)
-        {
-            int currentLv = pd.lv;
-            int currentExp = pd.exp;
-            int addRestExp = addExp;
-
-            while(true)
-            {
-                int upNeedExp = PECommon.GetExpUpValByLv(currentLv) - currentExp;
-                if(addRestExp >= upNeedExp)
-                {
-                    currentLv += 1;
-                    currentExp = 0;
-                    addRestExp -= upNeedExp;
-                }
-                else   
-                {
-                    pd.lv = currentLv;
-                    pd.exp = currentExp + addRestExp;
-                    break;
-                }
-            }
-        }
+       
     }
 
 }

@@ -69,6 +69,7 @@
     <Compile Include="System\GuideSys\GuideSys.cs" />
     <Compile Include="System\LoginSys\LoginSys.cs" />
     <Compile Include="System\StrongSys\StrongSys.cs" />
+    <Compile Include="System\TaskSys\TaskSys.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

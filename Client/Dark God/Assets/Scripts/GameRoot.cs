@@ -99,5 +99,13 @@ public class GameRoot : MonoSingleton<GameRoot>
     {
         PlayerData.power = data.power;
     }
+
+    public void SetPlayerDataByTakeTaskReward(RspTakeTaskReward data)
+    {
+        PlayerData.coin = data.coin;
+        PlayerData.lv = data.lv;
+        PlayerData.exp = data.exp;
+        PlayerData.task = data.taskArr;
+    }
   
 }
