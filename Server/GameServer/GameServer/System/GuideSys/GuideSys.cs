@@ -19,7 +19,7 @@ namespace GameServer
             PECommon.Log("GuideSystem Loading");
         }
 
-        public void ResqGuide(MsgPack pack)
+        public void ReqGuide(MsgPack pack)
         {
             ReqGuide data = pack.msg.reqGuide;
 
@@ -33,6 +33,11 @@ namespace GameServer
 
             if (pd.guideid == data.guideid)
             {
+                if(pd.guideid == 1001)
+                {
+                    TaskSys.Instance.CalcTaskPrgs(pd, 1);
+                }
+
                 pd.guideid += 1;
 
                 pd.coin += gc.coin;

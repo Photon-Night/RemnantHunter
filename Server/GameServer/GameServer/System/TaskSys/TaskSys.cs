@@ -37,7 +37,7 @@ namespace GameServer
                 trd.taked = true;
                 CalcTaskArr(pd, trd);
 
-                if (cacheSvc.UpdatePlayerData(pd.id, pd))
+                if (!cacheSvc.UpdatePlayerData(pd.id, pd))
                 {
                     msg.err = (int)ErrorCode.UpdateDBError;
                 }
@@ -107,6 +107,30 @@ namespace GameServer
             }
             if(index != -1)
             pd.task[index] = result;
+        }
+
+        public void CalcTaskPrgs(PlayerData pd, int tid)
+        {
+            TaskCfg tc = cfgSvc.GetTaskCfgData(tid);
+            TaskRewardData trd = CalcTaskRewardData(pd, tid);
+
+            if (trd.prgs < tc.count)
+            { 
+                trd.prgs += 1;
+                CalcTaskArr(pd, trd);
+
+                ServerSession session = cacheSvc.GetOnlineSessionByID(pd.id);
+                GameMsg msg = new GameMsg
+                {
+                    cmd = (int)CMD.PushTaskPrgs,
+                    pushTaskPrgs = new PushTaskPrgs
+                    {
+                        taskArr = pd.task,
+                    }
+                };
+
+                session.SendMsg(msg);
+            }
         }
     }
 }

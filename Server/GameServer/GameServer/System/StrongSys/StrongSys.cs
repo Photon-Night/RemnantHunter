@@ -72,6 +72,8 @@ namespace GameServer
 
                     strong = pd.strong,
                 };
+
+                TaskSys.Instance.CalcTaskPrgs(pd, 3);
             }
 
             pack.session.SendMsg(msg);

@@ -37,9 +37,11 @@ namespace GameServer
                 {
                     case 0:
                         pd.coin += 1000;
+                        TaskSys.Instance.CalcTaskPrgs(pd, 5);
                         break;
                     case 1:
                         pd.power += 100;
+                        TaskSys.Instance.CalcTaskPrgs(pd, 4);
                         break;
                 }
 
@@ -56,6 +58,8 @@ namespace GameServer
 
                 cacheSvc.UpdatePlayerData(pd.id, pd);
             }
+
+           
 
             pack.session.SendMsg(msg);
         }

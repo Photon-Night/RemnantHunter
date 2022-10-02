@@ -21,6 +21,7 @@ namespace PEProtocol
         public PushPower pushPower;
         public ReqTakeTaskReward reqTakeTaskReward;
         public RspTakeTaskReward rspTakeTaskReward;
+        public PushTaskPrgs pushTaskPrgs;
     }
 
     public class ServerCfg
@@ -141,6 +142,13 @@ namespace PEProtocol
     }
 
     [System.Serializable]
+    public class PushTaskPrgs
+    {
+        public string[] taskArr;
+    }
+
+
+    [System.Serializable]
     public class PlayerData
     {
         public int id;
@@ -192,6 +200,7 @@ namespace PEProtocol
         PushPower = 208,
         ReqTakeTaskReward = 209,
         RspTakeTaskReward = 210,
+        PushTaskPrgs = 211,
     }
 
     public enum ErrorCode

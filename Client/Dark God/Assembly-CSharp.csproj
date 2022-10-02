@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{C6289FE8-06E0-576D-B3A2-F965ED839D71}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -54,7 +55,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\UIWin\BuyWin.cs" />
-    <Compile Include="Assets\Scripts\System\TaskSystem.cs" />
     <Compile Include="Assets\Scripts\Common\BaseData.cs" />
     <Compile Include="Assets\Scripts\UIWin\LoginWin.cs" />
     <Compile Include="Assets\Scripts\UIWin\TaskWin.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="Assets\Scripts\Common\PETools.cs" />
     <Compile Include="Assets\Scripts\Common\Message.cs" />
     <Compile Include="Assets\Scripts\UIWin\StrongWin.cs" />
-    <Compile Include="Assets\Scripts\UIWin\GuideWIn.cs" />
+    <Compile Include="Assets\Scripts\UIWin\GuideWin.cs" />
     <Compile Include="Assets\Scripts\Common\Singleton.cs" />
     <Compile Include="Assets\Scripts\GameRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />

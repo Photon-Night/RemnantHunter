@@ -68,10 +68,9 @@ namespace GameServer
             {
                 return data;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
+
         }
 
 
@@ -209,10 +208,10 @@ namespace GameServer
             TaskCfg data = null;
             if (taskDic.TryGetValue(id, out data))
             {
-                return null;
-            }
-            else
                 return data;
+            }
+
+            return null;
         }
 
         public int GetTaskConut()

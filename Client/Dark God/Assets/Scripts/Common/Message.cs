@@ -45,7 +45,7 @@ public class Message
     //Color
     public const string ColorRed = "<color=#FF0000FF>";
     public const string ColorGreen = "<color=#00FF00FF>";
-    public const string ColorBlue = "<color=#00B4FFFF>";
+    public const string ColorBlue = "<color=#0000FF>";
     public const string ColorYellow = "<color=#FFFF00FF>";
     public const string ColorEnd = "</color>";
 

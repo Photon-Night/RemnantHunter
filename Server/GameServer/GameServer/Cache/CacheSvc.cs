@@ -98,5 +98,22 @@ namespace GameServer
         {
             return onlineSession;
         }
+
+        public ServerSession GetOnlineSessionByID(int id)
+        {
+            var e = onlineSession.GetEnumerator();
+            ServerSession session = null;
+            while(e.MoveNext())
+            {
+                if(e.Current.Value.id == id)
+                {
+                    session = e.Current.Key;
+                    break;
+                }
+            }
+
+            e.Dispose();
+            return session;
+        }
     }
 }

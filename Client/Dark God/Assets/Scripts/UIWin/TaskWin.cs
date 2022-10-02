@@ -19,12 +19,12 @@ public class TaskWin : WinRoot
 
         RefreshUI();
     }
-    private void RefreshUI()
+    public void RefreshUI()
     {
         taskLst.Clear();
 
         List<TaskRewardData> todoLst = new List<TaskRewardData>();
-        List<TaskRewardData> doneLst = new List<TaskRewardData>(); 
+        List<TaskRewardData> doneLst = new List<TaskRewardData>();
 
         for (int i = 0; i < pd.task.Length; i++)
         {
@@ -33,7 +33,7 @@ public class TaskWin : WinRoot
             TaskRewardData data = new TaskRewardData
             {
                 ID = int.Parse(taskInfo[0]),
-                prgs = int.Parse(taskInfo[2]),
+                prgs = int.Parse(taskInfo[1]),
                 taked = taskInfo[2].Equals("1"),
             };
             if (data.taked)
@@ -44,6 +44,11 @@ public class TaskWin : WinRoot
             {
                 todoLst.Add(data);
             }
+        }
+
+        for (int i = 0; i < taskItemContent.childCount; i++)
+        {
+            Destroy(taskItemContent.GetChild(i).gameObject);
         }
 
         taskLst.AddRange(todoLst);
@@ -63,7 +68,7 @@ public class TaskWin : WinRoot
             SetText(GetTransform(trans, "txtPrg"), taskLst[i].prgs + "/" + data.count);
 
             Image prg = GetTransform(trans, "imgPrg").GetComponent<Image>();
-            prg.fillAmount = taskLst[i].prgs / data.count;
+            prg.fillAmount = taskLst[i].prgs * 1f / data.count * 1f;
 
             Button btnTake = GetTransform(trans, "btnTake").GetComponent<Button>();
             btnTake.onClick.AddListener(() =>
@@ -97,6 +102,7 @@ public class TaskWin : WinRoot
     public void OnClickCloseBtn()
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
+       
         this.SetWinState(false);
     }
 
@@ -113,5 +119,11 @@ public class TaskWin : WinRoot
         };
 
         netSvc.SendMessage(msg);
+
+        TaskCfg data = resSvc.GetTaskCfgData(id);
+
+        GameRoot.AddTips("任务完成");
+        GameRoot.AddTips(Message.Color("金币 + " + data.coin, Message.ColorBlue));
+        GameRoot.AddTips(Message.Color("经验 + " + data.exp, Message.ColorBlue));
     }
 }

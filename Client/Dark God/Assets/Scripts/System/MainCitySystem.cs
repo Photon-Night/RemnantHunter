@@ -9,7 +9,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
 
     public MainCityWin mainCityWin;
     public InfoWin infoWin;
-    public GuideWIn guideWin;
+    public GuideWin guideWin;
     public StrongWin strongWin;
     public ChatWin chatWin;
     public BuyWin buyWin;
@@ -300,6 +300,24 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     public void OpenTaskWin()
     {
         taskWin.SetWinState();
+    }
+
+    public void RspTakeTaskReward(GameMsg msg)
+    {
+        RspTakeTaskReward data = msg.rspTakeTaskReward;
+        PlayerData pd = GameRoot.Instance.PlayerData;
+
+        GameRoot.Instance.SetPlayerDataByTakeTaskReward(data);
+
+        taskWin.RefreshUI();
+        mainCityWin.RefreshUI();
+
+    }
+
+    public void PushTaskPrgs(GameMsg msg)
+    {
+        PushTaskPrgs data = msg.pushTaskPrgs;
+        GameRoot.Instance.SetPlayerDataByTaskPrgs(data);
     }
     #endregion
 }

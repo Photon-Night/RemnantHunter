@@ -27,8 +27,6 @@ public class GameRoot : MonoSingleton<GameRoot>
 
         LoginSystem.Instance.InitSystem();
         LoginSystem.Instance.OnLoginEnter();
-
-        TaskSystem.Instance.InitSystem();
     }
 
      private void ClearUIRoot()
@@ -105,6 +103,11 @@ public class GameRoot : MonoSingleton<GameRoot>
         PlayerData.coin = data.coin;
         PlayerData.lv = data.lv;
         PlayerData.exp = data.exp;
+        PlayerData.task = data.taskArr;
+    }
+
+    public void SetPlayerDataByTaskPrgs(PushTaskPrgs data)
+    {
         PlayerData.task = data.taskArr;
     }
   

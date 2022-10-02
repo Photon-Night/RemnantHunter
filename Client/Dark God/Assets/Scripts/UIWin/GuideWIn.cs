@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GuideWIn : WinRoot
+public class GuideWin : WinRoot
 {
     public Text txtName;
     public Text txtTalk;
@@ -15,7 +15,7 @@ public class GuideWIn : WinRoot
     private string[] dialogArr;
     private int index;
 
-    protected override void InitWin()
+    protected override void InitWin()   
     {
         base.InitWin();
         pd = GameRoot.Instance.PlayerData;

@@ -116,20 +116,29 @@ public class NetService : MonoSingleton<NetService>
             case CMD.RspGuide:
                 MainCitySystem.Instance.RspGuide(msg);
                 break;
+
             case CMD.RspStrong:
                 MainCitySystem.Instance.RspStrong(msg);
                 break;
+
             case CMD.PushChat:
                 MainCitySystem.Instance.PushChat(msg);
                 break;
+
             case CMD.RspBuy:
                 MainCitySystem.Instance.RspBuy(msg);
                 break;
+
             case CMD.PushPower:
                 MainCitySystem.Instance.PushPower(msg);
                 break;
+
             case CMD.RspTakeTaskReward:
-                TaskSystem.Instance.RspTakeTaskReward(msg);
+                MainCitySystem.Instance.RspTakeTaskReward(msg);
+                break;
+
+            case CMD.PushTaskPrgs:
+                MainCitySystem.Instance.PushTaskPrgs(msg);
                 break;
         }
 
