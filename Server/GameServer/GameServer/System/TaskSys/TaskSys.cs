@@ -132,5 +132,30 @@ namespace GameServer
                 session.SendMsg(msg);
             }
         }
+
+        public PushTaskPrgs GetTaskPrgs(PlayerData pd, int tid)
+        {
+            TaskCfg tc = cfgSvc.GetTaskCfgData(tid);
+            TaskRewardData trd = CalcTaskRewardData(pd, tid);
+            PushTaskPrgs pushTaskPrgs = null;
+            if (trd.prgs < tc.count)
+            {
+                trd.prgs += 1;
+                CalcTaskArr(pd, trd);
+                pushTaskPrgs = new PushTaskPrgs
+                {
+                    taskArr = pd.task
+                };
+
+                return pushTaskPrgs;
+            }
+            else
+            {
+                return null;
+            }
+
+            
+        }
     }
 }
+

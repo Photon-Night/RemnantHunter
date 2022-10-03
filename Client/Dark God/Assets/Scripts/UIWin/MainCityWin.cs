@@ -219,4 +219,10 @@ public class MainCityWin : WinRoot
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         MainCitySystem.Instance.OpenTaskWin();
     }
+
+    public void OnClickMissionBtn()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+        MainCitySystem.Instance.OpenMissionWin();
+    }
 }

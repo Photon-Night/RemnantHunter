@@ -18,7 +18,7 @@ public class LoginSystem : SystemRoot<LoginSystem>
         resSvc.LoadSceneAsync(Message.SceneLogin, () =>
         {
             loginWin.SetWinState();
-            audioSvc.PlayerBGMusic(Message.BGLogin);
+            audioSvc.PlayBGMusic(Message.BGLogin);
         });
 
 

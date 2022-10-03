@@ -25,7 +25,7 @@ namespace GameServer
             {
                 cmd = (int)CMD.RspBuy
             };
-
+            PushTaskPrgs pushTaskPrgs = null;
             if(pd.diamond < data.diamond)
             {
                 msg.err = (int)ErrorCode.LackDiamond;
@@ -37,11 +37,11 @@ namespace GameServer
                 {
                     case 0:
                         pd.coin += 1000;
-                        TaskSys.Instance.CalcTaskPrgs(pd, 5);
+                        pushTaskPrgs = TaskSys.Instance.GetTaskPrgs(pd, 5);
                         break;
                     case 1:
                         pd.power += 100;
-                        TaskSys.Instance.CalcTaskPrgs(pd, 4);
+                        pushTaskPrgs = TaskSys.Instance.GetTaskPrgs(pd, 4);
                         break;
                 }
 
@@ -54,6 +54,7 @@ namespace GameServer
                 };
 
                 msg.rspBuy = rspBuy;
+                msg.pushTaskPrgs = pushTaskPrgs;
                 PECommon.Log("Client" + pack.session.sessionID + "Cost " + data.diamond + "/" + pd.diamond);
 
                 cacheSvc.UpdatePlayerData(pd.id, pd);

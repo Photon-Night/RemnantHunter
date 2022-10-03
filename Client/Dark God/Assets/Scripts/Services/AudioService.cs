@@ -12,7 +12,7 @@ public class AudioService : MonoSingleton<AudioService>
         PECommon.Log("AudioService Loading");
     }
 
-    public void PlayerBGMusic(string name, bool isLoop = true)
+    public void PlayBGMusic(string name, bool isLoop = true)
     {
         AudioClip audio = ResService.Instance.LoadAudio("ResAudio/" + name, true);
         if(bgAudio.clip == null || bgAudio.clip.name != audio.name)

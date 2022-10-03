@@ -43,7 +43,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
             //加载主城ui
             mainCityWin.SetWinState();
 
-            audioSvc.PlayerBGMusic(Message.BGMMainCity);
+            audioSvc.PlayBGMusic(Message.BGMMainCity);
 
             //TODO 设置人物
 
@@ -56,6 +56,11 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
             MainCityMap mcm = map.GetComponent<MainCityMap>();
             npcPosTrans = mcm.NPCPosTrans;
         });
+    }
+
+    public void OpenMissionWin()
+    {
+        MissionSystem.Instance.OpenMissionWin();
     }
 
     #region LoadSetting
@@ -272,6 +277,11 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
         GameRoot.Instance.SetPlayerDataByBuy(msg.rspBuy);
         mainCityWin.RefreshUI();
         buyWin.SetWinState(false);
+
+        if(msg.pushTaskPrgs != null)
+        {
+            PushTaskPrgs(msg);
+        }
     }
     #endregion
 

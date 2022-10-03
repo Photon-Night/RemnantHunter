@@ -186,21 +186,21 @@ namespace PEProtocol
         ReqRename = 103,
         RspRename = 104,
 
-        ReqGuide = 200,
-        RspGuide = 201,
-        ReqStrong = 202,
-        RspStrong = 203,
+        ReqGuide = 201,
+        RspGuide = 202,
+        ReqStrong = 203,
+        RspStrong = 204,
 
-        SendChat = 204,
-        PushChat = 205,
+        SendChat = 205,
+        PushChat = 206,
 
-        ReqBuy = 206,
-        RspBuy = 207,
+        ReqBuy = 207,
+        RspBuy = 208,
 
-        PushPower = 208,
-        ReqTakeTaskReward = 209,
-        RspTakeTaskReward = 210,
-        PushTaskPrgs = 211,
+        PushPower = 209,
+        ReqTakeTaskReward = 210,
+        RspTakeTaskReward = 211,
+        PushTaskPrgs = 212,
     }
 
     public enum ErrorCode
