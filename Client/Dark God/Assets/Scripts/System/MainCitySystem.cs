@@ -61,6 +61,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     public void OpenMissionWin()
     {
         MissionSystem.Instance.OpenMissionWin();
+        StopNavTask();
     }
 
     #region LoadSetting
@@ -213,25 +214,30 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
         switch (currentTaskData.actID)
         {
             case 0:
-
+                //智者对话
                 break;
             case 1:
-
+                //强化装备
+                OpenStrongWin();
                 break;
             case 2:
-
+                //打开副本
+                OpenMissionWin();
                 break;
 
             case 3:
-
+                //购买体力
+                OpenBuyWin(0);
                 break;
 
             case 4:
-
+                //购买金币
+                OpenBuyWin(1);
                 break;
 
             case 5:
-
+                //世界聊天
+                OpenChatWin();
                 break;
 
             default:
@@ -249,6 +255,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     public void OpenStrongWin()
     {
         strongWin.SetWinState();
+        StopNavTask();
     }
 
     public void RspStrong(GameMsg msg)
@@ -270,6 +277,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     {
         buyWin.SetBuyType(type);
         buyWin.SetWinState();
+        StopNavTask();
     }
 
     public void RspBuy(GameMsg msg)
@@ -292,6 +300,12 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
         chatWin.AddChatMsg(data);
 
     }
+
+    public void OpenChatWin()
+    {
+        chatWin.SetWinState();
+        StopNavTask();
+    }
     #endregion
 
     #region Power
@@ -310,6 +324,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     public void OpenTaskWin()
     {
         taskWin.SetWinState();
+        StopNavTask();
     }
 
     public void RspTakeTaskReward(GameMsg msg)

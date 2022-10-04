@@ -171,6 +171,7 @@ namespace PEProtocol
         public int guideid;
         public int[] strong;
         public int crystal;
+        public int mission;
 
         public long time;
 
