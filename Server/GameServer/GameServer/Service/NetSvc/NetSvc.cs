@@ -70,6 +70,10 @@ namespace GameServer
                 case CMD.ReqTakeTaskReward:
                     TaskSys.Instance.ReqTakeTaskReward(pack);
                     break;
+
+                case CMD.ReqMissionEnter:
+                    MissionSys.Instance.ReqMissionEnter(pack);
+                    break;
             }
 
         }

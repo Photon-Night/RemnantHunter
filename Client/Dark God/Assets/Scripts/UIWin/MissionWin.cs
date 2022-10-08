@@ -36,4 +36,30 @@ public class MissionWin : WinRoot
             }
         }
     }
+
+    public void OnClickMissionBtn(int index)
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+
+        MapCfg data = resSvc.GetMapCfgData(index);
+        if(pd.power - data.power < 0)
+        {
+            PECommon.Log("ÌåÁ¦²»×ã");
+        }
+        else
+        {
+            GameMsg msg = new GameMsg
+            {
+                cmd = (int)CMD.ReqMissionEnter,
+            };
+
+            msg.reqMissionEnter = new ReqMissionEnter
+            {
+                mid = index,
+            };
+
+            netSvc.SendMessage(msg);
+        }
+        
+    }
 }

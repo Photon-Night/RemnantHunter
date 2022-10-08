@@ -99,6 +99,10 @@ public class NetService : MonoSingleton<NetService>
                 case ErrorCode.ClientDataError:
                     GameRoot.AddTips("客户端数据异常");
                     break;
+
+                case ErrorCode.LackPower:
+                    GameRoot.AddTips("体力不足");
+                    break;
             }
             return;
         }
@@ -139,6 +143,10 @@ public class NetService : MonoSingleton<NetService>
 
             case CMD.PushTaskPrgs:
                 MainCitySystem.Instance.PushTaskPrgs(msg);
+                break;
+
+            case CMD.RspMissionEnter:
+                MissionSystem.Instance.RspMissionEnter(msg);
                 break;
         }
 

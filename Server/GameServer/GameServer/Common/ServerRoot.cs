@@ -23,6 +23,7 @@ namespace GameServer
             BuySys.Instance.Init();
             PowerSys.Instance.Init();
             TaskSys.Instance.Init();
+            MissionSys.Instance.Init();
             DBMgr.Instance.Init();
          
         }

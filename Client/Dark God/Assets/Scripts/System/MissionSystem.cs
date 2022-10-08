@@ -20,5 +20,8 @@ public class MissionSystem : SystemRoot<MissionSystem>
         missionWin.SetWinState();
     }
 
-   
+    public void RspMissionEnter(GameMsg msg)
+    {
+        PECommon.Log("进入副本");
+    }
 }

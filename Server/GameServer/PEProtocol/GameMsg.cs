@@ -22,6 +22,8 @@ namespace PEProtocol
         public ReqTakeTaskReward reqTakeTaskReward;
         public RspTakeTaskReward rspTakeTaskReward;
         public PushTaskPrgs pushTaskPrgs;
+        public ReqMissionEnter reqMissionEnter;
+        public RspMissionEnter rspMissionEnter;
     }
 
     public class ServerCfg
@@ -147,6 +149,19 @@ namespace PEProtocol
         public string[] taskArr;
     }
 
+    [System.Serializable]
+    public class ReqMissionEnter
+    {
+        public int mid;
+    }
+
+    [System.Serializable]
+    public class RspMissionEnter
+    {
+        public int mid;
+        public int power;
+    }
+
 
     [System.Serializable]
     public class PlayerData
@@ -202,6 +217,10 @@ namespace PEProtocol
         ReqTakeTaskReward = 210,
         RspTakeTaskReward = 211,
         PushTaskPrgs = 212,
+
+
+        ReqMissionEnter = 301,
+        RspMissionEnter = 302,
     }
 
     public enum ErrorCode
@@ -219,6 +238,8 @@ namespace PEProtocol
         LackCrystal,
         LackDiamond,
         ClientDataError,
+
+        LackPower,
     }
 
 

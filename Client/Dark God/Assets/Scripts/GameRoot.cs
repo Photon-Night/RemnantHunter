@@ -24,6 +24,7 @@ public class GameRoot : MonoSingleton<GameRoot>
         AudioService.Instance.ServiceInit();
 
         MainCitySystem.Instance.InitSystem();
+        MissionSystem.Instance.InitSystem();
 
         LoginSystem.Instance.InitSystem();
         LoginSystem.Instance.OnLoginEnter();

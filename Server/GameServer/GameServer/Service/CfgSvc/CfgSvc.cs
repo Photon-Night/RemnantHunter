@@ -20,6 +20,7 @@ namespace GameServer
             InitGuideCfg();
             InitStrongCfg();
             InitTaskCfg();
+            InitMapCfg();
             PECommon.Log("//--------------------Load Complete--------------------//");
         }
         private void InitGuideCfg()
@@ -218,41 +219,103 @@ namespace GameServer
         {
             return taskDic.Count;
         }
+
+
+        private Dictionary<int, MapCfg> mapCfgDataDic = new Dictionary<int, MapCfg>();
+        private void InitMapCfg()
+        {        
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(@"D:\UnityProject\Dark God\Dark-God\Client\Dark God\Assets\Resources\ResCfgs\map.xml");
+            if (doc == null)
+            {
+                PECommon.Log("Map cfg is not exist");
+                return;
+            }
+            XmlNodeList nodList = doc.SelectSingleNode("root").ChildNodes;
+
+            for (int i = 0; i < nodList.Count; i++)
+            {
+                XmlElement ele = nodList[i] as XmlElement;
+                if (ele.GetAttributeNode("ID") == null)
+                {
+                    continue;
+                }
+
+                int ID = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
+                MapCfg mc = new MapCfg()
+                { ID = ID };
+
+                foreach (XmlElement e in nodList[i].ChildNodes)
+                {
+                    switch (e.Name)
+                    {
+
+                        case "power":
+                            mc.power = int.Parse(e.InnerText);
+                            break;
+                    }
+                }
+                mapCfgDataDic.Add(ID, mc);
+            }
+            PECommon.Log("Load Map Data " + mapCfgDataDic.Count);
+        }
+
+        public MapCfg GetMapCfg(int id)
+        {
+            MapCfg data = null;
+            if(mapCfgDataDic.TryGetValue(id, out data))
+            {
+                return data;
+            }
+
+            return null;
+        }
     }
+
+
 }
 
-    public class BaseData<T>
-    {
-        public int ID;
-    }
-    public class GuideCfg : BaseData<GuideCfg>
-    {
-        public int coin;
-        public int exp;
-    }
-    public class StrongCfg : BaseData<StrongCfg>
-    {
-        public int pos;
-        public int starLv;
-        public int addHp;
-        public int addHurt;
-        public int addDef;
-        public int minLv;
-        public int coin;
-        public int crystal;
-    }
-    public class TaskRewardData : BaseData<TaskRewardData>
-    {
-        public int prgs;
-        public bool taked;
-    }
-    public class TaskCfg : BaseData<TaskCfg>
-    {
-        public string taskName;
-        public int count;
-        public int coin;
-        public int exp;
-    }
+public class BaseData<T>
+{
+    public int ID;
+}
+public class GuideCfg : BaseData<GuideCfg>
+{
+    public int coin;
+    public int exp;
+}
+public class StrongCfg : BaseData<StrongCfg>
+{
+    public int pos;
+    public int starLv;
+    public int addHp;
+    public int addHurt;
+    public int addDef;
+    public int minLv;
+    public int coin;
+    public int crystal;
+}
+public class TaskRewardData : BaseData<TaskRewardData>
+{
+    public int prgs;
+    public bool taked;
+}
+public class TaskCfg : BaseData<TaskCfg>
+{
+    public string taskName;
+    public int count;
+    public int coin;
+    public int exp;
+}
+public class MapCfg : BaseData<MapCfg>
+{
+    public int power;
+}
+
+
+
+
 
 
 
