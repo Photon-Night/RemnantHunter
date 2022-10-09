@@ -64,6 +64,11 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
         StopNavTask();
     }
 
+    public void CloseMainCityWin()
+    {
+        mainCityWin.SetWinState(false);
+    }
+
     #region LoadSetting
     private void LoadPlayer(MapCfg mapData)
     {

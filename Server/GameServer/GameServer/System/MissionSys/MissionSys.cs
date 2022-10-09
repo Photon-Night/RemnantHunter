@@ -36,20 +36,27 @@ namespace GameServer
             {
                 msg.err = (int)ErrorCode.LackPower;
             }
-            //else if(pd.mission < data.mid)
-            //{
-            //    //TODO
-            //}
+            else if(pd.mission < data.mid)
+            {
+                msg.err = (int)ErrorCode.ClientDataError;
+            }
             else 
             {
                 pd.power -= power;
-                cacheSvc.UpdatePlayerData(pd.id, pd);
 
-                msg.rspMissionEnter = new RspMissionEnter
+                if (cacheSvc.UpdatePlayerData(pd.id, pd))
                 {
-                    mid = data.mid,
-                    power = power,
-                };
+                    msg.rspMissionEnter = new RspMissionEnter
+                    {
+                        mid = data.mid,
+                        power = pd.power,
+                    };
+                }
+                else
+                {
+                    msg.err = (int)ErrorCode.UpdateDBError;
+                }
+
 
             }
             pack.session.SendMsg(msg);

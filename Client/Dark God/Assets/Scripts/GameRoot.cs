@@ -25,6 +25,7 @@ public class GameRoot : MonoSingleton<GameRoot>
 
         MainCitySystem.Instance.InitSystem();
         MissionSystem.Instance.InitSystem();
+        BattleSystem.Instance.InitSystem();
 
         LoginSystem.Instance.InitSystem();
         LoginSystem.Instance.OnLoginEnter();
@@ -110,6 +111,11 @@ public class GameRoot : MonoSingleton<GameRoot>
     public void SetPlayerDataByTaskPrgs(PushTaskPrgs data)
     {
         PlayerData.task = data.taskArr;
+    }
+
+    public void SetPlayerDataByMissionEnter(RspMissionEnter data)
+    {
+        PlayerData.power = data.power;
     }
   
 }

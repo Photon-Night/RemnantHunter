@@ -78,13 +78,18 @@
     <Compile Include="Assets\Scripts\Common\PETools.cs" />
     <Compile Include="Assets\Scripts\Common\Message.cs" />
     <Compile Include="Assets\Scripts\UIWin\StrongWin.cs" />
+    <Compile Include="Assets\Scripts\Battle\BattleManager.cs" />
     <Compile Include="Assets\Scripts\System\MissionSystem.cs" />
     <Compile Include="Assets\Scripts\UIWin\GuideWin.cs" />
     <Compile Include="Assets\Scripts\Common\Singleton.cs" />
     <Compile Include="Assets\Scripts\GameRoot.cs" />
+    <Compile Include="Assets\Scripts\System\BattleSystem.cs" />
     <Compile Include="Assets\Scripts\UIWin\MissionWin.cs" />
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
+    <Compile Include="Assets\Scripts\Battle\SkillManager.cs" />
+    <Compile Include="Assets\Scripts\Battle\StateManager.cs" />
+    <Compile Include="Assets\Scripts\Battle\MapManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />

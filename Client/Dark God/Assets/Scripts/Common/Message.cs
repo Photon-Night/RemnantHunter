@@ -13,6 +13,7 @@ public class Message
     //GameBGM
     public const string BGLogin = "bgLogin";
     public const string BGMMainCity = "bgMainCity";
+    public const string BGHuangYe = "bgHuangYe";
 
     //UIAudio
     public const string UIClickBtn = "uiClickBtn";
