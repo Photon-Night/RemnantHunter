@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class BattleSystem : SystemRoot<BattleSystem>
 {
+    public BattleWin battleWin;
+    private BattleManager bm;
+
     public override void InitSystem()
     {
         base.InitSystem();
@@ -21,8 +24,24 @@ public class BattleSystem : SystemRoot<BattleSystem>
         };
 
         go.transform.SetParent(GameRoot.Instance.transform);
-        BattleManager battleMgr = go.AddComponent<BattleManager>();
-        battleMgr.InitManager(mapId);
+        bm = go.AddComponent<BattleManager>();
+        OpenBattleWin();
+        bm.InitManager(mapId);
+    }
+
+    public void OpenBattleWin()
+    {
+        battleWin.SetWinState();
+    }
+
+    public void SetMoveDir(Vector2 dir)
+    {
+        bm.SetMoveDir(dir);
+    }
+
+    public void ReqReleaseSkill(int index)
+    {
+        bm.ReqReleaseSkill(index);
     }
 }
 

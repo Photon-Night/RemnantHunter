@@ -24,7 +24,7 @@ public class MissionSystem : SystemRoot<MissionSystem>
     {
         PECommon.Log("进入副本");
         RspMissionEnter data = msg.rspMissionEnter;
-        GameRoot.Instance.SetPlayerDataByMissionEnter(data);
+        GameRoot.Instance.SetPlayerDataByMissionEnter(data); 
 
         missionWin.SetWinState(false);
         MainCitySystem.Instance.CloseMainCityWin();

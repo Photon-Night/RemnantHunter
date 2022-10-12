@@ -12,6 +12,7 @@ public class PathDefine
     public const string TaskCfg = "ResCfgs/task";
 
     public const string AssissnCityPlayerPrefab = "PrefabPlayer/AssassinCity";
+    public const string AssissnBattlePlayerPrefab = "PrefabPlayer/Assassin";
     #endregion
 
     public const string TaskHead = "ResImages/task";

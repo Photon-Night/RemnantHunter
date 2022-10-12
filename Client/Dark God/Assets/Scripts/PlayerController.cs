@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
         //    Dir = Vector2.zero;
         //    SetBlend(Message.BlendIdle);
         //}
-
+        //
         if(currentBlend != targetBlend)
         {
             UpdateMixBlend();

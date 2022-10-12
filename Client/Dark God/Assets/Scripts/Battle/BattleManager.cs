@@ -44,12 +44,55 @@ public class BattleManager : MonoBehaviour
         });
     }
 
-    public void LoadPlayer(MapCfg data)
+    public void LoadPlayer(MapCfg mapData)
     {
+        GameObject player = resSvc.LoadPrefab(PathDefine.AssissnBattlePlayerPrefab, true);
+        player.transform.localPosition = mapData.playerBornPos;
+        player.transform.localEulerAngles = mapData.playerBornRote;
+        player.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
 
+        Camera.main.transform.position = mapData.mainCamPos;
+        Camera.main.transform.localEulerAngles = mapData.mainCamRote;
+
+        PlayerController pc = player.GetComponent<PlayerController>();
+        pc.Init();
     }
 
+    public void ReqReleaseSkill(int index)
+    {
+        switch (index)
+        {
+            case 1:
+                ReleaseSkill1();
+                break;
+            case 2:
+                ReleaseSkill2();
+                break;
+            case 3:
+                ReleaseSkill3();
+                break;
+        }
+    }
 
+    public void SetMoveDir(Vector2 dir)
+    {
+        PECommon.Log(dir + "");
+    }
+
+    private void ReleaseSkill1()
+    {
+        PECommon.Log("skill1");
+    }
+
+    private void ReleaseSkill2()
+    {
+        PECommon.Log("skill2");
+    }
+
+    private void ReleaseSkill3()
+    {
+        PECommon.Log("skill3");
+    }
 
 }
 
