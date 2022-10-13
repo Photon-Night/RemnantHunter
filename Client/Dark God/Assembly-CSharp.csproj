@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\System\LoginSystem.cs" />
     <Compile Include="Assets\Scripts\Services\ResService.cs" />
     <Compile Include="Assets\Scripts\MainCityMap.cs" />
+    <Compile Include="Assets\Scripts\UIWin\BattleWin.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\UIWin\CreateWin.cs" />
     <Compile Include="Assets\Scripts\UIWin\InfoWin.cs" />
@@ -90,7 +91,12 @@
     <Compile Include="Assets\Scripts\UIWin\MissionWin.cs" />
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
-    <Compile Include="Assets\Scripts\UIWin\BattleWin.cs" />
+    <Compile Include="Assets\Scripts\FSM\IState.cs" />
+    <Compile Include="Assets\Scripts\FSM\EntityBase.cs" />
+    <Compile Include="Assets\Scripts\FSM\StateMove.cs" />
+    <Compile Include="Assets\Scripts\FSM\StateIdle.cs" />
+    <Compile Include="Assets\Scripts\Battle\EntityPlayer.cs" />
+    <Compile Include="Assets\Scripts\Common\EntityController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />

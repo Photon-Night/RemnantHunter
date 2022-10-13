@@ -12,17 +12,18 @@ public class BattleManager : MonoBehaviour
     MapManager mapMgr = null;
     SkillManager skillMgr = null;
     StateManager stateMgr = null;
+
+    private EntityPlayer ep;
     public void InitManager(int mapId)
     {
         PECommon.Log("BattleManager Loading");
         resSvc = ResService.Instance;
         audioSvc = AudioService.Instance;
 
-        mapMgr = gameObject.AddComponent<MapManager>();
-        mapMgr.InitManager();
         skillMgr = gameObject.AddComponent<SkillManager>();
         skillMgr.InitManager();
-        
+        stateMgr = gameObject.AddComponent<StateManager>();
+        stateMgr.InitManager();
 
         MapCfg data = resSvc.GetMapCfgData(mapId);
         resSvc.LoadSceneAsync(data.sceneName, () =>
@@ -56,12 +57,24 @@ public class BattleManager : MonoBehaviour
 
         PlayerController pc = player.GetComponent<PlayerController>();
         pc.Init();
+
+        ep = new EntityPlayer
+        {
+            stateMgr = stateMgr,
+            controller = pc,
+        };
+
+
+       
     }
 
     public void ReqReleaseSkill(int index)
     {
         switch (index)
         {
+            case 0:
+                ReleaseNormalAttack();
+                break;
             case 1:
                 ReleaseSkill1();
                 break;
@@ -77,6 +90,15 @@ public class BattleManager : MonoBehaviour
     public void SetMoveDir(Vector2 dir)
     {
         PECommon.Log(dir + "");
+
+        if(dir != Vector2.zero)
+        {
+            ep.Move();
+        }
+        else
+        {
+            ep.Idle();
+        }
     }
 
     private void ReleaseSkill1()
@@ -94,5 +116,9 @@ public class BattleManager : MonoBehaviour
         PECommon.Log("skill3");
     }
 
+    private void ReleaseNormalAttack()
+    {
+        PECommon.Log("normal");
+    }
 }
 
