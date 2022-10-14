@@ -89,15 +89,15 @@ public class BattleManager : MonoBehaviour
 
     public void SetMoveDir(Vector2 dir)
     {
-        PECommon.Log(dir + "");
-
         if(dir != Vector2.zero)
         {
             ep.Move();
+            ep.SetDir(dir);
         }
         else
         {
             ep.Idle();
+            ep.SetDir(Vector2.zero);
         }
     }
 

@@ -9,6 +9,7 @@ public class StateIdle : IState
     {
         entity.CurrentState = AniState.Idle;
         PECommon.Log("Enter Idle");
+        
     }
 
     public void OnExit(EntityBase entity)
@@ -19,5 +20,10 @@ public class StateIdle : IState
     public void OnUpdate(EntityBase entity)
     {
         
+    }
+
+    public void Process(EntityBase entity)
+    {
+        entity.SetBlend(Message.BlendIdle);
     }
 }

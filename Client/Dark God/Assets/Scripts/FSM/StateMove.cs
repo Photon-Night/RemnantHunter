@@ -20,4 +20,9 @@ public class StateMove : IState
     {
         
     }
+
+    public void Process(EntityBase entity)
+    {
+        entity.SetBlend(Message.BlendWalk);
+    }
 }

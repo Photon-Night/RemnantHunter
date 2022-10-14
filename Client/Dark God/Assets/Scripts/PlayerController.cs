@@ -3,39 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : EntityController
-{
-
-    public Animator anim;
+{   
     public CharacterController cc;
-
-    private Vector2 dir;
+  
     private Vector3 camOffest;
-    private bool isMove;
 
     public bool isGuide = false;
 
     private float currentBlend;
     private float targetBlend;
 
-    public Vector2 Dir
-    {
-        get
-        {
-            return dir;
-        }
-        set
-        {
-            if(value == Vector2.zero)
-            {
-                isMove = false;
-            }
-            else
-            {
-                isMove = true;
-            }
-            dir = value;
-        }
-    }
+    
     private Transform camTrans;
     // Start is called before the first frame update
     public void Init()
@@ -73,10 +51,7 @@ public class PlayerController : EntityController
             SetDir();
             SetMove();
             SetCam();
-        }
-
-        
-        
+        }      
         
     }
 
@@ -100,7 +75,7 @@ public class PlayerController : EntityController
         }
     }
 
-    public void SetBlend(int blend)
+    public override void SetBlend(int blend)
     {
         targetBlend = blend;
     }

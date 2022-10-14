@@ -31,4 +31,17 @@ public class EntityBase
     {
         stateMgr.ChangeState(this, AniState.Idle);
     }
+
+    public virtual void SetBlend(int blend)
+    {
+        if(controller != null)
+        {
+            controller.SetBlend(blend);
+        }
+    }
+
+    public virtual void SetDir(Vector2 dir)
+    {
+        controller.Dir = dir;
+    }
 }

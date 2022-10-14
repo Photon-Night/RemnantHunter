@@ -25,7 +25,7 @@ public class StateManager : MonoBehaviour
             FSM[entity.CurrentState].OnExit(entity);
 
             FSM[state].OnEnter(entity);
-            FSM[state].OnUpdate(entity);
+            FSM[state].Process(entity);
         }
     }
 }

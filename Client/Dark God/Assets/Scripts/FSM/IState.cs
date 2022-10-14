@@ -7,6 +7,7 @@ public interface IState
     public void OnEnter(EntityBase entity);
     public void OnUpdate(EntityBase entity);
     public void OnExit(EntityBase entity);
+    public void Process(EntityBase entity);
 }
 
 public enum AniState
