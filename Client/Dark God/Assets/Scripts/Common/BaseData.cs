@@ -53,5 +53,14 @@ public class TaskCfg : BaseData<TaskCfg>
     public int exp;
 }
 
+public class SkillCfg : BaseData<SkillCfg>
+{
+    public string skillName;
+    public int skillTime;
+    public int aniAction;
+    public string fx;
+}
+
+
 
 

@@ -60,7 +60,9 @@
     <Compile Include="Assets\Scripts\UIWin\TaskWin.cs" />
     <Compile Include="Assets\Scripts\Common\MonoSingleton.cs" />
     <Compile Include="Assets\Scripts\UIWin\LoadingWin.cs" />
+    <Compile Include="Assets\Scripts\Battle\EntityPlayer.cs" />
     <Compile Include="Assets\Scripts\UIWin\MainCityWin.cs" />
+    <Compile Include="Assets\Scripts\FSM\StateMove.cs" />
     <Compile Include="Assets\Scripts\Common\PathDefine.cs" />
     <Compile Include="Assets\Scripts\System\LoginSystem.cs" />
     <Compile Include="Assets\Scripts\Services\ResService.cs" />
@@ -73,12 +75,14 @@
     <Compile Include="Assets\Scripts\Services\TimerService.cs" />
     <Compile Include="Assets\Scripts\System\SystemRoot.cs" />
     <Compile Include="Assets\Scripts\Common\PEListener.cs" />
+    <Compile Include="Assets\Scripts\FSM\EntityBase.cs" />
     <Compile Include="Assets\Scripts\Services\AudioService.cs" />
     <Compile Include="Assets\Scripts\Battle\MapManager.cs" />
     <Compile Include="Assets\Scripts\Services\NetService.cs" />
     <Compile Include="Assets\Scripts\UIWin\ChatWin.cs" />
     <Compile Include="Assets\Scripts\System\MainCitySystem.cs" />
     <Compile Include="Assets\Scripts\Common\PETools.cs" />
+    <Compile Include="Assets\Scripts\FSM\StateIdle.cs" />
     <Compile Include="Assets\Scripts\Battle\SkillManager.cs" />
     <Compile Include="Assets\Scripts\Common\Message.cs" />
     <Compile Include="Assets\Scripts\UIWin\StrongWin.cs" />
@@ -87,16 +91,13 @@
     <Compile Include="Assets\Scripts\UIWin\GuideWin.cs" />
     <Compile Include="Assets\Scripts\Common\Singleton.cs" />
     <Compile Include="Assets\Scripts\GameRoot.cs" />
+    <Compile Include="Assets\Scripts\Common\EntityController.cs" />
     <Compile Include="Assets\Scripts\System\BattleSystem.cs" />
+    <Compile Include="Assets\Scripts\FSM\IState.cs" />
     <Compile Include="Assets\Scripts\UIWin\MissionWin.cs" />
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
-    <Compile Include="Assets\Scripts\FSM\IState.cs" />
-    <Compile Include="Assets\Scripts\FSM\EntityBase.cs" />
-    <Compile Include="Assets\Scripts\FSM\StateMove.cs" />
-    <Compile Include="Assets\Scripts\FSM\StateIdle.cs" />
-    <Compile Include="Assets\Scripts\Battle\EntityPlayer.cs" />
-    <Compile Include="Assets\Scripts\Common\EntityController.cs" />
+    <Compile Include="Assets\Scripts\Battle\StateAttack.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />
@@ -110,6 +111,7 @@
     <None Include="Assets\Compond\Shader\Mul-skybox.shader" />
     <None Include="Assets\Scripts\Timer\PETimer.dll" />
     <None Include="Assets\Compond\Shader\MonsterShader.shader" />
+    <None Include="Assets\Resources\ResCfgs\skill.xml" />
     <None Include="Assets\Scripts\Net\PEProtocol.dll" />
     <None Include="Assets\Resources\ResCfgs\map.xml" />
     <None Include="Assets\Resources\ResCfgs\guide.xml" />

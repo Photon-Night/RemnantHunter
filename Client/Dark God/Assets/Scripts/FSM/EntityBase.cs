@@ -6,7 +6,8 @@ public class EntityBase
 {
     protected AniState currentState = AniState.None;
     public StateManager stateMgr;
-    public EntityController controller; 
+    public EntityController controller;
+    public SkillManager skillMgr;
     public AniState CurrentState
     {
         get
@@ -24,12 +25,17 @@ public class EntityBase
 
     public void Move()
     {
-        stateMgr.ChangeState(this, AniState.Move);
+        stateMgr.ChangeState(this, AniState.Move,null);
     }
 
     public void Idle()
     {
-        stateMgr.ChangeState(this, AniState.Idle);
+        stateMgr.ChangeState(this, AniState.Idle,null);
+    }
+
+    public void Attack(int skillId)
+    {
+        stateMgr.ChangeState(this, AniState.Attack, skillId);
     }
 
     public virtual void SetBlend(int blend)
@@ -42,6 +48,18 @@ public class EntityBase
 
     public virtual void SetDir(Vector2 dir)
     {
-        controller.Dir = dir;
+        if (controller != null)
+            controller.Dir = dir;
+    }
+
+    public virtual void SetAction(int action)
+    {
+        if (controller != null)
+            controller.SetAction(action);
+    }
+
+    public virtual void AttackEffect(int skillId)
+    {
+        skillMgr.AttackEffect(this, skillId);
     }
 }

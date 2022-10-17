@@ -62,6 +62,7 @@ public class BattleManager : MonoBehaviour
         {
             stateMgr = stateMgr,
             controller = pc,
+            skillMgr = skillMgr,
         };
 
 
@@ -104,11 +105,13 @@ public class BattleManager : MonoBehaviour
     private void ReleaseSkill1()
     {
         PECommon.Log("skill1");
+        ep.Attack(101);
     }
 
     private void ReleaseSkill2()
     {
         PECommon.Log("skill2");
+        
     }
 
     private void ReleaseSkill3()

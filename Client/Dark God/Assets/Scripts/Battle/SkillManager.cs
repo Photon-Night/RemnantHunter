@@ -9,4 +9,11 @@ public class SkillManager : MonoBehaviour
     {
         PECommon.Log("SkillManager Loading");
     }
+    /// <summary>
+    /// ¹¥»÷¾ßÌåÂß¼­
+    /// </summary>
+    public void AttackEffect(EntityBase entity, int skillId)
+    {
+
+    }
 }

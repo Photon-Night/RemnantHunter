@@ -6,6 +6,7 @@ public abstract class EntityController : MonoBehaviour
 {
     protected bool isMove;
     protected Vector2 dir;
+    protected int action;
     public Vector2 Dir
     {
         get
@@ -28,6 +29,11 @@ public abstract class EntityController : MonoBehaviour
     public Animator anim;
 
     public virtual void SetBlend(int blend)
+    {
+
+    }
+
+    public virtual void SetAction(int action)
     {
 
     }

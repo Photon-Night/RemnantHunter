@@ -15,17 +15,17 @@ public class StateManager : MonoBehaviour
         FSM.Add(AniState.Move, new StateMove());
     }
 
-    public void ChangeState(EntityBase entity, AniState state)
+    public void ChangeState(EntityBase entity, AniState state, params object[] args)
     {
         if (entity.CurrentState == state) return;
 
         if(FSM.ContainsKey(state))
         {
             if(entity.CurrentState != AniState.None)
-            FSM[entity.CurrentState].OnExit(entity);
+            FSM[entity.CurrentState].OnExit(entity, args);
 
-            FSM[state].OnEnter(entity);
-            FSM[state].Process(entity);
+            FSM[state].OnEnter(entity, args);
+            FSM[state].Process(entity, args);
         }
     }
 }

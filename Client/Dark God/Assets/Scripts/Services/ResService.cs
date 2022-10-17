@@ -16,6 +16,7 @@ public class ResService : MonoSingleton<ResService>
         InitGuideCfg(PathDefine.GuideCfg);
         InitStrongCfg(PathDefine.StrongCfg);
         InitTaskCfg(PathDefine.TaskCfg);
+        InitSkillCfg(PathDefine.SkillCfg);
     }
 
     #region SceneLoad
@@ -282,7 +283,6 @@ public class ResService : MonoSingleton<ResService>
     }
     #endregion
 
-
     #region TaskData
     private Dictionary<int, TaskCfg> taskDic = new Dictionary<int, TaskCfg>();
     private void InitTaskCfg(string path)
@@ -345,6 +345,7 @@ public class ResService : MonoSingleton<ResService>
         return null;
     }
     #endregion
+
     #region StrongData
     private Dictionary<int, Dictionary<int, StrongCfg>> strongDic = new Dictionary<int, Dictionary<int, StrongCfg>>();
     private void InitStrongCfg(string path)
@@ -458,6 +459,59 @@ public class ResService : MonoSingleton<ResService>
     }
     #endregion
 
+    #region Skill
+    private Dictionary<int, SkillCfg> skillDic = new Dictionary<int, SkillCfg>();
+    private void InitSkillCfg(string path)
+    {
+        TextAsset xml = Resources.Load<TextAsset>(path);
+        if(xml == null)
+        {
+            PECommon.Log("xml file:" + path + "is not existed", PEProtocol.LogType.Error);
+            return;
+        }
+
+        XmlDocument doc = new XmlDocument();
+        doc.Load(xml.text);
+
+        XmlNodeList nodeLst = doc.SelectSingleNode("root").ChildNodes;
+
+        for(int i = 0; i < nodeLst.Count; i++)
+        {
+            XmlElement ele = nodeLst[i] as XmlElement;
+            if(ele.GetAttributeNode("ID") == null)
+            {
+                continue;
+            }
+
+            int id = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
+            SkillCfg skill = new SkillCfg
+            {
+                ID = id
+            };
+            foreach (XmlElement e in ele)
+            {
+                switch(e.Name)
+                {
+                    case "skillName":
+                        skill.skillName = e.InnerText;
+                        break;
+                    case "skillTime":
+                        skill.skillTime = int.Parse(e.InnerText);
+                        break;
+                    case "aniAction":
+                        skill.aniAction = int.Parse(e.InnerText);
+                        break;
+                    case "fx":
+                        skill.fx = e.InnerText;
+                        break;
+                }
+            }
+
+            skillDic.Add(id, skill);
+        }
+    }
+    #endregion
+     
     #region Prefab
     private Dictionary<string, GameObject> goDic = new Dictionary<string, GameObject>();
     public GameObject LoadPrefab(string path, bool isCache = false)

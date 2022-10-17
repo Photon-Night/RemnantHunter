@@ -4,10 +4,19 @@ using UnityEngine;
 
 public interface IState
 {
-    public void OnEnter(EntityBase entity);
-    public void OnUpdate(EntityBase entity);
-    public void OnExit(EntityBase entity);
-    public void Process(EntityBase entity);
+    public void OnEnter(EntityBase entity, params object[] args);
+    public void OnUpdate(EntityBase entity, params object[] args);
+    public void OnExit(EntityBase entity, params object[] args);
+    public void Process(EntityBase entity, params object[] args);
+}
+
+public class StateInfo
+{
+    public int SkillId
+    {
+        get;
+        set;
+    }
 }
 
 public enum AniState
@@ -15,5 +24,6 @@ public enum AniState
     None,
     Move,
     Idle,
+    Attack,
 }
 
