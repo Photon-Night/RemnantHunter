@@ -18726,7 +18726,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1193633289
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20835,6 +20835,7 @@ GameObject:
   - component: {fileID: 1360933519}
   - component: {fileID: 1360933520}
   - component: {fileID: 1360933521}
+  - component: {fileID: 1360933522}
   m_Layer: 0
   m_Name: GameRoot
   m_TagString: Untagged
@@ -20987,6 +20988,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   global: 1
   battleWin: {fileID: 1243297693}
+--- !u!114 &1360933522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360933511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d104b1e5c8bd30429e882f166ed0d27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  global: 1
 --- !u!1 &1392284948
 GameObject:
   m_ObjectHideFlags: 0
@@ -22695,7 +22709,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1462564857
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24704,7 +24718,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1578726471
 RectTransform:
   m_ObjectHideFlags: 0

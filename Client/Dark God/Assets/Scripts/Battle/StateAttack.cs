@@ -8,6 +8,7 @@ public class StateAttack : IState
     public void OnEnter(EntityBase entity, params object[] args)
     {
         entity.CurrentState = AniState.Attack;
+        entity.AttackEffect((int)args[0]);
         PECommon.Log("Enter Attack");
     }
 

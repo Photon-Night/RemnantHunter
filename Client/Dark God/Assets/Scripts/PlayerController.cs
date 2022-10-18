@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : EntityController
-{   
+{
+    public GameObject daggeratk1fx;
+
+
     public CharacterController cc;
   
     private Vector3 camOffest;
@@ -16,11 +19,16 @@ public class PlayerController : EntityController
     
     private Transform camTrans;
     // Start is called before the first frame update
-    public void Init()
+    public override void Init()
     {
+        base.Init();
+
         camTrans = Camera.main.transform;
         camOffest = transform.position - camTrans.position;
         Physics.autoSyncTransforms = true;
+
+        if(daggeratk1fx != null)
+        fxDic.Add(daggeratk1fx.name, daggeratk1fx);
     }
 
     // Update is called once per frame
@@ -55,17 +63,7 @@ public class PlayerController : EntityController
         
     }
 
-    private void SetDir()
-    {
-        float angle = Vector2.SignedAngle(Dir, new Vector2(0, 1)) + camTrans.eulerAngles.y;
-        Vector3 eulerAngles = new Vector3(0, angle, 0);
-        this.transform.localEulerAngles = eulerAngles;
-    }
 
-    private void SetMove()
-    {
-        cc.Move(transform.forward * Time.deltaTime * Message.PlayerMoveSpeed);
-    }
 
     public void SetCam()
     {
@@ -74,12 +72,6 @@ public class PlayerController : EntityController
             camTrans.position = transform.position - camOffest;
         }
     }
-
-    public override void SetBlend(int blend)
-    {
-        targetBlend = blend;
-    }
-
     private void UpdateMixBlend()
     {
         if(Mathf.Abs(currentBlend - targetBlend) < Message.AccelerSpeed * Time.deltaTime)
@@ -95,5 +87,34 @@ public class PlayerController : EntityController
             currentBlend += Message.AccelerSpeed * Time.deltaTime;
         }
         anim.SetFloat("Blend", currentBlend);
+    }
+    private void SetDir()
+    {
+        float angle = Vector2.SignedAngle(Dir, new Vector2(0, 1)) + camTrans.eulerAngles.y;
+        Vector3 eulerAngles = new Vector3(0, angle, 0);
+        this.transform.localEulerAngles = eulerAngles;
+    }
+    private void SetMove()
+    {
+        cc.Move(transform.forward * Time.deltaTime * Message.PlayerMoveSpeed);
+    }
+
+    public override void SetBlend(int blend)
+    {
+        targetBlend = blend;
+    }
+
+    public override void SetFX(string name, float destory)
+    {
+        GameObject go;
+        if(fxDic.TryGetValue(name, out go))
+        {
+            go.SetActive(true);
+            
+            timer.AddTimeTask((int tid) =>
+            {
+                go.SetActive(false);
+            }, destory);
+        }
     }
 }

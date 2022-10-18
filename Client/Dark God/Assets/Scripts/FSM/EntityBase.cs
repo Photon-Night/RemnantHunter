@@ -58,6 +58,12 @@ public class EntityBase
             controller.SetAction(action);
     }
 
+    public virtual void SetFX(string name, float destroy)
+    {
+        if (controller != null)
+            controller.SetFX(name, destroy);
+    }
+
     public virtual void AttackEffect(int skillId)
     {
         skillMgr.AttackEffect(this, skillId);

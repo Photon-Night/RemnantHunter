@@ -22,6 +22,7 @@ public class GameRoot : MonoSingleton<GameRoot>
         NetService.Instance.ServiceInit();
         ResService.Instance.ServiceInit();
         AudioService.Instance.ServiceInit();
+        TimerService.Instance.ServiceInit();
 
         MainCitySystem.Instance.InitSystem();
         MissionSystem.Instance.InitSystem();

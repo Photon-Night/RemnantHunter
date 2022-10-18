@@ -471,7 +471,7 @@ public class ResService : MonoSingleton<ResService>
         }
 
         XmlDocument doc = new XmlDocument();
-        doc.Load(xml.text);
+        doc.LoadXml(xml.text);
 
         XmlNodeList nodeLst = doc.SelectSingleNode("root").ChildNodes;
 
@@ -509,6 +509,17 @@ public class ResService : MonoSingleton<ResService>
 
             skillDic.Add(id, skill);
         }
+    }
+
+    public SkillCfg GetSkillData(int id)
+    {
+        SkillCfg data;
+        if(skillDic.TryGetValue(id, out data))
+        {
+            return data;
+        }
+
+        return null;
     }
     #endregion
      

@@ -123,5 +123,10 @@ public class BattleManager : MonoBehaviour
     {
         PECommon.Log("normal");
     }
+
+    public virtual void SetFX()
+    {
+
+    }
 }
 
