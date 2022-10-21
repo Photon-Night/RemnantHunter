@@ -8,13 +8,13 @@ public class StateAttack : IState
     public void OnEnter(EntityBase entity, params object[] args)
     {
         entity.CurrentState = AniState.Attack;
-        entity.AttackEffect((int)args[0]);
+        
         PECommon.Log("Enter Attack");
     }
 
     public void OnExit(EntityBase entity, params object[] args)
     {
-       
+        entity.SetAction(Message.ActionNormal);
     }
 
     public void OnUpdate(EntityBase entity, params object[] args)
@@ -24,7 +24,7 @@ public class StateAttack : IState
 
     public void Process(EntityBase entity, params object[] args)
     {
-        
+        entity.AttackEffect((int)args[0]);
     }
 }
     

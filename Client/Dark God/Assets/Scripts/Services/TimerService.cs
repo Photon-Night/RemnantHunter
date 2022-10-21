@@ -14,6 +14,12 @@ public class TimerService : MonoSingleton<TimerService>
         {
             PECommon.Log(info);
         });
+
+    }
+
+    public void Update()
+    {
+        pt.Update();
     }
 
     public int AddTimeTask(Action<int> callback, double delay, PETimeUnit timeUnit = PETimeUnit.Millisecond, int count = 1)

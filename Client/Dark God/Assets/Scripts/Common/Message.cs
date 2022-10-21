@@ -37,6 +37,9 @@ public class Message
     public const int BlendIdle = 0;
     public const int BlendWalk = 1;
 
+    public const int ActionSkill1 = 1;
+    public const int ActionNormal = -1;
+
     //npcID
     public const int NPCWiseMan = 0;
     public const int NPCGeneral = 1;
