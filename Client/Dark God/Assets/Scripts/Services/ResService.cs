@@ -17,6 +17,7 @@ public class ResService : MonoSingleton<ResService>
         InitStrongCfg(PathDefine.StrongCfg);
         InitTaskCfg(PathDefine.TaskCfg);
         InitSkillCfg(PathDefine.SkillCfg);
+        InitSkillMoveCfg(PathDefine.SkillMoveCfg);
     }
 
     #region SceneLoad
@@ -522,7 +523,71 @@ public class ResService : MonoSingleton<ResService>
         return null;
     }
     #endregion
-     
+
+    #region SkillMove
+
+    private Dictionary<int, SkillMoveCfg> skillMoveDic = new Dictionary<int, SkillMoveCfg>();
+
+    private void InitSkillMoveCfg(string path)
+    {
+        TextAsset xml = Resources.Load<TextAsset>(path);
+        if(xml == null)
+        {
+            PECommon.Log("xml file:" + path + "is not existed", PEProtocol.LogType.Error);
+            return;
+        }
+
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(xml.text);
+
+        XmlNodeList nodeLst = doc.SelectSingleNode("root").ChildNodes;
+
+        for(int i = 0; i < nodeLst.Count; i++)
+        {
+            XmlElement ele = nodeLst[i] as XmlElement;
+            if (ele.GetAttributeNode("ID") == null)
+            {
+                continue;
+            }
+
+            int id = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
+            SkillMoveCfg skillMove = new SkillMoveCfg
+            {
+                ID = id
+            };
+
+            foreach (XmlElement e in ele)
+            {
+                switch (e.Name)
+                {
+                    case "moveTime":
+                        skillMove.moveTime = int.Parse(e.InnerText);
+                        break;
+                    case "moveDic":
+                        skillMove.moveDic = float.Parse(e.InnerText);
+                        break;
+                }
+
+            }
+
+            skillMoveDic.Add(id, skillMove);
+        }
+
+    }
+
+    public SkillMoveCfg GetSkillMoveCfg(int id)
+    {
+        SkillMoveCfg data = null;
+        if(skillMoveDic.TryGetValue(id, out data))
+        {
+            return data;
+        }
+
+        return null;
+    }
+
+    #endregion
+
     #region Prefab
     private Dictionary<string, GameObject> goDic = new Dictionary<string, GameObject>();
     public GameObject LoadPrefab(string path, bool isCache = false)

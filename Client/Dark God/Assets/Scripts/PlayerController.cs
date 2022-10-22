@@ -60,6 +60,12 @@ public class PlayerController : EntityController
             SetMove();
             SetCam();
         }      
+
+        if(isSkillMove)
+        {
+            SetSkillMove();
+            SetCam();
+        }
         
     }
 
@@ -102,6 +108,11 @@ public class PlayerController : EntityController
     public override void SetBlend(int blend)
     {
         targetBlend = blend;
+    }
+
+    private void SetSkillMove()
+    {
+
     }
 
     public override void SetFX(string name, float destory)

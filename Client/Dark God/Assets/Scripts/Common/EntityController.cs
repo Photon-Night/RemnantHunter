@@ -5,8 +5,10 @@ using UnityEngine;
 public abstract class EntityController : MonoBehaviour
 {
     protected bool isMove;
+    protected bool isSkillMove;
     protected Vector2 dir;
     protected int action;
+    protected float skillMoveSpeed;
     protected Dictionary<string, GameObject> fxDic = new Dictionary<string, GameObject>();
     protected TimerService timer;
     public Vector2 Dir
@@ -51,5 +53,10 @@ public abstract class EntityController : MonoBehaviour
 
     }
 
+    public void SetSkillMove(bool move, float skillSpeed)
+    {
+        isSkillMove = move;
+        skillMoveSpeed = skillSpeed;
+    }
 
 }

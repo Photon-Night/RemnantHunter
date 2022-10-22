@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\Net\ClientSession.cs" />
     <Compile Include="Assets\Scripts\Services\TimerService.cs" />
     <Compile Include="Assets\Scripts\System\SystemRoot.cs" />
+    <Compile Include="Assets\Scripts\Battle\StateAttack.cs" />
     <Compile Include="Assets\Scripts\Common\PEListener.cs" />
     <Compile Include="Assets\Scripts\FSM\EntityBase.cs" />
     <Compile Include="Assets\Scripts\Services\AudioService.cs" />
@@ -97,10 +98,10 @@
     <Compile Include="Assets\Scripts\UIWin\MissionWin.cs" />
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
-    <Compile Include="Assets\Scripts\Battle\StateAttack.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />
+    <None Include="Assets\Resources\ResCfgs\skillmove.xml" />
     <None Include="Assets\Resources\ResCfgs\task.xml" />
     <None Include="Assets\Scripts\Net\PESocket.dll" />
     <None Include="Assets\Resources\ResCfgs\strong.xml" />
