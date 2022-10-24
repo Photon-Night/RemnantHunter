@@ -20,6 +20,17 @@ public class ResService : MonoSingleton<ResService>
         InitSkillMoveCfg(PathDefine.SkillMoveCfg);
     }
 
+    public void ReSetSkillCfgData()
+    {
+        skillDic.Clear();
+        skillMoveDic.Clear();
+
+        InitSkillCfg(PathDefine.SkillCfg);
+        InitSkillMoveCfg(PathDefine.SkillMoveCfg);
+
+        PECommon.Log("Skill Data Reset");
+    }
+
     #region SceneLoad
     private System.Action PrgCB = null;
     public void LoadSceneAsync(string sceneName, System.Action loaded = null)
@@ -487,7 +498,8 @@ public class ResService : MonoSingleton<ResService>
             int id = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
             SkillCfg skill = new SkillCfg
             {
-                ID = id
+                ID = id,
+                skillMoveLst = new List<int>()
             };
             foreach (XmlElement e in ele)
             {
@@ -504,6 +516,16 @@ public class ResService : MonoSingleton<ResService>
                         break;
                     case "fx":
                         skill.fx = e.InnerText;
+                        break;
+                    case "skillMove":
+                        string[] _skillMoveStr = e.InnerText.Split('|');
+                        for(int j = 0; j < _skillMoveStr.Length; j++)
+                        {
+                            if(_skillMoveStr[j] != "")
+                            {
+                                skill.skillMoveLst.Add(int.Parse(_skillMoveStr[j]));
+                            }
+                        }
                         break;
                 }
             }
@@ -560,6 +582,9 @@ public class ResService : MonoSingleton<ResService>
             {
                 switch (e.Name)
                 {
+                    case "delayTime":
+                        skillMove.delayTime = float.Parse(e.InnerText);
+                        break;
                     case "moveTime":
                         skillMove.moveTime = int.Parse(e.InnerText);
                         break;

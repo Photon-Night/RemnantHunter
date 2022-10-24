@@ -112,7 +112,7 @@ public class PlayerController : EntityController
 
     private void SetSkillMove()
     {
-
+        cc.Move(transform.forward * Time.deltaTime * skillMoveSpeed);
     }
 
     public override void SetFX(string name, float destory)

@@ -19,17 +19,46 @@ public class SkillManager : MonoBehaviour
     /// </summary>
     public void AttackEffect(EntityBase entity, int skillId)
     {
-        SkillCfg data = resSvc.GetSkillData(skillId);
-
-        if(data != null)
+        SkillCfg data_skill = resSvc.GetSkillData(skillId);
+        
+        if (data_skill != null)
         {
-            entity.SetAction(data.aniAction);
-            entity.SetFX(data.fx, data.skillTime);
-            
-            timer.AddTimeTask((int tid) =>
+            float sumTime = 0;
+            for (int i = 0; i < data_skill.skillMoveLst.Count; i++)
             {
-                entity.Idle();
-            }, data.skillTime);
+                SkillMoveCfg data_skillMove = resSvc.GetSkillMoveCfg(data_skill.skillMoveLst[i]);
+                float _speed = data_skillMove.moveDic / (data_skillMove.moveTime / 1000f);
+
+                entity.SetAction(data_skill.aniAction);
+                entity.SetFX(data_skill.fx, data_skill.skillTime);
+
+                sumTime += data_skillMove.delayTime;
+
+                if (sumTime > 0)
+                {
+                    timer.AddTimeTask((int tid) =>
+                    {
+                        entity.SetSkillMoveState(true, _speed);
+                    }, data_skillMove.delayTime);
+                }
+                else
+                {
+                    entity.SetSkillMoveState(true, _speed);
+                }
+
+                sumTime += data_skillMove.moveTime;
+
+                timer.AddTimeTask((int tid) =>
+                {
+                    entity.SetSkillMoveState(false);
+                }, sumTime);
+
+                timer.AddTimeTask((int tid) =>
+                {
+                    entity.Idle();
+                }, data_skill.skillTime);
+            }
+
         }
     }
 }

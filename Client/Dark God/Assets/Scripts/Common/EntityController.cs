@@ -53,7 +53,7 @@ public abstract class EntityController : MonoBehaviour
 
     }
 
-    public void SetSkillMove(bool move, float skillSpeed)
+    public void SetSkillMoveState(bool move, float skillSpeed = 0)
     {
         isSkillMove = move;
         skillMoveSpeed = skillSpeed;

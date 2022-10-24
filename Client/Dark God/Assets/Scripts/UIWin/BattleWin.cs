@@ -106,4 +106,9 @@ public class BattleWin : WinRoot
     {
         BattleSystem.Instance.ReqReleaseSkill(index);
     }
+
+    public void OnClickResetSkillDataBtn()
+    {
+        ResService.Instance.ReSetSkillCfgData();
+    }
 }

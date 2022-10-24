@@ -30132,9 +30132,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainCityWin, Assembly-CSharp
-        m_MethodName: OnClickHeadBtn
+      - m_Target: {fileID: 1243297693}
+        m_TargetAssemblyTypeName: BattleWin, Assembly-CSharp
+        m_MethodName: OnClickResetSkillDataBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -68,4 +68,12 @@ public class EntityBase
     {
         skillMgr.AttackEffect(this, skillId);
     }
+
+    public void SetSkillMoveState(bool skillMove, float moveSpeed = 0)
+    {
+        if(controller != null)
+        {
+            controller.SetSkillMoveState(skillMove, moveSpeed);
+        }
+    }
 }
