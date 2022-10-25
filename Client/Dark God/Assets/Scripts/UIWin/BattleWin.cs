@@ -20,6 +20,9 @@ public class BattleWin : WinRoot
     private Vector2 startPos;
     private Vector2 defaultPos;
 
+    private Vector2 currentDir;
+
+
     protected override void InitWin()
     {
         base.InitWin();
@@ -28,6 +31,16 @@ public class BattleWin : WinRoot
         SetActive(imgDirPoint, false);
         RegisterTouchEvts();
         RefreshUI();
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            BattleSystem.Instance.bm.ReqReleaseSkill(1);
+        }
+
+
     }
 
     public void RefreshUI()
@@ -81,7 +94,8 @@ public class BattleWin : WinRoot
             imgDirBg.transform.position = defaultPos;
             SetActive(imgDirPoint, false);
             imgDirPoint.transform.localPosition = Vector2.zero;
-            BattleSystem.Instance.SetMoveDir(Vector2.zero);
+            currentDir = Vector2.zero;
+            BattleSystem.Instance.SetMoveDir(currentDir);
 
         });
 
@@ -89,6 +103,7 @@ public class BattleWin : WinRoot
         {
             Vector2 _dir = evt.position - startPos;
             float len = _dir.magnitude;
+
             if (len > pointDis)
             {
                 Vector2 clampDir = Vector2.ClampMagnitude(_dir, Message.ScreenOPDis);
@@ -98,7 +113,10 @@ public class BattleWin : WinRoot
             {
                 imgDirPoint.transform.position = evt.position;
             }
-            BattleSystem.Instance.SetMoveDir(_dir.normalized);
+
+            currentDir = _dir.normalized;
+
+            BattleSystem.Instance.SetMoveDir(currentDir);
         });
     }
 
@@ -110,5 +128,10 @@ public class BattleWin : WinRoot
     public void OnClickResetSkillDataBtn()
     {
         ResService.Instance.ReSetSkillCfgData();
+    }
+
+    public Vector2 GetCurrentDir()
+    {
+        return currentDir;
     }
 }

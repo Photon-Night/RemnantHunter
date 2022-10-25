@@ -6,7 +6,7 @@ using UnityEngine;
 public class BattleSystem : SystemRoot<BattleSystem>
 {
     public BattleWin battleWin;
-    private BattleManager bm;
+    public BattleManager bm;
 
     public override void InitSystem()
     {
@@ -42,6 +42,11 @@ public class BattleSystem : SystemRoot<BattleSystem>
     public void ReqReleaseSkill(int index)
     {
         bm.ReqReleaseSkill(index);
+    }
+
+    public Vector2 GetInputDir()
+    {
+        return battleWin.GetCurrentDir();
     }
 }
 

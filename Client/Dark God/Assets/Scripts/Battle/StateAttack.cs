@@ -15,6 +15,8 @@ public class StateAttack : IState
     public void OnExit(EntityBase entity, params object[] args)
     {
         entity.SetAction(Message.ActionNormal);
+        entity.LockCtrl = false;
+        entity.UnLock();
     }
 
     public void OnUpdate(EntityBase entity, params object[] args)

@@ -7,7 +7,9 @@ public class StateIdle : IState
 {
     public void OnEnter(EntityBase entity, params object[] args)
     {
+
         entity.CurrentState = AniState.Idle;
+        
         PECommon.Log("Enter Idle");
         
     }
@@ -24,6 +26,12 @@ public class StateIdle : IState
 
     public void Process(EntityBase entity, params object[] args)
     {
+        if (entity.GetInputDir() != Vector2.zero)
+        {
+            entity.Move();
+            entity.SetDir(entity.GetInputDir());
+        }
+        else
         entity.SetBlend(Message.BlendIdle);
     }
 }

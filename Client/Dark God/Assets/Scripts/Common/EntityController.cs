@@ -11,6 +11,9 @@ public abstract class EntityController : MonoBehaviour
     protected float skillMoveSpeed;
     protected Dictionary<string, GameObject> fxDic = new Dictionary<string, GameObject>();
     protected TimerService timer;
+
+    public bool LockCtrl = false;
+
     public Vector2 Dir
     {
         get
@@ -58,5 +61,4 @@ public abstract class EntityController : MonoBehaviour
         isSkillMove = move;
         skillMoveSpeed = skillSpeed;
     }
-
 }

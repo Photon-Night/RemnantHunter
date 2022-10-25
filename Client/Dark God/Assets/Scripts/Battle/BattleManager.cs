@@ -63,6 +63,7 @@ public class BattleManager : MonoBehaviour
             stateMgr = stateMgr,
             controller = pc,
             skillMgr = skillMgr,
+            battleMgr = this
         };
 
 
@@ -90,6 +91,9 @@ public class BattleManager : MonoBehaviour
 
     public void SetMoveDir(Vector2 dir)
     {
+        if (ep.LockCtrl)
+            return;
+
         if(dir != Vector2.zero)
         {
             ep.Move();
@@ -127,6 +131,11 @@ public class BattleManager : MonoBehaviour
     public virtual void SetFX()
     {
 
+    }
+
+    public Vector2 GetInputDir()
+    {
+        return BattleSystem.Instance.GetInputDir();
     }
 }
 

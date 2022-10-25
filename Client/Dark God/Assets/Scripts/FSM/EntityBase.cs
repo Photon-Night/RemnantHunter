@@ -8,6 +8,12 @@ public class EntityBase
     public StateManager stateMgr;
     public EntityController controller;
     public SkillManager skillMgr;
+    public BattleManager battleMgr;
+    public bool LockCtrl
+    {
+        get;
+        set;
+    }
     public AniState CurrentState
     {
         get
@@ -75,5 +81,20 @@ public class EntityBase
         {
             controller.SetSkillMoveState(skillMove, moveSpeed);
         }
+    }
+
+    public void Lock()
+    {
+        controller.LockCtrl = true;
+    }
+
+    public void UnLock()
+    {
+        controller.LockCtrl = false;
+    }
+
+    public virtual Vector2 GetInputDir()
+    {
+        return Vector2.zero;
     }
 }

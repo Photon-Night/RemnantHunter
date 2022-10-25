@@ -17,6 +17,7 @@ public class PlayerController : EntityController
     private float targetBlend;
 
     
+    
     private Transform camTrans;
     // Start is called before the first frame update
     public override void Init()
@@ -34,39 +35,43 @@ public class PlayerController : EntityController
     // Update is called once per frame
     void Update()
     {
-        //float h = Input.GetAxis("Horizontal");
-        //float v = Input.GetAxis("Vertical");
-        //
-        //Vector2 _dir = new Vector2(h, v).normalized;
-        //if(_dir != Vector2.zero)
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+
+        //if (!LockCtrl)
         //{
-        //    Dir = _dir;
-        //    SetBlend(Message.BlendWalk);
-        //}
-        //else
-        //{
-        //    Dir = Vector2.zero;
-        //    SetBlend(Message.BlendIdle);
-        //}
         //
-        if(currentBlend != targetBlend)
+        //    Vector2 _dir = new Vector2(h, v).normalized;
+        //    if (_dir != Vector2.zero)
+        //    {
+        //        Dir = _dir;
+        //        SetBlend(Message.BlendWalk);
+        //    }
+        //    else
+        //    {
+        //        Dir = Vector2.zero;
+        //        SetBlend(Message.BlendIdle);
+        //    }
+        //
+        //}
+        if (currentBlend != targetBlend)
         {
             UpdateMixBlend();
         }
 
-        if(isMove)
+        if (isMove)
         {
             SetDir();
             SetMove();
             SetCam();
-        }      
+        }
 
-        if(isSkillMove)
+        if (isSkillMove)
         {
             SetSkillMove();
             SetCam();
         }
-        
+
     }
 
 

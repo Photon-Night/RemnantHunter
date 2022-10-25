@@ -65,7 +65,7 @@ public class SkillCfg : BaseData<SkillCfg>
 public class SkillMoveCfg : BaseData<SkillCfg>
 {
     public int moveTime;
-    public float moveDic;
+    public float moveDis;
     public float delayTime;
 }
 

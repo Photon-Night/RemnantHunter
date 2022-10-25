@@ -23,7 +23,7 @@ public class ResService : MonoSingleton<ResService>
     public void ReSetSkillCfgData()
     {
         skillDic.Clear();
-        skillMoveDic.Clear();
+        skillmoveDis.Clear();
 
         InitSkillCfg(PathDefine.SkillCfg);
         InitSkillMoveCfg(PathDefine.SkillMoveCfg);
@@ -517,7 +517,7 @@ public class ResService : MonoSingleton<ResService>
                     case "fx":
                         skill.fx = e.InnerText;
                         break;
-                    case "skillMove":
+                    case "skillMoveLst":
                         string[] _skillMoveStr = e.InnerText.Split('|');
                         for(int j = 0; j < _skillMoveStr.Length; j++)
                         {
@@ -548,7 +548,7 @@ public class ResService : MonoSingleton<ResService>
 
     #region SkillMove
 
-    private Dictionary<int, SkillMoveCfg> skillMoveDic = new Dictionary<int, SkillMoveCfg>();
+    private Dictionary<int, SkillMoveCfg> skillmoveDis = new Dictionary<int, SkillMoveCfg>();
 
     private void InitSkillMoveCfg(string path)
     {
@@ -588,14 +588,14 @@ public class ResService : MonoSingleton<ResService>
                     case "moveTime":
                         skillMove.moveTime = int.Parse(e.InnerText);
                         break;
-                    case "moveDic":
-                        skillMove.moveDic = float.Parse(e.InnerText);
+                    case "moveDis":
+                        skillMove.moveDis = float.Parse(e.InnerText);
                         break;
                 }
 
             }
 
-            skillMoveDic.Add(id, skillMove);
+            skillmoveDis.Add(id, skillMove);
         }
 
     }
@@ -603,7 +603,7 @@ public class ResService : MonoSingleton<ResService>
     public SkillMoveCfg GetSkillMoveCfg(int id)
     {
         SkillMoveCfg data = null;
-        if(skillMoveDic.TryGetValue(id, out data))
+        if(skillmoveDis.TryGetValue(id, out data))
         {
             return data;
         }
