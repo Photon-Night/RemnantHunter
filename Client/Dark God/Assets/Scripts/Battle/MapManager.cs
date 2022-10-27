@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    
-
-    public void InitManager()
+    private BattleManager battleMgr;
+    private int waveIndex = 1;
+    public void InitManager(BattleManager bm)
     {
         PECommon.Log("MapManager Loading");
-
-       
+        battleMgr = bm;
+        battleMgr.LoadMonsterByWaveID(waveIndex);
     }
 }

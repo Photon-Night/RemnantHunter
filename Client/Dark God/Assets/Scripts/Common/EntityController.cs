@@ -39,6 +39,10 @@ public abstract class EntityController : MonoBehaviour
     public virtual void Init()
     {
         timer = TimerService.Instance;
+        if(!anim)
+        {
+            anim = this.GetComponent<Animator>();
+        }
     }
 
     public virtual void SetBlend(int blend)

@@ -12,6 +12,7 @@ public class ResService : MonoSingleton<ResService>
         PECommon.Log("ResService Loading");
         
         InitRDNameCfg(PathDefine.RDNameCfg);
+        InitMonsterCfg(PathDefine.MonsterCfg);
         InitMapCfg(PathDefine.MapCfg);
         InitGuideCfg(PathDefine.GuideCfg);
         InitStrongCfg(PathDefine.StrongCfg);
@@ -168,7 +169,10 @@ public class ResService : MonoSingleton<ResService>
 
                 int ID = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
                 MapCfg mc = new MapCfg()
-                { ID = ID};
+                {
+                    ID = ID,
+                    monsterLst = new List<MonsterData>()
+                };
 
                 foreach (XmlElement e in nodList[i].ChildNodes)
                 {
@@ -207,6 +211,30 @@ public class ResService : MonoSingleton<ResService>
                                 mc.playerBornRote = new Vector3(float.Parse(valArr[0]), float.Parse(valArr[1]), float.Parse(valArr[2]));
                             }
                             break;
+                        case "monsterLst":
+                            {
+                                string[] valArr = e.InnerText.Split('#');
+                                for(int waveIndex = 1; waveIndex < valArr.Length; waveIndex++)
+                                {
+                                    string[] tempArr = valArr[waveIndex].Split('|');
+                                    for(int j = 1; j < tempArr.Length; j++)
+                                    {
+                                        string[] arr = tempArr[j].Split(',');
+                                        MonsterData mData = new MonsterData
+                                        {
+                                            ID = int.Parse(arr[0]),
+                                            mWave = waveIndex,
+                                            mIndex = j,
+                                            mCfg = GetMonsterCfg(int.Parse(arr[0])),
+                                            mBornPos = new Vector3(float.Parse(arr[1]), float.Parse(arr[2]), float.Parse(arr[3])),
+                                            mBornRote = new Vector3(0, float.Parse(arr[4]), 0)
+                                        };
+                                        mc.monsterLst.Add(mData);
+                                        
+                                    }
+                                }
+                            }
+                            break;
                     }
                 }
                 mapCfgDataDic.Add(ID, mc);
@@ -225,6 +253,63 @@ public class ResService : MonoSingleton<ResService>
         {
             return null;
         }
+    }
+    #endregion
+
+    #region Monster
+    private Dictionary<int, MonsterCfg> monsterDic = new Dictionary<int, MonsterCfg>();
+    private void InitMonsterCfg(string path)
+    {
+        TextAsset xml = Resources.Load<TextAsset>(path);
+        if(xml == null)
+        {
+            PECommon.Log("xml file: " + path + "is not exist", PEProtocol.LogType.Error);
+        }
+
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(xml.text);
+
+        XmlNodeList nodeLst = doc.SelectSingleNode("root").ChildNodes;
+        for(int i = 0; i < nodeLst.Count; i++)
+        {
+            XmlElement ele = nodeLst[i] as XmlElement;
+            if(ele.GetAttributeNode("ID") == null)
+            {
+                continue;
+            }
+
+            int ID = int.Parse(ele.GetAttributeNode("ID").InnerText);
+
+            MonsterCfg data = new MonsterCfg
+            {
+                ID = ID
+            };
+
+            foreach (XmlElement e in ele)
+            {
+                switch (e.Name)
+                {
+                    case "mName":
+                        data.mName = e.InnerText;
+                        break;
+                    case "resPath":
+                        data.resPath = e.InnerText;
+                        break;
+                }
+            }
+
+            monsterDic.Add(ID, data);
+        }
+    }
+
+    public MonsterCfg GetMonsterCfg(int id)
+    {
+        MonsterCfg data = null;
+        if(monsterDic.TryGetValue(id, out data))
+        {
+            return data;
+        }
+        return null;
     }
     #endregion
 

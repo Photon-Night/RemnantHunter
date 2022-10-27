@@ -14,6 +14,7 @@ public class BattleManager : MonoBehaviour
     StateManager stateMgr = null;
 
     private EntityPlayer ep;
+    private MapCfg mapData;
     public void InitManager(int mapId)
     {
         PECommon.Log("BattleManager Loading");
@@ -25,27 +26,27 @@ public class BattleManager : MonoBehaviour
         stateMgr = gameObject.AddComponent<StateManager>();
         stateMgr.InitManager();
 
-        MapCfg data = resSvc.GetMapCfgData(mapId);
-        resSvc.LoadSceneAsync(data.sceneName, () =>
+        mapData = resSvc.GetMapCfgData(mapId);
+        resSvc.LoadSceneAsync(mapData.sceneName, () =>
         {
             GameObject map = GameObject.FindGameObjectWithTag("MapRoot");
 
             mapMgr = map.gameObject.AddComponent<MapManager>();
-            mapMgr.InitManager();
+            mapMgr.InitManager(this);
 
             map.transform.position = Vector3.zero;
             map.transform.localScale = Vector3.one;
 
-            Camera.main.transform.position = data.mainCamPos;
-            Camera.main.transform.localEulerAngles = data.mainCamRote;
+            Camera.main.transform.position =mapData.mainCamPos;
+            Camera.main.transform.localEulerAngles = mapData.mainCamRote;
 
-            LoadPlayer(data);
+            LoadPlayer();
 
             audioSvc.PlayBGMusic(Message.BGHuangYe);
         });
     }
 
-    public void LoadPlayer(MapCfg mapData)
+    public void LoadPlayer()
     {
         GameObject player = resSvc.LoadPrefab(PathDefine.AssissnBattlePlayerPrefab, true);
         player.transform.localPosition = mapData.playerBornPos;
@@ -64,10 +65,38 @@ public class BattleManager : MonoBehaviour
             controller = pc,
             skillMgr = skillMgr,
             battleMgr = this
-        };
+        };     
+    }
 
+    public void LoadMonsterByWaveID(int waveIndex)
+    {
+        List<MonsterData> monsterLst = mapData.monsterLst;
 
-       
+        for(int i = 0; i < monsterLst.Count; i++)
+        {
+            if(monsterLst[i].mWave == waveIndex)
+            {
+                MonsterData mData = monsterLst[i];
+                MonsterCfg cfg = mData.mCfg;
+                GameObject go = resSvc.LoadPrefab(cfg.resPath, true);
+                go.name = cfg.mName + "_" + waveIndex + "_" + i;
+                go.transform.position = mData.mBornPos;
+                go.transform.localEulerAngles = mData.mBornRote;
+
+                EntityMonster em = new EntityMonster
+                {
+                    skillMgr = this.skillMgr,
+                    battleMgr = this,
+                    stateMgr = this.stateMgr
+                };
+
+                MonsterController mc = go.AddComponent<MonsterController>();
+                mc.Init();
+                em.controller = mc;
+
+                go.SetActive(false);
+            }
+        }
     }
 
     public void ReqReleaseSkill(int index)

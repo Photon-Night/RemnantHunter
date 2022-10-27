@@ -98,8 +98,11 @@
     <Compile Include="Assets\Scripts\UIWin\MissionWin.cs" />
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
+    <Compile Include="Assets\Scripts\Battle\EntityMonster.cs" />
+    <Compile Include="Assets\Scripts\Battle\MonsterController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Resources\ResCfgs\monster.xml" />
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />
     <None Include="Assets\Resources\ResCfgs\skillmove.xml" />
     <None Include="Assets\Resources\ResCfgs\task.xml" />

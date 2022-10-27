@@ -16,6 +16,7 @@ public class MapCfg : BaseData<MapCfg>
     public Vector3 mainCamRote;
     public Vector3 playerBornPos;
     public Vector3 playerBornRote;
+    public List<MonsterData> monsterLst;
 }
 
 public class GuideCfg : BaseData<GuideCfg>
@@ -60,6 +61,7 @@ public class SkillCfg : BaseData<SkillCfg>
     public int aniAction;
     public string fx;
     public List<int> skillMoveLst;
+    
 }
 
 public class SkillMoveCfg : BaseData<SkillCfg>
@@ -68,6 +70,22 @@ public class SkillMoveCfg : BaseData<SkillCfg>
     public float moveDis;
     public float delayTime;
 }
+
+public class MonsterCfg : BaseData<MonsterCfg>
+{
+    public string mName;
+    public string resPath;
+}
+
+public class MonsterData : BaseData<MonsterData>
+{
+    public int mWave;
+    public int mIndex;
+    public MonsterCfg mCfg;
+    public Vector3 mBornPos;
+    public Vector3 mBornRote;
+}
+
 
 
 
