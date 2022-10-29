@@ -47,7 +47,7 @@ public class MainCityWin : WinRoot
     {
         PlayerData pd = GameRoot.Instance.PlayerData;
         SetText(txtFight, PECommon.GetFightByProps(pd));
-        SetText(txtPower, "ÌåÁ¦" + pd.power + "/" + PECommon.GetPowerLimit(pd.lv));
+        SetText(txtPower, "ï¿½ï¿½ï¿½ï¿½" + pd.power + "/" + PECommon.GetPowerLimit(pd.lv));
         imgPowerPrg.fillAmount = pd.power * 1f / PECommon.GetPowerLimit(pd.lv);
         SetText(txtLevel, pd.lv);
         SetText(txtName, pd.name);
@@ -56,7 +56,7 @@ public class MainCityWin : WinRoot
         int expPrgVal = (int)(pd.exp * 100f / PECommon.GetExpUpValByLv(pd.lv));
         SetText(txtExpPrg, expPrgVal + "%");
 
-        //ÉèÖÃ¾­ÑéÌõÏÔÊ¾¡£¼ÆËã¾­Ñé¸ñÅÅÁÐ×ÔÊÊÓ¦£¬¼ÆËã¾­ÑéÏÔÊ¾
+        //ï¿½ï¿½ï¿½Ã¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ã¾­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ã¾­ï¿½ï¿½ï¿½ï¿½Ê¾
         int index = expPrgVal / 10;
 
         GridLayoutGroup gird = expPrgTrans.GetComponent<GridLayoutGroup>();
@@ -186,7 +186,7 @@ public class MainCityWin : WinRoot
         }
         else
         {
-            GameRoot.AddTips("ÎÞ¸ü¶àÈÎÎñ");
+            GameRoot.AddTips("ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         }
     }
 

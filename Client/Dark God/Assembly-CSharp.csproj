@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\System\LoginSystem.cs" />
     <Compile Include="Assets\Scripts\Services\ResService.cs" />
     <Compile Include="Assets\Scripts\MainCityMap.cs" />
+    <Compile Include="Assets\Scripts\Battle\MonsterController.cs" />
     <Compile Include="Assets\Scripts\UIWin\BattleWin.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\UIWin\CreateWin.cs" />
@@ -99,7 +100,6 @@
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
     <Compile Include="Assets\Scripts\Battle\EntityMonster.cs" />
-    <Compile Include="Assets\Scripts\Battle\MonsterController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\ResCfgs\monster.xml" />
@@ -118,6 +118,7 @@
     <None Include="Assets\Resources\ResCfgs\skill.xml" />
     <None Include="Assets\Scripts\Net\PEProtocol.dll" />
     <None Include="Assets\Resources\ResCfgs\map.xml" />
+    <None Include="Assets\Resources\ResCfgs\skillaction.xml" />
     <None Include="Assets\Resources\ResCfgs\guide.xml" />
   </ItemGroup>
   <ItemGroup>

@@ -22,7 +22,7 @@ public class MissionSystem : SystemRoot<MissionSystem>
 
     public void RspMissionEnter(GameMsg msg)
     {
-        PECommon.Log("进入副本");
+        PECommon.Log("锟斤拷锟诫副锟斤拷");
         RspMissionEnter data = msg.rspMissionEnter;
         GameRoot.Instance.SetPlayerDataByMissionEnter(data); 
 

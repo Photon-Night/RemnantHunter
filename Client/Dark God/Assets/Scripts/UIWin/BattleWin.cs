@@ -53,7 +53,7 @@ public class BattleWin : WinRoot
         int expPrgVal = (int)(pd.exp * 100f / PECommon.GetExpUpValByLv(pd.lv));
         SetText(txtExpPrg, expPrgVal + "%");
 
-        //иХжц╬╜яИлУотй╬║ё╪фкЦ╬╜яИ╦Яееапвтййс╕ё╛╪фкЦ╬╜яИотй╬
+        //О©╫О©╫О©╫ц╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫й╬О©╫О©╫О©╫О©╫О©╫Ц╬╜О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫с╕О©╫О©╫О©╫О©╫О©╫Ц╬╜О©╫О©╫О©╫О©╫й╬
         int index = expPrgVal / 10;
 
         GridLayoutGroup gird = expPrgTrans.GetComponent<GridLayoutGroup>();

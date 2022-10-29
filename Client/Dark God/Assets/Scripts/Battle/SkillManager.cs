@@ -14,9 +14,12 @@ public class SkillManager : MonoBehaviour
         timer = TimerService.Instance;
         PECommon.Log("SkillManager Loading");
     }
-    /// <summary>
-    /// ¹¥»÷¾ßÌåÂß¼­
-    /// </summary>
+    
+    public void AttackDamage(EntityBase entity, int skillId)
+    {
+
+    }
+
     public void AttackEffect(EntityBase entity, int skillId)
     {
         SkillCfg data_skill = resSvc.GetSkillData(skillId);

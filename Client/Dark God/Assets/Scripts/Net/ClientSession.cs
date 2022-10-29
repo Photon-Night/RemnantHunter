@@ -8,7 +8,7 @@ public class ClientSession : PESession<GameMsg>
 {
     protected override void OnConnected()
     {
-        GameRoot.AddTips("·þÎñÆ÷ÒÑÁ¬½Ó");
+        GameRoot.AddTips("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         PECommon.Log("Connect To Server");
     }
 
@@ -20,7 +20,7 @@ public class ClientSession : PESession<GameMsg>
 
     protected override void OnDisConnected()
     {
-        GameRoot.AddTips("·þÎñÆ÷¶Ï¿ªÁ¬½Ó");
+        GameRoot.AddTips("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½ï¿½");
         PECommon.Log("DisConnect To Server");
     }
 }

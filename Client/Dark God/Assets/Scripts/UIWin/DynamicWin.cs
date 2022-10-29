@@ -46,7 +46,7 @@ public class DynamicWin : WinRoot
         SetText(txtTips, tips);
         AnimationClip clip = tipsAnim.GetClip("TipEnter");
         tipsAnim.Play();
-        //ÑÓÊ±¹Ø±Õ
+        //ï¿½ï¿½Ê±ï¿½Ø±ï¿½
         StartCoroutine(AnimPlayDone(clip.length, () =>
         {
             SetActive(txtTips, false);

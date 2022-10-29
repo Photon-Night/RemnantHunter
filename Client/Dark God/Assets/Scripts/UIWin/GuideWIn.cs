@@ -39,19 +39,19 @@ public class GuideWin : WinRoot
             {
                 case 0:
                     SetSprite(imgIcon, PathDefine.WiseManIcon);
-                    SetText(txtName, "ÖÇÕß");
+                    SetText(txtName, "ï¿½ï¿½ï¿½ï¿½");
                     break;
                 case 1:
                     SetSprite(imgIcon, PathDefine.GeneralIcon);
-                    SetText(txtName, "½«¾ü");
+                    SetText(txtName, "ï¿½ï¿½ï¿½ï¿½");
                     break;
                 case 2:
                     SetSprite(imgIcon, PathDefine.ArtisanIcon);
-                    SetText(txtName, "¹¤½³");
+                    SetText(txtName, "ï¿½ï¿½ï¿½ï¿½");
                     break;
                 case 3:
                     SetSprite(imgIcon, PathDefine.TraderIcon);
-                    SetText(txtName, "ÉÌÈË");
+                    SetText(txtName, "ï¿½ï¿½ï¿½ï¿½");
                     break;
                 default:
                     SetSprite(imgIcon, PathDefine.GuideIcon);

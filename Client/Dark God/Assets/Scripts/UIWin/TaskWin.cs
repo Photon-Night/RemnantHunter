@@ -63,8 +63,8 @@ public class TaskWin : WinRoot
             Transform trans = go.transform;
 
             SetText(GetTransform(trans, "txtName"), data.taskName);
-            SetText(GetTransform(trans, "txtExp"), "¾­Ñé " + data.exp);
-            SetText(GetTransform(trans, "txtCoin"), "½ð±Ò " + data.coin);
+            SetText(GetTransform(trans, "txtExp"), "ï¿½ï¿½ï¿½ï¿½ " + data.exp);
+            SetText(GetTransform(trans, "txtCoin"), "ï¿½ï¿½ï¿½ " + data.coin);
             SetText(GetTransform(trans, "txtPrg"), taskLst[i].prgs + "/" + data.count);
 
             Image prg = GetTransform(trans, "imgPrg").GetComponent<Image>();
@@ -122,8 +122,8 @@ public class TaskWin : WinRoot
 
         TaskCfg data = resSvc.GetTaskCfgData(id);
 
-        GameRoot.AddTips("ÈÎÎñÍê³É");
-        GameRoot.AddTips(Message.Color("½ð±Ò + " + data.coin, Message.ColorBlue));
-        GameRoot.AddTips(Message.Color("¾­Ñé + " + data.exp, Message.ColorBlue));
+        GameRoot.AddTips("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+        GameRoot.AddTips(Message.Color("ï¿½ï¿½ï¿½ + " + data.coin, Message.ColorBlue));
+        GameRoot.AddTips(Message.Color("ï¿½ï¿½ï¿½ï¿½ + " + data.exp, Message.ColorBlue));
     }
 }

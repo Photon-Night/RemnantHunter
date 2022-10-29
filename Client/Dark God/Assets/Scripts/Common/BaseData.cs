@@ -86,6 +86,14 @@ public class MonsterData : BaseData<MonsterData>
     public Vector3 mBornRote;
 }
 
+public class SkillAction : BaseData<SkillAction>
+{
+    public float delayTime;
+    public float radius;
+    public float angle;
+}
+
+
 
 
 

@@ -19,6 +19,7 @@ public class ResService : MonoSingleton<ResService>
         InitTaskCfg(PathDefine.TaskCfg);
         InitSkillCfg(PathDefine.SkillCfg);
         InitSkillMoveCfg(PathDefine.SkillMoveCfg);
+        InitSkillActionCfg(PathDefine.SkillActionCfg);
     }
 
     public void ReSetSkillCfgData()
@@ -696,6 +697,68 @@ public class ResService : MonoSingleton<ResService>
         return null;
     }
 
+    #endregion
+
+    #region SKillAction
+    private Dictionary<int, SkillAction> skillActionDic = new Dictionary<int, SkillAction>();
+    private void InitSkillActionCfg(string path)
+    {
+        TextAsset xml = Resources.Load<TextAsset>(path);
+        if(!xml)
+        {
+            PECommon.Log("xml file:" + path + "is not existed", PEProtocol.LogType.Error);
+            return;
+        }
+
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(xml.text);
+
+        XmlNodeList nodeLst = doc.SelectSingleNode("root").ChildNodes;
+        for(int i = 0; i < nodeLst.Count; i++)
+        {
+            XmlElement ele = nodeLst[i] as XmlElement;
+            if(ele.GetAttributeNode("ID") == null)
+            {
+                continue;
+            }
+
+            int id = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
+            SkillAction data = new SkillAction
+            {
+                ID = id
+            };
+
+            foreach (XmlElement e in ele)
+            {
+                switch (e.Name)
+                {
+                    case "delayTime":
+                        data.delayTime = float.Parse(e.InnerText);
+                        break;
+                    case "radius":
+                        data.radius = float.Parse(e.InnerText);
+                        break;
+                    case "angle":
+                        data.angle = float.Parse(e.InnerText);
+                        break;
+                }
+            }
+
+            skillActionDic.Add(id, data);
+        }
+    }
+
+
+    public SkillAction GetSkillActionCfg(int id)
+    {
+        SkillAction data = null;
+        if(skillActionDic.TryGetValue(id, out data))
+        {
+            return data;
+        }
+
+        return null;
+    }
     #endregion
 
     #region Prefab

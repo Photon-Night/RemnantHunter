@@ -44,7 +44,7 @@ public class MissionWin : WinRoot
         MapCfg data = resSvc.GetMapCfgData(index);
         if(pd.power - data.power < 0)
         {
-            PECommon.Log("ÌåÁ¦²»×ã");
+            PECommon.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         }
         else
         {

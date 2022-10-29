@@ -50,10 +50,10 @@ public class BuyWin : WinRoot
         switch (buyType)
         {
             case 0:
-                txtBuy.text = "ÊÇ·ñÒª»¨·Ñ" + Message.Color("10×êÊ¯", Message.ColorRed) + "¹ºÂò" + Message.Color("1000½ð±Ò", Message.ColorGreen);
+                txtBuy.text = "ï¿½Ç·ï¿½Òªï¿½ï¿½ï¿½ï¿½" + Message.Color("10ï¿½ï¿½Ê¯", Message.ColorRed) + "ï¿½ï¿½ï¿½ï¿½" + Message.Color("1000ï¿½ï¿½ï¿½", Message.ColorGreen);
                 break;
             case 1:
-                txtBuy.text = "ÊÇ·ñÒª»¨·Ñ" + Message.Color("10×êÊ¯", Message.ColorRed) + "¹ºÂò" + Message.Color("100ÌåÁ¦", Message.ColorGreen);
+                txtBuy.text = "ï¿½Ç·ï¿½Òªï¿½ï¿½ï¿½ï¿½" + Message.Color("10ï¿½ï¿½Ê¯", Message.ColorRed) + "ï¿½ï¿½ï¿½ï¿½" + Message.Color("100ï¿½ï¿½ï¿½ï¿½", Message.ColorGreen);
                 break;
         }
     }

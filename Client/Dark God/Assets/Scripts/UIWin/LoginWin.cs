@@ -51,7 +51,7 @@ public class LoginWin : WinRoot
         }
 
         else
-            GameRoot.AddTips("ÇëÊäÈëÕËºÅÃÜÂë");
+            GameRoot.AddTips("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½");
     }
    
 }

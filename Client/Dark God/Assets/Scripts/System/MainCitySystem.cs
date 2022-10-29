@@ -38,14 +38,14 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
         {
             PECommon.Log("Enter MainCity");
 
-            //TODO ¼ÓÔØ½ÇÉ«Ä£ÐÍ
+            //TODO ï¿½ï¿½ï¿½Ø½ï¿½É«Ä£ï¿½ï¿½
             LoadPlayer(mapData);
-            //¼ÓÔØÖ÷³Çui
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ui
             mainCityWin.SetWinState();
 
             audioSvc.PlayBGMusic(Message.BGMMainCity);
 
-            //TODO ÉèÖÃÈËÎï
+            //TODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
             if (charShowCam != null)
             {
@@ -213,35 +213,35 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
 
     public void RspGuide(GameMsg msg)
     {
-        GameRoot.AddTips("ÈÎÎñ½áËãÍê³É");
-        GameRoot.AddTips("½ð±Ò " + msg.rspGuide.coin);
-        GameRoot.AddTips("¾­Ñé " + msg.rspGuide.exp);
+        GameRoot.AddTips("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+        GameRoot.AddTips("ï¿½ï¿½ï¿½ " + msg.rspGuide.coin);
+        GameRoot.AddTips("ï¿½ï¿½ï¿½ï¿½ " + msg.rspGuide.exp);
         switch (currentTaskData.actID)
         {
             case 0:
-                //ÖÇÕß¶Ô»°
+                //ï¿½ï¿½ï¿½ß¶Ô»ï¿½
                 break;
             case 1:
-                //Ç¿»¯×°±¸
+                //Ç¿ï¿½ï¿½×°ï¿½ï¿½
                 OpenStrongWin();
                 break;
             case 2:
-                //´ò¿ª¸±±¾
+                //ï¿½ò¿ª¸ï¿½ï¿½ï¿½
                 OpenMissionWin();
                 break;
 
             case 3:
-                //¹ºÂòÌåÁ¦
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 OpenBuyWin(0);
                 break;
 
             case 4:
-                //¹ºÂò½ð±Ò
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 OpenBuyWin(1);
                 break;
 
             case 5:
-                //ÊÀ½çÁÄÌì
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 OpenChatWin();
                 break;
 
@@ -269,7 +269,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
         GameRoot.Instance.SetPlayerDataByStrong(msg.rspStrong);
         int currentFight = PECommon.GetFightByProps(GameRoot.Instance.PlayerData);
 
-        GameRoot.AddTips(Message.Color("Õ½Á¦ÌáÉý" + (currentFight - lastFight), Message.ColorBlue));
+        GameRoot.AddTips(Message.Color("Õ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" + (currentFight - lastFight), Message.ColorBlue));
 
         strongWin.RefreshUI();
         mainCityWin.RefreshUI();

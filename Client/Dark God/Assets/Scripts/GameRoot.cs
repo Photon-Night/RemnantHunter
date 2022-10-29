@@ -18,7 +18,7 @@ public class GameRoot : MonoSingleton<GameRoot>
 
     private void Init()
     {
-        //×é¼þ³õÊ¼»¯¼ÓÔØ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         NetService.Instance.ServiceInit();
         ResService.Instance.ServiceInit();
         AudioService.Instance.ServiceInit();

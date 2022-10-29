@@ -27,6 +27,7 @@ public class StateAttack : IState
     public void Process(EntityBase entity, params object[] args)
     {
         entity.AttackEffect((int)args[0]);
+        entity.AttackDamage((int)args[0]);
     }
 }
     

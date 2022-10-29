@@ -73,7 +73,7 @@ public class ChatWin : WinRoot
         {
             if(iptChat.text.Length > 17)
             {
-                GameRoot.AddTips("ÊäÈëÄÚÈÝ¹ý³¤£¬ÇëÎð³¬¹ý17×Ö");
+                GameRoot.AddTips("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ð³¬¹ï¿½17ï¿½ï¿½");
             }
             else
             {
@@ -94,7 +94,7 @@ public class ChatWin : WinRoot
         }
         else
         {
-            GameRoot.AddTips("ÇëÊäÈëÎÄ×Ö");
+            GameRoot.AddTips("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         }
     }
     public void AddChatMsg(PushChat data)

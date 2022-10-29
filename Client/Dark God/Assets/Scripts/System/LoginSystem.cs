@@ -26,7 +26,7 @@ public class LoginSystem : SystemRoot<LoginSystem>
 
     public void OnLoginRsp(GameMsg msg)
     {
-        GameRoot.AddTips("µÇÂ¼³É¹¦");
+        GameRoot.AddTips("ï¿½ï¿½Â¼ï¿½É¹ï¿½");
 
         GameRoot.Instance.SetPlayerData(msg.rspLogin);
         if (msg.rspLogin.playerData.name == "")

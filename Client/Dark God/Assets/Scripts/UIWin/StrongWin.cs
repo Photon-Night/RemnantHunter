@@ -177,15 +177,15 @@ public class StrongWin : WinRoot
         {
             if(pd.lv < sd.minLv)
             {
-                GameRoot.AddTips("µÈ¼¶²»×ã");
+                GameRoot.AddTips("ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½");
             }
             else if(pd.coin < sd.coin)
             {
-                GameRoot.AddTips("½ð±Ò²»×ã");
+                GameRoot.AddTips("ï¿½ï¿½Ò²ï¿½ï¿½ï¿½");
             }
             else if(pd.crystal < sd.crystal)
             {
-                GameRoot.AddTips("Ë®¾§²»×ã");
+                GameRoot.AddTips("Ë®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
             }
             else
             {
@@ -204,7 +204,7 @@ public class StrongWin : WinRoot
         }
         else
         {
-            GameRoot.AddTips("µÈ¼¶ÒÑ´ïµ½ÉÏÏÞ");
+            GameRoot.AddTips("ï¿½È¼ï¿½ï¿½Ñ´ïµ½ï¿½ï¿½ï¿½ï¿½");
         }
     }
 

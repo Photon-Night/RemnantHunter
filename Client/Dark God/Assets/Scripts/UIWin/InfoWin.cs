@@ -53,11 +53,11 @@ public class InfoWin : WinRoot
         SetText(txtPower, pd.power + "/" + PECommon.GetPowerLimit(pd.lv));
         imgPowerPrg.fillAmount = pd.power * 1f / PECommon.GetPowerLimit(pd.lv);
 
-        SetText(txtJob, "Ö°Òµ        " + "°µÒ¹´Ì¿Í");
-        SetText(txtFight, "Õ½Á¦        " + PECommon.GetFightByProps(pd));
-        SetText(txtHP, "ÉúÃü        " + pd.hp);
-        SetText(txtHurt, "ÉËº¦        " + (pd.ad + pd.ap));
-        SetText(txtDef, "·ÀÓù        " + (pd.apdef + pd.apdef));
+        SetText(txtJob, "Ö°Òµ        " + "ï¿½ï¿½Ò¹ï¿½Ì¿ï¿½");
+        SetText(txtFight, "Õ½ï¿½ï¿½        " + PECommon.GetFightByProps(pd));
+        SetText(txtHP, "ï¿½ï¿½ï¿½ï¿½        " + pd.hp);
+        SetText(txtHurt, "ï¿½Ëºï¿½        " + (pd.ad + pd.ap));
+        SetText(txtDef, "ï¿½ï¿½ï¿½ï¿½        " + (pd.apdef + pd.apdef));
 
         SetText(dtxHP, pd.hp);
         SetText(dtxAD, pd.ad);

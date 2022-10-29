@@ -61,47 +61,47 @@ public class NetService : MonoSingleton<NetService>
             switch ((ErrorCode)msg.err)
             {
                 case ErrorCode.AccountIsOnline:
-                    GameRoot.AddTips("µ±Ç°ÕËºÅÒÑÉÏÏß");
+                    GameRoot.AddTips("ï¿½ï¿½Ç°ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
                     break;
 
                 case ErrorCode.WrongPass:
-                    GameRoot.AddTips("ÃÜÂë´íÎó");
+                    GameRoot.AddTips("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
                     break;
 
                 case ErrorCode.NameIsExist:
-                    GameRoot.AddTips("µ±Ç°Ãû×ÖÒÑ´æÔÚ");
+                    GameRoot.AddTips("ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½ï¿½");
                     break;
                 case ErrorCode.UpdateDBError:
-                    GameRoot.AddTips("ÍøÂç²»ÎÈ¶¨");
-                    PECommon.Log("Êý¾Ý¿â¸üÐÂÒì³£");
+                    GameRoot.AddTips("ï¿½ï¿½ï¿½ç²»ï¿½È¶ï¿½");
+                    PECommon.Log("ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ì³£");
                     break;
 
                 case ErrorCode.ServerDataError:
-                    GameRoot.AddTips("¿Í»§¶ËÊý¾ÝÒì³£");
+                    GameRoot.AddTips("ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£");
                     break;
 
                 case ErrorCode.LackCoin:
-                    GameRoot.AddTips("½ð±Ò²»×ã");
+                    GameRoot.AddTips("ï¿½ï¿½Ò²ï¿½ï¿½ï¿½");
                     break;
 
                 case ErrorCode.LackCrystal:
-                    GameRoot.AddTips("Ë®¾§²»×ã");
+                    GameRoot.AddTips("Ë®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
                     break;
 
                 case ErrorCode.LackLevel:
-                    GameRoot.AddTips("µÈ¼¶²»×ã");
+                    GameRoot.AddTips("ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½");
                     break;
 
                 case ErrorCode.LackDiamond:
-                    GameRoot.AddTips("×êÊ¯²»×ã");
+                    GameRoot.AddTips("ï¿½ï¿½Ê¯ï¿½ï¿½ï¿½ï¿½");
                     break;
 
                 case ErrorCode.ClientDataError:
-                    GameRoot.AddTips("¿Í»§¶ËÊý¾ÝÒì³£");
+                    GameRoot.AddTips("ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£");
                     break;
 
                 case ErrorCode.LackPower:
-                    GameRoot.AddTips("ÌåÁ¦²»×ã");
+                    GameRoot.AddTips("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
                     break;
             }
             return;

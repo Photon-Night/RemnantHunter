@@ -26,7 +26,7 @@ public class Message
     public const int ScreenStandardWidth = 1920;
     public const int ScreenStandardHeight = 1080;
 
-    //Ò¡¸ËµãÒ¡¶¯·¶Î§
+    //Ò¡ï¿½Ëµï¿½Ò¡ï¿½ï¿½ï¿½ï¿½Î§
     public const int ScreenOPDis = 90;
 
     public const int PlayerMoveSpeed = 8;

@@ -41,7 +41,7 @@ public class CreateWin : WinRoot
         }
         else
         {
-            GameRoot.AddTips("µ±Ç°Ãû×Ö²»¹æ·¶");
+            GameRoot.AddTips("ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ö²ï¿½ï¿½æ·¶");
         }
     }
 }
