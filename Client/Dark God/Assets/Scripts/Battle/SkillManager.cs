@@ -15,9 +15,79 @@ public class SkillManager : MonoBehaviour
         PECommon.Log("SkillManager Loading");
     }
     
+    public void SkillAttack(EntityBase entity, int skillId)
+    {
+        AttackDamage(entity, skillId);
+        AttackEffect(entity, skillId);
+    }
+
     public void AttackDamage(EntityBase entity, int skillId)
     {
+        SkillCfg data_skill = resSvc.GetSkillData(skillId);
+        List<int> skillActionLst = data_skill.skillActionLst;
+        float sum = 0f;
+        for (int i = 0; i < skillActionLst.Count; i++)
+        {
+            SkillActionCfg data_skillAction = resSvc.GetSkillActionCfg(skillActionLst[i]);
+            sum += data_skillAction.delayTime;
+            if(sum > 0)
+            {
+                timer.AddTimeTask((int tid) =>
+                {
+                    SkillAction(entity, data_skill, i);
+                }, sum);
+            }
+            else
+            {
+                SkillAction(entity, data_skill, i);
+            }
+        }
+    }
 
+    private void SkillAction(EntityBase entity, SkillCfg data_skill, int index)
+    {
+        List<EntityMonster> monsterLst = entity.battleMgr.GetMonsterLst();
+        SkillActionCfg data = resSvc.GetSkillActionCfg(data_skill.skillActionLst[index]);
+        int damage = data_skill.skillDamageLst[index];
+        for (int i = 0; i < monsterLst.Count; i++)
+        {
+            var monster = monsterLst[i];
+            if(RangeCheck(entity.GetPos(), monster.GetPos(), data.radius)
+                && CheckAngle(entity.GetTrans(), monster.GetPos(), data.angle))
+            {
+                //CalcDamage();
+            }
+        }
+    }
+
+    private void CalcDamage(EntityBase entity, int damage)
+    {
+
+    }
+
+    private bool RangeCheck(Vector3 from, Vector3 to, float range)
+    {
+        if(Vector3.Distance(from, to) <= range)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool CheckAngle(Transform trans, Vector3 to, float angle)
+    {
+        if(angle == 360)
+        return true;
+
+        Vector3 start = trans.forward;
+        Vector3 dir = (to - trans.position).normalized;
+        if(Vector3.Angle(start, dir) <= angle / 2)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public void AttackEffect(EntityBase entity, int skillId)

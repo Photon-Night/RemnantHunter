@@ -70,6 +70,12 @@ public class EntityBase
             controller.SetFX(name, destroy);
     }
 
+    public void SkillAttack(int skillId)
+    {
+        AttackEffect(skillId);
+        AttackDamage(skillId);
+    }
+
     public virtual void AttackEffect(int skillId)
     {
         skillMgr.AttackEffect(this, skillId);
@@ -101,5 +107,15 @@ public class EntityBase
     public virtual Vector2 GetInputDir()
     {
         return Vector2.zero;
+    }
+
+    public virtual Vector3 GetPos()
+    {
+        return controller.transform.position;
+    }
+
+    public virtual Transform GetTrans()
+    {
+        return controller.transform;
     }
 }

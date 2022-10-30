@@ -585,7 +585,9 @@ public class ResService : MonoSingleton<ResService>
             SkillCfg skill = new SkillCfg
             {
                 ID = id,
-                skillMoveLst = new List<int>()
+                skillMoveLst = new List<int>(),
+                skillActionLst = new List<int>(),
+                skillDamageLst = new List<int>(),
             };
             foreach (XmlElement e in ele)
             {
@@ -611,6 +613,24 @@ public class ResService : MonoSingleton<ResService>
                             {
                                 skill.skillMoveLst.Add(int.Parse(_skillMoveStr[j]));
                             }
+                        }
+                        break;
+                    case "skillActionLst":
+                        string[] _skillActionStr = e.InnerText.Split('|');
+                        for(int j = 0; j < _skillActionStr.Length; j++)
+                        {
+                            if(_skillActionStr[j] != "")
+                            {
+                                skill.skillActionLst.Add(int.Parse(_skillActionStr[j]));
+                            }
+                        }
+                        break;
+                    case "skillDamageLst":
+                        string[] _skillDamageStr = e.InnerText.Split('|');
+                        for(int j = 0; j < _skillDamageStr.Length; j++)
+                        {
+                            if(_skillDamageStr[j] != "")
+                            skill.skillDamageLst.Add(int.Parse(_skillDamageStr[j]));
                         }
                         break;
                 }
@@ -700,7 +720,7 @@ public class ResService : MonoSingleton<ResService>
     #endregion
 
     #region SKillAction
-    private Dictionary<int, SkillAction> skillActionDic = new Dictionary<int, SkillAction>();
+    private Dictionary<int, SkillActionCfg> skillActionDic = new Dictionary<int, SkillActionCfg>();
     private void InitSkillActionCfg(string path)
     {
         TextAsset xml = Resources.Load<TextAsset>(path);
@@ -723,7 +743,7 @@ public class ResService : MonoSingleton<ResService>
             }
 
             int id = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
-            SkillAction data = new SkillAction
+            SkillActionCfg data = new SkillActionCfg
             {
                 ID = id
             };
@@ -749,9 +769,9 @@ public class ResService : MonoSingleton<ResService>
     }
 
 
-    public SkillAction GetSkillActionCfg(int id)
+    public SkillActionCfg GetSkillActionCfg(int id)
     {
-        SkillAction data = null;
+        SkillActionCfg data = null;
         if(skillActionDic.TryGetValue(id, out data))
         {
             return data;

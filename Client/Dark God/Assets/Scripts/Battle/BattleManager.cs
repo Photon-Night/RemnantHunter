@@ -15,6 +15,8 @@ public class BattleManager : MonoBehaviour
 
     private EntityPlayer ep;
     private MapCfg mapData;
+
+    private Dictionary<string, EntityMonster> monstersDic = new Dictionary<string, EntityMonster>();
     public void InitManager(int mapId)
     {
         PECommon.Log("BattleManager Loading");
@@ -95,6 +97,7 @@ public class BattleManager : MonoBehaviour
                 em.controller = mc;
 
                 go.SetActive(false);
+                monstersDic.Add(go.name, em);
             }
         }
     }
@@ -165,6 +168,19 @@ public class BattleManager : MonoBehaviour
     public Vector2 GetInputDir()
     {
         return BattleSystem.Instance.GetInputDir();
+    }
+
+    public List<EntityMonster> GetMonsterLst()
+    {
+        List<EntityMonster> monsterLst = new List<EntityMonster>();
+        var e = monstersDic.GetEnumerator();
+        while(e.MoveNext())
+        {
+            monsterLst.Add(e.Current.Value);
+        }
+
+        e.Dispose();
+        return monsterLst;
     }
 }
 

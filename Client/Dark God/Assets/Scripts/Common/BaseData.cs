@@ -61,7 +61,8 @@ public class SkillCfg : BaseData<SkillCfg>
     public int aniAction;
     public string fx;
     public List<int> skillMoveLst;
-    
+    public List<int> skillActionLst;
+    public List<int> skillDamageLst;
 }
 
 public class SkillMoveCfg : BaseData<SkillCfg>
@@ -86,9 +87,9 @@ public class MonsterData : BaseData<MonsterData>
     public Vector3 mBornRote;
 }
 
-public class SkillAction : BaseData<SkillAction>
+public class SkillActionCfg : BaseData<SkillActionCfg>
 {
-    public float delayTime;
+    public float delayTime; 
     public float radius;
     public float angle;
 }
