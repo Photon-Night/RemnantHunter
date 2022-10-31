@@ -9,6 +9,34 @@ public class EntityBase
     public EntityController controller;
     public SkillManager skillMgr;
     public BattleManager battleMgr;
+
+    protected BattleProps props;
+
+    public BattleProps Props
+    {
+        get
+        {
+            return props;
+        }
+        protected set
+        {
+            props = value;
+        }
+    }
+
+    private int hp;
+    public int HP
+    {
+        get
+        {
+            return hp;
+        }
+
+        set
+        {
+            hp = value;
+        }
+    }
     public bool LockCtrl
     {
         get;
@@ -27,7 +55,11 @@ public class EntityBase
         }
     }
 
-   
+    public virtual void SetBattleProps(BattleProps props)
+    {
+        HP = props.hp;
+        Props = props;
+    }
 
     public void Move()
     {

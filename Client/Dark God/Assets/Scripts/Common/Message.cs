@@ -61,4 +61,11 @@ public class Message
         string result = color + str + ColorEnd;
         return result;
     }
+
+    public enum DmgType
+    {
+        None = 0, 
+        AD = 1,
+        AP = 2,
+    }
 }

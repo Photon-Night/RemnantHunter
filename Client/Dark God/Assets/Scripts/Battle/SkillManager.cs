@@ -60,9 +60,16 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    private void CalcDamage(EntityBase entity, int damage)
+    private void CalcDamage(EntityBase entity, EntityBase target, SkillCfg data_skill, int damage)
     {
+        if(data_skill.dmgType == Message.DmgType.AD)
+        {
 
+        }
+        else if(data_skill.dmgType == Message.DmgType.AP)
+        {
+
+        }
     }
 
     private bool RangeCheck(Vector3 from, Vector3 to, float range)

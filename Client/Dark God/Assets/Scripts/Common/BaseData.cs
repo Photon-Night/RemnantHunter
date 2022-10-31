@@ -60,6 +60,7 @@ public class SkillCfg : BaseData<SkillCfg>
     public int skillTime;
     public int aniAction;
     public string fx;
+    public Message.DmgType dmgType;
     public List<int> skillMoveLst;
     public List<int> skillActionLst;
     public List<int> skillDamageLst;
@@ -76,10 +77,12 @@ public class MonsterCfg : BaseData<MonsterCfg>
 {
     public string mName;
     public string resPath;
+    public BattleProps bps;
 }
 
 public class MonsterData : BaseData<MonsterData>
 {
+    public int lv;
     public int mWave;
     public int mIndex;
     public MonsterCfg mCfg;
@@ -92,6 +95,19 @@ public class SkillActionCfg : BaseData<SkillActionCfg>
     public float delayTime; 
     public float radius;
     public float angle;
+}
+
+public class BattleProps
+{
+    public int hp;
+    public int ad;
+    public int ap;
+    public int addef;
+    public int apdef;
+    public int dodge;
+    public int pierce;
+    public int critical;
+
 }
 
 

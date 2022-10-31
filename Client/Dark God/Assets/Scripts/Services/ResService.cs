@@ -228,10 +228,10 @@ public class ResService : MonoSingleton<ResService>
                                             mIndex = j,
                                             mCfg = GetMonsterCfg(int.Parse(arr[0])),
                                             mBornPos = new Vector3(float.Parse(arr[1]), float.Parse(arr[2]), float.Parse(arr[3])),
-                                            mBornRote = new Vector3(0, float.Parse(arr[4]), 0)
+                                            mBornRote = new Vector3(0, float.Parse(arr[4]), 0),
+                                            lv = int.Parse(arr[5])
                                         };
-                                        mc.monsterLst.Add(mData);
-                                        
+                                        mc.monsterLst.Add(mData);                       
                                     }
                                 }
                             }
@@ -283,7 +283,8 @@ public class ResService : MonoSingleton<ResService>
 
             MonsterCfg data = new MonsterCfg
             {
-                ID = ID
+                ID = ID,
+                bps = new BattleProps()
             };
 
             foreach (XmlElement e in ele)
@@ -295,6 +296,30 @@ public class ResService : MonoSingleton<ResService>
                         break;
                     case "resPath":
                         data.resPath = e.InnerText;
+                        break;
+                    case "hp":
+                        data.bps.hp = int.Parse(e.InnerText);
+                        break;
+                    case "ad":
+                        data.bps.ad = int.Parse(e.InnerText);
+                        break;
+                    case "ap":
+                        data.bps.addef = int.Parse(e.InnerText);
+                        break;
+                    case "addef":
+                        data.bps.addef = int.Parse(e.InnerText);
+                        break;
+                    case "apdef":
+                        data.bps.apdef = int.Parse(e.InnerText);
+                        break;
+                    case "dodge":
+                        data.bps.dodge = int.Parse(e.InnerText);
+                        break;
+                    case "pierce":
+                        data.bps.pierce = int.Parse(e.InnerText);
+                        break;
+                    case "critical":
+                        data.bps.critical = int.Parse(e.InnerText);
                         break;
                 }
             }
@@ -604,6 +629,16 @@ public class ResService : MonoSingleton<ResService>
                         break;
                     case "fx":
                         skill.fx = e.InnerText;
+                        break;
+                    case "dmgType":
+                        if (e.InnerText.Equals("1"))
+                        {
+                            skill.dmgType = Message.DmgType.AD;
+                        }
+                        else if(e.InnerText.Equals("2"))
+                        {
+                            skill.dmgType = Message.DmgType.AP;
+                        }
                         break;
                     case "skillMoveLst":
                         string[] _skillMoveStr = e.InnerText.Split('|');

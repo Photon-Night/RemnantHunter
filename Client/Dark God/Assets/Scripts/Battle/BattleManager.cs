@@ -61,13 +61,28 @@ public class BattleManager : MonoBehaviour
         PlayerController pc = player.GetComponent<PlayerController>();
         pc.Init();
 
+        PlayerData pd = GameRoot.Instance.PlayerData;
+        BattleProps props = new BattleProps
+        {
+            hp = pd.hp,
+            ad = pd.ad,
+            ap = pd.ap,
+            addef = pd.addef,
+            apdef = pd.apdef,
+            dodge = pd.dodge,
+            critical = pd.critical,
+            pierce = pd.critical,
+        };
+
         ep = new EntityPlayer
         {
             stateMgr = stateMgr,
             controller = pc,
             skillMgr = skillMgr,
-            battleMgr = this
-        };     
+            battleMgr = this,
+        };
+
+        ep.SetBattleProps(props);
     }
 
     public void LoadMonsterByWaveID(int waveIndex)
@@ -95,7 +110,8 @@ public class BattleManager : MonoBehaviour
                 MonsterController mc = go.AddComponent<MonsterController>();
                 mc.Init();
                 em.controller = mc;
-
+                em.md = mData;
+                em.SetBattleProps(cfg.bps);
                 go.SetActive(false);
                 monstersDic.Add(go.name, em);
             }
