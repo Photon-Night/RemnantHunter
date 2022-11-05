@@ -104,18 +104,7 @@ public class EntityBase
 
     public void SkillAttack(int skillId)
     {
-        AttackEffect(skillId);
-        AttackDamage(skillId);
-    }
-
-    public virtual void AttackEffect(int skillId)
-    {
-        skillMgr.AttackEffect(this, skillId);
-    }
-
-    public virtual void AttackDamage(int skillId)
-    {
-        skillMgr.AttackEffect(this, skillId);
+        skillMgr.SkillAttack(this, skillId);
     }
 
     public void SetSkillMoveState(bool skillMove, float moveSpeed = 0)

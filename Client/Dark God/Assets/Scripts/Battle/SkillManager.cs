@@ -23,6 +23,7 @@ public class SkillManager : MonoBehaviour
 
     public void AttackDamage(EntityBase entity, int skillId)
     {
+
         SkillCfg data_skill = resSvc.GetSkillData(skillId);
         List<int> skillActionLst = data_skill.skillActionLst;
         float sum = 0f;
@@ -30,16 +31,18 @@ public class SkillManager : MonoBehaviour
         {
             SkillActionCfg data_skillAction = resSvc.GetSkillActionCfg(skillActionLst[i]);
             sum += data_skillAction.delayTime;
-            if(sum > 0)
+            int index = i;
+            if (sum > 0)
             {
-                timer.AddTimeTask((int tid) =>
-                {
-                    SkillAction(entity, data_skill, i);
-                }, sum);
+               timer.AddTimeTask((int tid) =>
+               {
+                   SkillAction(entity, data_skill, index);
+               }, sum);
+                //SkillAction(entity, data_skill, i);
             }
             else
             {
-                SkillAction(entity, data_skill, i);
+                SkillAction(entity, data_skill, index);
             }
         }
     }
@@ -55,20 +58,47 @@ public class SkillManager : MonoBehaviour
             if(RangeCheck(entity.GetPos(), monster.GetPos(), data.radius)
                 && CheckAngle(entity.GetTrans(), monster.GetPos(), data.angle))
             {
-                //CalcDamage();
+                CalcDamage(entity, monster, data_skill, damage);
             }
         }
     }
 
-    private void CalcDamage(EntityBase entity, EntityBase target, SkillCfg data_skill, int damage)
+    System.Random rd = new System.Random();
+    private void CalcDamage(EntityBase attacker, EntityBase target, SkillCfg data_skill, int damage)
     {
+        int dmgSum = damage;
         if(data_skill.dmgType == Message.DmgType.AD)
         {
+            int dodgeNum = PETools.RdInt(1, 100, rd);
+            if(dodgeNum <= target.Props.dodge)
+            {
+                Debug.Log(dodgeNum + "/" + target.Props.dodge);
+                return;
+            }
 
+            dmgSum += target.Props.ad;
+
+            int cirticalNum = PETools.RdInt(1, 100, rd);
+            if(cirticalNum < attacker.Props.critical)
+            {
+                float cirticalRate = 1 + (PETools.RdInt(1, 100, rd) / 100);
+                dmgSum = (int)cirticalRate * dmgSum;
+                Debug.Log(dmgSum + "/" + cirticalRate);
+            }
+
+            int addef = target.Props.addef;
+            dmgSum -= (int)((1 - target.Props.pierce / 100) * addef);
         }
         else if(data_skill.dmgType == Message.DmgType.AP)
         {
+            dmgSum += attacker.Props.ap;
 
+            dmgSum -= target.Props.apdef;
+        }
+
+        if(dmgSum < 0)
+        {
+            dmgSum = 0;
         }
     }
 

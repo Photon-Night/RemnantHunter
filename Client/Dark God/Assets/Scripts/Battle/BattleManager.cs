@@ -44,6 +44,8 @@ public class BattleManager : MonoBehaviour
 
             LoadPlayer();
 
+            ActiveCurrentBatchMonsters();
+
             audioSvc.PlayBGMusic(Message.BGHuangYe);
         });
     }
@@ -116,6 +118,17 @@ public class BattleManager : MonoBehaviour
                 monstersDic.Add(go.name, em);
             }
         }
+    }
+
+    public void ActiveCurrentBatchMonsters()
+    {
+        TimerService.Instance.AddTimeTask((int tid) => 
+        {
+            foreach(var monster in monstersDic)
+            {
+                monster.Value.GetTrans().gameObject.SetActive(true);
+            }
+        }, 500);
     }
 
     public void ReqReleaseSkill(int index)
