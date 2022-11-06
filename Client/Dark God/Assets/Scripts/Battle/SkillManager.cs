@@ -17,8 +17,8 @@ public class SkillManager : MonoBehaviour
     
     public void SkillAttack(EntityBase entity, int skillId)
     {
-        AttackDamage(entity, skillId);
         AttackEffect(entity, skillId);
+        AttackDamage(entity, skillId);
     }
 
     public void AttackDamage(EntityBase entity, int skillId)
@@ -38,7 +38,6 @@ public class SkillManager : MonoBehaviour
                {
                    SkillAction(entity, data_skill, index);
                }, sum);
-                //SkillAction(entity, data_skill, i);
             }
             else
             {
@@ -100,6 +99,16 @@ public class SkillManager : MonoBehaviour
         {
             dmgSum = 0;
         }
+
+        else if(dmgSum >= target.HP)
+        {
+            target.Die();
+        }
+        else
+        {
+            target.HP -= dmgSum;
+            target.Hit();
+        }
     }
 
     private bool RangeCheck(Vector3 from, Vector3 to, float range)
@@ -139,7 +148,6 @@ public class SkillManager : MonoBehaviour
         
         if (data_skill != null)
         {
-            entity.LockCtrl = true;
             entity.SetDir(Vector2.zero);
             entity.Lock();
             float sumTime = 0;

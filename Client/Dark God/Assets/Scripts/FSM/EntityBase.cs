@@ -1,3 +1,4 @@
+using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +35,7 @@ public class EntityBase
 
         set
         {
+            PECommon.Log(HP + "to" + value);
             hp = value;
         }
     }
@@ -76,6 +78,20 @@ public class EntityBase
         stateMgr.ChangeState(this, AniState.Attack, skillId);
     }
 
+    public void Born()
+    {
+        stateMgr.ChangeState(this, AniState.Born);
+    }
+
+    public void Die()
+    {
+        stateMgr.ChangeState(this, AniState.Die);
+    }
+
+    public void Hit()
+    {
+        stateMgr.ChangeState(this, AniState.Hit);
+    }
     public virtual void SetBlend(int blend)
     {
         if(controller != null)

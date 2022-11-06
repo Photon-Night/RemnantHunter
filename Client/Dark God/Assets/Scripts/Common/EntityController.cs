@@ -47,7 +47,7 @@ public abstract class EntityController : MonoBehaviour
 
     public virtual void SetBlend(int blend)
     {
-        anim.SetInteger("Blend", blend);
+        anim.SetFloat("Blend", blend);
     }
 
     public virtual void SetAction(int action)

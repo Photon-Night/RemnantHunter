@@ -14,6 +14,9 @@ public class StateManager : MonoBehaviour
         FSM.Add(AniState.Idle, new StateIdle());
         FSM.Add(AniState.Move, new StateMove());
         FSM.Add(AniState.Attack, new StateAttack());
+        FSM.Add(AniState.Born, new StateBorn());
+        FSM.Add(AniState.Die, new StateDie());
+        FSM.Add(AniState.Hit, new StateHit());
     }
 
     public void ChangeState(EntityBase entity, AniState state, params object[] args)

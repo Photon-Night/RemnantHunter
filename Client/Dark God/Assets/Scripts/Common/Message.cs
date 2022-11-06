@@ -37,8 +37,12 @@ public class Message
     public const int BlendIdle = 0;
     public const int BlendWalk = 1;
 
+    //action code
     public const int ActionSkill1 = 1;
     public const int ActionNormal = -1;
+    public const int ActionBorn = 0;
+    public const int ActionDie = 100;
+    public const int ActionHit = 101;
 
     //npcID
     public const int NPCWiseMan = 0;
@@ -55,6 +59,8 @@ public class Message
 
     public const int BuyCoin = 0;
     public const int BuyPower = 1;
+
+    public const int DieAniLength = 5000;
 
     public static string Color(string str, string color)
     {

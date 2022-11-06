@@ -1,4 +1,4 @@
-﻿using PEProtocol;
+using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -127,6 +127,12 @@ public class BattleManager : MonoBehaviour
             foreach(var monster in monstersDic)
             {
                 monster.Value.GetTrans().gameObject.SetActive(true);
+                monster.Value.Born();
+
+                TimerService.Instance.AddTimeTask((int tid) =>
+                {
+                    monster.Value.Idle();
+                }, 1000);
             }
         }, 500);
     }
