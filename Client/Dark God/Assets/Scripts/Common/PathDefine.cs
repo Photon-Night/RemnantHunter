@@ -48,5 +48,6 @@ public class PathDefine
     public const string ItemPlatBG = "ResImages/charbg3";
 
     public const string TaskItem = "PrefabUI/TaskItem";
+    public const string HpUIItem = "PrefabUI/HpUIItem";
 
 }

@@ -8,9 +8,12 @@ public class DynamicWin : WinRoot
     public Animation tipsAnim;
     public Text txtTips;
 
+    public Transform hpItemRoot;
+
     private bool isTipsShow;
 
     private Queue<string> tipsQue = new Queue<string>();
+    private Dictionary<string, ItemEntityHP> hpUIItemDic = new Dictionary<string, ItemEntityHP>();
     protected override void InitWin()
     {
         base.InitWin();
@@ -62,4 +65,22 @@ public class DynamicWin : WinRoot
             cb();
         }
     }
+
+    public void AddHpUIItem(string name, int hp, Transform trans)
+    {
+        ItemEntityHP item = null;
+        if(hpUIItemDic.TryGetValue(name, out item))
+        {
+            return;
+        }
+
+        GameObject go = resSvc.LoadPrefab(PathDefine.HpUIItem, true);
+        go.transform.SetParent(hpItemRoot);
+        go.transform.localPosition = new Vector3(-1000, 0, 0);
+        item = go.GetComponent<ItemEntityHP>();
+        item.InitItemInfo(hp, trans);
+
+        hpUIItemDic.Add(name, item);
+    }
+
 }

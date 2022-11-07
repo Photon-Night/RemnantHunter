@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\Battle\EntityPlayer.cs" />
     <Compile Include="Assets\Scripts\UIWin\MainCityWin.cs" />
     <Compile Include="Assets\Scripts\FSM\StateMove.cs" />
+    <Compile Include="Assets\Scripts\Battle\StateHit.cs" />
     <Compile Include="Assets\Scripts\Common\PathDefine.cs" />
     <Compile Include="Assets\Scripts\System\LoginSystem.cs" />
     <Compile Include="Assets\Scripts\Services\ResService.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Assets\Scripts\FSM\EntityBase.cs" />
     <Compile Include="Assets\Scripts\Services\AudioService.cs" />
     <Compile Include="Assets\Scripts\Battle\MapManager.cs" />
+    <Compile Include="Assets\Scripts\Battle\StateDie.cs" />
     <Compile Include="Assets\Scripts\Services\NetService.cs" />
     <Compile Include="Assets\Scripts\UIWin\ChatWin.cs" />
     <Compile Include="Assets\Scripts\Battle\StateBorn.cs" />
@@ -101,8 +103,7 @@
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
     <Compile Include="Assets\Scripts\Battle\EntityMonster.cs" />
-    <Compile Include="Assets\Scripts\Battle\StateDie.cs" />
-    <Compile Include="Assets\Scripts\Battle\StateHit.cs" />
+    <Compile Include="Assets\Scripts\UIWin\ItemEntityHP.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\ResCfgs\monster.xml" />

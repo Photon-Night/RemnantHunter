@@ -116,6 +116,8 @@ public class BattleManager : MonoBehaviour
                 em.SetBattleProps(cfg.bps);
                 go.SetActive(false);
                 monstersDic.Add(go.name, em);
+
+                GameRoot.Instance.AddHpUIItem(go.name, em.md.mCfg.bps.hp, mc.hpRoot); ;
             }
         }
     }

@@ -30,6 +30,8 @@ public class GameRoot : MonoSingleton<GameRoot>
 
         LoginSystem.Instance.InitSystem();
         LoginSystem.Instance.OnLoginEnter();
+
+        dynamicWin.SetWinState();
     }
 
      private void ClearUIRoot()
@@ -40,7 +42,7 @@ public class GameRoot : MonoSingleton<GameRoot>
             canvas.GetChild(i).gameObject.SetActive(false);
         }
 
-        dynamicWin.SetWinState();
+        
     }
 
     public static void AddTips(string tip)
@@ -117,6 +119,11 @@ public class GameRoot : MonoSingleton<GameRoot>
     public void SetPlayerDataByMissionEnter(RspMissionEnter data)
     {
         PlayerData.power = data.power;
+    }
+
+    public void AddHpUIItem(string name, int hp, Transform trans)
+    {
+        dynamicWin.AddHpUIItem(name, hp, trans);
     }
   
 }
