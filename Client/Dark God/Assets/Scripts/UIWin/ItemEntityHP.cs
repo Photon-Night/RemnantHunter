@@ -42,10 +42,10 @@ public class ItemEntityHP : MonoBehaviour
         imgHpRed.fillAmount = 1;
     }
 
-    public void SetCritical(int critical)
+    public void SetCritical()
     {
         criticalAni.Stop();
-        txtCritical.text = "±©»÷" + critical;
+        txtCritical.text = "±©»÷";
         criticalAni.Play();
     }
 
@@ -61,5 +61,10 @@ public class ItemEntityHP : MonoBehaviour
         dodgeAni.Stop();
         txtDodge.text = "ÉÁ±Ü";
         dodgeAni.Play();
+    }
+
+    public void SetHpVal(int hp, int value)
+    {
+
     }
 }

@@ -83,4 +83,40 @@ public class DynamicWin : WinRoot
         hpUIItemDic.Add(name, item);
     }
 
+    public void SetHurt(string index, int hurt)
+    {
+        ItemEntityHP item = null;
+        if(hpUIItemDic.TryGetValue(index, out item))
+        {
+            item.SetHurt(hurt);
+        }
+    }
+
+    public void SetDodge(string index)
+    {
+        ItemEntityHP item = null;
+        if(hpUIItemDic.TryGetValue(index, out item))
+        {
+            item.SetDodge();
+        }
+    }
+
+    public void SetCritical(string index)
+    {
+        ItemEntityHP item = null;
+        if(hpUIItemDic.TryGetValue(index, out item))
+        {
+            item.SetCritical();
+        }
+    }
+
+    public void SetHpVal(string index, int oldHp, int newHp)
+    {
+        ItemEntityHP item = null;
+        if(hpUIItemDic.TryGetValue(index, out item))
+        {
+            item.SetHpVal(oldHp, newHp);
+        }
+    }
+
 }

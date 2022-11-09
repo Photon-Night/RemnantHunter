@@ -36,6 +36,7 @@ public class EntityBase
         set
         {
             PECommon.Log(HP + "to" + value);
+            SetHpVal(hp, value);
             hp = value;
         }
     }
@@ -154,5 +155,25 @@ public class EntityBase
     public virtual Transform GetTrans()
     {
         return controller.transform;
+    }
+
+    public void SetDodge()
+    {
+        GameRoot.Instance.dynamicWin.SetDodge(controller.name);
+    }
+
+    public void SetHurt(int hurt)
+    {
+        GameRoot.Instance.dynamicWin.SetHurt(controller.name, hurt);
+    }
+
+    public void SetCritical()
+    {
+        GameRoot.Instance.dynamicWin.SetCritical(controller.name);
+    }
+
+    private void SetHpVal(int oldHp, int newHp)
+    {
+        GameRoot.Instance.dynamicWin.SetHpVal(controller.name, oldHp, newHp);
     }
 }

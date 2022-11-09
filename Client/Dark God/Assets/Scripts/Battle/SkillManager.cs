@@ -71,6 +71,7 @@ public class SkillManager : MonoBehaviour
             int dodgeNum = PETools.RdInt(1, 100, rd);
             if(dodgeNum <= target.Props.dodge)
             {
+                target.SetDodge();
                 Debug.Log(dodgeNum + "/" + target.Props.dodge);
                 return;
             }
@@ -78,14 +79,17 @@ public class SkillManager : MonoBehaviour
             dmgSum += target.Props.ad;
 
             int cirticalNum = PETools.RdInt(1, 100, rd);
+            int addef = target.Props.addef;
+
+
             if(cirticalNum < attacker.Props.critical)
             {
                 float cirticalRate = 1 + (PETools.RdInt(1, 100, rd) / 100);
                 dmgSum = (int)cirticalRate * dmgSum;
+                attacker.SetCritical();
                 Debug.Log(dmgSum + "/" + cirticalRate);
             }
 
-            int addef = target.Props.addef;
             dmgSum -= (int)((1 - target.Props.pierce / 100) * addef);
         }
         else if(data_skill.dmgType == Message.DmgType.AP)
@@ -102,11 +106,13 @@ public class SkillManager : MonoBehaviour
 
         else if(dmgSum >= target.HP)
         {
+            target.SetHurt(dmgSum);
             target.Die();
         }
         else
         {
             target.HP -= dmgSum;
+            target.SetHurt(dmgSum);
             target.Hit();
         }
     }
