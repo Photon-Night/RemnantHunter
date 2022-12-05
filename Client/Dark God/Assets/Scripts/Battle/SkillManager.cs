@@ -72,7 +72,6 @@ public class SkillManager : MonoBehaviour
             if(dodgeNum <= target.Props.dodge)
             {
                 target.SetDodge();
-                Debug.Log(dodgeNum + "/" + target.Props.dodge);
                 return;
             }
 
@@ -87,7 +86,7 @@ public class SkillManager : MonoBehaviour
                 float cirticalRate = 1 + (PETools.RdInt(1, 100, rd) / 100);
                 dmgSum = (int)cirticalRate * dmgSum;
                 attacker.SetCritical();
-                Debug.Log(dmgSum + "/" + cirticalRate);
+                
             }
 
             dmgSum -= (int)((1 - target.Props.pierce / 100) * addef);
@@ -103,11 +102,12 @@ public class SkillManager : MonoBehaviour
         {
             dmgSum = 0;
         }
-
         else if(dmgSum >= target.HP)
         {
+            target.HP = 0;
             target.SetHurt(dmgSum);
             target.Die();
+            target.battleMgr.RemoveMonster(target.Name);
         }
         else
         {
@@ -115,6 +115,7 @@ public class SkillManager : MonoBehaviour
             target.SetHurt(dmgSum);
             target.Hit();
         }
+        
     }
 
     private bool RangeCheck(Vector3 from, Vector3 to, float range)
@@ -144,6 +145,8 @@ public class SkillManager : MonoBehaviour
 
     public void AttackEffect(EntityBase entity, int skillId)
     {
+        entity.Lock();
+        entity.SetDir(Vector2.zero);
         SkillCfg data_skill = resSvc.GetSkillData(skillId);
 
         SetSkillMove(entity, data_skill);
@@ -154,8 +157,6 @@ public class SkillManager : MonoBehaviour
         
         if (data_skill != null)
         {
-            entity.SetDir(Vector2.zero);
-            entity.Lock();
             float sumTime = 0;
             for (int i = 0; i < data_skill.skillMoveLst.Count; i++)
             {

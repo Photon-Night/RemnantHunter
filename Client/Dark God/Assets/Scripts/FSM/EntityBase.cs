@@ -7,9 +7,21 @@ public class EntityBase
 {
     protected AniState currentState = AniState.None;
     public StateManager stateMgr;
-    public EntityController controller;
+    protected EntityController controller;
     public SkillManager skillMgr;
     public BattleManager battleMgr;
+    protected string name;
+    public string Name
+    {
+        get
+        {
+            return name;
+        }
+        set
+        {
+            name = value;
+        }
+    }
 
     protected BattleProps props;
 
@@ -35,16 +47,11 @@ public class EntityBase
 
         set
         {
-            PECommon.Log(HP + "to" + value);
             SetHpVal(hp, value);
             hp = value;
         }
     }
-    public bool LockCtrl
-    {
-        get;
-        set;
-    }
+    public bool LockCtrl;
     public AniState CurrentState
     {
         get
@@ -56,6 +63,34 @@ public class EntityBase
         {
             currentState = value;
         }
+    }
+
+    public void SetController(EntityController controller)
+    {
+        this.controller = controller;
+    }
+
+    public void SetActive(bool isActive = true)
+    {
+        controller.gameObject.SetActive(isActive);
+    }
+    public AnimationClip GetAnimationClip(params string[] mask)
+    {
+        AnimationClip[] _clips = controller.anim.runtimeAnimatorController.animationClips;
+        AnimationClip result = null;
+        foreach (AnimationClip clip in _clips)
+        {
+            string name = clip.name;
+            for(int i = 0; i < mask.Length; i++)
+            {
+                if(name.Contains(mask[i]))
+                {
+                    result = clip;
+                    return clip;
+                }
+            }
+        }
+        return null;
     }
 
     public virtual void SetBattleProps(BattleProps props)
@@ -134,12 +169,13 @@ public class EntityBase
 
     public void Lock()
     {
-        controller.LockCtrl = true;
+        LockCtrl = true;
+        
     }
 
     public void UnLock()
     {
-        controller.LockCtrl = false;
+        LockCtrl = false;
     }
 
     public virtual Vector2 GetInputDir()

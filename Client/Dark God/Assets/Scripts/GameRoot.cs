@@ -125,5 +125,10 @@ public class GameRoot : MonoSingleton<GameRoot>
     {
         dynamicWin.AddHpUIItem(name, hp, trans);
     }
+
+    public void RemoveHpUIItem(string name)
+    {
+        dynamicWin.ReMoveHpUIItem(name);
+    }
   
 }

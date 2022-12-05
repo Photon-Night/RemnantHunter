@@ -32,7 +32,8 @@ public class Message
     public const int PlayerMoveSpeed = 8;
     public const int MonsterMoveSpeed = 4;
 
-    public const float AccelerSpeed = 7;
+    public const float AccelerSpeed = 7f;
+    public const float AccelerHpSpeed = .3f;
 
     public const int BlendIdle = 0;
     public const int BlendWalk = 1;

@@ -33,14 +33,19 @@ public class StateHit : IState
 
     private float GetHitAniLen(EntityBase entity)
     {
-        AnimationClip[] clips = entity.controller.anim.runtimeAnimatorController.animationClips;
-        for (int i = 0; i < clips.Length; i++)
+        //AnimationClip[] clips = entity.controller.anim.runtimeAnimatorController.animationClips;
+        //for (int i = 0; i < clips.Length; i++)
+        //{
+        //    string name = clips[i].name;
+        //    if(name.Contains("hit") || name.Contains("Hit") || name.Contains("HIT"))
+        //    {
+        //        return clips[i].length;
+        //    }
+        //}
+        AnimationClip result = entity.GetAnimationClip("hit", "Hit", "HIT");
+        if(result != null)
         {
-            string name = clips[i].name;
-            if(name.Contains("hit") || name.Contains("Hit") || name.Contains("HIT"))
-            {
-                return clips[i].length;
-            }
+            return result.length;
         }
 
         return 1;

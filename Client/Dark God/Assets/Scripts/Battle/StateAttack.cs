@@ -16,7 +16,6 @@ public class StateAttack : IState
     {
         entity.SetAction(Message.ActionNormal);
         entity.LockCtrl = false;
-        entity.UnLock();
     }
 
     public void OnUpdate(EntityBase entity, params object[] args)

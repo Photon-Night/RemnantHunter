@@ -83,6 +83,16 @@ public class DynamicWin : WinRoot
         hpUIItemDic.Add(name, item);
     }
 
+    public void ReMoveHpUIItem(string name)
+    {
+        ItemEntityHP _uiItem = null;
+        if(hpUIItemDic.TryGetValue(name, out _uiItem))
+        {
+            Destroy(_uiItem.gameObject);
+            hpUIItemDic.Remove(name);
+        }
+    }
+
     public void SetHurt(string index, int hurt)
     {
         ItemEntityHP item = null;

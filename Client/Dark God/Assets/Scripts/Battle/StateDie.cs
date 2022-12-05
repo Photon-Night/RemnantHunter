@@ -24,7 +24,7 @@ public class StateDie : IState
         entity.SetAction(Message.ActionDie);
         TimerService.Instance.AddTimeTask((int tid) =>
         {
-            entity.controller.gameObject.SetActive(false);
+            entity.SetActive(false);
         }, Message.DieAniLength);
     }
 }

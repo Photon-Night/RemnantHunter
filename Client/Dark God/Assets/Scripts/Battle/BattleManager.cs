@@ -50,6 +50,16 @@ public class BattleManager : MonoBehaviour
         });
     }
 
+    public void RemoveMonster(string name)
+    {
+        EntityMonster _monster = null;
+        if(monstersDic.TryGetValue(name, out _monster))
+        {
+            monstersDic.Remove(name);
+            GameRoot.Instance.RemoveHpUIItem(name);
+        }
+    }
+
     public void LoadPlayer()
     {
         GameObject player = resSvc.LoadPrefab(PathDefine.AssissnBattlePlayerPrefab, true);
@@ -79,11 +89,11 @@ public class BattleManager : MonoBehaviour
         ep = new EntityPlayer
         {
             stateMgr = stateMgr,
-            controller = pc,
             skillMgr = skillMgr,
             battleMgr = this,
+            Name = pd.name,
         };
-
+        ep.SetController(pc);
         ep.SetBattleProps(props);
     }
 
@@ -107,13 +117,15 @@ public class BattleManager : MonoBehaviour
                     skillMgr = this.skillMgr,
                     battleMgr = this,
                     stateMgr = this.stateMgr
+                    
                 };
 
-                MonsterController mc = go.AddComponent<MonsterController>();
+                MonsterController mc = go.GetComponent<MonsterController>();
                 mc.Init();
-                em.controller = mc;
+                em.SetController(mc);
                 em.md = mData;
                 em.SetBattleProps(cfg.bps);
+                em.Name = go.name;
                 go.SetActive(false);
                 monstersDic.Add(go.name, em);
 
@@ -161,7 +173,9 @@ public class BattleManager : MonoBehaviour
     public void SetMoveDir(Vector2 dir)
     {
         if (ep.LockCtrl)
+        {
             return;
+        }
 
         if(dir != Vector2.zero)
         {

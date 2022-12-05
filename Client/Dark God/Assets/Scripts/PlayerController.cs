@@ -59,6 +59,12 @@ public class PlayerController : EntityController
             UpdateMixBlend();
         }
 
+        if (isSkillMove)
+        {
+            SetSkillMove();
+            SetCam();
+        }
+
         if (isMove)
         {
             SetDir();
@@ -66,11 +72,6 @@ public class PlayerController : EntityController
             SetCam();
         }
 
-        if (isSkillMove)
-        {
-            SetSkillMove();
-            SetCam();
-        }
 
     }
 
