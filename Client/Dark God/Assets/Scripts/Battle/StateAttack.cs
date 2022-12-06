@@ -8,14 +8,14 @@ public class StateAttack : IState
     public void OnEnter(EntityBase entity, params object[] args)
     {
         entity.CurrentState = AniState.Attack;
-        
+        entity.currentSkillCfg = ResService.Instance.GetSkillData((int)args[0]);
         PECommon.Log("Enter Attack");
     }
 
     public void OnExit(EntityBase entity, params object[] args)
     {
+        entity.ExitCurrentAtk();
         entity.SetAction(Message.ActionNormal);
-        entity.LockCtrl = false;
     }
 
     public void OnUpdate(EntityBase entity, params object[] args)

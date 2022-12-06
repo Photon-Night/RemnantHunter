@@ -120,7 +120,7 @@ public class GameRoot : MonoSingleton<GameRoot>
     {
         PlayerData.power = data.power;
     }
-
+ 
     public void AddHpUIItem(string name, int hp, Transform trans)
     {
         dynamicWin.AddHpUIItem(name, hp, trans);

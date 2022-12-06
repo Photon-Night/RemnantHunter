@@ -11,6 +11,10 @@ public class EntityBase
     public SkillManager skillMgr;
     public BattleManager battleMgr;
     protected string name;
+
+    public Queue<int> comboQue = new Queue<int>();
+    public int nextCombo;
+    public SkillCfg currentSkillCfg;
     public string Name
     {
         get
@@ -211,5 +215,21 @@ public class EntityBase
     private void SetHpVal(int oldHp, int newHp)
     {
         GameRoot.Instance.dynamicWin.SetHpVal(controller.name, oldHp, newHp);
+    }
+
+    public void ExitCurrentAtk()
+    {
+        LockCtrl = false;
+        if (currentSkillCfg.isCombo)
+        {
+            if (comboQue.Count > 0)
+            {
+                nextCombo = comboQue.Dequeue();
+            }
+            else
+            {
+                nextCombo = 0;
+            }
+        }
     }
 }

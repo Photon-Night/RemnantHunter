@@ -60,7 +60,9 @@ public class SkillCfg : BaseData<SkillCfg>
     public int skillTime;
     public int aniAction;
     public string fx;
+    public bool isCombo;
     public Message.DmgType dmgType;
+    public int cdTime;
     public List<int> skillMoveLst;
     public List<int> skillActionLst;
     public List<int> skillDamageLst;
@@ -109,10 +111,3 @@ public class BattleProps
     public int critical;
 
 }
-
-
-
-
-
-
-

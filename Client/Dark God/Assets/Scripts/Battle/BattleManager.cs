@@ -8,6 +8,7 @@ public class BattleManager : MonoBehaviour
 {
     ResService resSvc = null;
     AudioService audioSvc = null;
+    TimerService timeSvc = null;
 
     MapManager mapMgr = null;
     SkillManager skillMgr = null;
@@ -22,6 +23,7 @@ public class BattleManager : MonoBehaviour
         PECommon.Log("BattleManager Loading");
         resSvc = ResService.Instance;
         audioSvc = AudioService.Instance;
+        timeSvc = TimerService.Instance;
 
         skillMgr = gameObject.AddComponent<SkillManager>();
         skillMgr.InitManager();
@@ -191,24 +193,52 @@ public class BattleManager : MonoBehaviour
 
     private void ReleaseSkill1()
     {
-        PECommon.Log("skill1");
+        
         ep.Attack(101);
     }
 
     private void ReleaseSkill2()
     {
-        PECommon.Log("skill2");
         
+        ep.Attack(102);
     }
 
     private void ReleaseSkill3()
     {
-        PECommon.Log("skill3");
+        
+        ep.Attack(103);
     }
 
+
+    private double lastAtkTime = 0;
+    private int[] comboArr = new int[] {111, 112, 113, 114, 115 };
+    private int comboIndex = 0;
     private void ReleaseNormalAttack()
     {
-        PECommon.Log("normal");
+        if(ep.CurrentState == AniState.Attack)
+        {
+            double currentTime = timeSvc.GetCurrentTime();
+            if(currentTime - lastAtkTime < Message.ComboSpace && lastAtkTime != 0)
+            {
+                if (comboIndex != ep.comboQue.Count - 1)
+                {
+                    comboIndex += 1;
+                    ep.comboQue.Enqueue(comboArr[comboIndex]);
+                    lastAtkTime = timeSvc.GetCurrentTime();
+                }
+                else
+                {
+                    comboIndex = 0;
+                    lastAtkTime = 0;
+                }
+
+            }
+        }
+        else if(ep.CurrentState == AniState.Idle || ep.CurrentState == AniState.Move)
+        {
+            lastAtkTime = timeSvc.GetCurrentTime();
+            ep.Attack(111);
+        }
     }
 
     public virtual void SetFX()

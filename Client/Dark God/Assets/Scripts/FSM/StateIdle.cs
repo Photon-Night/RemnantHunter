@@ -26,12 +26,19 @@ public class StateIdle : IState
 
     public void Process(EntityBase entity, params object[] args)
     {
-        if (entity.GetInputDir() != Vector2.zero)
+        if (entity.nextCombo != 0)
         {
-            entity.Move();
-            entity.SetDir(entity.GetInputDir());
+            entity.Attack(entity.nextCombo);
         }
         else
-        entity.SetBlend(Message.BlendIdle);
+        {
+            if (entity.GetInputDir() != Vector2.zero)
+            {
+                entity.Move();
+                entity.SetDir(entity.GetInputDir());
+            }
+            else
+                entity.SetBlend(Message.BlendIdle);
+        }
     }
 }

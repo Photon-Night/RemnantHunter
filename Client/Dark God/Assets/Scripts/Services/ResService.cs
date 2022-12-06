@@ -621,15 +621,31 @@ public class ResService : MonoSingleton<ResService>
                     case "skillName":
                         skill.skillName = e.InnerText;
                         break;
+
+                    case "cdTime":
+                        skill.cdTime = int.Parse(e.InnerText);
+                        break;
+
                     case "skillTime":
                         skill.skillTime = int.Parse(e.InnerText);
                         break;
+
                     case "aniAction":
                         skill.aniAction = int.Parse(e.InnerText);
                         break;
+
                     case "fx":
                         skill.fx = e.InnerText;
                         break;
+
+                    case "isCombo":
+                        if (e.InnerText == "0")
+                            skill.isCombo = false;
+                        else if (e.InnerText == "1")
+                            skill.isCombo = true;
+                        break;
+
+
                     case "dmgType":
                         if (e.InnerText.Equals("1"))
                         {
@@ -640,6 +656,7 @@ public class ResService : MonoSingleton<ResService>
                             skill.dmgType = Message.DmgType.AP;
                         }
                         break;
+
                     case "skillMoveLst":
                         string[] _skillMoveStr = e.InnerText.Split('|');
                         for(int j = 0; j < _skillMoveStr.Length; j++)
@@ -650,6 +667,7 @@ public class ResService : MonoSingleton<ResService>
                             }
                         }
                         break;
+
                     case "skillActionLst":
                         string[] _skillActionStr = e.InnerText.Split('|');
                         for(int j = 0; j < _skillActionStr.Length; j++)
@@ -660,6 +678,7 @@ public class ResService : MonoSingleton<ResService>
                             }
                         }
                         break;
+
                     case "skillDamageLst":
                         string[] _skillDamageStr = e.InnerText.Split('|');
                         for(int j = 0; j < _skillDamageStr.Length; j++)

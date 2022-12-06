@@ -26,4 +26,9 @@ public class TimerService : MonoSingleton<TimerService>
     {
         return pt.AddTimeTask(callback, delay, timeUnit, count);
     }
+
+    public double GetCurrentTime()
+    {
+        return pt.GetMillisecondsTime();
+    }
 }

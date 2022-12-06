@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class PlayerController : EntityController
 {
-    public GameObject daggeratk1fx;
+    public GameObject daggerSkill1FX;
+    public GameObject daggerSkill2FX;
+    public GameObject daggerSkill3FX;
+
+    public GameObject daggerAtk1FX;
+    public GameObject daggerAtk2FX;
+    public GameObject daggerAtk3FX;
+    public GameObject daggerAtk4FX;
+    public GameObject daggerAtk5FX;
 
 
     public CharacterController cc;
@@ -28,8 +36,15 @@ public class PlayerController : EntityController
         camOffest = transform.position - camTrans.position;
         Physics.autoSyncTransforms = true;
 
-        if(daggeratk1fx != null)
-        fxDic.Add(daggeratk1fx.name, daggeratk1fx);
+        if(daggerSkill1FX != null)
+        fxDic.Add(daggerSkill1FX.name, daggerSkill1FX);
+        fxDic.Add(daggerSkill2FX.name, daggerSkill2FX);
+        fxDic.Add(daggerSkill3FX.name, daggerSkill3FX);
+        fxDic.Add(daggerAtk1FX.name, daggerAtk1FX);
+        fxDic.Add(daggerAtk2FX.name, daggerAtk2FX);
+        fxDic.Add(daggerAtk3FX.name, daggerAtk3FX);
+        fxDic.Add(daggerAtk4FX.name, daggerAtk4FX);
+        fxDic.Add(daggerAtk5FX.name, daggerAtk5FX);
     }
 
     // Update is called once per frame
