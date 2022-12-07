@@ -162,6 +162,18 @@ namespace PEProtocol
         public int power;
     }
 
+    [System.Serializable]
+    public class ReqCheckConnection
+    {
+        public int id;
+    }
+
+    [System.Serializable]
+    public class RspCheckConntion
+    {
+        public int id;
+    }
+
 
     [System.Serializable]
     public class PlayerData
@@ -192,6 +204,7 @@ namespace PEProtocol
 
         public string[] task;
     }
+
 
     public enum CMD
     {

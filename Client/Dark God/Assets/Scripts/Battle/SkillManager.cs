@@ -21,7 +21,7 @@ public class SkillManager : MonoBehaviour
         AttackDamage(entity, skillId);
     }
 
-    public void AttackDamage(EntityBase entity, int skillId)
+    private void AttackDamage(EntityBase entity, int skillId)
     {
 
         SkillCfg data_skill = resSvc.GetSkillData(skillId);
@@ -145,6 +145,14 @@ public class SkillManager : MonoBehaviour
 
     public void AttackEffect(EntityBase entity, int skillId)
     {
+        if(entity.GetInputDir() == Vector2.zero)
+        {
+            entity.SetAtkRotation(entity.GetClosedTarget());
+        }
+        else
+        {
+            entity.SetAtkRotation(entity.GetInputDir());
+        }
         entity.Lock();
         entity.SetDir(Vector2.zero);
         SkillCfg data_skill = resSvc.GetSkillData(skillId);
@@ -154,7 +162,7 @@ public class SkillManager : MonoBehaviour
 
     private void SetSkillMove(EntityBase entity, SkillCfg data_skill)
     {
-        
+       
         if (data_skill != null)
         {
             float sumTime = 0;

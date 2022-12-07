@@ -224,7 +224,7 @@ public class BattleWin : WinRoot
 
     public void OnlClickSkill1Btn()
     {
-        if (!isSkill1CD)
+        if (!isSkill1CD && !BattleSystem.Instance.isPlayerAttack())
         {
             isSkill1CD = true;
             SetActive(imgSkill1CD);
@@ -237,7 +237,7 @@ public class BattleWin : WinRoot
 
     public void OnClickSkill2Btn()
     {
-        if (!isSkill2CD)
+        if (!isSkill2CD && !BattleSystem.Instance.isPlayerAttack())
         {
             isSkill2CD = true;
             SetActive(imgSkill2CD);
@@ -250,7 +250,7 @@ public class BattleWin : WinRoot
 
     public void OnClickSkill3Btn()
     {
-        if (!isSkill3CD)
+        if (!isSkill3CD && !BattleSystem.Instance.isPlayerAttack())
         {
             isSkill3CD = true;
             SetActive(imgSkill3CD);

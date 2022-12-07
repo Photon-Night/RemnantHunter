@@ -13,6 +13,7 @@ public abstract class EntityController : MonoBehaviour
     protected TimerService timer;
     public Transform hpRoot;
 
+    protected Transform camTrans;
     public Vector2 Dir
     {
         get
@@ -65,4 +66,17 @@ public abstract class EntityController : MonoBehaviour
         skillMoveSpeed = skillSpeed;
     }
 
+    public virtual void SetAtkRotationLocal(Vector2 atkDir)
+    {
+        float angle = Vector2.SignedAngle(atkDir, new Vector2(0, 1));
+        Vector3 eulerAngles = new Vector3(0, angle, 0);
+        this.transform.localEulerAngles = eulerAngles;
+    }
+
+    public virtual void SetAtkRotationCam(Vector2 atkDir)
+    {
+        float angle = Vector2.SignedAngle(atkDir, new Vector2(0, 1)) + camTrans.eulerAngles.y;
+        Vector3 eulerAngles = new Vector3(0, angle, 0);
+        this.transform.localEulerAngles = eulerAngles;
+    }
 }

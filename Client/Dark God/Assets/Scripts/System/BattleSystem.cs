@@ -48,5 +48,10 @@ public class BattleSystem : SystemRoot<BattleSystem>
     {
         return battleWin.GetCurrentDir();
     }
+
+    public bool isPlayerAttack()
+    {
+        return bm.isPlayerAttack();
+    }
 }
 

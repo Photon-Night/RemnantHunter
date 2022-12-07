@@ -8,4 +8,15 @@ public class EntityPlayer : EntityBase
     {
         return battleMgr.GetInputDir();
     }
+
+    public override Vector2 GetClosedTarget()
+    {
+        EntityMonster target = battleMgr.FindClosedMonster(this.GetTrans());
+        if (target != null)
+        {
+            Vector2 dir = new Vector2(target.GetPos().x - this.GetPos().x, target.GetPos().z - this.GetPos().z);
+            return dir.normalized;
+        }
+        return Vector2.zero;
+    }
 }

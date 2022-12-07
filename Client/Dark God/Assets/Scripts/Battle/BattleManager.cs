@@ -97,6 +97,7 @@ public class BattleManager : MonoBehaviour
         };
         ep.SetController(pc);
         ep.SetBattleProps(props);
+        ep.CurrentState = AniState.Idle;
     }
 
     public void LoadMonsterByWaveID(int waveIndex)
@@ -220,7 +221,7 @@ public class BattleManager : MonoBehaviour
             double currentTime = timeSvc.GetCurrentTime();
             if(currentTime - lastAtkTime < Message.ComboSpace && lastAtkTime != 0)
             {
-                if (comboIndex != ep.comboQue.Count - 1)
+                if (comboIndex < comboArr.Length - 1)
                 {
                     comboIndex += 1;
                     ep.comboQue.Enqueue(comboArr[comboIndex]);
@@ -262,6 +263,34 @@ public class BattleManager : MonoBehaviour
 
         e.Dispose();
         return monsterLst;
+    }
+
+    public EntityMonster FindClosedMonster(Transform centerTran, float distance = 0f)
+    {
+        float closedDis = float.MaxValue;
+        float _dis = 0f;
+        List<EntityMonster> monsters = GetMonsterLst();
+        EntityMonster target = null;
+
+        if (monsters == null || monsters.Count == 0)
+            return null;
+
+        for (int i = 0; i < monsters.Count; i++)
+        {
+            _dis = Vector3.Distance(centerTran.position, monsters[i].GetPos());
+            if(_dis < closedDis)
+            {
+                closedDis = _dis;
+                target = monsters[i];
+            }
+        }
+
+        return target;
+    }
+
+    public bool isPlayerAttack()
+    {
+        return ep.isAttack();
     }
 }
 

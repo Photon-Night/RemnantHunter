@@ -26,7 +26,7 @@ public class PlayerController : EntityController
 
     
     
-    private Transform camTrans;
+    
     // Start is called before the first frame update
     public override void Init()
     {

@@ -229,7 +229,34 @@ public class EntityBase
             else
             {
                 nextCombo = 0;
+                currentSkillCfg = null;
             }
         }
+        else
+        {
+            currentSkillCfg = null;
+        }
     }
+
+    public virtual void SetAtkRotation(Vector2 dir, bool offest = false)
+    {
+        if(controller != null)
+        {
+            if (offest)
+                controller.SetAtkRotationCam(dir);
+            else
+                controller.SetAtkRotationLocal(dir);
+        }
+    }
+
+    public virtual Vector2 GetClosedTarget()
+    {
+        return Vector2.zero;
+    }
+
+    public bool isAttack()
+    {
+        return currentSkillCfg != null;
+    }
+
 }
