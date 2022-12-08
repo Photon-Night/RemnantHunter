@@ -24,6 +24,8 @@ namespace PEProtocol
         public PushTaskPrgs pushTaskPrgs;
         public ReqMissionEnter reqMissionEnter;
         public RspMissionEnter rspMissionEnter;
+        public ReqCheckConnection reqCheckConnection;
+        public RspCheckConnection rspCheckConnection;
     }
 
     public class ServerCfg
@@ -169,7 +171,7 @@ namespace PEProtocol
     }
 
     [System.Serializable]
-    public class RspCheckConntion
+    public class RspCheckConnection
     {
         public int id;
     }
@@ -234,6 +236,9 @@ namespace PEProtocol
 
         ReqMissionEnter = 301,
         RspMissionEnter = 302,
+
+        ReqCheckConnection = 401,
+        RspCheckConnection = 402,
     }
 
     public enum ErrorCode

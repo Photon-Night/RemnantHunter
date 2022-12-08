@@ -7,6 +7,7 @@ namespace GameServer
     public class ServerSession : PESession<GameMsg>
     {
         public int sessionID = 0;
+        public bool connCheckFlag = false;
         protected override void OnConnected()
         {
             sessionID = ServerRoot.Instance.GetSessionID();

@@ -74,6 +74,10 @@ namespace GameServer
                 case CMD.ReqMissionEnter:
                     MissionSys.Instance.ReqMissionEnter(pack);
                     break;
+
+                case CMD.ReqCheckConnection:
+                    HeartbeatPacketSys.Instance.ReqCheckConnection(pack);
+                    break;
             }
 
         }

@@ -10,6 +10,7 @@ namespace GameServer
     {
         public void Init()
         {
+            DBMgr.Instance.Init();
             //服务层
             NetSvc.Instance.Init();
             CacheSvc.Instance.Init();
@@ -24,7 +25,7 @@ namespace GameServer
             PowerSys.Instance.Init();
             TaskSys.Instance.Init();
             MissionSys.Instance.Init();
-            DBMgr.Instance.Init();
+            HeartbeatPacketSys.Instance.Init();
          
         }
 

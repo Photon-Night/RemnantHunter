@@ -148,6 +148,11 @@ public class NetService : MonoSingleton<NetService>
             case CMD.RspMissionEnter:
                 MissionSystem.Instance.RspMissionEnter(msg);
                 break;
+
+            case CMD.RspCheckConnection:
+                RspCheckConnection(msg);
+                break;
+
         }
 
     }
@@ -159,5 +164,20 @@ public class NetService : MonoSingleton<NetService>
             GameMsg msg = msgQue.Dequeue();
             ProcessMsg(msg);
         }
+    }
+
+    private void RspCheckConnection(GameMsg msg)
+    {
+        int sessionID = msg.rspCheckConnection.id;
+        GameMsg newMsg = new GameMsg
+        {
+            cmd = (int)CMD.ReqCheckConnection,
+            reqCheckConnection = new ReqCheckConnection
+            {
+                id = sessionID
+            }
+        };
+
+        SendMessage(newMsg);
     }
 }

@@ -8,6 +8,7 @@ namespace GameServer
     {
         private Dictionary<string, ServerSession> onlineAccDic = new Dictionary<string, ServerSession>();
         private Dictionary<ServerSession, PlayerData> onlineSession = new Dictionary<ServerSession, PlayerData>();
+        private Dictionary<int, ServerSession> onlineSessionConn = new Dictionary<int, ServerSession>();
 
         private DBMgr dbMgr = null;
         public void Init()
@@ -42,6 +43,7 @@ namespace GameServer
         {
             onlineAccDic.Add(acc, session);
             onlineSession.Add(session, playerData);
+            onlineSessionConn.Add(session.sessionID, session);
         }
 
         public bool IsNameExist(string name)
@@ -80,8 +82,9 @@ namespace GameServer
             }
             bool succ = onlineAccDic.Remove(_acc);
             bool succ2 = onlineSession.Remove(session);
+            bool succ3 = onlineSessionConn.Remove(session.sessionID);
 
-            PECommon.Log("OffLine Result: SessionID:" + session.sessionID + "___Account Release:" + succ + "___Session Release:" + succ2);
+            PECommon.Log("OffLine Result: SessionID:" + session.sessionID + "___Account Release:" + succ + "___Session Release:" + succ2 + "___Session Conn Release" + succ3);
             ge.Dispose();
         }
 
@@ -97,6 +100,16 @@ namespace GameServer
         public Dictionary<ServerSession, PlayerData> GetOnlineCache()
         {
             return onlineSession;
+        }
+
+        public Dictionary<int, ServerSession> GetConnSessionCache()
+        {
+            return onlineSessionConn;
+        }
+
+        public void SetConnCheckFlagBySessionID(int sessionID, bool flag = false)
+        {
+            onlineSessionConn[sessionID].connCheckFlag = flag;
         }
 
         public ServerSession GetOnlineSessionByID(int id)

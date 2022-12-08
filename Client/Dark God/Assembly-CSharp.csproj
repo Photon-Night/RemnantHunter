@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\Battle\StateManager.cs" />
     <Compile Include="Assets\Scripts\UIWin\TaskWin.cs" />
     <Compile Include="Assets\Scripts\Common\MonoSingleton.cs" />
+    <Compile Include="Assets\Scripts\UIWin\ItemEntityHP.cs" />
     <Compile Include="Assets\Scripts\UIWin\LoadingWin.cs" />
     <Compile Include="Assets\Scripts\Battle\EntityPlayer.cs" />
     <Compile Include="Assets\Scripts\UIWin\MainCityWin.cs" />
@@ -103,7 +104,6 @@
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
     <Compile Include="Assets\Scripts\Battle\EntityMonster.cs" />
-    <Compile Include="Assets\Scripts\UIWin\ItemEntityHP.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\ResCfgs\monster.xml" />

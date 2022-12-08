@@ -52,6 +52,9 @@ namespace PEProtocol
 
         public const int PowerAddSpace = 2;
         public const int PowerAddCount = 2;
+
+        public const int HeartbeatSpace = 5;
+        public const int CheckSpace = 5;
     }
 
    public enum LogType
