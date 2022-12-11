@@ -101,6 +101,7 @@ public class SkillActionCfg : BaseData<SkillActionCfg>
 
 public class BattleProps
 {
+    public float atkDis;
     public int hp;
     public int ad;
     public int ap;

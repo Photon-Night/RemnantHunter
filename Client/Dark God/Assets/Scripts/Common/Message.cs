@@ -62,6 +62,7 @@ public class Message
     public const int BuyPower = 1;
 
     public const int ComboSpace = 500;
+    public const float AICheckTimeSpace = 2f;
 
     public const int DieAniLength = 5000;
 

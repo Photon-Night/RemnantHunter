@@ -14,7 +14,7 @@ public class BattleManager : MonoBehaviour
     SkillManager skillMgr = null;
     StateManager stateMgr = null;
 
-    private EntityPlayer ep;
+    public EntityPlayer ep;
     private MapCfg mapData;
 
     private Dictionary<string, EntityMonster> monstersDic = new Dictionary<string, EntityMonster>();

@@ -259,4 +259,9 @@ public class EntityBase
         return currentSkillCfg != null;
     }
 
+
+    protected virtual void TickAILogic()
+    {
+        return;
+    }
 }
