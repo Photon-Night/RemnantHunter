@@ -297,6 +297,9 @@ public class ResService : MonoSingleton<ResService>
                     case "resPath":
                         data.resPath = e.InnerText;
                         break;
+                    case "skillID":
+                        data.skillID = int.Parse(e.InnerText);
+                        break;
                     case "atkDis":
                         data.bps.atkDis = float.Parse(e.InnerText);
                         break;

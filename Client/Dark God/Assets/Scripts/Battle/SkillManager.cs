@@ -48,16 +48,29 @@ public class SkillManager : MonoBehaviour
 
     private void SkillAction(EntityBase entity, SkillCfg data_skill, int index)
     {
-        List<EntityMonster> monsterLst = entity.battleMgr.GetMonsterLst();
         SkillActionCfg data = resSvc.GetSkillActionCfg(data_skill.skillActionLst[index]);
         int damage = data_skill.skillDamageLst[index];
-        for (int i = 0; i < monsterLst.Count; i++)
+
+        if (entity.entityType == Message.EntityType.Player)
         {
-            var monster = monsterLst[i];
-            if(RangeCheck(entity.GetPos(), monster.GetPos(), data.radius)
-                && CheckAngle(entity.GetTrans(), monster.GetPos(), data.angle))
+            List<EntityMonster> monsterLst = entity.battleMgr.GetMonsterLst();
+            for (int i = 0; i < monsterLst.Count; i++)
             {
-                CalcDamage(entity, monster, data_skill, damage);
+                var target = monsterLst[i];
+                if (RangeCheck(entity.GetPos(), target.GetPos(), data.radius)
+                    && CheckAngle(entity.GetTrans(), target.GetPos(), data.angle))
+                {
+                    CalcDamage(entity, target, data_skill, damage);
+                }
+            }
+        }
+        else if(entity.entityType == Message.EntityType.Monster)
+        {
+            EntityBase target = entity.battleMgr.ep;
+            if (RangeCheck(entity.GetPos(), target.GetPos(), data.radius)
+                    && CheckAngle(entity.GetTrans(), target.GetPos(), data.angle))
+            {
+                CalcDamage(entity, target, data_skill, damage);
             }
         }
     }
@@ -145,13 +158,16 @@ public class SkillManager : MonoBehaviour
 
     public void AttackEffect(EntityBase entity, int skillId)
     {
-        if(entity.GetInputDir() == Vector2.zero)
+        if (entity.entityType == Message.EntityType.Player)
         {
-            entity.SetAtkRotation(entity.GetClosedTarget());
-        }
-        else
-        {
-            entity.SetAtkRotation(entity.GetInputDir());
+            if (entity.GetInputDir() == Vector2.zero)
+            {
+                entity.SetAtkRotation(entity.GetClosedTarget());
+            }
+            else
+            {
+                entity.SetAtkRotation(entity.GetInputDir(), true);
+            }
         }
         entity.Lock();
         entity.SetDir(Vector2.zero);

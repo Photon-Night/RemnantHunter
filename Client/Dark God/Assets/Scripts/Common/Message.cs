@@ -30,7 +30,7 @@ public class Message
     public const int ScreenOPDis = 90;
 
     public const int PlayerMoveSpeed = 8;
-    public const int MonsterMoveSpeed = 4;
+    public const int MonsterMoveSpeed = 3;
 
     public const float AccelerSpeed = 7f;
     public const float AccelerHpSpeed = .3f;
@@ -63,6 +63,7 @@ public class Message
 
     public const int ComboSpace = 500;
     public const float AICheckTimeSpace = 2f;
+    public const float AIAtkTimeSpace = 2f;
 
     public const int DieAniLength = 5000;
 
@@ -78,4 +79,12 @@ public class Message
         AD = 1,
         AP = 2,
     }
+
+    public enum EntityType
+    {
+        None = 0,
+        Player = 1,
+        Monster = 2,
+    }
+
 }

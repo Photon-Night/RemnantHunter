@@ -14,6 +14,8 @@ public abstract class EntityController : MonoBehaviour
     public Transform hpRoot;
 
     protected Transform camTrans;
+
+    public CharacterController cc;
     public Vector2 Dir
     {
         get

@@ -40,17 +40,23 @@ public class BattleWin : WinRoot
 
     public Transform expPrgTrans;
 
+    public Image imgHP;
+    public Text txtHP;
+
 
     private float pointDis;
     private Vector2 startPos;
     private Vector2 defaultPos;
 
     private Vector2 currentDir;
-    
+    private int hpNum;
 
     protected override void InitWin()
     {
         base.InitWin();
+        imgHP.fillAmount = 1;
+        hpNum = GameRoot.Instance.PlayerData.hp;
+        SetText(txtHP, hpNum + "/" + hpNum);
         pointDis = Screen.height * 1f / Message.ScreenStandardHeight * Message.ScreenOPDis;
         defaultPos = imgDirBg.transform.position;
         SetActive(imgDirPoint, false);
@@ -143,7 +149,7 @@ public class BattleWin : WinRoot
             }
         }
     }
-        
+    
 
     public void RefreshUI()
     {
@@ -274,5 +280,11 @@ public class BattleWin : WinRoot
     public Vector2 GetCurrentDir()
     {
         return currentDir;
+    }
+
+    public void SetHPUI(int hp)
+    {
+        SetText(txtHP, hp + "/" + hpNum);
+        imgHP.fillAmount = (hp * 1f) / (hpNum * 1f);
     }
 }

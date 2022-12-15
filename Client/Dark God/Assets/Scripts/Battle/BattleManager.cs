@@ -18,6 +18,16 @@ public class BattleManager : MonoBehaviour
     private MapCfg mapData;
 
     private Dictionary<string, EntityMonster> monstersDic = new Dictionary<string, EntityMonster>();
+
+    private void Update()
+    {
+        foreach (var monster in monstersDic)
+        {
+            monster.Value.TickAILogic();
+        }
+    }
+
+    
     public void InitManager(int mapId)
     {
         PECommon.Log("BattleManager Loading");
@@ -291,6 +301,11 @@ public class BattleManager : MonoBehaviour
     public bool isPlayerAttack()
     {
         return ep.isAttack();
+    }
+
+    public void SetHPUI(int hp)
+    {
+        BattleSystem.Instance.SetHPUI(hp);
     }
 }
 

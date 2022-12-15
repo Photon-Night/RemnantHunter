@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class EntityPlayer : EntityBase
 {
+    public EntityPlayer()
+    {
+        entityType = Message.EntityType.Player;
+    }
     public override Vector2 GetInputDir()
     {
         return battleMgr.GetInputDir();
@@ -18,5 +22,15 @@ public class EntityPlayer : EntityBase
             return dir.normalized;
         }
         return Vector2.zero;
+    }
+
+    protected override void SetHpVal(int oldHp, int newHp)
+    {
+        battleMgr.SetHPUI(newHp);
+    }
+
+    public override void SetDodge()
+    {
+        GameRoot.Instance.dynamicWin.SetDodgePlayer();
     }
 }

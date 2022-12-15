@@ -53,5 +53,10 @@ public class BattleSystem : SystemRoot<BattleSystem>
     {
         return bm.isPlayerAttack();
     }
+
+    public void SetHPUI(int hp)
+    {
+        battleWin.SetHPUI(hp);
+    }
 }
 

@@ -7,6 +7,12 @@ public class EntityMonster : EntityBase
     public MonsterData md;
     private EntityPlayer player;
     private float checkTimeCount = 0;
+    private float atkTimeCount = 0;
+
+    public EntityMonster()
+    {
+        entityType = Message.EntityType.Monster;
+    }
     public override void SetBattleProps(BattleProps props)
     {
         int lv = md.lv;
@@ -27,18 +33,47 @@ public class EntityMonster : EntityBase
         Props = _props;
     }
 
-    protected override void TickAILogic()
+    bool runAI = true;
+    public override void TickAILogic()
     {
-        checkTimeCount += Time.deltaTime;
-        if(checkTimeCount < Message.AICheckTimeSpace)
+        if(runAI)
         {
             return;
         }
-        else
+        if (currentState == AniState.Idle || currentState == AniState.Move)
         {
-            GetClosedTarget();
-            CheckRange();
-            checkTimeCount = 0;
+
+
+            checkTimeCount += Time.deltaTime;
+            if (checkTimeCount < Message.AICheckTimeSpace)
+            {
+                return;
+            }
+            else
+            {
+                Vector2 dir = GetClosedTarget();
+                if (!CheckRange())
+                {
+                    SetDir(dir);
+                    Move();
+                }
+                else
+                {
+                    atkTimeCount += checkTimeCount;
+                    SetDir(Vector2.zero);
+                    if (atkTimeCount >= Message.AIAtkTimeSpace)
+                    {
+                        SetAtkRotation(dir);
+                        Attack(md.mCfg.skillID);
+                        atkTimeCount = 0;
+                    }
+                    else
+                    {
+                        Idle();
+                    }
+                }
+                checkTimeCount = PETools.RdInt(0, 10) * .1f;
+            }
         }
     }
 

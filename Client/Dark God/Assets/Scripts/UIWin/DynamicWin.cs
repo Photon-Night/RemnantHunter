@@ -10,6 +10,8 @@ public class DynamicWin : WinRoot
 
     public Transform hpItemRoot;
 
+    public Animation playerDodge;
+
     private bool isTipsShow;
 
     private Queue<string> tipsQue = new Queue<string>();
@@ -129,4 +131,9 @@ public class DynamicWin : WinRoot
         }
     }
 
+    public void SetDodgePlayer()
+    {
+        playerDodge.Stop();
+        playerDodge.Play();
+    }
 }

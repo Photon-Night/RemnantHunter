@@ -4,7 +4,7 @@ using UnityEngine;
 using PEProtocol;
 public class PETools
 {
-    public static int RdInt(int min, int max, System.Random rd)
+    public static int RdInt(int min, int max, System.Random rd = null)
     {
         if(rd == null)
         {

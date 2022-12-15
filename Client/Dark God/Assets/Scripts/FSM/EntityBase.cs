@@ -15,6 +15,8 @@ public class EntityBase
     public Queue<int> comboQue = new Queue<int>();
     public int nextCombo;
     public SkillCfg currentSkillCfg;
+
+    public Message.EntityType entityType = Message.EntityType.None;
     public string Name
     {
         get
@@ -197,7 +199,7 @@ public class EntityBase
         return controller.transform;
     }
 
-    public void SetDodge()
+    public virtual void SetDodge()
     {
         GameRoot.Instance.dynamicWin.SetDodge(controller.name);
     }
@@ -212,7 +214,7 @@ public class EntityBase
         GameRoot.Instance.dynamicWin.SetCritical(controller.name);
     }
 
-    private void SetHpVal(int oldHp, int newHp)
+    protected virtual void SetHpVal(int oldHp, int newHp)
     {
         GameRoot.Instance.dynamicWin.SetHpVal(controller.name, oldHp, newHp);
     }
@@ -260,7 +262,7 @@ public class EntityBase
     }
 
 
-    protected virtual void TickAILogic()
+    public virtual void TickAILogic()
     {
         return;
     }

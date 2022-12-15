@@ -14,8 +14,6 @@ public class PlayerController : EntityController
     public GameObject daggerAtk4FX;
     public GameObject daggerAtk5FX;
 
-
-    public CharacterController cc;
   
     private Vector3 camOffest;
 

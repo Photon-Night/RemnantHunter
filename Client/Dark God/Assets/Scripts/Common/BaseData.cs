@@ -79,6 +79,7 @@ public class MonsterCfg : BaseData<MonsterCfg>
 {
     public string mName;
     public string resPath;
+    public int skillID;
     public BattleProps bps;
 }
 
