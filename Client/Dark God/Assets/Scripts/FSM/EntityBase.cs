@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class EntityBase
 {
-    protected AniState currentState = AniState.None;
     public StateManager stateMgr;
     protected EntityController controller;
     public SkillManager skillMgr;
@@ -16,7 +15,11 @@ public class EntityBase
     public int nextCombo;
     public SkillCfg currentSkillCfg;
 
+    public bool canReleaseSkill = true;
+
+    protected AniState currentState = AniState.None;
     public Message.EntityType entityType = Message.EntityType.None;
+    public Message.EntityState entityState = Message.EntityState.None;
     public string Name
     {
         get
@@ -222,6 +225,8 @@ public class EntityBase
     public void ExitCurrentAtk()
     {
         LockCtrl = false;
+        if(!currentSkillCfg.isBreak)
+        entityState = Message.EntityState.None;
         if (currentSkillCfg.isCombo)
         {
             if (comboQue.Count > 0)
@@ -258,11 +263,21 @@ public class EntityBase
 
     public bool isAttack()
     {
-        return currentSkillCfg != null;
+        return !canReleaseSkill;
     }
 
 
     public virtual void TickAILogic()
+    {
+        return;
+    }
+
+    public AudioSource GetEntityAudioSource()
+    {
+        return controller.GetAudio();
+    }
+
+    public virtual void PlayEntityHitAudio()
     {
         return;
     }

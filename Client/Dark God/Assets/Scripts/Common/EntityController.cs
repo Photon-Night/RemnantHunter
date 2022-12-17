@@ -16,6 +16,9 @@ public abstract class EntityController : MonoBehaviour
     protected Transform camTrans;
 
     public CharacterController cc;
+
+    public AudioSource audioSource;
+    public Animator anim;
     public Vector2 Dir
     {
         get
@@ -35,7 +38,6 @@ public abstract class EntityController : MonoBehaviour
             dir = value;
         }
     }
-    public Animator anim;
 
 
     public virtual void Init()
@@ -44,6 +46,7 @@ public abstract class EntityController : MonoBehaviour
         if(!anim)
         {
             anim = this.GetComponent<Animator>();
+            audioSource = this.GetComponent<AudioSource>();
         }
     }
 
@@ -80,5 +83,10 @@ public abstract class EntityController : MonoBehaviour
         float angle = Vector2.SignedAngle(atkDir, new Vector2(0, 1)) + camTrans.eulerAngles.y;
         Vector3 eulerAngles = new Vector3(0, angle, 0);
         this.transform.localEulerAngles = eulerAngles;
+    }
+
+    public AudioSource GetAudio()
+    {
+        return GetComponent<AudioSource>();
     }
 }

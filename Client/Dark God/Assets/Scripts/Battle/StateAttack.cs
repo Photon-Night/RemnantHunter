@@ -14,6 +14,7 @@ public class StateAttack : IState
 
     public void OnExit(EntityBase entity, params object[] args)
     {
+        entity.canReleaseSkill = true;
         entity.ExitCurrentAtk();
         entity.SetAction(Message.ActionNormal);
     }
@@ -26,6 +27,7 @@ public class StateAttack : IState
     public void Process(EntityBase entity, params object[] args)
     {
         entity.SkillAttack((int)args[0]);
+        entity.canReleaseSkill = false;
     }
 }
     

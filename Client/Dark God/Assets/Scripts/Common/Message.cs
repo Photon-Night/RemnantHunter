@@ -14,6 +14,7 @@ public class Message
     public const string BGLogin = "bgLogin";
     public const string BGMMainCity = "bgMainCity";
     public const string BGHuangYe = "bgHuangYe";
+    public const string PlayerHit = "assassin_Hit";
 
     //UIAudio
     public const string UIClickBtn = "uiClickBtn";
@@ -86,5 +87,12 @@ public class Message
         Player = 1,
         Monster = 2,
     }
+
+    public enum EntityState
+    {
+        None = 0,
+        BatiState = 1,
+    }
+
 
 }

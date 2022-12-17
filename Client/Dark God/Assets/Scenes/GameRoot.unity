@@ -6944,7 +6944,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &420853338
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10880,7 +10880,8 @@ MonoBehaviour:
   tipsAnim: {fileID: 1744435657}
   txtTips: {fileID: 1744435658}
   hpItemRoot: {fileID: 309593440}
-  playerDodge: {fileID: 0}
+  txtPlayerDodge: {fileID: 1532032622}
+  playerDodge: {fileID: 1532032620}
 --- !u!1 &691133718
 GameObject:
   m_ObjectHideFlags: 0
@@ -19491,8 +19492,8 @@ MonoBehaviour:
   txtSkill3CD: {fileID: 1123676922}
   imgSkill3CD: {fileID: 1578726472}
   expPrgTrans: {fileID: 793541150}
-  imgHP: {fileID: 0}
-  txtHP: {fileID: 0}
+  imgHP: {fileID: 1849528336}
+  txtHP: {fileID: 1803519761}
 --- !u!1 &1255866364
 GameObject:
   m_ObjectHideFlags: 0

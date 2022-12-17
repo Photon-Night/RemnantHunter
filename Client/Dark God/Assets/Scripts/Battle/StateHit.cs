@@ -12,7 +12,7 @@ public class StateHit : IState
 
     public void OnExit(EntityBase entity, params object[] args)
     {
-        
+        entity.canReleaseSkill = true;
     }
 
     public void OnUpdate(EntityBase entity, params object[] args)
@@ -22,6 +22,9 @@ public class StateHit : IState
 
     public void Process(EntityBase entity, params object[] args)
     {
+        entity.canReleaseSkill = false;
+        entity.PlayEntityHitAudio();
+        
         entity.SetAction(Message.ActionHit);
         entity.SetDir(Vector2.zero);
         TimerService.Instance.AddTimeTask((int tid) =>

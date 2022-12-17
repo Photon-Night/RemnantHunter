@@ -651,6 +651,19 @@ public class ResService : MonoSingleton<ResService>
                             skill.isCombo = true;
                         break;
 
+                    case "isCollide":
+                        if (e.InnerText == "0")
+                            skill.isCollide = true;
+                        else if (e.InnerText == "1")
+                            skill.isCollide = false;
+                        break;
+
+                    case "isBreak":
+                        if (e.InnerText == "0")
+                            skill.isBreak = true;
+                        else if (e.InnerText == "1")
+                            skill.isBreak = false;
+                        break;
 
                     case "dmgType":
                         if (e.InnerText.Equals("1"))

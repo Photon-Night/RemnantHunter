@@ -7,11 +7,12 @@ public class SkillManager : MonoBehaviour
 {
     ResService resSvc;
     TimerService timer;
-
+    AudioService audioSvc;
     public void InitManager()
     {
         resSvc = ResService.Instance;
         timer = TimerService.Instance;
+        audioSvc = AudioService.Instance;
         PECommon.Log("SkillManager Loading");
     }
     
@@ -126,7 +127,10 @@ public class SkillManager : MonoBehaviour
         {
             target.HP -= dmgSum;
             target.SetHurt(dmgSum);
-            target.Hit();
+            if (target.entityState != Message.EntityState.BatiState)
+            {
+                target.Hit();
+            }
         }
         
     }
@@ -169,11 +173,34 @@ public class SkillManager : MonoBehaviour
                 entity.SetAtkRotation(entity.GetInputDir(), true);
             }
         }
+
+        SkillCfg data_skill = resSvc.GetSkillData(skillId);
+        
+        if(data_skill.isCollide)
+        {
+            Debug.Log(LayerMask.NameToLayer("Player"));
+            Physics.IgnoreLayerCollision(7, 8);
+            timer.AddTimeTask((tid) =>
+            {
+                Physics.IgnoreLayerCollision(7, 8, false);
+            }, data_skill.skillTime);
+        }
+
+        if(!data_skill.isBreak)
+        {
+            entity.entityState = Message.EntityState.BatiState;
+        }
+
         entity.Lock();
         entity.SetDir(Vector2.zero);
-        SkillCfg data_skill = resSvc.GetSkillData(skillId);
-
+        entity.SetAction(data_skill.aniAction);
+        entity.SetFX(data_skill.fx, data_skill.skillTime);
         SetSkillMove(entity, data_skill);
+
+        timer.AddTimeTask((int tid) =>
+        {
+            entity.Idle();
+        }, data_skill.skillTime);
     }
 
     private void SetSkillMove(EntityBase entity, SkillCfg data_skill)
@@ -187,8 +214,6 @@ public class SkillManager : MonoBehaviour
                 SkillMoveCfg data_skillMove = resSvc.GetSkillMoveCfg(data_skill.skillMoveLst[i]);
                 float _speed = data_skillMove.moveDis / (data_skillMove.moveTime / 1000f);
                 
-                entity.SetAction(data_skill.aniAction);
-                entity.SetFX(data_skill.fx, data_skill.skillTime);
                 sumTime += data_skillMove.delayTime;
 
                 if (sumTime > 0)
@@ -210,10 +235,6 @@ public class SkillManager : MonoBehaviour
                     entity.SetSkillMoveState(false);
                 }, sumTime);
 
-                timer.AddTimeTask((int tid) =>
-                {
-                    entity.Idle();
-                }, data_skill.skillTime);
             }
 
         }

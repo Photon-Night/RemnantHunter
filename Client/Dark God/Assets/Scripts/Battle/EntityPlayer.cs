@@ -33,4 +33,9 @@ public class EntityPlayer : EntityBase
     {
         GameRoot.Instance.dynamicWin.SetDodgePlayer();
     }
+
+    public override void PlayEntityHitAudio()
+    {
+        AudioService.Instance.PlayeEntityAudioByAudioSource(GetEntityAudioSource(), Message.PlayerHit);
+    }
 }

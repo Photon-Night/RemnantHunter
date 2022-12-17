@@ -19,7 +19,7 @@ public class BattleManager : MonoBehaviour
 
     private Dictionary<string, EntityMonster> monstersDic = new Dictionary<string, EntityMonster>();
 
-    private void Update()
+     void Update()
     {
         foreach (var monster in monstersDic)
         {
@@ -108,6 +108,8 @@ public class BattleManager : MonoBehaviour
         ep.SetController(pc);
         ep.SetBattleProps(props);
         ep.CurrentState = AniState.Idle;
+
+        //AudioService.Instance.AddAudio(player.name, pc.GetAudio());
     }
 
     public void LoadMonsterByWaveID(int waveIndex)

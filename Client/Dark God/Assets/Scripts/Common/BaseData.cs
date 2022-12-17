@@ -61,6 +61,8 @@ public class SkillCfg : BaseData<SkillCfg>
     public int aniAction;
     public string fx;
     public bool isCombo;
+    public bool isCollide;
+    public bool isBreak;
     public Message.DmgType dmgType;
     public int cdTime;
     public List<int> skillMoveLst;

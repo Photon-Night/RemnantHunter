@@ -10,6 +10,7 @@ public class DynamicWin : WinRoot
 
     public Transform hpItemRoot;
 
+    public Text txtPlayerDodge;
     public Animation playerDodge;
 
     private bool isTipsShow;
@@ -21,6 +22,7 @@ public class DynamicWin : WinRoot
         base.InitWin();
 
         SetActive(txtTips, false);
+        SetActive(txtPlayerDodge, false);
     }
 
     public void AddTips(string tips)
@@ -51,7 +53,7 @@ public class DynamicWin : WinRoot
         SetText(txtTips, tips);
         AnimationClip clip = tipsAnim.GetClip("TipEnter");
         tipsAnim.Play();
-        //��ʱ�ر�
+
         StartCoroutine(AnimPlayDone(clip.length, () =>
         {
             SetActive(txtTips, false);
@@ -133,6 +135,7 @@ public class DynamicWin : WinRoot
 
     public void SetDodgePlayer()
     {
+        SetActive(txtPlayerDodge);
         playerDodge.Stop();
         playerDodge.Play();
     }

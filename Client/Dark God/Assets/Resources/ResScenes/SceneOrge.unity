@@ -362,10 +362,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneOrge
       objectReference: {fileID: 0}
-    - target: {fileID: 100428, guid: 27c218ae828bcf3489f337ea4eebb747, type: 3}
-      propertyPath: m_TagString
-      value: MapRoot
-      objectReference: {fileID: 0}
     - target: {fileID: 400428, guid: 27c218ae828bcf3489f337ea4eebb747, type: 3}
       propertyPath: m_RootOrder
       value: 1
