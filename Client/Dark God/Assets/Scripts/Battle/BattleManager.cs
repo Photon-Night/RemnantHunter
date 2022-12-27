@@ -45,7 +45,7 @@ public class BattleManager : MonoBehaviour
         {
             GameObject map = GameObject.FindGameObjectWithTag("MapRoot");
 
-            mapMgr = map.gameObject.AddComponent<MapManager>();
+            mapMgr = map.gameObject.GetComponent<MapManager>();
             mapMgr.InitManager(this);
 
             map.transform.position = Vector3.zero;
@@ -70,6 +70,26 @@ public class BattleManager : MonoBehaviour
             monstersDic.Remove(name);
             GameRoot.Instance.RemoveHpUIItem(name);
         }
+
+        if(monstersDic.Count == 0)
+        {
+            OnBattleOver();
+        }
+    }
+
+    private void OnBattleOver()
+    {
+        bool isExit = mapMgr.SetNextTrigger();
+        if(isExit)
+        {
+            StopBattle(true, ep.HP);
+        }
+    }
+
+    public void StopBattle(bool isWin, int restHP)
+    {
+        AudioService.Instance.StopBGAudio();
+        BattleSystem.Instance.StopBattle(isWin, restHP);
     }
 
     public void LoadPlayer()
@@ -144,7 +164,10 @@ public class BattleManager : MonoBehaviour
                 go.SetActive(false);
                 monstersDic.Add(go.name, em);
 
-                GameRoot.Instance.AddHpUIItem(go.name, em.md.mCfg.bps.hp, mc.hpRoot); ;
+                if (em.md.mCfg.mType == Message.MonsterType.Normal)
+                    GameRoot.Instance.AddHpUIItem(go.name, em.Props.hp, mc.hpRoot);
+                else if (em.md.mCfg.mType == Message.MonsterType.Boss)
+                    BattleSystem.Instance.SetMonsterHPState(true);
             }
         }
     }
@@ -252,6 +275,12 @@ public class BattleManager : MonoBehaviour
             lastAtkTime = timeSvc.GetCurrentTime();
             ep.Attack(111);
         }
+    }
+
+    public void StopCombo()
+    {
+        comboIndex = 0;
+        lastAtkTime = 0;
     }
 
     public virtual void SetFX()

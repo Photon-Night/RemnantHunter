@@ -18,6 +18,8 @@ public class SkillManager : MonoBehaviour
     
     public void SkillAttack(EntityBase entity, int skillId)
     {
+        entity.ResetSkillActionEffectCBIndex();
+
         AttackEffect(entity, skillId);
         AttackDamage(entity, skillId);
     }
@@ -35,10 +37,13 @@ public class SkillManager : MonoBehaviour
             int index = i;
             if (sum > 0)
             {
-               timer.AddTimeTask((int tid) =>
+               int actionID = timer.AddTimeTask((int tid) =>
                {
                    SkillAction(entity, data_skill, index);
+                   entity.RemoveSkillActionCBItem(tid);
                }, sum);
+
+                entity.skillActionCBLst.Add(actionID);
             }
             else
             {
@@ -112,22 +117,28 @@ public class SkillManager : MonoBehaviour
             dmgSum -= target.Props.apdef;
         }
 
-        if(dmgSum < 0)
+        if (dmgSum < 0)
         {
             dmgSum = 0;
         }
-        else if(dmgSum >= target.HP)
+        else if (dmgSum >= target.HP)
         {
             target.HP = 0;
             target.SetHurt(dmgSum);
             target.Die();
-            target.battleMgr.RemoveMonster(target.Name);
+            if (target.entityType == Message.EntityType.Monster)
+                target.battleMgr.RemoveMonster(target.Name);
+            else if (target.entityType == Message.EntityType.Player)
+            {
+                target.battleMgr.StopBattle(false, 0);
+                target.battleMgr.ep = null;
+            }
         }
         else
         {
             target.HP -= dmgSum;
             target.SetHurt(dmgSum);
-            if (target.entityState != Message.EntityState.BatiState)
+            if (target.entityState == Message.EntityState.None && target.GetBreakState())
             {
                 target.Hit();
             }
@@ -197,7 +208,7 @@ public class SkillManager : MonoBehaviour
         entity.SetFX(data_skill.fx, data_skill.skillTime);
         SetSkillMove(entity, data_skill);
 
-        timer.AddTimeTask((int tid) =>
+        entity.skillEndCBIndex = timer.AddTimeTask((int tid) =>
         {
             entity.Idle();
         }, data_skill.skillTime);
@@ -218,10 +229,13 @@ public class SkillManager : MonoBehaviour
 
                 if (sumTime > 0)
                 {
-                    timer.AddTimeTask((int tid) =>
+                    int moveID = timer.AddTimeTask((int tid) =>
                     {
                         entity.SetSkillMoveState(true, _speed);
+                        entity.RemoveSkillMoveCBItem(tid);
                     }, data_skillMove.delayTime);
+
+                    entity.skillMoveCBLst.Add(moveID);
                 }
                 else
                 {
@@ -230,11 +244,13 @@ public class SkillManager : MonoBehaviour
 
                 sumTime += data_skillMove.moveTime;
 
-                timer.AddTimeTask((int tid) =>
+                int stopID = timer.AddTimeTask((int tid) =>
                 {
                     entity.SetSkillMoveState(false);
+                    entity.RemoveSkillMoveCBItem(tid);
                 }, sumTime);
 
+                entity.skillMoveCBLst.Add(stopID);
             }
 
         }

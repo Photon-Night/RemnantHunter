@@ -19,7 +19,7 @@ public class EntityMonster : EntityBase
     {
         int lv = md.lv;
 
-        BattleProps _props = new BattleProps
+        Props = new BattleProps
         {
             hp = lv * props.hp,
             ad = lv * props.ad,
@@ -31,8 +31,8 @@ public class EntityMonster : EntityBase
             critical = lv * props.critical,
         };
 
-        HP = _props.hp;
-        Props = _props;
+        HP = Props.hp;
+        
     }
 
     bool runAI = true;
@@ -119,6 +119,35 @@ public class EntityMonster : EntityBase
             
         }
         return false;
+    }
+
+    public override bool GetBreakState()
+    {
+        if(md.mCfg.isStop)
+        {
+            if (currentSkillCfg != null)
+            {
+                return currentSkillCfg.isBreak;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    protected override void SetHpVal(int oldHp, int newHp)
+    {
+        if (md.mCfg.mType == Message.MonsterType.Normal)
+            base.SetHpVal(oldHp, newHp);
+        else if(md.mCfg.mType == Message.MonsterType.Boss)
+        {           
+            BattleSystem.Instance.SetBossHPVal(oldHp, newHp, Props.hp);
+        }
     }
 }
 

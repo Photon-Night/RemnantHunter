@@ -65,4 +65,8 @@ public class AudioService : MonoSingleton<AudioService>
         audioSource.clip = audio;
         audioSource.Play();
     }
+    public void StopBGAudio()
+    {
+        bgAudio.Stop();
+    }
 }

@@ -408,3 +408,61 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27c218ae828bcf3489f337ea4eebb747, type: 3}
+--- !u!1 &1382283181 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1986553909874128, guid: 27c218ae828bcf3489f337ea4eebb747, type: 3}
+  m_PrefabInstance: {fileID: 1382283180}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1382283182 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1568722264195668, guid: 27c218ae828bcf3489f337ea4eebb747, type: 3}
+  m_PrefabInstance: {fileID: 1382283180}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1382283183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382283181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70e684caa5d7e5b469e7fd952f8d4ebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveIndex: 3
+  mapMgr: {fileID: 1382283186}
+--- !u!114 &1382283184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382283182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70e684caa5d7e5b469e7fd952f8d4ebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveIndex: 2
+  mapMgr: {fileID: 1382283186}
+--- !u!1 &1382283185 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100428, guid: 27c218ae828bcf3489f337ea4eebb747, type: 3}
+  m_PrefabInstance: {fileID: 1382283180}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1382283186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382283185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63d81e1ac39ed7f4f90c82c1e66de0d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TirggerArr:
+  - {fileID: 1382283184}
+  - {fileID: 1382283183}

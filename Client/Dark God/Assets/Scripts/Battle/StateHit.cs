@@ -7,7 +7,7 @@ public class StateHit : IState
     public void OnEnter(EntityBase entity, params object[] args)
     {
         entity.CurrentState = AniState.Hit;
-        
+        entity.RemoveSkillCB();
     }
 
     public void OnExit(EntityBase entity, params object[] args)
@@ -24,9 +24,17 @@ public class StateHit : IState
     {
         entity.canReleaseSkill = false;
         entity.PlayEntityHitAudio();
-        
         entity.SetAction(Message.ActionHit);
         entity.SetDir(Vector2.zero);
+
+        if(entity.nextCombo != 0 || entity.comboQue.Count != 0)
+        {
+            entity.nextCombo = 0;
+            entity.comboQue.Clear();
+
+            entity.battleMgr.StopCombo();
+        }
+
         TimerService.Instance.AddTimeTask((int tid) =>
         {
             entity.SetAction(Message.ActionNormal);

@@ -42,7 +42,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
             LoadPlayer(mapData);
             //��������ui
             mainCityWin.SetWinState();
-
+            GameRoot.Instance.GetComponent<AudioListener>().enabled = false;
             audioSvc.PlayBGMusic(Message.BGMMainCity);
 
             //TODO ��������

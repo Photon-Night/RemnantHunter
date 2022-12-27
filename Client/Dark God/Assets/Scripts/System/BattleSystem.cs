@@ -12,8 +12,6 @@ public class BattleSystem : SystemRoot<BattleSystem>
     {
         base.InitSystem();
         PECommon.Log("BattleSystem Loading");
-
-
     }
 
     public void StartBattle(int mapId)
@@ -57,6 +55,22 @@ public class BattleSystem : SystemRoot<BattleSystem>
     public void SetHPUI(int hp)
     {
         battleWin.SetHPUI(hp);
+    }
+
+    public void SetBossHPVal(int oldVal, int newVal, int sumVal)
+    {
+        battleWin.SetBossHPVal(oldVal, newVal, sumVal);
+    }
+
+    public void SetMonsterHPState(bool state, float prg = 1)
+    {
+        battleWin.SetMonsterHPState(state, prg);
+    }
+
+    public void StopBattle(bool isWin, int restHP)
+    {
+        battleWin.SetWinState(false);
+        GameRoot.Instance.RemoveAllHPUIItem();
     }
 }
 

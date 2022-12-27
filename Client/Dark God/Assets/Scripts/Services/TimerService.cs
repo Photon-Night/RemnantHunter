@@ -31,4 +31,9 @@ public class TimerService : MonoSingleton<TimerService>
     {
         return pt.GetMillisecondsTime();
     }
+
+    public void DeleteTimeTask(int tid)
+    {
+        pt.DeleteTimeTask(tid);
+    }
 }

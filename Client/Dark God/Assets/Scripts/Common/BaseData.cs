@@ -80,6 +80,8 @@ public class SkillMoveCfg : BaseData<SkillCfg>
 public class MonsterCfg : BaseData<MonsterCfg>
 {
     public string mName;
+    public Message.MonsterType mType;
+    public bool isStop;
     public string resPath;
     public int skillID;
     public BattleProps bps;

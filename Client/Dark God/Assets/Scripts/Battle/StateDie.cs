@@ -7,6 +7,8 @@ public class StateDie : IState
     public void OnEnter(EntityBase entity, params object[] args)
     {
         entity.CurrentState = AniState.Die;
+
+        entity.RemoveSkillCB();
     }
 
     public void OnExit(EntityBase entity, params object[] args)

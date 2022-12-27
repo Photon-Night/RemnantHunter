@@ -43,6 +43,10 @@ public class BattleWin : WinRoot
     public Image imgHP;
     public Text txtHP;
 
+    public Transform bossHPBar;
+    public Image imgYellow;
+    public Image imgRed;
+    public Text txtBossHP;
 
     private float pointDis;
     private Vector2 startPos;
@@ -50,6 +54,9 @@ public class BattleWin : WinRoot
 
     private Vector2 currentDir;
     private int hpNum;
+
+    [SerializeField]private float currentPrg = 0f;
+    [SerializeField]private float targetPrg = 0f;
 
     protected override void InitWin()
     {
@@ -78,6 +85,12 @@ public class BattleWin : WinRoot
         }
 
         SkillCD();
+
+        if(bossHPBar.gameObject.activeSelf)
+        {
+            UpdateHPBlend();
+            imgYellow.fillAmount = currentPrg;
+        }
     }
 
     public void SkillCD()
@@ -286,5 +299,36 @@ public class BattleWin : WinRoot
     {
         SetText(txtHP, hp + "/" + hpNum);
         imgHP.fillAmount = (hp * 1f) / (hpNum * 1f);
+    }
+
+    public void SetMonsterHPState(bool state, float prg = 1)
+    {
+        SetActive(bossHPBar, state);
+        imgRed.fillAmount = prg;
+        imgYellow.fillAmount = prg;
+    }
+
+    public void SetBossHPVal(int oldVal, int newVal, int sumVal)
+    {
+        currentPrg = oldVal * 1f / sumVal;
+        targetPrg = newVal * 1f / sumVal;
+        imgRed.fillAmount = targetPrg;
+        SetText(txtBossHP, newVal + "/" + sumVal);
+    }
+
+    private void UpdateHPBlend()
+    {
+        if (Mathf.Abs(currentPrg - targetPrg) < Message.AccelerHpSpeed * Time.deltaTime)
+        {
+            currentPrg = targetPrg;
+        }
+        else if (currentPrg > targetPrg)
+        {
+            currentPrg -= Message.AccelerHpSpeed * Time.deltaTime;
+        }
+        else
+        {
+            currentPrg += Message.AccelerHpSpeed * Time.deltaTime;
+        }
     }
 }

@@ -97,6 +97,16 @@ public class DynamicWin : WinRoot
         }
     }
 
+    public void RemoveAllHPUIItem()
+    {
+        foreach (var item in hpUIItemDic)
+        {
+            Destroy(item.Value.gameObject);
+        }
+
+        hpUIItemDic.Clear();
+    }
+
     public void SetHurt(string index, int hurt)
     {
         ItemEntityHP item = null;

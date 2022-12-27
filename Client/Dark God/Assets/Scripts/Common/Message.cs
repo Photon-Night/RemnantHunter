@@ -94,5 +94,10 @@ public class Message
         BatiState = 1,
     }
 
-
+    public enum MonsterType
+    {
+        None = 0,
+        Normal = 1,
+        Boss = 2,
+    }
 }

@@ -294,36 +294,61 @@ public class ResService : MonoSingleton<ResService>
                     case "mName":
                         data.mName = e.InnerText;
                         break;
+
+                    case "mType":
+                        if (e.InnerText == "1")
+                            data.mType = Message.MonsterType.Normal;
+                        else if (e.InnerText == "2")
+                            data.mType = Message.MonsterType.Boss;
+                        break;
+
+                    case "isStop":
+                        if (e.InnerText == "0")
+                            data.isStop = false;
+                        else if (e.InnerText == "1")
+                            data.isStop = true;
+                        break;
+
                     case "resPath":
                         data.resPath = e.InnerText;
                         break;
+
                     case "skillID":
                         data.skillID = int.Parse(e.InnerText);
                         break;
+
                     case "atkDis":
                         data.bps.atkDis = float.Parse(e.InnerText);
                         break;
+
                     case "hp":
                         data.bps.hp = int.Parse(e.InnerText);
                         break;
+
                     case "ad":
                         data.bps.ad = int.Parse(e.InnerText);
                         break;
+
                     case "ap":
                         data.bps.addef = int.Parse(e.InnerText);
                         break;
+
                     case "addef":
                         data.bps.addef = int.Parse(e.InnerText);
                         break;
+
                     case "apdef":
                         data.bps.apdef = int.Parse(e.InnerText);
                         break;
+
                     case "dodge":
                         data.bps.dodge = int.Parse(e.InnerText);
                         break;
+
                     case "pierce":
                         data.bps.pierce = int.Parse(e.InnerText);
                         break;
+
                     case "critical":
                         data.bps.critical = int.Parse(e.InnerText);
                         break;

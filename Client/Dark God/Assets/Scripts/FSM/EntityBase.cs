@@ -20,6 +20,10 @@ public class EntityBase
     protected AniState currentState = AniState.None;
     public Message.EntityType entityType = Message.EntityType.None;
     public Message.EntityState entityState = Message.EntityState.None;
+
+    public List<int> skillActionCBLst = new List<int>();
+    public List<int> skillMoveCBLst = new List<int>();
+    public int skillEndCBIndex = -1;
     public string Name
     {
         get
@@ -225,24 +229,26 @@ public class EntityBase
     public void ExitCurrentAtk()
     {
         LockCtrl = false;
-        if(!currentSkillCfg.isBreak)
-        entityState = Message.EntityState.None;
-        if (currentSkillCfg.isCombo)
+        if(currentSkillCfg != null)
         {
-            if (comboQue.Count > 0)
+            if (!currentSkillCfg.isBreak)
+                entityState = Message.EntityState.None;
+
+            if (currentSkillCfg.isCombo)
             {
-                nextCombo = comboQue.Dequeue();
+                if (comboQue.Count > 0)
+                {
+                    nextCombo = comboQue.Dequeue();
+                }
+                else
+                {
+                    nextCombo = 0;                 
+                }
             }
-            else
-            {
-                nextCombo = 0;
-                currentSkillCfg = null;
-            }
-        }
-        else
-        {
+
             currentSkillCfg = null;
         }
+        
     }
 
     public virtual void SetAtkRotation(Vector2 dir, bool offest = false)
@@ -280,5 +286,73 @@ public class EntityBase
     public virtual void PlayEntityHitAudio()
     {
         return;
+    }
+
+    public void RemoveSkillMoveCBItem(int tid)
+    {
+        int index = -1;
+        for (int i = 0; i < skillMoveCBLst.Count; i++)
+        {
+            if(skillMoveCBLst[i] == tid)
+            {
+                index = i;
+            }
+        }
+
+        if(index != -1)
+        {
+            skillMoveCBLst.RemoveAt(index);
+        }
+    }
+    public void RemoveSkillActionCBItem(int tid)
+    {
+        int index = -1;
+        for (int i = 0; i < skillActionCBLst.Count; i++)
+        {
+            if (skillActionCBLst[i] == tid)
+            {
+                index = i;
+            }
+        }
+
+        if (index != -1)
+        {
+            skillActionCBLst.RemoveAt(index);
+        }
+    }
+
+    public void ResetSkillActionEffectCBIndex()
+    {
+        skillActionCBLst.Clear();
+        skillMoveCBLst.Clear();
+        skillEndCBIndex = -1;
+    }
+
+    public virtual bool GetBreakState()
+    {
+        return true;
+    }
+
+    public void RemoveSkillCB()
+    {
+        SetSkillMoveState(false);
+        SetDir(Vector2.zero);
+
+        for (int i = 0; i < skillMoveCBLst.Count; i++)
+        {
+            TimerService.Instance.DeleteTimeTask(skillMoveCBLst[i]);
+        }
+
+        for (int i = 0; i < skillActionCBLst.Count; i++)
+        {
+            TimerService.Instance.DeleteTimeTask(skillActionCBLst[i]);
+        }
+
+        if (skillEndCBIndex != -1)
+        {
+            TimerService.Instance.DeleteTimeTask(skillEndCBIndex);
+        }
+
+        ResetSkillActionEffectCBIndex();
     }
 }
