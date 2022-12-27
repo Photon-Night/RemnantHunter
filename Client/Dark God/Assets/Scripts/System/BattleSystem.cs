@@ -6,6 +6,7 @@ using UnityEngine;
 public class BattleSystem : SystemRoot<BattleSystem>
 {
     public BattleWin battleWin;
+    public BattleEndWin battleEndWin;
     public BattleManager bm;
 
     public override void InitSystem()
@@ -71,6 +72,12 @@ public class BattleSystem : SystemRoot<BattleSystem>
     {
         battleWin.SetWinState(false);
         GameRoot.Instance.RemoveAllHPUIItem();
+    }
+
+    public void SetBattleEndWinState(FBEndType endType, bool isActive = true)
+    {
+        battleEndWin.SetEndType(endType);
+        battleEndWin.SetWinState(isActive);
     }
 }
 

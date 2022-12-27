@@ -100,4 +100,6 @@ public class Message
         Normal = 1,
         Boss = 2,
     }
+
+    
 }
