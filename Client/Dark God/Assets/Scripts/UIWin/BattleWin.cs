@@ -290,6 +290,11 @@ public class BattleWin : WinRoot
         ResService.Instance.ReSetSkillCfgData();
     }
 
+    public void OnClickHeadBtn()
+    {
+        BattleSystem.Instance.SetBattleEndWinState(FBEndType.Stop);
+        timerSvc.SetTimeScale(0);
+    }
     public Vector2 GetCurrentDir()
     {
         return currentDir;
@@ -331,4 +336,6 @@ public class BattleWin : WinRoot
             currentPrg += Message.AccelerHpSpeed * Time.deltaTime;
         }
     }
+
+    
 }

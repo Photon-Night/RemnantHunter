@@ -61,5 +61,68 @@ namespace GameServer
             }
             pack.session.SendMsg(msg);
         }
+
+        public void ReqFBFightEnd(MsgPack pack)
+        {
+            ReqFBFightEnd data = pack.msg.reqFBFightEnd;
+
+            GameMsg msg = new GameMsg
+            {
+                cmd = (int)CMD.RspFBFightEnd
+            };
+
+            //校验战斗是否合法
+            if (data.win)
+            {
+                if (data.costtime > 0 && data.resthp > 0)
+                {
+                    //根据副本ID获取相应奖励
+                    MapCfg rd = cfgSvc.GetMapCfg(data.fbid);
+                    PlayerData pd = cacheSvc.GetPlayerDataBySession(pack.session);
+
+                    //任务进度数据更新
+                    TaskSys.Instance.CalcTaskPrgs(pd, 2);
+
+                    pd.coin += rd.coin;
+                    pd.crystal += rd.crystal;
+                    PECommon.CalcExp(pd, rd.exp);
+
+                    if (pd.mission == data.fbid)
+                    {
+                        pd.mission += 1;
+                    }
+
+                    if (!cacheSvc.UpdatePlayerData(pd.id, pd))
+                    {
+                        msg.err = (int)ErrorCode.UpdateDBError;
+                    }
+                    else
+                    {
+                        RspFBFightEnd rspFBFight = new RspFBFightEnd
+                        {
+                            win = data.win,
+                            fbid = data.fbid,
+                            resthp = data.resthp,
+                            costtime = data.costtime,
+
+                            coin = pd.coin,
+                            lv = pd.lv,
+                            exp = pd.exp,
+                            crystal = pd.crystal,
+                            mission = pd.mission
+                        };
+
+                        msg.rspFBFightEnd = rspFBFight;
+                    }
+                }
+
+            }
+            else
+            {
+                msg.err = (int)ErrorCode.ClientDataError;
+            }
+
+            pack.session.SendMsg(msg);
+        }
     }
 }

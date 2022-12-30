@@ -180,6 +180,11 @@ public class EntityBase
         }
     }
 
+    public void CloseCollider()
+    {
+        controller.cc.enabled = false;
+    }
+
     public void Lock()
     {
         LockCtrl = true;

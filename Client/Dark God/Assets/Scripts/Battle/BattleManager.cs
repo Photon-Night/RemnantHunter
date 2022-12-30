@@ -2,6 +2,7 @@ using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 public class BattleManager : MonoBehaviour
@@ -28,7 +29,7 @@ public class BattleManager : MonoBehaviour
     }
 
     
-    public void InitManager(int mapId)
+    public void InitManager(int mapId, Action CB = null)
     {
         PECommon.Log("BattleManager Loading");
         resSvc = ResService.Instance;
@@ -59,6 +60,11 @@ public class BattleManager : MonoBehaviour
             ActiveCurrentBatchMonsters();
 
             audioSvc.PlayBGMusic(Message.BGHuangYe);
+
+            if(CB != null)
+            {
+                CB();
+            }
         });
     }
 
@@ -89,7 +95,7 @@ public class BattleManager : MonoBehaviour
     public void StopBattle(bool isWin, int restHP)
     {
         AudioService.Instance.StopBGAudio();
-        BattleSystem.Instance.StopBattle(isWin, restHP);
+        BattleSystem.Instance.EndBattle(isWin, restHP);
     }
 
     public void LoadPlayer()

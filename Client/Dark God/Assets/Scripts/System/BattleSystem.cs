@@ -3,12 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class BattleSystem : SystemRoot<BattleSystem>
 {
     public BattleWin battleWin;
     public BattleEndWin battleEndWin;
     public BattleManager bm;
 
+    private int fid = 0;
+    private double startTime;
     public override void InitSystem()
     {
         base.InitSystem();
@@ -24,13 +27,18 @@ public class BattleSystem : SystemRoot<BattleSystem>
 
         go.transform.SetParent(GameRoot.Instance.transform);
         bm = go.AddComponent<BattleManager>();
-        OpenBattleWin();
-        bm.InitManager(mapId);
+        SetBattleWinState();
+        bm.InitManager(mapId, () => 
+        {
+            startTime = timeSvc.GetCurrentTime();
+        });
+
+        fid = mapId;
     }
 
-    public void OpenBattleWin()
+    public void SetBattleWinState(bool isActive = true)
     {
-        battleWin.SetWinState();
+        battleWin.SetWinState(isActive);
     }
 
     public void SetMoveDir(Vector2 dir)
@@ -68,16 +76,50 @@ public class BattleSystem : SystemRoot<BattleSystem>
         battleWin.SetMonsterHPState(state, prg);
     }
 
-    public void StopBattle(bool isWin, int restHP)
+    public void EndBattle(bool isWin, int restHP)
     {
         battleWin.SetWinState(false);
         GameRoot.Instance.RemoveAllHPUIItem();
+
+        if(isWin)
+        {
+            GameMsg msg = new GameMsg
+            {
+                cmd = (int)CMD.ReqFBFightEnd,
+                reqFBFightEnd = new ReqFBFightEnd
+                {
+                    win = isWin,
+                    fbid = fid,
+                    costtime = (int)((timeSvc.GetCurrentTime() - startTime)/1000),
+                    resthp = restHP
+                }
+            };
+
+            netSvc.SendMessage(msg);
+        }
     }
 
     public void SetBattleEndWinState(FBEndType endType, bool isActive = true)
     {
         battleEndWin.SetEndType(endType);
         battleEndWin.SetWinState(isActive);
+    }
+
+    public void DestroyBattle()
+    {
+        SetBattleEndWinState(FBEndType.None, false);
+        SetBattleWinState(false);
+        GameRoot.Instance.RemoveAllHPUIItem();
+        Destroy(bm.gameObject);
+    }
+
+    public void RspFBFightEnd(GameMsg msg)
+    {
+        RspFBFightEnd data = msg.rspFBFightEnd;
+        GameRoot.Instance.SetPlayerDataByFightEnd(data);
+
+        battleEndWin.SetBattleEndData(data.fbid, data.costtime, data.resthp);
+        SetBattleEndWinState(FBEndType.Win);
     }
 }
 

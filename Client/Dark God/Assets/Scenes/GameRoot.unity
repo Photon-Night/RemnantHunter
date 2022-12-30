@@ -15582,7 +15582,7 @@ Animation:
   m_GameObject: {fileID: 931691546}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 0}
+  m_Animation: {fileID: 7400000, guid: 9731a4e6d2f185f498373bb5bdb9d253, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: 9731a4e6d2f185f498373bb5bdb9d253, type: 2}
   m_WrapMode: 0
@@ -19283,7 +19283,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1141976197}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1977758314}
+        m_TargetAssemblyTypeName: BattleEndWin, Assembly-CSharp
+        m_MethodName: OnClickCloseBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1141976197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22486,7 +22498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   global: 1
   battleWin: {fileID: 1243297693}
-  battleEndWin: {fileID: 0}
+  battleEndWin: {fileID: 1977758314}
   bm: {fileID: 0}
 --- !u!114 &1360933522
 MonoBehaviour:
@@ -23755,7 +23767,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1438260047}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1977758314}
+        m_TargetAssemblyTypeName: BattleEndWin, Assembly-CSharp
+        m_MethodName: OnClickExitBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1438260047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34290,7 +34314,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1942712157}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1977758314}
+        m_TargetAssemblyTypeName: BattleEndWin, Assembly-CSharp
+        m_MethodName: OnClickSureBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1942712157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34905,6 +34941,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1977758313}
+  - component: {fileID: 1977758314}
   m_Layer: 5
   m_Name: BattleEndWin
   m_TagString: Untagged
@@ -34935,6 +34972,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1977758314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977758312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 655ce7b0f465e994b93f248c9a6d97c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transReward: {fileID: 931691547}
+  btnClose: {fileID: 1141976196}
+  btnExit: {fileID: 1438260046}
+  btnSure: {fileID: 1942712156}
+  txtTime: {fileID: 732638883}
+  txtRestHP: {fileID: 1537562298}
+  txtReward: {fileID: 1220827248}
+  aniWin: {fileID: 931691548}
 --- !u!1 &1999540098
 GameObject:
   m_ObjectHideFlags: 0

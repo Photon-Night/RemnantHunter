@@ -153,6 +153,9 @@ public class NetService : MonoSingleton<NetService>
                 RspCheckConnection(msg);
                 break;
 
+            case CMD.RspFBFightEnd:
+                BattleSystem.Instance.RspFBFightEnd(msg);
+                break;
         }
 
     }

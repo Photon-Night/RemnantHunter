@@ -43,6 +43,10 @@ namespace GameServer
         {
             switch ((CMD)pack.msg.cmd)
             {
+                case CMD.ReqCheckConnection:
+                    HeartbeatPacketSys.Instance.ReqCheckConnection(pack);
+                    break;
+
                 case CMD.ReqLogin:
                     LoginSys.Instance.ReqLogin(pack);
                     break;
@@ -75,9 +79,10 @@ namespace GameServer
                     MissionSys.Instance.ReqMissionEnter(pack);
                     break;
 
-                case CMD.ReqCheckConnection:
-                    HeartbeatPacketSys.Instance.ReqCheckConnection(pack);
+                case CMD.ReqFBFightEnd:
+                    MissionSys.Instance.ReqFBFightEnd(pack);
                     break;
+
             }
 
         }

@@ -36,4 +36,9 @@ public class TimerService : MonoSingleton<TimerService>
     {
         pt.DeleteTimeTask(tid);
     }
+
+    public void SetTimeScale(float scale)
+    {
+        Time.timeScale = scale;
+    }
 }

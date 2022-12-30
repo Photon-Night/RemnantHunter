@@ -1,5 +1,5 @@
 ﻿using PENet;
-
+using System;
 
 namespace PEProtocol
 {
@@ -26,6 +26,8 @@ namespace PEProtocol
         public RspMissionEnter rspMissionEnter;
         public ReqCheckConnection reqCheckConnection;
         public RspCheckConnection rspCheckConnection;
+        public ReqFBFightEnd reqFBFightEnd;
+        public RspFBFightEnd rspFBFightEnd;
     }
 
     public class ServerCfg
@@ -176,6 +178,33 @@ namespace PEProtocol
         public int id;
     }
 
+    #region 副本战斗相关
+
+    [Serializable]
+    public class ReqFBFightEnd
+    {
+        public bool win;
+        public int fbid;
+        public int resthp;
+        public int costtime;
+    }
+
+    [Serializable]
+    public class RspFBFightEnd
+    {
+        public bool win;
+        public int fbid;
+        public int resthp;
+        public int costtime;
+
+        //副本奖励
+        public int coin;
+        public int lv;
+        public int exp;
+        public int crystal;
+        public int mission;
+    }
+    #endregion
 
     [System.Serializable]
     public class PlayerData
@@ -236,6 +265,9 @@ namespace PEProtocol
 
         ReqMissionEnter = 301,
         RspMissionEnter = 302,
+
+        ReqFBFightEnd = 303,
+        RspFBFightEnd = 304,
 
         ReqCheckConnection = 401,
         RspCheckConnection = 402,

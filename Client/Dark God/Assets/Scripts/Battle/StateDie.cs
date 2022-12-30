@@ -7,7 +7,7 @@ public class StateDie : IState
     public void OnEnter(EntityBase entity, params object[] args)
     {
         entity.CurrentState = AniState.Die;
-
+        
         entity.RemoveSkillCB();
     }
 
@@ -23,6 +23,8 @@ public class StateDie : IState
 
     public void Process(EntityBase entity, params object[] args)
     {
+        if (entity.entityType == Message.EntityType.Monster)
+            entity.CloseCollider();
         entity.SetAction(Message.ActionDie);
         TimerService.Instance.AddTimeTask((int tid) =>
         {

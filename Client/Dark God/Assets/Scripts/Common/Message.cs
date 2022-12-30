@@ -14,7 +14,6 @@ public class Message
     public const string BGLogin = "bgLogin";
     public const string BGMMainCity = "bgMainCity";
     public const string BGHuangYe = "bgHuangYe";
-    public const string PlayerHit = "assassin_Hit";
 
     //UIAudio
     public const string UIClickBtn = "uiClickBtn";
@@ -22,6 +21,9 @@ public class Message
     public const string UIExtenBtn = "uiExtenBtn";
     public const string UIOpenPage = "uiOpenPage";
     public const string FBItem = "fbitem";
+    public const string PlayerHit = "assassin_Hit";
+    public const string FBLose = "fblose";
+    public const string FBWin = "fbwin";
 
     //ScreenStandardWidthAndHeight
     public const int ScreenStandardWidth = 1920;

@@ -13,6 +13,7 @@ public class StateHit : IState
     public void OnExit(EntityBase entity, params object[] args)
     {
         entity.canReleaseSkill = true;
+        entity.UnLock();
     }
 
     public void OnUpdate(EntityBase entity, params object[] args)
@@ -26,7 +27,7 @@ public class StateHit : IState
         entity.PlayEntityHitAudio();
         entity.SetAction(Message.ActionHit);
         entity.SetDir(Vector2.zero);
-
+        entity.Lock();
         if(entity.nextCombo != 0 || entity.comboQue.Count != 0)
         {
             entity.nextCombo = 0;
