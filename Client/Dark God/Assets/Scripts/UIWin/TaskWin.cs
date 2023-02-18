@@ -63,8 +63,8 @@ public class TaskWin : WinRoot
             Transform trans = go.transform;
 
             SetText(GetTransform(trans, "txtName"), data.taskName);
-            SetText(GetTransform(trans, "txtExp"), "���� " + data.exp);
-            SetText(GetTransform(trans, "txtCoin"), "��� " + data.coin);
+            SetText(GetTransform(trans, "txtExp"), "经验 " + data.exp);
+            SetText(GetTransform(trans, "txtCoin"), "金币 " + data.coin);
             SetText(GetTransform(trans, "txtPrg"), taskLst[i].prgs + "/" + data.count);
 
             Image prg = GetTransform(trans, "imgPrg").GetComponent<Image>();
@@ -122,8 +122,8 @@ public class TaskWin : WinRoot
 
         TaskCfg data = resSvc.GetTaskCfgData(id);
 
-        GameRoot.AddTips("�������");
-        GameRoot.AddTips(Message.Color("��� + " + data.coin, Message.ColorBlue));
-        GameRoot.AddTips(Message.Color("���� + " + data.exp, Message.ColorBlue));
+        GameRoot.AddTips("获得奖励");
+        GameRoot.AddTips(Message.Color("金币 + " + data.coin, Message.ColorBlue));
+        GameRoot.AddTips(Message.Color("经验 + " + data.exp, Message.ColorBlue));
     }
 }

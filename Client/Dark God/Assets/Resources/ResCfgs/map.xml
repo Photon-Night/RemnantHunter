@@ -8,6 +8,7 @@
 		<mainCamRote>45,135,0</mainCamRote>
 		<playerBornPos>22,-1.1,45</playerBornPos>
 		<playerBornRote>0,0,0</playerBornRote>
+		<npcLst>0#1#2#3</npcLst>
 		<exp>0</exp>
 		<coin>0</coin>
 		<crystal>0</crystal>

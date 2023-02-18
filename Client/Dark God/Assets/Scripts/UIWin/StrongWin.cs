@@ -177,15 +177,15 @@ public class StrongWin : WinRoot
         {
             if(pd.lv < sd.minLv)
             {
-                GameRoot.AddTips("�ȼ�����");
+                GameRoot.AddTips("等级不足");
             }
             else if(pd.coin < sd.coin)
             {
-                GameRoot.AddTips("��Ҳ���");
+                GameRoot.AddTips("金币不足");
             }
             else if(pd.crystal < sd.crystal)
             {
-                GameRoot.AddTips("ˮ������");
+                GameRoot.AddTips("ˮ水晶不足");
             }
             else
             {
@@ -204,7 +204,7 @@ public class StrongWin : WinRoot
         }
         else
         {
-            GameRoot.AddTips("�ȼ��Ѵﵽ����");
+            GameRoot.AddTips("强化已达上限");
         }
     }
 

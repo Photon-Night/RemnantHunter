@@ -61,47 +61,48 @@ public class NetService : MonoSingleton<NetService>
             switch ((ErrorCode)msg.err)
             {
                 case ErrorCode.AccountIsOnline:
-                    GameRoot.AddTips("��ǰ�˺�������");
+                    GameRoot.AddTips("用户已在线");
                     break;
 
                 case ErrorCode.WrongPass:
-                    GameRoot.AddTips("�������");
+                    GameRoot.AddTips("密码错误");
                     break;
 
                 case ErrorCode.NameIsExist:
-                    GameRoot.AddTips("��ǰ�����Ѵ���");
+                    GameRoot.AddTips("名字已存在");
                     break;
                 case ErrorCode.UpdateDBError:
-                    GameRoot.AddTips("���粻�ȶ�");
-                    PECommon.Log("���ݿ�����쳣");
+                    GameRoot.AddTips("网络不稳定");
+                    PECommon.Log("数据库更行异常", PEProtocol.LogType.Error);
                     break;
 
                 case ErrorCode.ServerDataError:
-                    GameRoot.AddTips("�ͻ��������쳣");
+                    GameRoot.AddTips("客户端数据异常");
+                    PECommon.Log("数据库数据异常", PEProtocol.LogType.Error);
                     break;
 
                 case ErrorCode.LackCoin:
-                    GameRoot.AddTips("��Ҳ���");
+                    GameRoot.AddTips("金币不足");
                     break;
 
                 case ErrorCode.LackCrystal:
-                    GameRoot.AddTips("ˮ������");
+                    GameRoot.AddTips("水晶不足");
                     break;
 
                 case ErrorCode.LackLevel:
-                    GameRoot.AddTips("�ȼ�����");
+                    GameRoot.AddTips("等级不足");
                     break;
 
                 case ErrorCode.LackDiamond:
-                    GameRoot.AddTips("��ʯ����");
+                    GameRoot.AddTips("钻石不足");
                     break;
 
                 case ErrorCode.ClientDataError:
-                    GameRoot.AddTips("�ͻ��������쳣");
+                    GameRoot.AddTips("客户端数据异常");
                     break;
 
                 case ErrorCode.LackPower:
-                    GameRoot.AddTips("��������");
+                    GameRoot.AddTips("体力不足");
                     break;
             }
             return;
@@ -117,9 +118,9 @@ public class NetService : MonoSingleton<NetService>
                 LoginSystem.Instance.OnRenameRsp(msg);
                 break;
 
-            case CMD.RspGuide:
-                MainCitySystem.Instance.RspGuide(msg);
-                break;
+            //case CMD.RspGuide:
+            //    MainCitySystem.Instance.RspGuide(msg);
+            //    break;
 
             case CMD.RspStrong:
                 MainCitySystem.Instance.RspStrong(msg);

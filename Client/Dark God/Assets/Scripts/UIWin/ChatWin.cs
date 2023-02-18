@@ -73,7 +73,7 @@ public class ChatWin : WinRoot
         {
             if(iptChat.text.Length > 17)
             {
-                GameRoot.AddTips("�������ݹ��������𳬹�17��");
+                GameRoot.AddTips("长度不超过17字");
             }
             else
             {
@@ -94,7 +94,7 @@ public class ChatWin : WinRoot
         }
         else
         {
-            GameRoot.AddTips("����������");
+            GameRoot.AddTips("请输入文字");
         }
     }
     public void AddChatMsg(PushChat data)

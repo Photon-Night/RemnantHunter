@@ -33,7 +33,7 @@ namespace GameServer
 
             if (pd.guideid == data.guideid)
             {
-                if(pd.guideid == 1001)
+                if(pd.guideid == 1001)//任务系统进度更新
                 {
                     TaskSys.Instance.CalcTaskPrgs(pd, 1);
                 }

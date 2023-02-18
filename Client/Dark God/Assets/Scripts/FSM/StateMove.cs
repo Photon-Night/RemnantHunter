@@ -8,7 +8,7 @@ public class StateMove : IState
     public void OnEnter(EntityBase entity, params object[] args)
     {
         entity.CurrentState = AniState.Move;
-        PECommon.Log("Enter Move");
+        
     }
 
     public void OnExit(EntityBase entity, params object[] args)

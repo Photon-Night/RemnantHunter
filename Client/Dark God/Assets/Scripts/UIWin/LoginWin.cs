@@ -51,7 +51,7 @@ public class LoginWin : WinRoot
         }
 
         else
-            GameRoot.AddTips("�������˺�����");
+            GameRoot.AddTips("请输入完整账号信息");
     }
    
 }

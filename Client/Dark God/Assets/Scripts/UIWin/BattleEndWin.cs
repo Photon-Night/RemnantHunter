@@ -71,8 +71,8 @@ public class BattleEndWin : WinRoot
 
                 break;
             case FBEndType.Lose:
-                SetActive(btnClose.gameObject, true);
-                SetActive(btnExit.gameObject, false);
+                SetActive(btnClose.gameObject, false);
+                SetActive(btnExit.gameObject);
                 SetActive(transReward, false);
                 audioSvc.PlayUIAudio(Message.FBLose);
                 break;

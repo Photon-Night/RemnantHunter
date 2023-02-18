@@ -8,7 +8,7 @@ public class ClientSession : PESession<GameMsg>
 {
     protected override void OnConnected()
     {
-        GameRoot.AddTips("������������");
+        GameRoot.AddTips("连接服务器成功");
         PECommon.Log("Connect To Server");
     }
 
@@ -20,7 +20,7 @@ public class ClientSession : PESession<GameMsg>
 
     protected override void OnDisConnected()
     {
-        GameRoot.AddTips("�������Ͽ�����");
+        GameRoot.AddTips("服务器断开连接");
         PECommon.Log("DisConnect To Server");
     }
 }

@@ -20,6 +20,7 @@ public class ResService : MonoSingleton<ResService>
         InitSkillCfg(PathDefine.SkillCfg);
         InitSkillMoveCfg(PathDefine.SkillMoveCfg);
         InitSkillActionCfg(PathDefine.SkillActionCfg);
+        InitNPCCfg(PathDefine.NPCCfg);
     }
 
     public void ReSetSkillCfgData()
@@ -172,6 +173,7 @@ public class ResService : MonoSingleton<ResService>
                 MapCfg mc = new MapCfg()
                 {
                     ID = ID,
+                    npcs = new List<int>(),
                     monsterLst = new List<MonsterData>()
                 };
 
@@ -233,6 +235,15 @@ public class ResService : MonoSingleton<ResService>
                                         };
                                         mc.monsterLst.Add(mData);                       
                                     }
+                                }
+                            }
+                            break;
+                        case "npcLst":
+                            {
+                                string[] npcArr = e.InnerText.Split('#');
+                                for(int j = 0; j < npcArr.Length; j++)
+                                {
+                                    mc.npcs.Add(int.Parse(npcArr[j]));
                                 }
                             }
                             break;
@@ -328,6 +339,7 @@ public class ResService : MonoSingleton<ResService>
 
                     case "atkDis":
                         data.bps.atkDis = float.Parse(e.InnerText);
+                        Debug.Log(data.bps.atkDis);
                         break;
 
                     case "hp":
@@ -339,7 +351,7 @@ public class ResService : MonoSingleton<ResService>
                         break;
 
                     case "ap":
-                        data.bps.addef = int.Parse(e.InnerText);
+                        data.bps.ap = int.Parse(e.InnerText);
                         break;
 
                     case "addef":
@@ -425,8 +437,8 @@ public class ResService : MonoSingleton<ResService>
                             break;
                     }
                 }
-
-                guideTaskDic.Add(ID, gc);
+                gc.ID = gc.npcID;
+                guideTaskDic.Add(gc.ID, gc);
             }
         }
     }
@@ -759,6 +771,79 @@ public class ResService : MonoSingleton<ResService>
     }
     #endregion
 
+    #region NPC
+    private Dictionary<int, NPCCfg> npcDic = new Dictionary<int, NPCCfg>();
+
+    private void InitNPCCfg(string path)
+    {
+        TextAsset xml = Resources.Load<TextAsset>(path);
+        if (xml == null)
+        {
+            PECommon.Log("xml file:" + path + "is not existed", PEProtocol.LogType.Error);
+            return;
+        }
+
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(xml.text);
+
+        XmlNodeList nodeList = doc.SelectSingleNode("root").ChildNodes;
+
+
+        for (int i = 0; i < nodeList.Count; i++)
+        {
+            XmlElement ele = nodeList[i] as XmlElement;
+            if (ele.GetAttributeNode("ID") == null)
+            {
+                continue;
+            }
+
+            int ID = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
+            NPCCfg nc = new NPCCfg()
+            {
+                ID = ID,
+            };
+
+            foreach (XmlElement e in nodeList[i].ChildNodes)
+            {
+                switch (e.Name)
+                {
+                    case "name":
+                        nc.name = e.InnerText;
+                        break;
+                    case "resPath":
+                        nc.resPath = e.InnerText;
+                        break;
+                    case "pos":
+                        string[] posArr = e.InnerText.Split('|');
+                        nc.pos = new Vector3(float.Parse(posArr[0]), float.Parse(posArr[1]), float.Parse(posArr[2]));
+                        break;
+                    case "type":
+                        nc.type = (Message.NPCType)int.Parse(e.InnerText);
+                        break;
+                    case "function":
+                        nc.func = (Message.NPCFunction)int.Parse(e.InnerText);
+                        break;
+
+
+                }
+            }
+            npcDic.Add(ID, nc);
+        }
+
+    }
+
+    public NPCCfg GetNPCData(int id)
+    {
+        NPCCfg data = null;
+        if(npcDic.TryGetValue(id, out data))
+        {
+            return data;
+        }
+
+        return null;
+    }
+    #endregion
+
     #region SkillMove
 
     private Dictionary<int, SkillMoveCfg> skillmoveDis = new Dictionary<int, SkillMoveCfg>();
@@ -933,4 +1018,5 @@ public class ResService : MonoSingleton<ResService>
         
     }
     #endregion
+
 }

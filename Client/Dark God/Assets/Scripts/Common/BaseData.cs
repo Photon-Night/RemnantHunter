@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseData<T>
+public class BaseData
 {
     public int ID;
 }
 
-public class MapCfg : BaseData<MapCfg>
+public class MapCfg : BaseData
 {
     public string mapName;
     public string sceneName;
@@ -17,13 +17,14 @@ public class MapCfg : BaseData<MapCfg>
     public Vector3 playerBornPos;
     public Vector3 playerBornRote;
     public List<MonsterData> monsterLst;
+    public List<int> npcs;
     public int exp;
     public int coin;
     public int crystal;
 }
 
-public class GuideCfg : BaseData<GuideCfg>
-{
+public class GuideCfg : BaseData
+{ 
     public int npcID;
     public string dilogArr;
     public int actID;
@@ -31,7 +32,7 @@ public class GuideCfg : BaseData<GuideCfg>
     public int exp;
 }
 
-public class StrongCfg : BaseData<StrongCfg>
+public class StrongCfg : BaseData
 {
     public int pos;
     public int starLv;
@@ -43,13 +44,13 @@ public class StrongCfg : BaseData<StrongCfg>
     public int crystal;
 }
 
-public class TaskRewardData : BaseData<TaskRewardData>
+public class TaskRewardData : BaseData
 {
     public int prgs;
     public bool taked;
 }
 
-public class TaskCfg : BaseData<TaskCfg>
+public class TaskCfg : BaseData
 {
     public string taskName;
     public int count;
@@ -57,7 +58,7 @@ public class TaskCfg : BaseData<TaskCfg>
     public int exp;
 }
 
-public class SkillCfg : BaseData<SkillCfg>
+public class SkillCfg : BaseData
 {
     public string skillName;
     public int skillTime;
@@ -73,14 +74,14 @@ public class SkillCfg : BaseData<SkillCfg>
     public List<int> skillDamageLst;
 }
 
-public class SkillMoveCfg : BaseData<SkillCfg>
+public class SkillMoveCfg : BaseData
 {
     public int moveTime;
     public float moveDis;
     public float delayTime;
 }
 
-public class MonsterCfg : BaseData<MonsterCfg>
+public class MonsterCfg : BaseData
 {
     public string mName;
     public Message.MonsterType mType;
@@ -90,7 +91,7 @@ public class MonsterCfg : BaseData<MonsterCfg>
     public BattleProps bps;
 }
 
-public class MonsterData : BaseData<MonsterData>
+public class MonsterData : BaseData
 {
     public int lv;
     public int mWave;
@@ -100,7 +101,17 @@ public class MonsterData : BaseData<MonsterData>
     public Vector3 mBornRote;
 }
 
-public class SkillActionCfg : BaseData<SkillActionCfg>
+public class NPCCfg : BaseData
+{
+    public string name;
+    public string resPath;
+    public Vector3 pos;
+    public Message.NPCType type;
+    public Message.NPCFunction func;
+}
+
+
+public class SkillActionCfg : BaseData
 {
     public float delayTime; 
     public float radius;
@@ -118,5 +129,6 @@ public class BattleProps
     public int dodge;
     public int pierce;
     public int critical;
-
 }
+
+

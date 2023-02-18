@@ -76,6 +76,7 @@ public class BattleManager : MonoBehaviour
             monstersDic.Remove(name);
             GameRoot.Instance.RemoveHpUIItem(name);
         }
+        
 
         if(monstersDic.Count == 0)
         {

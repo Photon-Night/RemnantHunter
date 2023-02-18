@@ -22,7 +22,6 @@ public class MissionSystem : SystemRoot<MissionSystem>
 
     public void RspMissionEnter(GameMsg msg)
     {
-        PECommon.Log("���븱��");
         RspMissionEnter data = msg.rspMissionEnter;
         GameRoot.Instance.SetPlayerDataByMissionEnter(data); 
 

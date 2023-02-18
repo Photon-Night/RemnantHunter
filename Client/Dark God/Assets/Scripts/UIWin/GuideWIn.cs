@@ -10,21 +10,31 @@ public class GuideWin : WinRoot
     public Text txtTalk;
     public Image imgIcon;
 
+
     private PlayerData pd;
     private GuideCfg currentTaskData;
     private string[] dialogArr;
     private int index;
-
+    private System.Action OnTalkOverEvent;
     protected override void InitWin()   
     {
         base.InitWin();
         pd = GameRoot.Instance.PlayerData;
-        currentTaskData = MainCitySystem.Instance.GetCurrentTaskData();
-        dialogArr = currentTaskData.dilogArr.Split('#');
-        index = 1;
+        //currentTaskData = MainCitySystem.Instance.GetCurrentTaskData();
+        //dialogArr = currentTaskData.dilogArr.Split('#');
+        //index = 1;
         SetTalk();
     }
-
+    public void SetTalkData(GuideCfg data)
+    {
+        currentTaskData = data;
+        dialogArr = currentTaskData.dilogArr.Split('#');
+        index = 1;
+    }
+    public void RegisterTalkOverEvent(System.Action func)
+    {
+        OnTalkOverEvent = func;
+    }
     private void SetTalk()
     {
         string[] talkArr = dialogArr[index].Split('|');
@@ -39,19 +49,19 @@ public class GuideWin : WinRoot
             {
                 case 0:
                     SetSprite(imgIcon, PathDefine.WiseManIcon);
-                    SetText(txtName, "����");
+                    SetText(txtName, "智者");
                     break;
                 case 1:
                     SetSprite(imgIcon, PathDefine.GeneralIcon);
-                    SetText(txtName, "����");
+                    SetText(txtName, "将军");
                     break;
                 case 2:
                     SetSprite(imgIcon, PathDefine.ArtisanIcon);
-                    SetText(txtName, "����");
+                    SetText(txtName, "工匠");
                     break;
                 case 3:
                     SetSprite(imgIcon, PathDefine.TraderIcon);
-                    SetText(txtName, "����");
+                    SetText(txtName, "商人");
                     break;
                 default:
                     SetSprite(imgIcon, PathDefine.GuideIcon);
@@ -70,16 +80,16 @@ public class GuideWin : WinRoot
         index += 1;
         if(index == dialogArr.Length)
         {
-            GameMsg msg = new GameMsg
-            { 
-                cmd = (int)CMD.ReqGuide 
-            };
-
-            msg.reqGuide = new ReqGuide { guideid = currentTaskData.ID };
-
-            netSvc.SendMessage(msg);
+            //GameMsg msg = new GameMsg
+            //{ 
+            //    cmd = (int)CMD.ReqGuide 
+            //};
+            //
+            //msg.reqGuide = new ReqGuide { guideid = currentTaskData.ID };
+            //
+            //netSvc.SendMessage(msg);
+            OnTalkOverEvent();
             SetWinState(false);
-
         }
         else
         SetTalk();

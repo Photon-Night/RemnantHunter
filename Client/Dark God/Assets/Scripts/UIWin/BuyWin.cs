@@ -50,10 +50,10 @@ public class BuyWin : WinRoot
         switch (buyType)
         {
             case 0:
-                txtBuy.text = "�Ƿ�Ҫ����" + Message.Color("10��ʯ", Message.ColorRed) + "����" + Message.Color("1000���", Message.ColorGreen);
+                txtBuy.text = "是否花费" + Message.Color("10钻石", Message.ColorRed) + "购买" + Message.Color("1000金币", Message.ColorGreen);
                 break;
             case 1:
-                txtBuy.text = "�Ƿ�Ҫ����" + Message.Color("10��ʯ", Message.ColorRed) + "����" + Message.Color("100����", Message.ColorGreen);
+                txtBuy.text = "是否花费" + Message.Color("10钻石", Message.ColorRed) + "购买" + Message.Color("100体力", Message.ColorGreen);
                 break;
         }
     }

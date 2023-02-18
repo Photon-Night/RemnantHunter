@@ -42,20 +42,4 @@
 		<coin>95</coin>
 		<exp>110</exp>
 	</item>
-	<item ID="1005">
-		<npcID>-1</npcID>
-		<dilogArr>#1|钱不是万能的，但没钱是万万不能的。
-#0|是时候让自己的口袋充实一些了。</dilogArr>
-		<actID>4</actID>
-		<coin>105</coin>
-		<exp>120</exp>
-	</item>
-	<item ID="1006">
-		<npcID>-1</npcID>
-		<dilogArr>#1|沟通能接近彼此之间的距离。如果没能拉近，肯定是你没有说普通话。
-#0|是时候让世界听到我的声音了。</dilogArr>
-		<actID>5</actID>
-		<coin>115</coin>
-		<exp>130</exp>
-	</item>
 </root>

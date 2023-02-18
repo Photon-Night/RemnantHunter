@@ -64,9 +64,15 @@ public class Message
     public const int BuyCoin = 0;
     public const int BuyPower = 1;
 
+
+    //战斗时间数据
     public const int ComboSpace = 500;
     public const float AICheckTimeSpace = 2f;
     public const float AIAtkTimeSpace = 2f;
+
+
+    //范围数据
+    public const float NPCCheckRange = 5f;
 
     public const int DieAniLength = 5000;
 
@@ -103,5 +109,16 @@ public class Message
         Boss = 2,
     }
 
-    
+    public enum NPCFunction
+    {
+        None = 0,
+        InvokeTaskWin = 1,
+    }
+    public enum NPCType
+    {
+        None = 0,
+        Functional = 1,
+    }
+
+
 }

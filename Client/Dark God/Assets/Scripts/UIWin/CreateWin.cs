@@ -41,7 +41,7 @@ public class CreateWin : WinRoot
         }
         else
         {
-            GameRoot.AddTips("��ǰ���ֲ��淶");
+            GameRoot.AddTips("请输入名称");
         }
     }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<item ID="0">
+		<name>智者</name>
+		<resPath>PrefabNPC/NPC_0</resPath>
+		<pos>53.83|0.28|19.75</pos>
+		<type>1</type>
+		<function>1</function>
+	</item>
+	<item ID="1">
+		<name>将军</name>
+		<resPath>PrefabNPC/NPC_1</resPath>
+		<pos>19.42|0|35.23</pos>
+		<type>0</type>
+		<function>0</function>
+	</item>
+	<item ID="2">
+		<name>商人</name>
+		<resPath>PrefabNPC/NPC_2</resPath>
+		<pos>54.18|-1.36|49.34</pos>
+		<type>0</type>
+		<function>0</function>
+	</item>
+	<item ID="3">
+		<name>工匠</name>
+		<resPath>PrefabNPC/NPC_3</resPath>
+		<pos>45.81|-2.59|63.22</pos>
+		<type>1</type>
+		<function>0</function>
+	</item>
+</root>

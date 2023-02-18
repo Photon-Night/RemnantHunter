@@ -18,9 +18,12 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     private PlayerController pc = null;
     private Transform charShowCam = null;
 
-    private Transform[] npcPosTrans;
+    private NPCCfg nearNPCData = null;
+    private NPCManager npcMgr = null;
 
-    private NavMeshAgent agent;
+    //private Transform[] npcPosTrans;
+
+    //private NavMeshAgent agent;
 
     private GuideCfg currentTaskData = null;
 
@@ -28,6 +31,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     public override void InitSystem()
     {
         base.InitSystem();
+       
         PECommon.Log("MainCitySystem Loading");
     }
     public void EnterMainCity()
@@ -53,22 +57,53 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
             }
 
             GameObject map = GameObject.FindGameObjectWithTag("MapRoot");
-            MainCityMap mcm = map.GetComponent<MainCityMap>();
-            npcPosTrans = mcm.NPCPosTrans;
+
+            npcMgr = map.AddComponent<NPCManager>();
+            npcMgr.InitManager();
+            npcMgr.LoadNPC(ref mapData.npcs, pc);
         });
     }
 
     public void OpenMissionWin()
     {
         MissionSystem.Instance.OpenMissionWin();
-        StopNavTask();
+        //StopNavTask();
     }
 
     public void CloseMainCityWin()
     {
         mainCityWin.SetWinState(false);
     }
+    #region MainWin
+    public void OnPlayerCloseNPC(NPCCfg npc)
+    {
+        mainCityWin.SetBtnTalkActive(true, npc.name);
+        nearNPCData = npc;
+    }
 
+    public void FarToPlayer()
+    {
+        mainCityWin.SetBtnTalkActive(false);
+    }
+
+    public void StartTalk()
+    {
+        pc.OnPlayerTalk();
+        GuideCfg data = resSvc.GetGuideCfgData(nearNPCData.ID);
+        npcMgr.Interactive(nearNPCData.ID);
+        guideWin.SetTalkData(data);
+        guideWin.SetWinState();
+        guideWin.RegisterTalkOverEvent(() =>
+        {
+            pc.OnPlayerOverTalk();
+        });
+    }
+
+    public void RegisterTalkOverEvent(System.Action func)
+    {
+        guideWin.RegisterTalkOverEvent(func);
+    }
+    #endregion
     #region LoadSetting
     private void LoadPlayer(MapCfg mapData)
     {
@@ -80,14 +115,15 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
         Camera.main.transform.localEulerAngles = mapData.mainCamRote;
 
         pc = player.GetComponent<PlayerController>();
-        agent = player.GetComponent<NavMeshAgent>();
+        //agent = player.GetComponent<NavMeshAgent>();
         pc.Init();
 
+        
     }
 
     public void SetMoveDir(Vector2 dir)
     {
-        StopNavTask();
+        //StopNavTask();
         if (dir == Vector2.zero)
         {
             pc.SetBlend(Message.BlendIdle);
@@ -112,7 +148,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     #region InfoWin
     public void OpenInfoWin()
     {
-        StopNavTask();
+        //StopNavTask();
 
         if (charShowCam == null)
         {
@@ -137,122 +173,122 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     #endregion
 
     #region GuideSetting
-    public void RunTask(GuideCfg gc)
-    {
-        if (gc != null)
-        {
-            currentTaskData = gc;
-        }
-        if (currentTaskData.npcID != -1)
-        {
-            float dis = Vector3.Distance(pc.transform.position, npcPosTrans[gc.npcID].position);
-            if (dis < 1f)
-            {
-                isGuide = false;
-                agent.enabled = false;
-                agent.isStopped = true;
-                pc.SetBlend(Message.BlendIdle);
+    //public void RunTask(GuideCfg gc)
+    //{
+    //    if (gc != null)
+    //    {
+    //        currentTaskData = gc;
+    //    }
+    //    if (currentTaskData.npcID != -1)
+    //    {
+    //        float dis = Vector3.Distance(pc.transform.position, npcPosTrans[gc.npcID].position);
+    //        if (dis < 1f)
+    //        {
+    //            isGuide = false;
+    //            agent.enabled = false;
+    //            agent.isStopped = true;
+    //            pc.SetBlend(Message.BlendIdle);
+    //
+    //            OpenGuideWin();
+    //        }
+    //        else
+    //        {
+    //            isGuide = true;
+    //            agent.enabled = true;
+    //            agent.speed = Message.PlayerMoveSpeed;
+    //            agent.SetDestination(npcPosTrans[gc.npcID].position);
+    //            pc.SetBlend(Message.BlendWalk);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        OpenGuideWin();
+    //    }
+    //}
 
-                OpenGuideWin();
-            }
-            else
-            {
-                isGuide = true;
-                agent.enabled = true;
-                agent.speed = Message.PlayerMoveSpeed;
-                agent.SetDestination(npcPosTrans[gc.npcID].position);
-                pc.SetBlend(Message.BlendWalk);
-            }
-        }
-        else
-        {
-            OpenGuideWin();
-        }
-    }
+    //private void IsArriveNavPos()
+    //{
+    //    float dis = Vector3.Distance(pc.transform.position, npcPosTrans[currentTaskData.npcID].position);
+    //    if (dis <= 1f)
+    //    {
+    //        StopNavTask();
+    //
+    //        OpenGuideWin();
+    //    }
+    //}
 
-    private void IsArriveNavPos()
-    {
-        float dis = Vector3.Distance(pc.transform.position, npcPosTrans[currentTaskData.npcID].position);
-        if (dis <= 1f)
-        {
-            StopNavTask();
+   //private void StopNavTask()
+   //{
+   //    if (isGuide)
+   //    {
+   //        isGuide = false;
+   //        agent.isStopped = true;
+   //        agent.enabled = false;
+   //        pc.SetBlend(Message.BlendIdle);
+   //    }
+   //
+   //}
 
-            OpenGuideWin();
-        }
-    }
+    //public void Update()
+    //{
+    //    //if (isGuide)
+    //    //{
+    //    //    IsArriveNavPos();
+    //    //    pc.SetCam();
+    //    //}
+    //}
+    //private void OpenGuideWin()
+    //{
+    //    guideWin.SetWinState();
+    //}
 
-    private void StopNavTask()
-    {
-        if (isGuide)
-        {
-            isGuide = false;
-            agent.isStopped = true;
-            agent.enabled = false;
-            pc.SetBlend(Message.BlendIdle);
-        }
+    //public GuideCfg GetCurrentTaskData()
+    //{
+    //    return currentTaskData;
+    //}
 
-    }
-
-    public void Update()
-    {
-        if (isGuide)
-        {
-            IsArriveNavPos();
-            pc.SetCam();
-        }
-    }
-    private void OpenGuideWin()
-    {
-        guideWin.SetWinState();
-    }
-
-    public GuideCfg GetCurrentTaskData()
-    {
-        return currentTaskData;
-    }
-
-    public void RspGuide(GameMsg msg)
-    {
-        GameRoot.AddTips("����������");
-        GameRoot.AddTips("��� " + msg.rspGuide.coin);
-        GameRoot.AddTips("���� " + msg.rspGuide.exp);
-        switch (currentTaskData.actID)
-        {
-            case 0:
-                //���߶Ի�
-                break;
-            case 1:
-                //ǿ��װ��
-                OpenStrongWin();
-                break;
-            case 2:
-                //�򿪸���
-                OpenMissionWin();
-                break;
-
-            case 3:
-                //��������
-                OpenBuyWin(0);
-                break;
-
-            case 4:
-                //������
-                OpenBuyWin(1);
-                break;
-
-            case 5:
-                //��������
-                OpenChatWin();
-                break;
-
-            default:
-                break;
-
-        }
-
-        GameRoot.Instance.SetPlayerDataByGuide(msg.rspGuide);
-        mainCityWin.RefreshUI();
-    }
+    //public void RspGuide(GameMsg msg)
+    //{
+    //    GameRoot.AddTips("任务完成");
+    //    GameRoot.AddTips("金币 " + msg.rspGuide.coin);
+    //    GameRoot.AddTips("经验 " + msg.rspGuide.exp);
+    //    switch (currentTaskData.actID)
+    //    {
+    //        case 0:
+    //            //���߶Ի�
+    //            break;
+    //        case 1:
+    //            //ǿ��װ��
+    //            OpenStrongWin();
+    //            break;
+    //        case 2:
+    //            //�򿪸���
+    //            OpenMissionWin();
+    //            break;
+    //
+    //        case 3:
+    //            //��������
+    //            OpenBuyWin(0);
+    //            break;
+    //
+    //        case 4:
+    //            //������
+    //            OpenBuyWin(1);
+    //            break;
+    //
+    //        case 5:
+    //            //��������
+    //            OpenChatWin();
+    //            break;
+    //
+    //        default:
+    //            break;
+    //
+    //    }
+    //
+    //    GameRoot.Instance.SetPlayerDataByGuide(msg.rspGuide);
+    //    mainCityWin.RefreshUI();
+    //}
     #endregion
 
     #region StrongWin
@@ -260,7 +296,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     public void OpenStrongWin()
     {
         strongWin.SetWinState();
-        StopNavTask();
+       // StopNavTask();
     }
 
     public void RspStrong(GameMsg msg)
@@ -269,7 +305,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
         GameRoot.Instance.SetPlayerDataByStrong(msg.rspStrong);
         int currentFight = PECommon.GetFightByProps(GameRoot.Instance.PlayerData);
 
-        GameRoot.AddTips(Message.Color("ս������" + (currentFight - lastFight), Message.ColorBlue));
+        GameRoot.AddTips(Message.Color("战力增加   " + (currentFight - lastFight), Message.ColorBlue));
 
         strongWin.RefreshUI();
         mainCityWin.RefreshUI();
@@ -282,7 +318,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     {
         buyWin.SetBuyType(type);
         buyWin.SetWinState();
-        StopNavTask();
+        //StopNavTask();
     }
 
     public void RspBuy(GameMsg msg)
@@ -309,7 +345,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     public void OpenChatWin()
     {
         chatWin.SetWinState();
-        StopNavTask();
+        //StopNavTask();
     }
     #endregion
 
@@ -329,7 +365,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     public void OpenTaskWin()
     {
         taskWin.SetWinState();
-        StopNavTask();
+        //StopNavTask();
     }
 
     public void RspTakeTaskReward(GameMsg msg)

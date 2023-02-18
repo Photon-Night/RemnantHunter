@@ -44,7 +44,7 @@ public class MissionWin : WinRoot
         MapCfg data = resSvc.GetMapCfgData(index);
         if(pd.power - data.power < 0)
         {
-            PECommon.Log("��������");
+            PECommon.Log("体力不足");
         }
         else
         {

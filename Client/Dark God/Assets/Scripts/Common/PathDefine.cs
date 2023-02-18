@@ -14,6 +14,7 @@ public class PathDefine
     public const string SkillMoveCfg = "ResCfgs/skillmove";
     public const string MonsterCfg = "ResCfgs/monster";
     public const string SkillActionCfg = "ResCfgs/skillaction";
+    public const string NPCCfg = "ResCfgs/npc";
 
     public const string AssissnCityPlayerPrefab = "PrefabPlayer/AssassinCity";
     public const string AssissnBattlePlayerPrefab = "PrefabPlayer/Assassin";

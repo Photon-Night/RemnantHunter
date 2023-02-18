@@ -10,7 +10,7 @@ public class StateIdle : IState
 
         entity.CurrentState = AniState.Idle;
         
-        PECommon.Log("Enter Idle");
+      
         
     }
 

@@ -18,10 +18,10 @@ public class PlayerController : EntityController
     private Vector3 camOffest;
 
     public bool isGuide = false;
+    public bool isTalk = false; 
 
     private float currentBlend;
     private float targetBlend;
-
     
     
     
@@ -146,5 +146,17 @@ public class PlayerController : EntityController
                 go.SetActive(false);
             }, destory);
         }
+    }
+
+    public void OnPlayerTalk()
+    {
+        isTalk = true;
+        cc.enabled = false;
+    }
+
+    public void OnPlayerOverTalk()
+    {
+        isTalk = false;
+        cc.enabled = true;
     }
 }

@@ -18,7 +18,7 @@ namespace GameServer
             TimerSvc.Instance.Init();
             //业务层
             LoginSys.Instance.Init();
-            GuideSys.Instance.Init();
+            //GuideSys.Instance.Init();
             StrongSys.Instance.Init();
             ChatSys.Instance.Init();
             BuySys.Instance.Init();

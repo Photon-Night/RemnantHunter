@@ -78,7 +78,9 @@ public class BattleSystem : SystemRoot<BattleSystem>
 
     public void EndBattle(bool isWin, int restHP)
     {
+
         battleWin.SetWinState(false);
+        SetMonsterHPState(false);
         GameRoot.Instance.RemoveAllHPUIItem();
 
         if(isWin)
@@ -96,6 +98,10 @@ public class BattleSystem : SystemRoot<BattleSystem>
             };
 
             netSvc.SendMessage(msg);
+        }
+        else
+        {
+            SetBattleEndWinState(FBEndType.Lose);
         }
     }
 

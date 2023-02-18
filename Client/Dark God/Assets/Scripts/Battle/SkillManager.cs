@@ -76,6 +76,7 @@ public class SkillManager : MonoBehaviour
             if (RangeCheck(entity.GetPos(), target.GetPos(), data.radius)
                     && CheckAngle(entity.GetTrans(), target.GetPos(), data.angle))
             {
+                
                 CalcDamage(entity, target, data_skill, damage);
             }
         }
@@ -127,7 +128,10 @@ public class SkillManager : MonoBehaviour
             target.SetHurt(dmgSum);
             target.Die();
             if (target.entityType == Message.EntityType.Monster)
+            {
                 target.battleMgr.RemoveMonster(target.Name);
+                
+            }
             else if (target.entityType == Message.EntityType.Player)
             {
                 target.battleMgr.StopBattle(false, 0);

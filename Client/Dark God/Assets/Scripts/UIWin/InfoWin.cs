@@ -53,11 +53,11 @@ public class InfoWin : WinRoot
         SetText(txtPower, pd.power + "/" + PECommon.GetPowerLimit(pd.lv));
         imgPowerPrg.fillAmount = pd.power * 1f / PECommon.GetPowerLimit(pd.lv);
 
-        SetText(txtJob, "ְҵ        " + "��ҹ�̿�");
-        SetText(txtFight, "ս��        " + PECommon.GetFightByProps(pd));
-        SetText(txtHP, "����        " + pd.hp);
-        SetText(txtHurt, "�˺�        " + (pd.ad + pd.ap));
-        SetText(txtDef, "����        " + (pd.apdef + pd.apdef));
+        SetText(txtJob, "职业        " + "暗夜刺客");
+        SetText(txtFight, "战力        " + PECommon.GetFightByProps(pd));
+        SetText(txtHP, "血量        " + pd.hp);
+        SetText(txtHurt, "伤害        " + (pd.ad + pd.ap));
+        SetText(txtDef, "防御        " + (pd.apdef + pd.apdef));
 
         SetText(dtxHP, pd.hp);
         SetText(dtxAD, pd.ad);

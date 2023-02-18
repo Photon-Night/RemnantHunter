@@ -19,9 +19,11 @@ public class MainCityWin : WinRoot
     public Text txtLevel;
     public Text txtName;
     public Text txtExpPrg;
+    public Text txtNPCName;
 
     public Button btnGuide;
     public Button btnChat;
+    public Button btnTalk;
 
     public Transform expPrgTrans;
     public Animation menuRootAnim;
@@ -39,6 +41,7 @@ public class MainCityWin : WinRoot
         pointDis = Screen.height * 1f / Message.ScreenStandardHeight * Message.ScreenOPDis;
         defaultPos = imgDirBg.transform.position;
         SetActive(imgDirPoint, false);
+
         RegisterTouchEvts();
         RefreshUI();
     }
@@ -47,7 +50,7 @@ public class MainCityWin : WinRoot
     {
         PlayerData pd = GameRoot.Instance.PlayerData;
         SetText(txtFight, PECommon.GetFightByProps(pd));
-        SetText(txtPower, "����" + pd.power + "/" + PECommon.GetPowerLimit(pd.lv));
+        SetText(txtPower, "体力" + pd.power + "/" + PECommon.GetPowerLimit(pd.lv));
         imgPowerPrg.fillAmount = pd.power * 1f / PECommon.GetPowerLimit(pd.lv);
         SetText(txtLevel, pd.lv);
         SetText(txtName, pd.name);
@@ -82,42 +85,57 @@ public class MainCityWin : WinRoot
                 img.fillAmount = 0;
         }
 
-        currentTaskData = resSvc.GetGuideCfgData(pd.guideid);
-        if(currentTaskData != null)
-        {
-            SetGuideBtnIcon(currentTaskData.npcID);
-        }
-        else
-        {
-            SetGuideBtnIcon(-1);
-        }
+        //currentTaskData = resSvc.GetGuideCfgData(pd.guideid);
+        //if(currentTaskData != null)
+        //{
+        //    SetGuideBtnIcon(currentTaskData.npcID);
+        //}
+        //else
+        //{
+        //    SetGuideBtnIcon(-1);
+        //}
     }
 
-    private void SetGuideBtnIcon(int npcID)
+    public void SetBtnTalkActive(bool active, string npcName = null)
     {
-        string spPath = "";
-        Image img = btnGuide.GetComponent<Image>();
-        switch (npcID)
+        if(active)
         {
-            case Message.NPCArtisan:
-                spPath = PathDefine.ArtisanHead;
-                break;
-            case Message.NPCGeneral:
-                spPath = PathDefine.GeneralHead;
-                break;
-            case Message.NPCTrader:
-                spPath = PathDefine.TraderHead;
-                break;
-            case Message.NPCWiseMan:
-                spPath = PathDefine.WiseManHead;
-                break;
-            default:
-                spPath = PathDefine.TaskHead;
-                break;
+            SetText(txtNPCName, npcName);
         }
-        SetSprite(img, spPath);
-
+        SetActive(btnTalk.gameObject, active);
     }
+
+    public void OnClickTalkBtn()
+    {
+        MainCitySystem.Instance.StartTalk();
+        SetActive(btnTalk.gameObject, false);
+    }
+
+    //private void SetGuideBtnIcon(int npcID)
+    //{
+    //    string spPath = "";
+    //    Image img = btnGuide.GetComponent<Image>();
+    //    switch (npcID)
+    //    {
+    //        case Message.NPCArtisan:
+    //            spPath = PathDefine.ArtisanHead;
+    //            break;
+    //        case Message.NPCGeneral:
+    //            spPath = PathDefine.GeneralHead;
+    //            break;
+    //        case Message.NPCTrader:
+    //            spPath = PathDefine.TraderHead;
+    //            break;
+    //        case Message.NPCWiseMan:
+    //            spPath = PathDefine.WiseManHead;
+    //            break;
+    //        default:
+    //            spPath = PathDefine.TaskHead;
+    //            break;
+    //    }
+    //    SetSprite(img, spPath);
+    //
+    //}
 
     public void OnClickMenuRoot()
     {
@@ -182,11 +200,11 @@ public class MainCityWin : WinRoot
 
         if(currentTaskData != null)
         {
-            MainCitySystem.Instance.RunTask(currentTaskData);
+            //MainCitySystem.Instance.RunTask(currentTaskData);
         }
         else
         {
-            GameRoot.AddTips("�޸�������");
+            GameRoot.AddTips("无更多任务");
         }
     }
 

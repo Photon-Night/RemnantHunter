@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Battle\MonsterController.cs" />
     <Compile Include="Assets\Scripts\UIWin\BattleWin.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Levels\Test.cs" />
     <Compile Include="Assets\Scripts\UIWin\CreateWin.cs" />
     <Compile Include="Assets\Scripts\UIWin\InfoWin.cs" />
     <Compile Include="Assets\Scripts\Net\ClientSession.cs" />
@@ -94,8 +95,10 @@
     <Compile Include="Assets\Scripts\Battle\SkillManager.cs" />
     <Compile Include="Assets\Scripts\Common\Message.cs" />
     <Compile Include="Assets\Scripts\UIWin\StrongWin.cs" />
+    <Compile Include="Assets\Scripts\NPC\NPCController.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleManager.cs" />
     <Compile Include="Assets\Scripts\System\MissionSystem.cs" />
+    <Compile Include="Assets\Scripts\NPC\NPCManager.cs" />
     <Compile Include="Assets\Scripts\UIWin\GuideWin.cs" />
     <Compile Include="Assets\Scripts\Common\Singleton.cs" />
     <Compile Include="Assets\Scripts\GameRoot.cs" />
@@ -109,23 +112,31 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\ResCfgs\monster.xml" />
+    <None Include="Assets\Shader\MyMobile VertexLit Diffuse.shader" />
+    <None Include="Assets\Shader\MyMobile Particles AddNoMask Diff.shader" />
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />
+    <None Include="Assets\Shader\Lightmap\Lightmap.shader" />
     <None Include="Assets\Resources\ResCfgs\skillmove.xml" />
     <None Include="Assets\Resources\ResCfgs\task.xml" />
+    <None Include="Assets\Shader\DepthBloom.shader" />
     <None Include="Assets\Scripts\Net\PESocket.dll" />
     <None Include="Assets\Resources\ResCfgs\strong.xml" />
+    <None Include="Assets\Shader\UITest.shader" />
     <None Include="Assets\Compond\MakeChar\Shader\MogoFakeLight.shader" />
     <None Include="Assets\Compond\MakeScene\SceneShader\MogoTransparentDiffuse.shader" />
     <None Include="Assets\Resources\ResCfgs\rdname.xml" />
     <None Include="Assets\Compond\Shader\MogoSkybox.shader" />
     <None Include="Assets\Compond\Shader\Mul-skybox.shader" />
     <None Include="Assets\Scripts\Timer\PETimer.dll" />
+    <None Include="Assets\Shader\Particle\ParticleAdditive.shader" />
     <None Include="Assets\Compond\Shader\MonsterShader.shader" />
     <None Include="Assets\Resources\ResCfgs\skill.xml" />
     <None Include="Assets\Scripts\Net\PEProtocol.dll" />
     <None Include="Assets\Resources\ResCfgs\map.xml" />
     <None Include="Assets\Resources\ResCfgs\skillaction.xml" />
     <None Include="Assets\Resources\ResCfgs\guide.xml" />
+    <None Include="Assets\Resources\log4net.xml" />
+    <None Include="Assets\Resources\ResCfgs\npc.xml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
