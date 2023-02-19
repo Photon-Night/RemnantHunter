@@ -81,7 +81,7 @@ namespace GameServer
                     PlayerData pd = cacheSvc.GetPlayerDataBySession(pack.session);
 
                     //任务进度数据更新
-                    TaskSys.Instance.CalcTaskPrgs(pd, 2);
+                    //TaskSys.Instance.CalcTaskPrgs(pd, 2);
 
                     pd.coin += rd.coin;
                     pd.crystal += rd.crystal;

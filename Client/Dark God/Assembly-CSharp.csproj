@@ -109,6 +109,9 @@
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
     <Compile Include="Assets\Scripts\Battle\EntityMonster.cs" />
+    <Compile Include="Assets\Scripts\System\TaskSystem.cs" />
+    <Compile Include="Assets\Scripts\Task\TaskItem.cs" />
+    <Compile Include="Assets\Scripts\Task\TaskManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\ResCfgs\monster.xml" />

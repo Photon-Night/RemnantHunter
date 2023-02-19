@@ -127,5 +127,10 @@ public class BattleSystem : SystemRoot<BattleSystem>
         battleEndWin.SetBattleEndData(data.fbid, data.costtime, data.resthp);
         SetBattleEndWinState(FBEndType.Win);
     }
+
+    public void SetRegiesterEventOnTargetDie(System.Action<int> action, bool isReg = true)
+    {
+        bm.SetRegiesterEventOnTargetDie(action, isReg);
+    }
 }
 

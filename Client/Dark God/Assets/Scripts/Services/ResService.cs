@@ -844,6 +844,99 @@ public class ResService : MonoSingleton<ResService>
     }
     #endregion
 
+    #region Task
+    private Dictionary<int, TaskDefine> taskcfgDic = new Dictionary<int, TaskDefine>();
+    private void InitTaskData(string path)
+    {
+        TextAsset xml = Resources.Load<TextAsset>(path);
+        if (!xml)
+        {
+            PECommon.Log("xml file: " + path + "is not exist", PEProtocol.LogType.Error);
+
+        }
+        else
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml.text);
+            XmlNodeList nodList = doc.SelectSingleNode("root").ChildNodes;
+
+            for (int i = 0; i < nodList.Count; i++)
+            {
+                XmlElement ele = nodList[i] as XmlElement;
+                if (ele.GetAttributeNode("ID") == null)
+                {
+                    continue;
+                }
+
+                int ID = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
+                TaskDefine tf = new TaskDefine
+                {
+                    ID = ID,
+                };
+
+                foreach (XmlElement e in nodList[i].ChildNodes)
+                {
+                    switch (e.Name)
+                    {
+                        case "taskName":
+                            tf.taskName = e.InnerText;
+                            break;
+                        case "taskType":
+                            tf.taskType = (TaskType)int.Parse(e.InnerText);
+                            break;
+                        case "preTaskID":
+                            tf.preTaskID = int.Parse(e.InnerText);
+                            break;
+                        case "isAutoGetNextTask":
+                            tf.isAutoGetNextTask = int.Parse(e.InnerText) == 0 ? false : true;
+                            break;
+                        case "limitLevel":
+                            tf.limitLevel = int.Parse(e.InnerText);
+                            break;
+                        case "targetID":
+                            tf.targetID = int.Parse(e.InnerText);
+                            break;
+                        case "targetCount":
+                            tf.targetCount = int.Parse(e.InnerText);
+                            break;
+                        case "targetPos":
+                            string[] posArr = e.InnerText.Split(',');
+                            if(posArr.Length > 0)
+                            {
+                                tf.targetPos = new Vector3(float.Parse(posArr[0]), float.Parse(posArr[1]), float.Parse(posArr[2]));
+                            }
+                            break;
+                        case "exp":
+                            tf.exp = int.Parse(e.InnerText);
+                            break;
+                        case "coin":
+                            tf.coin = int.Parse(e.InnerText);
+                            break;
+                        case "diomand":
+                            tf.diomand = int.Parse(e.InnerText);
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    public TaskDefine GetTaskData(int id)
+    {
+        TaskDefine data = null;
+        if(taskcfgDic.TryGetValue(id, out data))
+        {
+            return data;
+        }
+        return null;
+    }
+
+    public Dictionary<int, TaskDefine> GetTaskDic()
+    {
+        return taskcfgDic;
+    }
+    #endregion
+
     #region SkillMove
 
     private Dictionary<int, SkillMoveCfg> skillmoveDis = new Dictionary<int, SkillMoveCfg>();

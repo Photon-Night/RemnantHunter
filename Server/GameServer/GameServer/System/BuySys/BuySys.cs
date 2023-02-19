@@ -37,11 +37,11 @@ namespace GameServer
                 {
                     case 0:
                         pd.coin += 1000;
-                        pushTaskPrgs = TaskSys.Instance.GetTaskPrgs(pd, 5);
+                        //pushTaskPrgs = TaskSys.Instance.GetTaskPrgs(pd, 5);
                         break;
                     case 1:
                         pd.power += 100;
-                        pushTaskPrgs = TaskSys.Instance.GetTaskPrgs(pd, 4);
+                        //pushTaskPrgs = TaskSys.Instance.GetTaskPrgs(pd, 4);
                         break;
                 }
 

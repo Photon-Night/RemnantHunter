@@ -326,7 +326,23 @@ public class MapCfg : BaseData<MapCfg>
     public int crystal;
 }
 
+public class TaskDefine : BaseData<TaskDefine>
+{
+    public int preTaskID;
+    public bool isAutoGetNextTask;
 
+    public int acceptNpcID;
+    public int submitNpcID;
+    public int accTalkID;
+    public int subTalkIDl;
+
+    public int limitLevel;
+    public int targetCount;
+
+    public int exp;
+    public int coin;
+    public int diomand;
+}
 
 
 

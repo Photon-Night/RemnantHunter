@@ -234,6 +234,16 @@ namespace PEProtocol
         public long time;
 
         public string[] task;
+
+        public NTaskInfo[] taskDatas;
+    }
+    [Serializable]
+    public class NTaskInfo
+    {
+        public int npcID;
+        public int taskID;
+        public TaskStatus taskState;
+        public int prg;
     }
 
 

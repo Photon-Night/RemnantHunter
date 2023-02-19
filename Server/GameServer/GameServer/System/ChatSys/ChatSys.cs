@@ -21,7 +21,7 @@ namespace GameServer
             SendChat data = pack.msg.sendChat;
             PlayerData pd = cacheSvc.GetPlayerDataBySession(pack.session);
 
-            TaskSys.Instance.CalcTaskPrgs(pd, 6);
+            //TaskSys.Instance.CalcTaskPrgs(pd, 6);
 
             GameMsg msg = new GameMsg
             {

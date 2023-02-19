@@ -64,4 +64,12 @@ namespace PEProtocol
         Error = 2,
         Info = 3,
     }
+    public enum TaskStatus
+    {
+        None = -1,
+        InProgress = 0,
+        Complated = 1,
+        Finished = 2,
+        Failed = 3,
+    }
 }

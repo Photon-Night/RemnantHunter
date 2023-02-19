@@ -34,6 +34,55 @@ namespace GameServer
             }
         }
 
+        public bool QueryPlayerTaskData(ref PlayerData pd)
+        {
+            MySqlDataReader reader = null;
+            try 
+            {
+                int cnt = 0;
+                MySqlCommand cmd = new MySqlCommand("select * from task where playerId = @playerId", conn);
+                cmd.Parameters.AddWithValue("playerId", pd.id);
+                reader = cmd.ExecuteReader();
+                while(reader.Read())
+                {
+                    NTaskInfo info = new NTaskInfo
+                    {
+                        npcID = reader.GetInt32("npcId"),
+                        taskID = reader.GetInt32("taskId"),
+                        prg = reader.GetInt32("prg"),
+                    };
+
+                    int status = reader.GetInt32("status");
+                    switch (status)
+                    {
+                        case 0:
+                            info.taskState = PEProtocol.TaskStatus.InProgress;
+                            break;
+                        case 1:
+                            info.taskState = PEProtocol.TaskStatus.Complated;
+                            break;
+                        case 2:
+                            info.taskState = PEProtocol.TaskStatus.Finished;
+                            break;
+                        case 3:
+                            info.taskState = PEProtocol.TaskStatus.Failed;
+                            break;
+                        default:
+                            info.taskState = PEProtocol.TaskStatus.None;
+                            break;
+                    }
+
+                    pd.taskDatas[cnt++] = info;
+                }
+                return true;
+            }
+            catch
+            {
+                PECommon.Log("Get Player Task Data Error", LogType.Error);
+                return false;
+            }
+
+        }
         public PlayerData QueryPlayerData(string acc, string pas)
         {
             PlayerData playerData = null;
@@ -112,6 +161,8 @@ namespace GameServer
                             }
                         }
 
+                        reader.Close();
+                        QueryPlayerTaskData(ref playerData);
                     }
                 }
             }
@@ -151,6 +202,7 @@ namespace GameServer
                         time = TimerSvc.Instance.GetNowTime(),
                         task = new string[CfgSvc.Instance.GetTaskConut()],
                         mission = 10001,
+                        taskDatas = null,
                     };
 
                     string[] _taskArr = playerData.task;
@@ -162,11 +214,13 @@ namespace GameServer
 
                     playerData.id = InsertNewAccData(acc, pas, playerData);
                 }
+                
             }
-
-            
+         
             return playerData;
         }
+
+       
 
         private int InsertNewAccData(string acc, string pas, PlayerData pd)
         {

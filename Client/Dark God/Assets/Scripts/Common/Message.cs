@@ -119,6 +119,4 @@ public class Message
         None = 0,
         Functional = 1,
     }
-
-
 }

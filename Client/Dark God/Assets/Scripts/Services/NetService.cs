@@ -138,13 +138,13 @@ public class NetService : MonoSingleton<NetService>
                 MainCitySystem.Instance.PushPower(msg);
                 break;
 
-            case CMD.RspTakeTaskReward:
-                MainCitySystem.Instance.RspTakeTaskReward(msg);
-                break;
-
-            case CMD.PushTaskPrgs:
-                MainCitySystem.Instance.PushTaskPrgs(msg);
-                break;
+            //case CMD.RspTakeTaskReward:
+            //    MainCitySystem.Instance.RspTakeTaskReward(msg);
+            //    break;
+            //
+            //case CMD.PushTaskPrgs:
+            //    MainCitySystem.Instance.PushTaskPrgs(msg);
+            //    break;
 
             case CMD.RspMissionEnter:
                 MissionSystem.Instance.RspMissionEnter(msg);

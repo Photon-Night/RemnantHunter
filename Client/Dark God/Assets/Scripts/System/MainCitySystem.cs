@@ -327,10 +327,10 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
         mainCityWin.RefreshUI();
         buyWin.SetWinState(false);
 
-        if(msg.pushTaskPrgs != null)
-        {
-            PushTaskPrgs(msg);
-        }
+        //if(msg.pushTaskPrgs != null)
+        //{
+        //    PushTaskPrgs(msg);
+        //}
     }
     #endregion
 
@@ -362,28 +362,28 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     #endregion
 
     #region Task
-    public void OpenTaskWin()
-    {
-        taskWin.SetWinState();
-        //StopNavTask();
-    }
+    //public void OpenTaskWin()
+    //{
+    //    taskWin.SetWinState();
+    //    //StopNavTask();
+    //}
 
-    public void RspTakeTaskReward(GameMsg msg)
-    {
-        RspTakeTaskReward data = msg.rspTakeTaskReward;
-        PlayerData pd = GameRoot.Instance.PlayerData;
-
-        GameRoot.Instance.SetPlayerDataByTakeTaskReward(data);
-
-        taskWin.RefreshUI();
-        mainCityWin.RefreshUI();
-
-    }
-
-    public void PushTaskPrgs(GameMsg msg)
-    {
-        PushTaskPrgs data = msg.pushTaskPrgs;
-        GameRoot.Instance.SetPlayerDataByTaskPrgs(data);
-    }
+    //public void RspTakeTaskReward(GameMsg msg)
+    //{
+    //    RspTakeTaskReward data = msg.rspTakeTaskReward;
+    //    PlayerData pd = GameRoot.Instance.PlayerData;
+    //
+    //    GameRoot.Instance.SetPlayerDataByTakeTaskReward(data);
+    //
+    //    taskWin.RefreshUI();
+    //    mainCityWin.RefreshUI();
+    //
+    //}
+    //
+    //public void PushTaskPrgs(GameMsg msg)
+    //{
+    //    PushTaskPrgs data = msg.pushTaskPrgs;
+    //    GameRoot.Instance.SetPlayerDataByTaskPrgs(data);
+    //}
     #endregion
 }

@@ -345,5 +345,13 @@ public class BattleManager : MonoBehaviour
     {
         BattleSystem.Instance.SetHPUI(hp);
     }
+
+    public void SetRegiesterEventOnTargetDie(Action<int> action, bool isReg = true)
+    {
+        if (isReg)
+            skillMgr.onTargetDie += action;
+        else
+            skillMgr.onTargetDie -= action;
+    }
 }
 

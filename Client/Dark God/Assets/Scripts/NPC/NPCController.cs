@@ -5,23 +5,33 @@ using UnityEngine;
 public class NPCController : MonoBehaviour
 {
     private Animator anim;
-    private NPCCfg NPCData;
+    private NPCCfg NpcData;
     private bool isInteractive = false;
     private PlayerController pc;
-    private float checkRange = Message.NPCCheckRange;
     private Vector3 startForward;
     private bool turnBack = false;
-    private bool isInvokeEvent = false;
     public Action<NPCCfg> OnPlayerGetClose;
-    private Collider checkCol;
+    private NpcTaskStatus taskStatus;
 
     public void InitNPC(NPCCfg data, PlayerController player)
     {
-        NPCData = data;
+        NpcData = data;
         anim = this.GetComponent<Animator>();
-        checkCol = this.GetComponent<BoxCollider>();
         pc = player;
         startForward = this.transform.forward;
+        TaskSystem.Instance.SetRegisterEvent(OnTaskStatusChange);
+    }
+
+    public void OnDestroy()
+    {
+        TaskSystem.Instance.SetRegisterEvent(OnTaskStatusChange, false);
+    }
+    private void OnTaskStatusChange(TaskItem task)
+    {
+        if(task.data.submitNpcID == NpcData.ID)
+        {
+            taskStatus = TaskSystem.Instance.GetNpcTaskStatus(NpcData.ID);
+        }
     }
 
     public void RegisterEvnet(Action<NPCCfg> action)
@@ -35,17 +45,6 @@ public class NPCController : MonoBehaviour
     public void OnPlayerExit()
     {
         MainCitySystem.Instance.FarToPlayer();
-    }
-    private bool CheckDistanceToPlayer()
-    {
-        float dis = Vector3.SqrMagnitude(this.transform.position - pc.transform.position);
-        Debug.Log(dis + " " + checkRange * checkRange);
-        if (dis < checkRange * checkRange)
-        {
-            return true;
-        }
-
-        return false;
     }
 
     public void SetAction(int action)
@@ -84,11 +83,10 @@ public class NPCController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("enter");
         if (other.gameObject.CompareTag("Player"))
         {
             if (OnPlayerGetClose != null)
-                OnPlayerGetClose(NPCData);
+                OnPlayerGetClose(NpcData);
         }
     }
 

@@ -106,6 +106,7 @@ public class NPCCfg : BaseData
     public string name;
     public string resPath;
     public Vector3 pos;
+    public Vector3 rote;
     public Message.NPCType type;
     public Message.NPCFunction func;
 }
@@ -117,6 +118,30 @@ public class SkillActionCfg : BaseData
     public float radius;
     public float angle;
 }
+
+public class TaskDefine : BaseData
+{
+    public string taskName;
+    public TaskType taskType;
+    public int preTaskID;   
+    public bool isAutoGetNextTask;
+
+    public int acceptNpcID;
+    public int submitNpcID;
+    public int accTalkID;
+    public int subTalkIDl;
+
+    public int limitLevel;
+
+    public int targetID;
+    public int targetCount;
+    public Vector3 targetPos;
+
+    public int exp;
+    public int coin;
+    public int diomand;
+}
+
 
 public class BattleProps
 {
