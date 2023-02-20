@@ -13,7 +13,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     public StrongWin strongWin;
     public ChatWin chatWin;
     public BuyWin buyWin;
-    public TaskWin taskWin;
+    //public TaskWin taskWin;
 
     private PlayerController pc = null;
     private Transform charShowCam = null;

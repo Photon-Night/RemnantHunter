@@ -731,6 +731,7 @@ GameObject:
   - component: {fileID: 4768781110685471918}
   - component: {fileID: 7651943217050652718}
   - component: {fileID: 6896840155905238440}
+  - component: {fileID: 1789534248561612628}
   m_Layer: 5
   m_Name: TaskItem
   m_TagString: Untagged
@@ -790,7 +791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.9817354, b: 0.8254717, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -822,6 +823,24 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &1789534248561612628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6412346945182144323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35022849acd8a740a75f4805b029723, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imgItemBg: {fileID: 7651943217050652718}
+  txtName: {fileID: 3436307284857959817}
+  txtPrg: {fileID: 8963276003135953671}
+  imgPrg: {fileID: 1242441815321322090}
+  txtCoin: {fileID: 2392788850445888612}
+  txtExp: {fileID: 4197258592264062357}
 --- !u!1 &6567913200147267035
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,8 +876,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 544.42, y: 0}
-  m_SizeDelta: {x: 122.8342, y: 109.32}
+  m_AnchoredPosition: {x: 542.8003, y: 1.8871}
+  m_SizeDelta: {x: 165.6982, y: 71.2301}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2181293421293124217
 CanvasRenderer:
@@ -888,8 +907,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 22b181bb9cece40409cca4c827614368, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: eb63783b0c4abb045b5eb0de1c044e40, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

@@ -54,6 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\UIWin\BuyWin.cs" />
+    <Compile Include="Assets\Scripts\Task\TaskManager.cs" />
     <Compile Include="Assets\Scripts\Common\BaseData.cs" />
     <Compile Include="Assets\Scripts\UIWin\LoginWin.cs" />
     <Compile Include="Assets\Scripts\Battle\StateManager.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Assets\Scripts\Services\TimerService.cs" />
     <Compile Include="Assets\Scripts\System\SystemRoot.cs" />
     <Compile Include="Assets\Scripts\Battle\StateAttack.cs" />
+    <Compile Include="Assets\Scripts\Task\TaskItem.cs" />
     <Compile Include="Assets\Scripts\Common\PEListener.cs" />
     <Compile Include="Assets\Scripts\FSM\EntityBase.cs" />
     <Compile Include="Assets\Scripts\Common\TriggerData.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Assets\Scripts\Battle\StateBorn.cs" />
     <Compile Include="Assets\Scripts\System\MainCitySystem.cs" />
     <Compile Include="Assets\Scripts\Common\PETools.cs" />
+    <Compile Include="Assets\Scripts\System\TaskSystem.cs" />
     <Compile Include="Assets\Scripts\FSM\StateIdle.cs" />
     <Compile Include="Assets\Scripts\Battle\SkillManager.cs" />
     <Compile Include="Assets\Scripts\Common\Message.cs" />
@@ -109,9 +112,7 @@
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
     <Compile Include="Assets\Scripts\Battle\EntityMonster.cs" />
-    <Compile Include="Assets\Scripts\System\TaskSystem.cs" />
-    <Compile Include="Assets\Scripts\Task\TaskItem.cs" />
-    <Compile Include="Assets\Scripts\Task\TaskManager.cs" />
+    <Compile Include="Assets\Scripts\UIWin\TaskUIItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\ResCfgs\monster.xml" />
