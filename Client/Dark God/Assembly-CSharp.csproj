@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\UIWin\BattleWin.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Levels\Test.cs" />
+    <Compile Include="Assets\Scripts\UIWin\TaskUIItem.cs" />
     <Compile Include="Assets\Scripts\UIWin\CreateWin.cs" />
     <Compile Include="Assets\Scripts\UIWin\InfoWin.cs" />
     <Compile Include="Assets\Scripts\Net\ClientSession.cs" />
@@ -112,7 +113,7 @@
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
     <Compile Include="Assets\Scripts\Battle\EntityMonster.cs" />
-    <Compile Include="Assets\Scripts\UIWin\TaskUIItem.cs" />
+    <Compile Include="Assets\Scripts\UIWin\UIRoot.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\ResCfgs\monster.xml" />
@@ -120,6 +121,7 @@
     <None Include="Assets\Shader\MyMobile Particles AddNoMask Diff.shader" />
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />
     <None Include="Assets\Shader\Lightmap\Lightmap.shader" />
+    <None Include="Assets\Resources\ResCfgs\task1.xml" />
     <None Include="Assets\Resources\ResCfgs\skillmove.xml" />
     <None Include="Assets\Resources\ResCfgs\task.xml" />
     <None Include="Assets\Shader\DepthBloom.shader" />

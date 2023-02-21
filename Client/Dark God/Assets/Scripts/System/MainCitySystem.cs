@@ -99,6 +99,11 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
         });
     }
 
+    public void OpenTaskWin()
+    {
+        TaskSystem.Instance.OpenNpcTaskWin(nearNPCData.ID);
+    }
+
     public void RegisterTalkOverEvent(System.Action func)
     {
         guideWin.RegisterTalkOverEvent(func);

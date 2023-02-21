@@ -21,6 +21,7 @@ public class ResService : MonoSingleton<ResService>
         InitSkillMoveCfg(PathDefine.SkillMoveCfg);
         InitSkillActionCfg(PathDefine.SkillActionCfg);
         InitNPCCfg(PathDefine.NPCCfg);
+        InitTaskData(PathDefine.TaskCfg);
     }
 
     public void ReSetSkillCfgData()
@@ -890,6 +891,18 @@ public class ResService : MonoSingleton<ResService>
                         case "isAutoGetNextTask":
                             tf.isAutoGetNextTask = int.Parse(e.InnerText) == 0 ? false : true;
                             break;
+                        case "acceptNpcID":
+                            tf.acceptNpcID = int.Parse(e.InnerText);
+                            break;
+                        case "submitNpcID":
+                            tf.submitNpcID = int.Parse(e.InnerText);
+                            break;
+                        case "accTalkID":
+                            tf.accTalkID = int.Parse(e.InnerText);
+                            break;
+                        case "subTalkID":
+                            tf.subTalkID = int.Parse(e.InnerText);
+                            break;
                         case "limitLevel":
                             tf.limitLevel = int.Parse(e.InnerText);
                             break;
@@ -906,6 +919,9 @@ public class ResService : MonoSingleton<ResService>
                                 tf.targetPos = new Vector3(float.Parse(posArr[0]), float.Parse(posArr[1]), float.Parse(posArr[2]));
                             }
                             break;
+                        case "description":
+                            tf.description = e.InnerText;
+                            break;
                         case "exp":
                             tf.exp = int.Parse(e.InnerText);
                             break;
@@ -917,6 +933,8 @@ public class ResService : MonoSingleton<ResService>
                             break;
                     }
                 }
+
+                taskcfgDic.Add(tf.ID, tf);
             }
         }
     }

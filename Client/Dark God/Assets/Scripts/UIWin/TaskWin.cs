@@ -7,18 +7,120 @@ using UnityEngine.UI;
 public class TaskWin : WinRoot
 {
     public Transform taskItemContent;
+    public Toggle togAvaliable;
+    public Toggle togInProgess;
+    public Toggle toggleFinish;
 
     private List<TaskRewardData> taskLst = new List<TaskRewardData>();
+    private List<TaskItem> taskList;
     private PlayerData pd = null;
+    private int currentNpcId = -1;
+    private NpcTaskStatus currentStatus = NpcTaskStatus.Available;
 
-
+    public void SetCurrentNpcId(int id)
+    {
+        currentNpcId = id;
+    }
     protected override void InitWin()
     {
         base.InitWin();
         pd = GameRoot.Instance.PlayerData;
+        togAvaliable.onValueChanged.AddListener((isOn) =>
+        {
+            if (isOn)
+            {
+                ChangeNpcTaskType(1);
+            }
+        });
 
-        RefreshUI();
+        togInProgess.onValueChanged.AddListener((isOn) =>
+        {
+            if(isOn)
+            ChangeNpcTaskType(2);
+        });
+
+        toggleFinish.onValueChanged.AddListener((isOn) =>
+        {
+            if(isOn)
+            ChangeNpcTaskType(3);
+        });
+        Refresh();
     }
+
+    protected override void ClearWin()
+    {
+        base.ClearWin();
+
+    }
+
+    public void OpenWinByNpc(int id)
+    {
+        currentNpcId = id;
+        SetWinState();
+    }
+    private void ChangeNpcTaskType(int value)
+    {
+        if (value == 1)
+            currentStatus = NpcTaskStatus.Available;
+        else if (value == 2)
+            currentStatus = NpcTaskStatus.Incomplete;
+        else if (value == 3)
+            currentStatus = NpcTaskStatus.Complete;
+
+        Refresh();
+    }
+
+    public void Refresh()
+    {
+        if (currentNpcId != -1 && currentStatus != NpcTaskStatus.None)
+            taskList = TaskSystem.Instance.GetTaskList(currentNpcId, currentStatus);
+        else
+            return;
+
+        for (int i = 0; i < taskItemContent.childCount; i++)
+        {
+            Destroy(taskItemContent.GetChild(i).gameObject);
+        }
+
+        for(int i = 0; i < taskList.Count; i++)
+        {
+            GameObject taskGo = resSvc.LoadPrefab(PathDefine.TaskItem);
+            taskGo.transform.SetParent(taskItemContent);
+
+            TaskUIItem item = taskGo.GetComponent<TaskUIItem>();
+            item.InitItem(taskList[i]);
+
+            if(currentStatus == NpcTaskStatus.Available)
+            {
+                SetActive(item.txtPrg, false);
+                SetActive(item.imgPrg, false);
+                SetActive(item.imgPrgBg, false);
+                SetActive(item.btnTake.gameObject);
+                item.btnTake.onClick.AddListener(() =>
+                {
+                    //设置任务管理器
+                    
+                });
+            }
+            else if(currentStatus == NpcTaskStatus.Complete)
+            {
+                SetActive(item.btnFinish.gameObject);
+                item.btnFinish.onClick.AddListener(() =>
+                {
+                    
+                });
+            }
+            else if(currentStatus == NpcTaskStatus.Incomplete)
+            {
+                SetActive(item.btnAbondon.gameObject);
+                item.btnAbondon.onClick.AddListener(() =>
+                {
+                    
+                });
+            }
+        }
+    }
+
     public void RefreshUI()
     {
         taskLst.Clear();

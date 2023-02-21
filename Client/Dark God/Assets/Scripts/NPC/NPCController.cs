@@ -24,6 +24,7 @@ public class NPCController : MonoBehaviour
 
     public void OnDestroy()
     {
+        if(TaskSystem.Instance != null)
         TaskSystem.Instance.SetRegisterEvent(OnTaskStatusChange, false);
     }
     private void OnTaskStatusChange(TaskItem task)

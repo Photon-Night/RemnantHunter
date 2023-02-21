@@ -12,7 +12,11 @@ public class TaskSystem : SystemRoot<TaskSystem>
     {
         base.InitSystem();
         taskMgr = new TaskManager();
-        List<NTaskInfo> infos = new List<NTaskInfo>(GameRoot.Instance.PlayerData.taskDatas);
+        List<NTaskInfo> infos = null;
+        if(GameRoot.Instance.PlayerData.taskDatas != null)
+        {
+            infos = new List<NTaskInfo>(GameRoot.Instance.PlayerData.taskDatas);
+        }
         taskMgr.InitManager(infos);
     }
 
@@ -45,14 +49,20 @@ public class TaskSystem : SystemRoot<TaskSystem>
 
     }
 
-    public void OnAcceptTask(TaskItem task)
+    public void OnChangeTaskStatus(NTaskInfo info)
     {
 
     }
 
-    public void OnSubmitTask(TaskItem task)
+    public List<TaskItem> GetTaskList(int id, NpcTaskStatus status)
     {
+        return taskMgr.GetNpcTaskList(id, status);
+    }
 
+    public void OpenNpcTaskWin(int npcId)
+    {
+        taskWin.SetCurrentNpcId(npcId);
+        taskWin.SetWinState();
     }
 }
 

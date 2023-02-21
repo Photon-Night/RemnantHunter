@@ -19,19 +19,25 @@ public class TaskManager
     public System.Action<TaskItem> onTaskStatusChanged;
 
 
+    public List<TaskItem> GetNpcTaskList(int id, NpcTaskStatus status)
+    {
+        return npcTaskDic[id][status];
+    }
+
     public void InitManager(List<NTaskInfo> infos)
     {
         resSvc = ResService.Instance;
         allTaskDic.Clear();
         this.npcTaskDic.Clear();
         taskInfos = infos;
-        BattleSystem.Instance.SetRegiesterEventOnTargetDie(ChangeKillTaskPrg);
-        InitQuests();
+        //BattleSystem.Instance.SetRegiesterEventOnTargetDie(ChangeKillTaskPrg);
+        InitTasks();
     }
 
-    private void InitQuests()
+    private void InitTasks()
     {
         //初始化已有任务
+        if(taskInfos != null)
         foreach (var info in taskInfos)
         {
             TaskItem task = new TaskItem(info);
@@ -50,8 +56,7 @@ public class TaskManager
 
     private void AddPlayerTaskData(TaskItem task)
     {
-
-        if(playerTaskDic[task.data.taskType] == null)
+        if(!playerTaskDic.ContainsKey(task.data.taskType))
         {
             playerTaskDic[task.data.taskType] = new Dictionary<int, TaskItem>();
         }
@@ -123,7 +128,7 @@ public class TaskManager
 
         if (task.npcInfo == null)
         {
-            if (npcID == task.data.acceptNpcID && this.npcTaskDic[npcID][NpcTaskStatus.Available].Contains(task))
+            if (npcID == task.data.acceptNpcID && !this.npcTaskDic[npcID][NpcTaskStatus.Available].Contains(task))
             {
                 this.npcTaskDic[npcID][NpcTaskStatus.Available].Add(task);
             }
@@ -168,9 +173,10 @@ public class TaskManager
         return NpcTaskStatus.None;
     }
 
-    public void ChangeTaskState(NTaskInfo info)
+    public void ChangeTaskState(TaskItem task)
     {
         this.npcTaskDic.Clear();
+        NTaskInfo info = task.npcInfo;
         TaskItem result = null;
         if(this.allTaskDic.ContainsKey(info.taskID))
         {

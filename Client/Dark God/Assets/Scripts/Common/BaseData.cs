@@ -129,13 +129,14 @@ public class TaskDefine : BaseData
     public int acceptNpcID;
     public int submitNpcID;
     public int accTalkID;
-    public int subTalkIDl;
+    public int subTalkID;
 
     public int limitLevel;
 
     public int targetID;
     public int targetCount;
     public Vector3 targetPos;
+    public string description;
 
     public int exp;
     public int coin;

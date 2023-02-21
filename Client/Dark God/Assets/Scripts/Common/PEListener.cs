@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
-public class PEListener : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler, IPointerClickHandler
+public class PEListener : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
     public Action<PointerEventData> onClickDown;
     public Action<PointerEventData> onClickUp;
     public Action<PointerEventData> onDrag;
+    public Action<PointerEventData> onEnter;
+    public Action<PointerEventData> onExit;
     public Action<object> onClick;
 
     public object args;
@@ -42,6 +44,22 @@ public class PEListener : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         if(onClick != null)
         {
             onClick(args);
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(onEnter != null)
+        {
+            onEnter(eventData);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if(onExit != null)
+        {
+            onExit(eventData);
         }
     }
 }

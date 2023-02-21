@@ -1,42 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TaskUIItem : MonoBehaviour
+public class TaskUIItem : UIRoot
 {
     public Image imgItemBg;
     public Text txtName;
     public Text txtPrg;
-    public Image imgPrg;
     public Text txtCoin;
     public Text txtExp;
 
-    private Color bgColor;
-    
+    public Button btnTake;
+    public Button btnFinish;
+    public Button btnAbondon;
+
+    public Image imgPrg;
+    public Image imgPrgBg;
     public void InitItem(TaskItem task)
     {
-        bgColor = imgItemBg.color;
+        base.InitUI();
         txtName.text = task.data.taskName;
-        txtPrg.text = task.npcInfo.prg + "/" + task.data.targetCount;
-        imgPrg.fillAmount = task.npcInfo.prg / task.data.targetCount;
         txtCoin.text = task.data.coin.ToString();
         txtExp.text = task.data.exp.ToString();
+        if (task.npcInfo != null)
+        {
+            txtPrg.text = task.npcInfo.prg + "/" + task.data.targetCount;
+            imgPrg.fillAmount = (float)task.npcInfo.prg / (float)task.data.targetCount;
+        }
+
+        RegisterTouchEvts();
     }
 
-    public void OnMouseDrag()
+    private void RegisterTouchEvts()
     {
-        AudioService.Instance.PlayUIAudio(Message.UIClickBtn);
-        //打开详情界面
-    }
+        OnEnter(this.gameObject, (PointerEventData evt) => 
+        {
+            imgItemBg.color = Color.gray;
+        });
 
-    public void OnMouseEnter()
-    {
-        bgColor.a = 190 / 255;
-    }
+        OnExit(this.gameObject, (PointerEventData evt) =>
+        {
+            imgItemBg.color = Color.white;
+        });
 
-    public void OnMouseExit()
-    {
-        bgColor.a = 1f;
+        OnClickDown(this.gameObject, (PointerEventData evt) =>
+        {
+            audioSvc.PlayUIAudio(Message.UIClickBtn);
+        });
     }
 }

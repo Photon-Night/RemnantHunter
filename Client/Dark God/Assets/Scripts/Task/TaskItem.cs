@@ -22,6 +22,6 @@ public class TaskItem
     public TaskItem(NTaskInfo info)
     {
         this.npcInfo = info;
-        //resService
+        this.data = ResService.Instance.GetTaskData(info.taskID);
     }
 }

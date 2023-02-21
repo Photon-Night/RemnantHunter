@@ -62,8 +62,12 @@ namespace GameServer
 
         public void ReqCheckConnection(MsgPack pack)
         {
-            sessionDic[pack.session.sessionID].connCheckFlag = true;
-            PECommon.Log("Session_ID: " + pack.session.sessionID + " is online");
+            if (sessionDic.ContainsKey(pack.session.sessionID))
+            {
+
+                sessionDic[pack.session.sessionID].connCheckFlag = true;
+                PECommon.Log("Session_ID: " + pack.session.sessionID + " is online");
+            }
         }
     }
 }

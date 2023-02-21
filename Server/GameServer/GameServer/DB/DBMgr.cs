@@ -43,6 +43,7 @@ namespace GameServer
                 MySqlCommand cmd = new MySqlCommand("select * from task where playerId = @playerId", conn);
                 cmd.Parameters.AddWithValue("playerId", pd.id);
                 reader = cmd.ExecuteReader();
+                List<NTaskInfo> infos = new List<NTaskInfo>();
                 while(reader.Read())
                 {
                     NTaskInfo info = new NTaskInfo
@@ -72,8 +73,11 @@ namespace GameServer
                             break;
                     }
 
-                    pd.taskDatas[cnt++] = info;
+                    infos.Add(info);
                 }
+                pd.taskDatas = infos.ToArray();
+                infos.Clear();
+                reader.Close();
                 return true;
             }
             catch
@@ -81,6 +85,7 @@ namespace GameServer
                 PECommon.Log("Get Player Task Data Error", LogType.Error);
                 return false;
             }
+            
 
         }
         public PlayerData QueryPlayerData(string acc, string pas)
@@ -202,7 +207,7 @@ namespace GameServer
                         time = TimerSvc.Instance.GetNowTime(),
                         task = new string[CfgSvc.Instance.GetTaskConut()],
                         mission = 10001,
-                        taskDatas = null,
+                        taskDatas = { },
                     };
 
                     string[] _taskArr = playerData.task;

@@ -62,6 +62,7 @@ public class GameRoot : MonoSingleton<GameRoot>
     public void SetPlayerData(RspLogin data)
     {
         playerData = data.playerData;
+        TaskSystem.Instance.InitSystem();
     }
 
     public void SetPlayerName(string name)

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<item ID="10001">
+		<taskName>击杀怪物</taskName>
+		<taskType>1</taskType>
+		<preTaskID>-1</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>102</acceptNpcID>
+		<submitNpcID>102</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>1001</targetID>
+		<targetCount>3</targetCount>
+		<description>进入副本并击杀3只铁甲战士</description>
+		<exp>100</exp>
+		<coin>1000</coin>
+		<diomand>0</diomand>
+	</item>
+	<item/>
+</root>
