@@ -92,6 +92,7 @@
     <Compile Include="Assets\Scripts\Services\NetService.cs" />
     <Compile Include="Assets\Scripts\UIWin\ChatWin.cs" />
     <Compile Include="Assets\Scripts\Battle\StateBorn.cs" />
+    <Compile Include="Assets\Scripts\UIWin\UIRoot.cs" />
     <Compile Include="Assets\Scripts\System\MainCitySystem.cs" />
     <Compile Include="Assets\Scripts\Common\PETools.cs" />
     <Compile Include="Assets\Scripts\System\TaskSystem.cs" />
@@ -113,7 +114,6 @@
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
     <Compile Include="Assets\Scripts\Battle\EntityMonster.cs" />
-    <Compile Include="Assets\Scripts\UIWin\UIRoot.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\ResCfgs\monster.xml" />

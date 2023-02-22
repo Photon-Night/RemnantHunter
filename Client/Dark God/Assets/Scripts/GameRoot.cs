@@ -130,6 +130,13 @@ public class GameRoot : MonoSingleton<GameRoot>
         PlayerData.crystal = data.crystal;
         PlayerData.mission = data.mission;
     }
+
+    public void SetPlayerDataByFinishTask(RspUpdateTaskInfo data)
+    {
+        PlayerData.coin = data.coin;
+        PlayerData.lv = data.lv;
+        PlayerData.exp = data.exp;
+    }
  
     public void AddHpUIItem(string name, int hp, Transform trans)
     {

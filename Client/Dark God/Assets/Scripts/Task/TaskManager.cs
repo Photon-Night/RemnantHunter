@@ -21,7 +21,39 @@ public class TaskManager
 
     public List<TaskItem> GetNpcTaskList(int id, NpcTaskStatus status)
     {
-        return npcTaskDic[id][status];
+        if(npcTaskDic.ContainsKey(id))
+        {
+            if(npcTaskDic[id].ContainsKey(status))
+            {
+                return npcTaskDic[id][status];
+            }
+        }
+
+        return null;
+    }
+
+    public TaskItem GetPlayerTask(int taskId, TaskType type)
+    {
+        if(playerTaskDic.ContainsKey(type))
+        {
+            TaskItem item = null;
+            if(playerTaskDic[type].TryGetValue(taskId, out item))
+            {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+    public TaskItem GetTaskItem(int taskId)
+    {
+        TaskItem task = null;
+        if(allTaskDic.TryGetValue(taskId, out task))
+        {
+            return task;
+        }
+        return null;
     }
 
     public void InitManager(List<NTaskInfo> infos)
@@ -30,7 +62,6 @@ public class TaskManager
         allTaskDic.Clear();
         this.npcTaskDic.Clear();
         taskInfos = infos;
-        //BattleSystem.Instance.SetRegiesterEventOnTargetDie(ChangeKillTaskPrg);
         InitTasks();
     }
 
@@ -54,7 +85,7 @@ public class TaskManager
         }
     }
 
-    private void AddPlayerTaskData(TaskItem task)
+    public void AddPlayerTaskData(TaskItem task)
     {
         if(!playerTaskDic.ContainsKey(task.data.taskType))
         {
@@ -63,7 +94,8 @@ public class TaskManager
 
         if(!playerTaskDic[task.data.taskType].ContainsKey(task.data.ID))
         {
-            playerTaskDic[task.data.taskType][task.data.ID] = task;
+            playerTaskDic[task.data.taskType][task.data.targetID] = task;
+            Debug.Log(task.data.taskName + " " + task.data.targetID);
         }
     }
     /// <summary>
@@ -85,7 +117,7 @@ public class TaskManager
                 {
                     if (_preTask.npcInfo == null)//未获取
                         continue;
-                    if (_preTask.npcInfo.taskState == TaskStatus.Finished)//未完成
+                    if (_preTask.npcInfo.taskState != TaskStatus.Finished)//未完成
                         continue;
                 }
                 else//未接取
@@ -149,6 +181,14 @@ public class TaskManager
                     this.npcTaskDic[npcID][NpcTaskStatus.Incomplete].Add(task);
                 }
             }
+
+            if(task.data.acceptNpcID == npcID && task.npcInfo.taskState == TaskStatus.Failed)
+            {
+                if (npcID == task.data.acceptNpcID && !this.npcTaskDic[npcID][NpcTaskStatus.Available].Contains(task))
+                {
+                    this.npcTaskDic[npcID][NpcTaskStatus.Available].Add(task);
+                }
+            }
         }
     }
     /// <summary>
@@ -173,10 +213,9 @@ public class TaskManager
         return NpcTaskStatus.None;
     }
 
-    public void ChangeTaskState(TaskItem task)
+    public void RefreshTaskState(NTaskInfo info)
     {
         this.npcTaskDic.Clear();
-        NTaskInfo info = task.npcInfo;
         TaskItem result = null;
         if(this.allTaskDic.ContainsKey(info.taskID))
         {
@@ -203,9 +242,14 @@ public class TaskManager
         }
 
     }
-    
-    private void ChangeKillTaskPrg(int entityId)
+
+    public void ChangeTaskPrg(int taskId, int prg)
     {
-        //SendMessage
+        if(allTaskDic.ContainsKey(taskId))
+        {
+            allTaskDic[taskId].npcInfo.prg = prg;
+        }
     }
-}
+    
+ }
+

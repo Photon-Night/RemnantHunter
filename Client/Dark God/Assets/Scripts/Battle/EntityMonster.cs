@@ -10,11 +10,6 @@ public class EntityMonster : EntityBase
     private float atkTimeCount = 0;
     private float rdCheckTime = 0;
 
-    public EntityMonster()
-    {
-        entityType = Message.EntityType.Monster;
-        rdCheckTime = Message.AICheckTimeSpace;
-    }
     public override void SetBattleProps(BattleProps props)
     {
         int lv = md.lv;
@@ -37,6 +32,19 @@ public class EntityMonster : EntityBase
     }
 
     bool runAI = true;
+
+    public EntityMonster(MonsterController mc, BattleProps bps, int entityId = 0) : base(mc, bps, entityId)
+    {
+        entityType = Message.EntityType.Monster;
+        rdCheckTime = Message.AICheckTimeSpace;
+    }
+
+    public void InitMonster(BattleManager bm, SkillManager skm, StateManager stm, MonsterData md)
+    {
+        base.InitEntity(bm, skm, stm);
+        this.md = md;
+    }
+
     public override void TickAILogic()
     {
         if(!runAI)

@@ -125,16 +125,9 @@ public class BattleManager : MonoBehaviour
             pierce = pd.critical,
         };
 
-        ep = new EntityPlayer
-        {
-            stateMgr = stateMgr,
-            skillMgr = skillMgr,
-            battleMgr = this,
-            Name = pd.name,
-        };
-        ep.SetController(pc);
-        ep.SetBattleProps(props);
-        ep.CurrentState = AniState.Idle;
+        ep = new EntityPlayer(pc, props);
+        ep.InitPlayer(this, skillMgr, stateMgr, pd.name);
+        
 
         //AudioService.Instance.AddAudio(player.name, pc.GetAudio());
     }
@@ -154,20 +147,13 @@ public class BattleManager : MonoBehaviour
                 go.transform.position = mData.mBornPos;
                 go.transform.localEulerAngles = mData.mBornRote;
 
-                EntityMonster em = new EntityMonster
-                {
-                    skillMgr = this.skillMgr,
-                    battleMgr = this,
-                    stateMgr = this.stateMgr
-                    
-                };
-
                 MonsterController mc = go.GetComponent<MonsterController>();
                 mc.Init();
-                em.SetController(mc);
-                em.md = mData;
-                em.SetBattleProps(cfg.bps);
-                em.Name = go.name;
+
+                EntityMonster em = new EntityMonster(mc, cfg.bps, cfg.ID);
+                em.InitMonster(this, skillMgr, stateMgr, mData);
+                
+
                 go.SetActive(false);
                 monstersDic.Add(go.name, em);
 
@@ -346,12 +332,13 @@ public class BattleManager : MonoBehaviour
         BattleSystem.Instance.SetHPUI(hp);
     }
 
-    public void SetRegiesterEventOnTargetDie(Action<int> action, bool isReg = true)
+    public void OnTargetDie(int targetId)
     {
-        if (isReg)
-            skillMgr.onTargetDie += action;
-        else
-            skillMgr.onTargetDie -= action;
+        if(targetId == 1002)
+        {
+            Debug.Log("kill boss");
+        }
+        BattleSystem.Instance.onTargetDie(targetId);
     }
 }
 

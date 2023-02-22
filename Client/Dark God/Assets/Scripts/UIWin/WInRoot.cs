@@ -34,7 +34,7 @@ public class WinRoot : UIRoot
         netSvc = null;
     }
 
-    protected bool GetWinState()
+    public bool GetWinState()
     {
         return gameObject.activeSelf;
     }

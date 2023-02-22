@@ -388,6 +388,161 @@ namespace GameServer
 
             return true;
         }
+
+        public bool InsertNewTaskInfo(int playerID, ref NTaskInfo info)
+        {
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(
+                    "Insert into task set playerId=@playerId," +
+                    "taskId=@taskId," +
+                    "npcId=@npcId," +
+                    "prg=@prg," +
+                    "status=@status", conn);
+                cmd.Parameters.AddWithValue("playerId", playerID);
+                cmd.Parameters.AddWithValue("taskId", info.taskID);
+                cmd.Parameters.AddWithValue("npcId", info.npcID);
+                cmd.Parameters.AddWithValue("prg", info.prg);
+                cmd.Parameters.AddWithValue("status", info.taskState);
+
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                PECommon.Log("Insert Player Task Data Error", LogType.Error);
+                return false;
+            }         
+        }
+
+        public bool UpdateTaskInfo(int playerID, NTaskInfo info)
+        {
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(
+                    "Update task set npcId=@npcId," +
+                    "prg=@prg," +
+                    "status=@status" +
+                    " where playerId = @playerId and taskId = @taskId", conn);
+                cmd.Parameters.AddWithValue("playerId", playerID);
+                cmd.Parameters.AddWithValue("taskId", info.taskID);
+                cmd.Parameters.AddWithValue("npcId", info.npcID);
+                cmd.Parameters.AddWithValue("prg", info.prg);
+                cmd.Parameters.AddWithValue("status", info.taskState);
+
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                PECommon.Log("Update Player Task Info Error", LogType.Error);
+                return false;
+            }
+        }
+
+        public bool DeleteTaskInfo(int playerID, int taskID)
+        {
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(
+                    "Delete from task where playerId = @playerId and taskId = @taskId", conn);
+                cmd.Parameters.AddWithValue("playerId", playerID);
+                cmd.Parameters.AddWithValue("taskId", taskID);                        
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                PECommon.Log("Delete Player Task Info Error", LogType.Error);
+                return false;
+            }
+        }
+
+        public bool FindTaskInfo(int playerID, int taskID)
+        {
+            MySqlDataReader reader = null;
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand("select * from task where playerId = @playerId and taskId = @taskId", conn);
+                cmd.Parameters.AddWithValue("playerId", playerID);
+                cmd.Parameters.AddWithValue("taskId", taskID);
+                reader = cmd.ExecuteReader();
+                
+                if(reader.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                
+                PECommon.Log("Get Player Task Info Error", LogType.Error);
+                return false;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+        public NTaskInfo GetPlayerTaskInfo(int playerID, int taskID)
+        {
+            MySqlDataReader reader = null;
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand("select * from task where playerId = @playerId and taskId = @taskId", conn);
+                cmd.Parameters.AddWithValue("playerId", playerID);
+                cmd.Parameters.AddWithValue("taskId", taskID);
+                reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    return new NTaskInfo
+                    {
+                        taskID = reader.GetInt32("taskId"),
+                        npcID = reader.GetInt32("npcId"),
+                        prg = reader.GetInt32("prg"),
+                        taskState = (PEProtocol.TaskStatus)reader.GetInt32("status"),
+                    };
+                }
+                return null;
+            }
+            catch
+            {
+                PECommon.Log("Get Player Task Info Error", LogType.Error);
+                return null;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+        public bool UpdatePlayerTaskPrg(int playerID, int taskID, int newPrg)
+        {
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(
+                    "Update task set prg=@prg where playerId = @playerId and taskId = @taskId", conn);
+                cmd.Parameters.AddWithValue("playerId", playerID);
+                cmd.Parameters.AddWithValue("taskId", taskID);
+                cmd.Parameters.AddWithValue("prg", newPrg);   
+
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                PECommon.Log("Update Player Task Prg Error", LogType.Error);
+                return false;
+            }
+        }
     }
 
 

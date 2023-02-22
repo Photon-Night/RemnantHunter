@@ -17,5 +17,38 @@
 		<coin>1000</coin>
 		<diomand>0</diomand>
 	</item>
-	<item/>
+	<item ID="10002">
+		<taskName>击杀Boss</taskName>
+		<taskType>1</taskType>
+		<preTaskID>-1</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>102</acceptNpcID>
+		<submitNpcID>103</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>2001</targetID>
+		<targetCount>1</targetCount>
+		<description>进入副本并击杀1只Boss</description>
+		<exp>100</exp>
+		<coin>1000</coin>
+		<diomand>0</diomand>
+	</item>
+	<item ID="10003">
+		<taskName>击杀怪物2</taskName>
+		<taskType>1</taskType>
+		<preTaskID>10001</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>102</acceptNpcID>
+		<submitNpcID>102</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>1001</targetID>
+		<targetCount>5</targetCount>
+		<description>进入副本并击杀5只铁甲战士</description>
+		<exp>200</exp>
+		<coin>2000</coin>
+		<diomand>0</diomand>
+	</item>
 </root>

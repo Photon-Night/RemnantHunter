@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class EntityPlayer : EntityBase
 {
-    public EntityPlayer()
+    public EntityPlayer(PlayerController pc, BattleProps bps) : base(pc, bps)
     {
         entityType = Message.EntityType.Player;
+    }
+
+    public void InitPlayer(BattleManager bm, SkillManager skm, StateManager stm, string name)
+    {
+        base.InitEntity(bm, skm, stm);
+        this.name = name;
+        currentState = AniState.Idle;
     }
     public override Vector2 GetInputDir()
     {

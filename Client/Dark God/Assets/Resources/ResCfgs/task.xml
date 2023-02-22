@@ -1,39 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<item ID="1">
-		<taskName>智者点拨</taskName>
-		<count>1</count>
-		<exp>1130</exp>
-		<coin>1280</coin>
+	<item ID="10001">
+		<taskName>击杀怪物</taskName>
+		<taskType>1</taskType>
+		<preTaskID>-1</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>102</acceptNpcID>
+		<submitNpcID>102</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>1001</targetID>
+		<targetCount>3</targetCount>
+		<description>进入副本并击杀3只铁甲战士</description>
+		<exp>100</exp>
+		<coin>1000</coin>
+		<diomand>0</diomand>
 	</item>
-	<item ID="2">
-		<taskName>副本战斗</taskName>
-		<count>3</count>
-		<exp>1200</exp>
-		<coin>1307</coin>
+	<item ID="10002">
+		<taskName>击杀Boss</taskName>
+		<taskType>1</taskType>
+		<preTaskID>-1</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>102</acceptNpcID>
+		<submitNpcID>103</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>1002</targetID>
+		<targetCount>1</targetCount>
+		<description>进入副本并击杀1只Boss</description>
+		<exp>100</exp>
+		<coin>1000</coin>
+		<diomand>0</diomand>
 	</item>
-	<item ID="3">
-		<taskName>强化升级</taskName>
-		<count>5</count>
-		<exp>1250</exp>
-		<coin>1312</coin>
-	</item>
-	<item ID="4">
-		<taskName>购买体力</taskName>
-		<count>2</count>
-		<exp>1340</exp>
-		<coin>1425</coin>
-	</item>
-	<item ID="5">
-		<taskName>铸造金币</taskName>
-		<count>5</count>
-		<exp>1420</exp>
-		<coin>1573</coin>
-	</item>
-	<item ID="6">
-		<taskName>能言善辩</taskName>
-		<count>3</count>
-		<exp>1560</exp>
-		<coin>1696</coin>
+	<item ID="10003">
+		<taskName>击杀怪物2</taskName>
+		<taskType>1</taskType>
+		<preTaskID>10001</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>102</acceptNpcID>
+		<submitNpcID>102</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>1001</targetID>
+		<targetCount>5</targetCount>
+		<description>进入副本并击杀5只铁甲战士</description>
+		<exp>200</exp>
+		<coin>2000</coin>
+		<diomand>0</diomand>
 	</item>
 </root>

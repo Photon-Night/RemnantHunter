@@ -104,6 +104,14 @@ public class NetService : MonoSingleton<NetService>
                 case ErrorCode.LackPower:
                     GameRoot.AddTips("体力不足");
                     break;
+
+                case ErrorCode.LackPreTask:
+                    GameRoot.AddTips("前置任务未完成");
+                    break;
+
+                case ErrorCode.LackTargetCount:
+                    GameRoot.AddTips("未达到任务要求");
+                    break;
             }
             return;
         }
@@ -156,6 +164,14 @@ public class NetService : MonoSingleton<NetService>
 
             case CMD.RspFBFightEnd:
                 BattleSystem.Instance.RspFBFightEnd(msg);
+                break;
+
+            case CMD.RspUpdateTaskInfo:
+                TaskSystem.Instance.RspUpdateTaskInfo(msg);
+                break;
+
+            case CMD.RspUpdateTaskPrg:
+                TaskSystem.Instance.RspUpdateTaskPrg(msg);
                 break;
         }
 

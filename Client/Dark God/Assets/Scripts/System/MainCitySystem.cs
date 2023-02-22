@@ -37,7 +37,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     public void EnterMainCity()
     {
         MapCfg mapData = resSvc.GetMapCfgData(Message.MainCityMapID);
-
+        mainCityWin.SetBtnTalkActive(false);
         resSvc.LoadSceneAsync(mapData.sceneName, () =>
         {
             PECommon.Log("Enter MainCity");

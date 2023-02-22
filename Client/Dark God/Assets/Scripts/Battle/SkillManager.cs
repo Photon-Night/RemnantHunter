@@ -9,7 +9,7 @@ public class SkillManager : MonoBehaviour
     TimerService timer;
     AudioService audioSvc;
 
-    public System.Action<int> onTargetDie;
+    
     public void InitManager()
     {
         resSvc = ResService.Instance;
@@ -129,6 +129,8 @@ public class SkillManager : MonoBehaviour
             target.HP = 0;
             target.SetHurt(dmgSum);
             target.Die();
+
+            target.battleMgr.OnTargetDie(target.EntityId);
             if (target.entityType == Message.EntityType.Monster)
             {
                 target.battleMgr.RemoveMonster(target.Name);               

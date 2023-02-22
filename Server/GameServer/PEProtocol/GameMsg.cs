@@ -28,6 +28,10 @@ namespace PEProtocol
         public RspCheckConnection rspCheckConnection;
         public ReqFBFightEnd reqFBFightEnd;
         public RspFBFightEnd rspFBFightEnd;
+        public ReqUpdateTaskPrg reqUpdateTaskPrg;
+        public RspUpdateTaskPrg rspUpdateTaskPrg;
+        public ReqUpdateTaskInfo reqUpdateTaskInfo;
+        public RspUpdateTaskInfo rspUpdateTaskInfo;
     }
 
     public class ServerCfg
@@ -206,6 +210,41 @@ namespace PEProtocol
     }
     #endregion
 
+    #region 任务相关
+
+    [Serializable]
+    public class ReqUpdateTaskInfo
+    {
+        public int taskId;
+        public int prg;
+        public TaskStatus newStatus;
+    }
+
+    [Serializable]
+    public class RspUpdateTaskInfo
+    {
+        public NTaskInfo info;
+        public int coin = 0;
+        public int exp = 0;
+        public int lv = 0;
+    }
+
+    [Serializable]
+    public class ReqUpdateTaskPrg
+    {
+        public int taskId;
+        public int count;
+    }
+
+    [Serializable]
+    public class RspUpdateTaskPrg
+    {
+        public int taskId;
+        public int prg;
+    }
+
+    #endregion
+
     [System.Serializable]
     public class PlayerData
     {
@@ -281,6 +320,12 @@ namespace PEProtocol
 
         ReqCheckConnection = 401,
         RspCheckConnection = 402,
+
+        ReqUpdateTaskInfo = 501,
+        RspUpdateTaskInfo = 502,
+
+        ReqUpdateTaskPrg = 503,
+        RspUpdateTaskPrg = 504,
     }
 
     public enum ErrorCode
@@ -300,6 +345,9 @@ namespace PEProtocol
         ClientDataError,
 
         LackPower,
+
+        LackTargetCount,
+        LackPreTask,
     }
 
 

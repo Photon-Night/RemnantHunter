@@ -10,6 +10,8 @@ public class BattleSystem : SystemRoot<BattleSystem>
     public BattleEndWin battleEndWin;
     public BattleManager bm;
 
+    public System.Action<int> onTargetDie;
+
     private int fid = 0;
     private double startTime;
     public override void InitSystem()
@@ -128,9 +130,5 @@ public class BattleSystem : SystemRoot<BattleSystem>
         SetBattleEndWinState(FBEndType.Win);
     }
 
-    public void SetRegiesterEventOnTargetDie(System.Action<int> action, bool isReg = true)
-    {
-        bm.SetRegiesterEventOnTargetDie(action, isReg);
-    }
 }
 

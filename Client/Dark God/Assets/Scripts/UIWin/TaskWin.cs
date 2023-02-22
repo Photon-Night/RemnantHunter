@@ -72,16 +72,18 @@ public class TaskWin : WinRoot
 
     public void Refresh()
     {
-        if (currentNpcId != -1 && currentStatus != NpcTaskStatus.None)
-            taskList = TaskSystem.Instance.GetTaskList(currentNpcId, currentStatus);
-        else
-            return;
-
         for (int i = 0; i < taskItemContent.childCount; i++)
         {
             Destroy(taskItemContent.GetChild(i).gameObject);
         }
 
+        if (currentNpcId != -1 && currentStatus != NpcTaskStatus.None)
+            taskList = TaskSystem.Instance.GetTaskList(currentNpcId, currentStatus);
+        else
+            return;
+        if (taskList == null)
+            return;
+        
         for(int i = 0; i < taskList.Count; i++)
         {
             GameObject taskGo = resSvc.LoadPrefab(PathDefine.TaskItem);
@@ -90,6 +92,7 @@ public class TaskWin : WinRoot
             TaskUIItem item = taskGo.GetComponent<TaskUIItem>();
             item.InitItem(taskList[i]);
 
+            TaskItem task = taskList[i];
             if(currentStatus == NpcTaskStatus.Available)
             {
                 SetActive(item.txtPrg, false);
@@ -97,9 +100,9 @@ public class TaskWin : WinRoot
                 SetActive(item.imgPrgBg, false);
                 SetActive(item.btnTake.gameObject);
                 item.btnTake.onClick.AddListener(() =>
-                {
-                    //设置任务管理器
-                    
+                {       
+                    audioSvc.PlayUIAudio(Message.UIClickBtn);
+                    TaskSystem.Instance.ChangeTaskStatus(task, TaskStatus.InProgress);
                 });
             }
             else if(currentStatus == NpcTaskStatus.Complete)
@@ -107,7 +110,8 @@ public class TaskWin : WinRoot
                 SetActive(item.btnFinish.gameObject);
                 item.btnFinish.onClick.AddListener(() =>
                 {
-                    
+                    audioSvc.PlayUIAudio(Message.UIClickBtn);
+                    TaskSystem.Instance.ChangeTaskStatus(task, TaskStatus.Finished);
                 });
             }
             else if(currentStatus == NpcTaskStatus.Incomplete)
@@ -115,7 +119,8 @@ public class TaskWin : WinRoot
                 SetActive(item.btnAbondon.gameObject);
                 item.btnAbondon.onClick.AddListener(() =>
                 {
-                    
+                    audioSvc.PlayUIAudio(Message.UIClickBtn);
+                    TaskSystem.Instance.ChangeTaskStatus(task, TaskStatus.Failed);
                 });
             }
         }

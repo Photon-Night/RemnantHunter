@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class EntityBase
 {
-    public StateManager stateMgr;
     protected EntityController controller;
-    public SkillManager skillMgr;
     public BattleManager battleMgr;
+    public SkillManager skillMgr;
+    public StateManager stateMgr;
     protected string name;
 
     public Queue<int> comboQue = new Queue<int>();
@@ -24,6 +24,8 @@ public class EntityBase
     public List<int> skillActionCBLst = new List<int>();
     public List<int> skillMoveCBLst = new List<int>();
     public int skillEndCBIndex = -1;
+
+    public readonly int EntityId;
     public string Name
     {
         get
@@ -77,6 +79,25 @@ public class EntityBase
             currentState = value;
         }
     }
+    public EntityBase()
+    {
+
+    }
+    public EntityBase(EntityController ec, BattleProps bps, int entityID = 0)
+    {
+        this.controller = ec;
+        this.props = bps;
+        this.EntityId = entityID;
+        name = ec.gameObject.name;
+        hp = bps.hp;
+    }
+
+    public void InitEntity(BattleManager bm, SkillManager skm, StateManager stm)
+    {
+        battleMgr = bm;
+        skillMgr = skm;
+        stateMgr = stm;
+    }
 
     public void SetController(EntityController controller)
     {
@@ -85,6 +106,7 @@ public class EntityBase
 
     public void SetActive(bool isActive = true)
     {
+        if(controller != null)
         controller.gameObject.SetActive(isActive);
     }
     public AnimationClip GetAnimationClip(params string[] mask)

@@ -82,6 +82,12 @@ namespace GameServer
                 case CMD.ReqFBFightEnd:
                     MissionSys.Instance.ReqFBFightEnd(pack);
                     break;
+                case CMD.ReqUpdateTaskPrg:
+                    TaskSys.Instance.ReqUpdateTaskPrg(pack);
+                    break;
+                case CMD.ReqUpdateTaskInfo:
+                    TaskSys.Instance.ReqUpdateTaskInfo(pack);
+                    break;
 
             }
 

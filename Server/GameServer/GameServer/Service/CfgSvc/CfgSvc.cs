@@ -12,7 +12,7 @@ namespace GameServer
     {
         private Dictionary<int, GuideCfg> guideTaskDic = new Dictionary<int, GuideCfg>();
         private Dictionary<int, Dictionary<int, StrongCfg>> strongDic = new Dictionary<int, Dictionary<int, StrongCfg>>();
-        private Dictionary<int, TaskCfg> taskDic = new Dictionary<int, TaskCfg>();
+        private Dictionary<int, TaskDefine> taskDic = new Dictionary<int, TaskDefine>();
         public void Init()
         {
             PECommon.Log("CfgService Loading");
@@ -160,7 +160,7 @@ namespace GameServer
         {
 
             XmlDocument doc = new XmlDocument();
-            doc.Load(@"D:\UnityProject\Dark God\Dark-God\Client\Dark God\Assets\Resources\ResCfgs\task.xml");
+            doc.Load(@"D:\UnityProject\Dark God\Dark-God\Client\Dark God\Assets\Resources\ResCfgs\task1.xml");
             if (doc == null)
             {
                 PECommon.Log("Task cfg is not exist");
@@ -177,36 +177,70 @@ namespace GameServer
                 }
 
                 int id = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
-                TaskCfg task = new TaskCfg
-                { ID = id };
+                TaskDefine tf = new TaskDefine
+                {
+                    ID = id,
+                };
 
-                foreach (XmlElement e in ele)
+                foreach (XmlElement e in nodeLst[i].ChildNodes)
                 {
                     switch (e.Name)
                     {
-                        case "taskName":
-                            task.taskName = e.InnerText;
+                       
+                        case "preTaskID":
+                            tf.preTaskID = int.Parse(e.InnerText);
                             break;
-                        case "count":
-                            task.count = int.Parse(e.InnerText);
+                        case "isAutoGetNextTask":
+                            tf.isAutoGetNextTask = int.Parse(e.InnerText) == 0 ? false : true;
                             break;
+                        case "acceptNpcID":
+                            tf.acceptNpcID = int.Parse(e.InnerText);
+                            break;
+                        case "submitNpcID":
+                            tf.submitNpcID = int.Parse(e.InnerText);
+                            break;
+                        case "accTalkID":
+                            tf.accTalkID = int.Parse(e.InnerText);
+                            break;
+                        
+                        case "limitLevel":
+                            tf.limitLevel = int.Parse(e.InnerText);
+                            break;                     
+                        case "targetCount":
+                            tf.targetCount = int.Parse(e.InnerText);
+                            break;               
+                    
                         case "exp":
-                            task.exp = int.Parse(e.InnerText);
+                            tf.exp = int.Parse(e.InnerText);
                             break;
                         case "coin":
-                            task.coin = int.Parse(e.InnerText);
+                            tf.coin = int.Parse(e.InnerText);
+                            break;
+                        case "diomand":
+                            tf.diomand = int.Parse(e.InnerText);
                             break;
                     }
                 }
 
-                taskDic.Add(id, task);
+                taskDic.Add(id, tf);
             }
 
             PECommon.Log("Load Task Data " + taskDic.Count);
         }
         public TaskCfg GetTaskCfgData(int id)
         {
-            TaskCfg data = null;
+            TaskDefine data = null;
+            if (taskDic.TryGetValue(id, out data))
+            {
+                return null;
+            }
+
+            return null;
+        }
+
+        public TaskDefine GetTaskData(int id)
+        {
+            TaskDefine data = null;
             if (taskDic.TryGetValue(id, out data))
             {
                 return data;
@@ -286,16 +320,16 @@ namespace GameServer
 
 }
 
-public class BaseData<T>
+public class BaseData
 {
     public int ID;
 }
-public class GuideCfg : BaseData<GuideCfg>
+public class GuideCfg : BaseData
 {
     public int coin;
     public int exp;
 }
-public class StrongCfg : BaseData<StrongCfg>
+public class StrongCfg : BaseData
 {
     public int pos;
     public int starLv;
@@ -306,19 +340,19 @@ public class StrongCfg : BaseData<StrongCfg>
     public int coin;
     public int crystal;
 }
-public class TaskRewardData : BaseData<TaskRewardData>
+public class TaskRewardData : BaseData
 {
     public int prgs;
     public bool taked;
 }
-public class TaskCfg : BaseData<TaskCfg>
+public class TaskCfg : BaseData
 {
     public string taskName;
     public int count;
     public int coin;
     public int exp;
 }
-public class MapCfg : BaseData<MapCfg>
+public class MapCfg : BaseData
 {
     public int power;
     public int coin;
@@ -326,7 +360,7 @@ public class MapCfg : BaseData<MapCfg>
     public int crystal;
 }
 
-public class TaskDefine : BaseData<TaskDefine>
+public class TaskDefine : BaseData
 {
     public int preTaskID;
     public bool isAutoGetNextTask;

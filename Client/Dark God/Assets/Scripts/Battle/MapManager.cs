@@ -32,7 +32,6 @@ public class MapManager : MonoBehaviour
     {
         waveIndex += 1;
         triggerIndex += 1;
-        Debug.Log(triggerIndex);
         if (triggerIndex == TirggerArr.Length)
         {
             return true;
