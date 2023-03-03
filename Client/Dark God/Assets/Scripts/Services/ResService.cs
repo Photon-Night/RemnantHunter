@@ -22,6 +22,7 @@ public class ResService : MonoSingleton<ResService>
         InitSkillActionCfg(PathDefine.SkillActionCfg);
         InitNPCCfg(PathDefine.NPCCfg);
         InitTaskData(PathDefine.TaskCfg);
+        InitTalkCfg(PathDefine.TalkCfg);
     }
 
     public void ReSetSkillCfgData()
@@ -457,6 +458,117 @@ public class ResService : MonoSingleton<ResService>
             return null;
         }
     }
+    #endregion
+
+    #region TalkData
+
+    private Dictionary<int, List<TalkCfg>> talkDic = new Dictionary<int, List<TalkCfg>>();
+    private Dictionary<int, TalkCfg> npcTalkRootDic = new Dictionary<int, TalkCfg>();
+    private void InitTalkCfg(string path)
+    {
+        TextAsset xml = Resources.Load<TextAsset>(path);
+        if(xml == null)
+        {
+            PECommon.Log("xml file:" + path + "is not existed", PEProtocol.LogType.Error);
+        }
+        else
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml.text);
+            XmlNodeList nodeLst = doc.SelectSingleNode("root").ChildNodes;
+
+            for(int i = 0; i < nodeLst.Count; i++)
+            {
+                XmlElement ele = nodeLst[i] as XmlElement;
+                if(ele.GetAttributeNode("ID") == null)
+                {
+                    continue;
+                }
+
+                int id = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
+                TalkCfg tc = new TalkCfg
+                {
+                    ID = id,
+                };
+
+                foreach (XmlElement e in ele)
+                {
+                    switch (e.InnerText)
+                    {
+                        case "index":
+                            tc.index = int.Parse(e.InnerText);
+                            break;
+                        case "entityID":
+                            tc.entityID = int.Parse(e.InnerText);
+                            break;
+                        case "dialogArr":
+                            tc.dialogArr = e.InnerText.Split('#');
+                            break;
+                        case "type":
+                            tc.type = (TalkType)int.Parse(e.InnerText);
+                            break;
+                        case "selectLst":
+                            string[] selectArr = e.InnerText.Split('|');
+                            for(int j = 0; j < selectArr.Length; j++)
+                            {
+                                tc.selectLst[j] = int.Parse(selectArr[j]);
+                            }
+                            break;
+                        case "nextTalkID":
+                            tc.nextTalkID = int.Parse(e.InnerText);
+                            break;
+                        case "nextIndex":
+                            tc.nextIndex = int.Parse(e.InnerText);
+                            break;
+                        case "isRoot":
+                            int res = int.Parse(e.InnerText);
+                            tc.isRoot = res == 1 ? true : false;
+                            break;
+                    }
+
+                }
+
+                if(!talkDic.ContainsKey(tc.ID))
+                {
+                    talkDic[tc.ID] = new List<TalkCfg>();
+                }
+
+                talkDic[tc.ID].Add(tc);
+
+                if(tc.isRoot)
+                {
+                    npcTalkRootDic[tc.entityID] = tc;
+                }
+            }
+        }
+    }
+
+    public TalkCfg GetNpcTalkRootData(int npcID)
+    {
+        TalkCfg data = null;
+        if(npcTalkRootDic.TryGetValue(npcID, out data))
+        {
+            return data;
+        }
+
+        return null;
+    }
+
+    public TalkCfg GetTalkData(int talkID, int index)
+    {
+        if(talkDic.ContainsKey(talkID))
+        {
+            if(talkDic[talkID].Count > index)
+            {
+                return talkDic[talkID][index];
+            }
+        }
+
+        return null;
+    }
+
+
+
     #endregion
 
     #region TaskData

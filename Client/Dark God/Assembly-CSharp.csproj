@@ -104,7 +104,7 @@
     <Compile Include="Assets\Scripts\Battle\BattleManager.cs" />
     <Compile Include="Assets\Scripts\System\MissionSystem.cs" />
     <Compile Include="Assets\Scripts\NPC\NPCManager.cs" />
-    <Compile Include="Assets\Scripts\UIWin\GuideWin.cs" />
+    <Compile Include="Assets\Scripts\UIWin\TalkWin.cs" />
     <Compile Include="Assets\Scripts\Common\Singleton.cs" />
     <Compile Include="Assets\Scripts\GameRoot.cs" />
     <Compile Include="Assets\Scripts\Common\EntityController.cs" />
@@ -139,6 +139,7 @@
     <None Include="Assets\Resources\ResCfgs\skill.xml" />
     <None Include="Assets\Scripts\Net\PEProtocol.dll" />
     <None Include="Assets\Resources\ResCfgs\map.xml" />
+    <None Include="Assets\Resources\ResCfgs\talk.xml" />
     <None Include="Assets\Resources\ResCfgs\skillaction.xml" />
     <None Include="Assets\Resources\ResCfgs\guide.xml" />
     <None Include="Assets\Resources\log4net.xml" />

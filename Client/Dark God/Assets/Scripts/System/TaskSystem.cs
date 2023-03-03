@@ -11,6 +11,9 @@ public class TaskSystem : SystemRoot<TaskSystem>
     public override void InitSystem()
     {
         base.InitSystem();
+
+        PECommon.Log("TaskSystem Loading");
+
         taskMgr = new TaskManager();
         List<NTaskInfo> infos = null;
         if (GameRoot.Instance.PlayerData.taskDatas != null)

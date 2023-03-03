@@ -9,7 +9,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
 
     public MainCityWin mainCityWin;
     public InfoWin infoWin;
-    public GuideWin guideWin;
+    public TalkWin talkWin;
     public StrongWin strongWin;
     public ChatWin chatWin;
     public BuyWin buyWin;
@@ -89,14 +89,9 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     public void StartTalk()
     {
         pc.OnPlayerTalk();
-        GuideCfg data = resSvc.GetGuideCfgData(nearNPCData.ID);
         npcMgr.Interactive(nearNPCData.ID);
-        guideWin.SetTalkData(data);
-        guideWin.SetWinState();
-        guideWin.RegisterTalkOverEvent(() =>
-        {
-            pc.OnPlayerOverTalk();
-        });
+        talkWin.InitTalkData(nearNPCData.ID);
+        talkWin.SetWinState();      
     }
 
     public void OpenTaskWin()
@@ -104,9 +99,9 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
         TaskSystem.Instance.OpenNpcTaskWin(nearNPCData.ID);
     }
 
-    public void RegisterTalkOverEvent(System.Action func)
+    public void RegisterTalkOverEvent(System.Action<int> func)
     {
-        guideWin.RegisterTalkOverEvent(func);
+        //guideWin.RegisterTalkOverEvent(func);
     }
     #endregion
     #region LoadSetting

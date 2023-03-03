@@ -36,8 +36,9 @@ public class NPCManager : MonoBehaviour
             controller.InitNPC(data, pc);
             controller.RegisterEvnet(OnPlayerCloseNPC);
             npcDic.Add(npcID, controller);
-
         }
+
+        
     }
 
     public void Interactive(int npcID)

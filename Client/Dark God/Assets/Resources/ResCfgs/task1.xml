@@ -7,8 +7,8 @@
 		<isAutoGetNextTask>0</isAutoGetNextTask>
 		<acceptNpcID>102</acceptNpcID>
 		<submitNpcID>102</submitNpcID>
-		<accTalkID>-1</accTalkID>
-		<subTalkID>-1</subTalkID>
+		<accTalkID>1002</accTalkID>
+		<subTalkID>1002</subTalkID>
 		<limitLevel>0</limitLevel>
 		<targetID>1001</targetID>
 		<targetCount>3</targetCount>

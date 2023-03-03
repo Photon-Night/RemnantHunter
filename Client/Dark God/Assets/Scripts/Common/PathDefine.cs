@@ -15,6 +15,7 @@ public class PathDefine
     public const string MonsterCfg = "ResCfgs/monster";
     public const string SkillActionCfg = "ResCfgs/skillaction";
     public const string NPCCfg = "ResCfgs/npc";
+    public const string TalkCfg = "ResCfgs/talk";
 
     public const string AssissnCityPlayerPrefab = "PrefabPlayer/AssassinCity";
     public const string AssissnBattlePlayerPrefab = "PrefabPlayer/Assassin";
@@ -50,5 +51,6 @@ public class PathDefine
 
     public const string TaskItem = "PrefabUI/TaskItem";
     public const string HpUIItem = "PrefabUI/HpUIItem";
+    public const string BtnOption = "PrefabUI/btnOption";
 
 }

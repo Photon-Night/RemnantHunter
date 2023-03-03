@@ -32,6 +32,20 @@ public class GuideCfg : BaseData
     public int exp;
 }
 
+public class TalkCfg : BaseData
+{
+    public int index;
+    public int entityID;
+    public TalkType type;
+    public int[] selectLst;
+    public int nextTalkID;
+    public int actID;
+    public string[] dialogArr;
+    public int nextIndex;
+    public bool isRoot;
+}
+
+
 public class StrongCfg : BaseData
 {
     public int pos;

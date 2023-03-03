@@ -120,3 +120,10 @@ public class Message
         Functional = 1,
     }
 }
+
+public enum TalkType
+{
+    None = 0,
+    Talk = 1,
+    Answer = 2,
+}
