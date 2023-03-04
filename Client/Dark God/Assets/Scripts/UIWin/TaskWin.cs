@@ -11,46 +11,67 @@ public class TaskWin : WinRoot
     public Toggle togInProgess;
     public Toggle toggleFinish;
 
-    private List<TaskRewardData> taskLst = new List<TaskRewardData>();
     private List<TaskItem> taskList;
-    private PlayerData pd = null;
+    private List<TaskItem> ownerTasks_InComplete = new List<TaskItem>();
+    private List<TaskItem> ownerTasks_Result = new List<TaskItem>();
+
     private int currentNpcId = -1;
     private NpcTaskStatus currentStatus = NpcTaskStatus.Available;
+    private bool isOwner = false;
 
     public void SetCurrentNpcId(int id)
     {
         currentNpcId = id;
     }
+
+    public void OpenOwnerTaskWin()
+    {
+        isOwner = true;
+        SetWinState();
+    }
     protected override void InitWin()
     {
         base.InitWin();
-        pd = GameRoot.Instance.PlayerData;
-        togAvaliable.onValueChanged.AddListener((isOn) =>
+        if(!isOwner)
         {
-            if (isOn)
+            SetActive(togAvaliable.gameObject);
+            SetActive(togInProgess.gameObject);
+            SetActive(toggleFinish.gameObject);
+
+            togAvaliable.onValueChanged.AddListener((isOn) =>
             {
-                ChangeNpcTaskType(1);
-            }
-        });
+                if (isOn)
+                {
+                    ChangeNpcTaskType(1);
+                }
+            });
 
-        togInProgess.onValueChanged.AddListener((isOn) =>
-        {
-            if(isOn)
-            ChangeNpcTaskType(2);
-        });
+            togInProgess.onValueChanged.AddListener((isOn) =>
+            {
+                if (isOn)
+                    ChangeNpcTaskType(2);
+            });
 
-        toggleFinish.onValueChanged.AddListener((isOn) =>
+            toggleFinish.onValueChanged.AddListener((isOn) =>
+            {
+                if (isOn)
+                    ChangeNpcTaskType(3);
+            });
+        }
+        else
         {
-            if(isOn)
-            ChangeNpcTaskType(3);
-        });
+            SetActive(togAvaliable.gameObject, false);
+            SetActive(togInProgess.gameObject, false);
+            SetActive(toggleFinish.gameObject, false);
+        }
+
+
         Refresh();
     }
 
     protected override void ClearWin()
     {
         base.ClearWin();
-
     }
 
     public void OpenWinByNpc(int id)
@@ -77,14 +98,41 @@ public class TaskWin : WinRoot
             Destroy(taskItemContent.GetChild(i).gameObject);
         }
 
-        if (currentNpcId != -1 && currentStatus != NpcTaskStatus.None)
-            taskList = TaskSystem.Instance.GetTaskList(currentNpcId, currentStatus);
+        if (isOwner)
+        {
+            ShowByOwner();
+        }
         else
-            return;
-        if (taskList == null)
-            return;
+        {
+            ShowByNpc();
+        }
         
-        for(int i = 0; i < taskList.Count; i++)
+    }
+
+    private void ShowByOwner()
+    {
+        var list = TaskSystem.Instance.GetOwnerTask();
+        if (list == null)
+            return;
+
+        ownerTasks_Result.Clear();
+        ownerTasks_InComplete.Clear();
+
+        for(int i = 0; i < list.Count; i++)
+        {
+            if(list[i].npcInfo.taskState == TaskStatus.Complated)
+            {
+                ownerTasks_Result.Add(list[i]);
+            }
+            else if(list[i].npcInfo.taskState == TaskStatus.InProgress)
+            {
+                ownerTasks_InComplete.Add(list[i]);
+            }
+        }
+        ownerTasks_Result.AddRange(ownerTasks_InComplete);
+        taskList = ownerTasks_Result;
+       
+        for (int i = 0; i < taskList.Count; i++)
         {
             GameObject taskGo = resSvc.LoadPrefab(PathDefine.TaskItem);
             taskGo.transform.SetParent(taskItemContent);
@@ -93,28 +141,16 @@ public class TaskWin : WinRoot
             item.InitItem(taskList[i]);
 
             TaskItem task = taskList[i];
-            if(currentStatus == NpcTaskStatus.Available)
-            {
-                SetActive(item.txtPrg, false);
-                SetActive(item.imgPrg, false);
-                SetActive(item.imgPrgBg, false);
-                SetActive(item.btnTake.gameObject);
-                item.btnTake.onClick.AddListener(() =>
-                {       
-                    audioSvc.PlayUIAudio(Message.UIClickBtn);
-                    TaskSystem.Instance.ChangeTaskStatus(task, TaskStatus.InProgress);
-                });
-            }
-            else if(currentStatus == NpcTaskStatus.Complete)
-            {
-                SetActive(item.btnFinish.gameObject);
+
+            if (task.npcInfo.taskState == TaskStatus.Complated)
+            {               
                 item.btnFinish.onClick.AddListener(() =>
                 {
                     audioSvc.PlayUIAudio(Message.UIClickBtn);
                     TaskSystem.Instance.ChangeTaskStatus(task, TaskStatus.Finished);
                 });
             }
-            else if(currentStatus == NpcTaskStatus.Incomplete)
+            else if (task.npcInfo.taskState == TaskStatus.InProgress)
             {
                 SetActive(item.btnAbondon.gameObject);
                 item.btnAbondon.onClick.AddListener(() =>
@@ -126,111 +162,62 @@ public class TaskWin : WinRoot
         }
     }
 
-    public void RefreshUI()
+    private void ShowByNpc()
     {
-        taskLst.Clear();
+        if (currentNpcId != -1 && currentStatus != NpcTaskStatus.None)
+            taskList = TaskSystem.Instance.GetTaskList(currentNpcId, currentStatus);
+        else
+            return;
+        if (taskList == null)
+            return;
 
-        List<TaskRewardData> todoLst = new List<TaskRewardData>();
-        List<TaskRewardData> doneLst = new List<TaskRewardData>();
-
-        for (int i = 0; i < pd.task.Length; i++)
+        for (int i = 0; i < taskList.Count; i++)
         {
-            string[] taskInfo = pd.task[i].Split('|');
+            GameObject taskGo = resSvc.LoadPrefab(PathDefine.TaskItem);
+            taskGo.transform.SetParent(taskItemContent);
 
-            TaskRewardData data = new TaskRewardData
+            TaskUIItem item = taskGo.GetComponent<TaskUIItem>();
+            item.InitItem(taskList[i]);
+
+            TaskItem task = taskList[i];
+            if (currentStatus == NpcTaskStatus.Available)
             {
-                ID = int.Parse(taskInfo[0]),
-                prgs = int.Parse(taskInfo[1]),
-                taked = taskInfo[2].Equals("1"),
-            };
-            if (data.taked)
-            {
-                doneLst.Add(data);
-            }
-            else
-            {
-                todoLst.Add(data);
-            }
-        }
-
-        for (int i = 0; i < taskItemContent.childCount; i++)
-        {
-            Destroy(taskItemContent.GetChild(i).gameObject);
-        }
-
-        taskLst.AddRange(todoLst);
-        taskLst.AddRange(doneLst);
-
-        for (int i = 0; i < taskLst.Count; i++)
-        {
-            GameObject go = resSvc.LoadPrefab(PathDefine.TaskItem);
-            go.transform.SetParent(taskItemContent);
-
-            TaskCfg data = resSvc.GetTaskCfgData(taskLst[i].ID);
-            Transform trans = go.transform;
-
-            SetText(GetTransform(trans, "txtName"), data.taskName);
-            SetText(GetTransform(trans, "txtExp"), "经验 " + data.exp);
-            SetText(GetTransform(trans, "txtCoin"), "金币 " + data.coin);
-            SetText(GetTransform(trans, "txtPrg"), taskLst[i].prgs + "/" + data.count);
-
-            Image prg = GetTransform(trans, "imgPrg").GetComponent<Image>();
-            prg.fillAmount = taskLst[i].prgs * 1f / data.count * 1f;
-
-            Button btnTake = GetTransform(trans, "btnTake").GetComponent<Button>();
-            btnTake.onClick.AddListener(() =>
-            {
-                OnClickTakeBtn(data.ID);
-            });
-
-            if(taskLst[i].taked)
-            {
-                btnTake.interactable = false;
-                SetActive(GetTransform(trans, "imgTaked"));
-            }
-            else
-            {
-                btnTake.enabled = true;
-                SetActive(GetTransform(trans, "imgTaked"), false);
-
-                if(taskLst[i].prgs == data.count)
+                SetActive(item.txtPrg, false);
+                SetActive(item.imgPrg, false);
+                SetActive(item.imgPrgBg, false);
+                SetActive(item.btnTake.gameObject);
+                item.btnTake.onClick.AddListener(() =>
                 {
-                    btnTake.interactable = true;
-                }
-                else
+                    audioSvc.PlayUIAudio(Message.UIClickBtn);
+                    TaskSystem.Instance.ChangeTaskStatus(task, TaskStatus.InProgress);
+                });
+            }
+            else if (currentStatus == NpcTaskStatus.Complete)
+            {
+                SetActive(item.btnFinish.gameObject);
+                item.btnFinish.onClick.AddListener(() =>
                 {
-                    btnTake.interactable = false;
-                }
+                    audioSvc.PlayUIAudio(Message.UIClickBtn);
+                    TaskSystem.Instance.ChangeTaskStatus(task, TaskStatus.Finished);
+                });
+            }
+            else if (currentStatus == NpcTaskStatus.Incomplete)
+            {
+                SetActive(item.btnAbondon.gameObject);
+                item.btnAbondon.onClick.AddListener(() =>
+                {
+                    audioSvc.PlayUIAudio(Message.UIClickBtn);
+                    TaskSystem.Instance.ChangeTaskStatus(task, TaskStatus.Failed);
+                });
             }
         }
-
     }
 
     public void OnClickCloseBtn()
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
-       
+        isOwner = false;
         this.SetWinState(false);
     }
 
-    private void OnClickTakeBtn(int id)
-    {
-        GameMsg msg = new GameMsg
-        {
-            cmd = (int)CMD.ReqTakeTaskReward
-        };
-
-        msg.reqTakeTaskReward = new ReqTakeTaskReward
-        {
-            rid = id,
-        };
-
-        netSvc.SendMessage(msg);
-
-        TaskCfg data = resSvc.GetTaskCfgData(id);
-
-        GameRoot.AddTips("获得奖励");
-        GameRoot.AddTips(Message.Color("金币 + " + data.coin, Message.ColorBlue));
-        GameRoot.AddTips(Message.Color("经验 + " + data.exp, Message.ColorBlue));
-    }
 }

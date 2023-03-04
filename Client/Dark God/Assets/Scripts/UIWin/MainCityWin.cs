@@ -107,6 +107,7 @@ public class MainCityWin : WinRoot
 
     public void OnClickTalkBtn()
     {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
         MainCitySystem.Instance.StartTalk();
         SetActive(btnTalk.gameObject, false);
     }
@@ -232,19 +233,13 @@ public class MainCityWin : WinRoot
         MainCitySystem.Instance.OpenBuyWin(Message.BuyPower);
     }
 
-    public void OnClickTaskBtn()
-    {
-        audioSvc.PlayUIAudio(Message.UIClickBtn);
-        //MainCitySystem.Instance.OpenTaskWin();
-    }
-
     public void OnClickMissionBtn()
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         MainCitySystem.Instance.OpenMissionWin();
     }
 
-    public void OnClickOpenTaskWinBtn()
+    public void OnClickTaskBtn()
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         MainCitySystem.Instance.OpenTaskWin();

@@ -23,6 +23,12 @@ public class TaskSystem : SystemRoot<TaskSystem>
         taskMgr.InitManager(infos);
 
         BattleSystem.Instance.onTargetDie += ChangeKillTaskPrg;
+        NPCManager.Instance.RegisterNPCEvent(NPCFunction.OpenTaskWin, OpenTaskWin);
+    }
+
+    private void OpenTaskWin(int npcID)
+    {
+        OpenNpcTaskWin(npcID);
     }
 
     public void SetRegisterEvent(System.Action<TaskItem> action, bool reg = true)
@@ -59,12 +65,7 @@ public class TaskSystem : SystemRoot<TaskSystem>
             GameRoot.Instance.SetPlayerDataByFinishTask(data);
             GameRoot.AddTips("½ð±Ò+" + taskData.coin);
             GameRoot.AddTips("¾­Ñé+" + taskData.exp);
-        }
-        else if(data.info.taskState == TaskStatus.InProgress)
-        {
-            TaskItem task = taskMgr.GetTaskItem(data.info.taskID);
-            taskMgr.AddPlayerTaskData(task);
-        }
+        }      
     }
 
     public void RspUpdateTaskPrg(GameMsg msg)
@@ -112,10 +113,20 @@ public class TaskSystem : SystemRoot<TaskSystem>
         return taskMgr.GetNpcTaskList(id, status);
     }
 
+    public List<TaskItem> GetOwnerTask()
+    {
+        return taskMgr.GetOwnerTaskLst();
+    }
+
     public void OpenNpcTaskWin(int npcId)
     {
         taskWin.SetCurrentNpcId(npcId);
         taskWin.SetWinState();
+    }
+
+    public void OpenOwnerTaskWin()
+    {
+        taskWin.OpenOwnerTaskWin();
     }
 
     private void ChangeKillTaskPrg(int entityId)

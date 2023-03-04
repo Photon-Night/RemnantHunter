@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPCManager : MonoBehaviour
+public class NPCManager : MonoSingleton<NPCManager>
 {
-    public delegate bool NPCHandler(NPCCfg npc);
+    public delegate void NPCHandler(int npcID);
     private ResService resSvc = null;
-    Dictionary<Message.NPCFunction, NPCHandler> npcEventDic = new Dictionary<Message.NPCFunction, NPCHandler>();
+    Dictionary<NPCFunction, NPCHandler> npcEventDic = new Dictionary<NPCFunction, NPCHandler>();
     Dictionary<int, NPCController> npcDic = new Dictionary<int, NPCController>();
-    public void RegisterNPCEvent(Message.NPCFunction func, NPCHandler action)
+    public void RegisterNPCEvent(NPCFunction func, NPCHandler action)
     {
         if(!npcEventDic.ContainsKey(func))
         {
@@ -55,5 +55,21 @@ public class NPCManager : MonoBehaviour
         MainCitySystem.Instance.OnPlayerCloseNPC(npc);
     }
 
-
+    public void InteractiveNpcFunction(NPCFunction type, int npcID)
+    {
+        if(npcEventDic.ContainsKey(type))
+        {
+            npcEventDic[type](npcID);
+        }
+    }
+}
+public enum NPCFunction
+{
+    None = 0,
+    OpenTaskWin = 1,
+}
+public enum NPCType
+{
+    None = 0,
+    Functional = 1,
 }

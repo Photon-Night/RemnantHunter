@@ -14,43 +14,35 @@ public class TalkWin : WinRoot
 
     public Transform optionContent;
 
-
-    private PlayerData pd;
-    private GuideCfg currentTaskData;
     private TalkCfg talkData;
     private string[] dialogArr;
     private int index;
-    private System.Action<int> OnTalkOverEvent;
+    private int npcID = -1;
+    
+    private List<GameObject> btnOptions = new List<GameObject>();
     protected override void InitWin()   
     {
         base.InitWin();
-        pd = GameRoot.Instance.PlayerData;
-        //currentTaskData = MainCitySystem.Instance.GetCurrentTaskData();
-        //dialogArr = currentTaskData.dilogArr.Split('#');
-        //index = 1;
+        talkData = resSvc.GetNpcTalkRootData(npcID);
+        string npcName = resSvc.GetNPCData(npcID).name;
+        SetText(txtName, npcName);
+        dialogArr = talkData.dialogArr;
         SetTalk();
-    }
-    public void SetTalkData(GuideCfg data)
-    {
-        currentTaskData = data;
-        dialogArr = currentTaskData.dilogArr.Split('#');
-        index = 1;
-    }
-    public void RegisterTalkOverEvent(System.Action<int> func)
-    {
-        OnTalkOverEvent = func;
     }
     private void SetTalk()
     {
         SetText(txtTalk, dialogArr[index]);
+        if (index == dialogArr.Length - 1 && talkData.selectLst != null)
+        {
+            SetActive(btnNextTalk.gameObject, false);
+            SetAnswer(talkData.ID, talkData.selectLst);
+        }
     }
 
     public void InitTalkData(int npcID)
     {
-        TalkCfg data = resSvc.GetNpcTalkRootData(npcID);
-        string npcName = resSvc.GetNPCData(data.entityID).name;
-        SetText(txtName, npcName);
-        dialogArr = talkData.dialogArr;
+        index = 0;
+        this.npcID = npcID;
     }
 
     private void SetNextTalkData(int talkID, int index)
@@ -63,11 +55,12 @@ public class TalkWin : WinRoot
     {
         if(optionContent.childCount != 0)
         {
-            for(int i = 0; i < optionContent.childCount; i++)
+            for(int i = 0; i < btnOptions.Count; i++)
             {
-                Transform go = optionContent.GetChild(i);
-                Destroy(go);
+                Destroy(btnOptions[i]);
             }
+
+            btnOptions.Clear();
         }
 
         for(int i = 0; i < ansLst.Length; i++)
@@ -77,49 +70,43 @@ public class TalkWin : WinRoot
             go.transform.SetParent(optionContent);
             int nextIndex = _data.nextIndex;
             int nextTalkID = _data.nextTalkID;
+
+            go.GetComponentInChildren<Text>().text = _data.dialogArr[0];
+
             go.GetComponent<Button>().onClick.AddListener(() =>
             {
                 audioSvc.PlayUIAudio(Message.UIClickBtn);
+
+                index = 0;
                 SetNextTalkData(nextTalkID, nextIndex);
-                SetTalk();
+
                 SetActive(optionContent, false);
+                SetActive(btnNextTalk.gameObject);
+
+                SetTalk();
             });
+
+            btnOptions.Add(go);
         }
+
+        SetActive(optionContent);
     }
 
     public void OnClickNextTalkBtn()
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         index += 1;
-        if(index == dialogArr.Length)
+
+        if (index == dialogArr.Length)
         {
-            index = 0;
-
-            if (talkData.selectLst.Length == 0)
-            {
-                switch (talkData.actID)
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        TaskSystem.Instance.OpenNpcTaskWin(talkData.entityID);
-                        break;
-
-                }
-
-                OnTalkOverEvent(currentTaskData.npcID);
-                SetWinState(false);
-            }
-            else
-            {
-                SetActive(btnNextTalk.gameObject, false);
-                SetAnswer(talkData.ID, talkData.selectLst);
-            }
-
+            NPCManager.Instance.InteractiveNpcFunction(talkData.actID, npcID);
+            MainCitySystem.Instance.OnPlayerOverTalk(npcID);
+            SetWinState(false);
         }
         else
-        SetTalk();
-
+        {
+            SetTalk();
+        }
     }
 }
 

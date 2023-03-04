@@ -39,7 +39,7 @@ public class TalkCfg : BaseData
     public TalkType type;
     public int[] selectLst;
     public int nextTalkID;
-    public int actID;
+    public NPCFunction actID;
     public string[] dialogArr;
     public int nextIndex;
     public bool isRoot;
@@ -121,8 +121,8 @@ public class NPCCfg : BaseData
     public string resPath;
     public Vector3 pos;
     public Vector3 rote;
-    public Message.NPCType type;
-    public Message.NPCFunction func;
+    public NPCType type;
+    public NPCFunction func;
 }
 
 

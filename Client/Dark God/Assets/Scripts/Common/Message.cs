@@ -109,16 +109,8 @@ public class Message
         Boss = 2,
     }
 
-    public enum NPCFunction
-    {
-        None = 0,
-        InvokeTaskWin = 1,
-    }
-    public enum NPCType
-    {
-        None = 0,
-        Functional = 1,
-    }
+   
+
 }
 
 public enum TalkType

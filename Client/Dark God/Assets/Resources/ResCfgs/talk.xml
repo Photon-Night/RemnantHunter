@@ -6,9 +6,9 @@
 		<dialogArr>你好#最近如何</dialogArr>
 		<type>0</type>
 		<selectLst>1|2</selectLst>
-		<nextTalkID>-1</nextTalkID>
+		<nextTalkID>0</nextTalkID>
 		<actID>0</actID>
-		<nextIndex>-1</nextIndex>
+		<nextIndex>0</nextIndex>
 		<isRoot>1</isRoot>
 	</item>
 	<item ID="100001">
@@ -37,9 +37,9 @@
 		<dialogArr>是嘛，继续加油</dialogArr>
 		<type>0</type>
 		<selectLst>4</selectLst>
-		<nextTalkID>-1</nextTalkID>
+		<nextTalkID>0</nextTalkID>
 		<actID>0</actID>
-		<nextIndex>-1</nextIndex>
+		<nextIndex>0</nextIndex>
 		<isRoot>0</isRoot>
 	</item>
 	<item ID="100001">
@@ -47,9 +47,9 @@
 		<entityID>0</entityID>
 		<dialogArr>谢谢将军</dialogArr>
 		<type>1</type>
-		<nextTalkID>-1</nextTalkID>
+		<nextTalkID>100001</nextTalkID>
 		<actID>0</actID>
-		<nextIndex>-1</nextIndex>
+		<nextIndex>5</nextIndex>
 		<isRoot>0</isRoot>
 	</item>
 	<item ID="100001">
@@ -57,9 +57,9 @@
 		<entityID>102</entityID>
 		<dialogArr>不用谢</dialogArr>
 		<type>0</type>
-		<nextTalkID>-1</nextTalkID>
+		<nextTalkID>0</nextTalkID>
 		<actID>0</actID>
-		<nextIndex>-1</nextIndex>
+		<nextIndex>0</nextIndex>
 		<isRoot>0</isRoot>
 	</item>
 	<item ID="100001">
@@ -67,9 +67,162 @@
 		<entityID>102</entityID>
 		<dialogArr>这是今天的委托</dialogArr>
 		<type>0</type>
-		<nextTalkID>-1</nextTalkID>
+		<nextTalkID>0</nextTalkID>
 		<actID>1</actID>
-		<nextIndex>-1</nextIndex>
+		<nextIndex>0</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100002">
+		<index>0</index>
+		<entityID>101</entityID>
+		<dialogArr>你好#有什么需要帮助的吗</dialogArr>
+		<type>0</type>
+		<selectLst>1|2</selectLst>
+		<nextTalkID>0</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>0</nextIndex>
+		<isRoot>1</isRoot>
+	</item>
+	<item ID="100002">
+		<index>1</index>
+		<entityID>0</entityID>
+		<dialogArr>今天有什么委托吗</dialogArr>
+		<type>1</type>
+		<nextTalkID>100002</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>3</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100002">
+		<index>2</index>
+		<entityID>0</entityID>
+		<dialogArr>没有</dialogArr>
+		<type>1</type>
+		<nextTalkID>100002</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>4</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100002">
+		<index>3</index>
+		<entityID>101</entityID>
+		<dialogArr>这是今天的委托</dialogArr>
+		<type>0</type>
+		<nextTalkID>0</nextTalkID>
+		<actID>1</actID>
+		<nextIndex>0</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100002">
+		<index>4</index>
+		<entityID>101</entityID>
+		<dialogArr>一路顺风</dialogArr>
+		<type>0</type>
+		<nextTalkID>0</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>0</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100003">
+		<index>0</index>
+		<entityID>103</entityID>
+		<dialogArr>你好#有什么需要帮助的吗</dialogArr>
+		<type>0</type>
+		<selectLst>1|2</selectLst>
+		<nextTalkID>0</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>0</nextIndex>
+		<isRoot>1</isRoot>
+	</item>
+	<item ID="100003">
+		<index>1</index>
+		<entityID>0</entityID>
+		<dialogArr>今天有什么委托吗</dialogArr>
+		<type>1</type>
+		<nextTalkID>100003</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>3</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100003">
+		<index>2</index>
+		<entityID>0</entityID>
+		<dialogArr>没有</dialogArr>
+		<type>1</type>
+		<nextTalkID>100003</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>4</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100003">
+		<index>3</index>
+		<entityID>103</entityID>
+		<dialogArr>这是今天的委托</dialogArr>
+		<type>0</type>
+		<nextTalkID>0</nextTalkID>
+		<actID>1</actID>
+		<nextIndex>0</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100003">
+		<index>4</index>
+		<entityID>103</entityID>
+		<dialogArr>一路顺风</dialogArr>
+		<type>0</type>
+		<nextTalkID>0</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>0</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100004">
+		<index>0</index>
+		<entityID>104</entityID>
+		<dialogArr>你好#有什么需要帮助的吗</dialogArr>
+		<type>0</type>
+		<selectLst>1|2</selectLst>
+		<nextTalkID>0</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>0</nextIndex>
+		<isRoot>1</isRoot>
+	</item>
+	<item ID="100004">
+		<index>1</index>
+		<entityID>0</entityID>
+		<dialogArr>今天有什么委托吗</dialogArr>
+		<type>1</type>
+		<nextTalkID>100004</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>3</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100004">
+		<index>2</index>
+		<entityID>0</entityID>
+		<dialogArr>没有</dialogArr>
+		<type>1</type>
+		<nextTalkID>100004</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>4</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100004">
+		<index>3</index>
+		<entityID>104</entityID>
+		<dialogArr>这是今天的委托</dialogArr>
+		<type>0</type>
+		<nextTalkID>0</nextTalkID>
+		<actID>1</actID>
+		<nextIndex>0</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100004">
+		<index>4</index>
+		<entityID>104</entityID>
+		<dialogArr>一路顺风</dialogArr>
+		<type>0</type>
+		<nextTalkID>0</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>0</nextIndex>
 		<isRoot>0</isRoot>
 	</item>
 </root>

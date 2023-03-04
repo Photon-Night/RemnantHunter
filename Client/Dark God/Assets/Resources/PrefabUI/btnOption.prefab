@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 7494030185422319970}
   - component: {fileID: 7494030185422319971}
   - component: {fileID: 7494030185422319968}
+  - component: {fileID: 2765731593389084620}
   m_Layer: 5
   m_Name: btnOption
   m_TagString: Untagged
@@ -200,3 +201,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!111 &2765731593389084620
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7494030185422319982}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: d570f37f6d02a6f418fc96756745fcf2, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: d570f37f6d02a6f418fc96756745fcf2, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

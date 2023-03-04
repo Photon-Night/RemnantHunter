@@ -14,8 +14,8 @@ public class TaskManager
     /// npcÈÎÎñ×´Ì¬
     /// </summary>
     private Dictionary<int, Dictionary<NpcTaskStatus, List<TaskItem>>> npcTaskDic = new Dictionary<int, Dictionary<NpcTaskStatus, List<TaskItem>>>();
-    private Dictionary<TaskType, Dictionary<int, TaskItem>> playerTaskDic = new Dictionary<TaskType, Dictionary<int, TaskItem>>(); 
-
+    private Dictionary<TaskType, Dictionary<int, TaskItem>> ownerTaskDic = new Dictionary<TaskType, Dictionary<int, TaskItem>>();
+    private List<TaskItem> ownerTaskList = new List<TaskItem>();
     public System.Action<TaskItem> onTaskStatusChanged;
 
 
@@ -32,12 +32,17 @@ public class TaskManager
         return null;
     }
 
+    public List<TaskItem> GetOwnerTaskLst()
+    {
+        return ownerTaskList;
+    }
+
     public TaskItem GetPlayerTask(int taskId, TaskType type)
     {
-        if(playerTaskDic.ContainsKey(type))
+        if(ownerTaskDic.ContainsKey(type))
         {
             TaskItem item = null;
-            if(playerTaskDic[type].TryGetValue(taskId, out item))
+            if(ownerTaskDic[type].TryGetValue(taskId, out item))
             {
                 return item;
             }
@@ -87,15 +92,15 @@ public class TaskManager
 
     public void AddPlayerTaskData(TaskItem task)
     {
-        if(!playerTaskDic.ContainsKey(task.data.taskType))
+        if(!ownerTaskDic.ContainsKey(task.data.taskType))
         {
-            playerTaskDic[task.data.taskType] = new Dictionary<int, TaskItem>();
+            ownerTaskDic[task.data.taskType] = new Dictionary<int, TaskItem>();
         }
 
-        if(!playerTaskDic[task.data.taskType].ContainsKey(task.data.ID))
+        if(!ownerTaskDic[task.data.taskType].ContainsKey(task.data.ID))
         {
-            playerTaskDic[task.data.taskType][task.data.targetID] = task;
-            Debug.Log(task.data.taskName + " " + task.data.targetID);
+            ownerTaskDic[task.data.taskType][task.data.targetID] = task;
+            ownerTaskList.Add(task);
         }
     }
     /// <summary>
@@ -226,6 +231,16 @@ public class TaskManager
         {
             result = new TaskItem(info);
             this.allTaskDic[info.taskID] = result;
+        }
+
+        if(info.taskState == TaskStatus.InProgress)
+        {
+            AddPlayerTaskData(result);
+        }
+        else if(info.taskState == TaskStatus.Finished)
+        {
+            ownerTaskDic[result.data.taskType].Remove(info.taskID);
+            ownerTaskList.Remove(result);
         }
 
         CheckAvailableTask();

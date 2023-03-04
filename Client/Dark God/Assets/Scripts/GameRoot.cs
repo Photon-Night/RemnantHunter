@@ -28,6 +28,8 @@ public class GameRoot : MonoSingleton<GameRoot>
         MissionSystem.Instance.InitSystem();
         BattleSystem.Instance.InitSystem();
 
+        NPCManager.Instance.InitManager();
+
         LoginSystem.Instance.InitSystem();
         LoginSystem.Instance.OnLoginEnter();
 

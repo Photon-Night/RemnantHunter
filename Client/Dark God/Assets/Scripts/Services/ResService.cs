@@ -493,37 +493,53 @@ public class ResService : MonoSingleton<ResService>
 
                 foreach (XmlElement e in ele)
                 {
-                    switch (e.InnerText)
+                    switch (e.Name)
                     {
                         case "index":
                             tc.index = int.Parse(e.InnerText);
                             break;
+
                         case "entityID":
                             tc.entityID = int.Parse(e.InnerText);
                             break;
+
                         case "dialogArr":
                             tc.dialogArr = e.InnerText.Split('#');
                             break;
+
                         case "type":
                             tc.type = (TalkType)int.Parse(e.InnerText);
                             break;
+
                         case "selectLst":
                             string[] selectArr = e.InnerText.Split('|');
-                            for(int j = 0; j < selectArr.Length; j++)
+
+                            if (selectArr.Length != 0)
+                                tc.selectLst = new int[selectArr.Length];
+
+                            for (int j = 0; j < selectArr.Length; j++)
                             {
                                 tc.selectLst[j] = int.Parse(selectArr[j]);
                             }
                             break;
+
                         case "nextTalkID":
                             tc.nextTalkID = int.Parse(e.InnerText);
                             break;
+
+                        case "actID":
+                            tc.actID = (NPCFunction)int.Parse(e.InnerText);
+                            break;
+
                         case "nextIndex":
                             tc.nextIndex = int.Parse(e.InnerText);
                             break;
+
                         case "isRoot":
                             int res = int.Parse(e.InnerText);
                             tc.isRoot = res == 1 ? true : false;
                             break;
+
                     }
 
                 }
@@ -931,10 +947,10 @@ public class ResService : MonoSingleton<ResService>
                         nc.pos = new Vector3(float.Parse(posArr[0]), float.Parse(posArr[1]), float.Parse(posArr[2]));
                         break;
                     case "type":
-                        nc.type = (Message.NPCType)int.Parse(e.InnerText);
+                        nc.type = (NPCType)int.Parse(e.InnerText);
                         break;
                     case "function":
-                        nc.func = (Message.NPCFunction)int.Parse(e.InnerText);
+                        nc.func = (NPCFunction)int.Parse(e.InnerText);
                         break;
 
 
