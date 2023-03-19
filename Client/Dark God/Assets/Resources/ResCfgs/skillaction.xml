@@ -50,4 +50,14 @@
 		<radius>4.5</radius>
 		<angle>60</angle>
 	</item>
+	<item ID="1201">
+		<delayTime>333</delayTime>
+		<radius>2.5</radius>
+		<angle>60</angle>
+	</item>
+	<item ID="1202">
+		<delayTime>300</delayTime>
+		<radius>2.5</radius>
+		<angle>180</angle>
+	</item>
 </root>

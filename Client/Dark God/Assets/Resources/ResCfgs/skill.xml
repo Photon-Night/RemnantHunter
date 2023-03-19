@@ -7,6 +7,8 @@
 		<aniAction>1</aniAction>
 		<fx>dagger_skill1</fx>
 		<isCombo>0</isCombo>
+		<nextComboID>-1</nextComboID>
+		<transitionTime>-1</transitionTime>
 		<isCollide>0</isCollide>
 		<isBreak>0</isBreak>
 		<dmgType>1</dmgType>
@@ -21,6 +23,8 @@
 		<aniAction>2</aniAction>
 		<fx>dagger_skill2</fx>
 		<isCombo>0</isCombo>
+		<nextComboID>-1</nextComboID>
+		<transitionTime>-1</transitionTime>
 		<isCollide>0</isCollide>
 		<isBreak>0</isBreak>
 		<dmgType>2</dmgType>
@@ -35,6 +39,8 @@
 		<aniAction>3</aniAction>
 		<fx>dagger_skill3</fx>
 		<isCombo>0</isCombo>
+		<nextComboID>-1</nextComboID>
+		<transitionTime>-1</transitionTime>
 		<isCollide>0</isCollide>
 		<isBreak>0</isBreak>
 		<dmgType>2</dmgType>
@@ -49,6 +55,8 @@
 		<aniAction>11</aniAction>
 		<fx>dagger_atk1</fx>
 		<isCombo>1</isCombo>
+		<nextComboID>112</nextComboID>
+		<transitionTime>-1</transitionTime>
 		<isCollide>1</isCollide>
 		<isBreak>1</isBreak>
 		<dmgType>1</dmgType>
@@ -63,6 +71,8 @@
 		<aniAction>12</aniAction>
 		<fx>dagger_atk2</fx>
 		<isCombo>1</isCombo>
+		<nextComboID>113</nextComboID>
+		<transitionTime>-1</transitionTime>
 		<isCollide>1</isCollide>
 		<isBreak>1</isBreak>
 		<dmgType>1</dmgType>
@@ -77,6 +87,8 @@
 		<aniAction>13</aniAction>
 		<fx>dagger_atk3</fx>
 		<isCombo>1</isCombo>
+		<nextComboID>114</nextComboID>
+		<transitionTime>-1</transitionTime>
 		<isCollide>1</isCollide>
 		<isBreak>1</isBreak>
 		<dmgType>1</dmgType>
@@ -91,6 +103,8 @@
 		<aniAction>14</aniAction>
 		<fx>dagger_atk4</fx>
 		<isCombo>1</isCombo>
+		<nextComboID>115</nextComboID>
+		<transitionTime>-1</transitionTime>
 		<isCollide>1</isCollide>
 		<isBreak>1</isBreak>
 		<dmgType>1</dmgType>
@@ -105,6 +119,8 @@
 		<aniAction>15</aniAction>
 		<fx>dagger_atk5</fx>
 		<isCombo>1</isCombo>
+		<nextComboID>111</nextComboID>
+		<transitionTime>-1</transitionTime>
 		<isCollide>1</isCollide>
 		<isBreak>1</isBreak>
 		<dmgType>1</dmgType>
@@ -118,6 +134,8 @@
 		<skillTime>800</skillTime>
 		<aniAction>11</aniAction>
 		<isCombo>0</isCombo>
+		<nextComboID>-1</nextComboID>
+		<transitionTime>-1</transitionTime>
 		<isCollide>1</isCollide>
 		<isBreak>1</isBreak>
 		<dmgType>1</dmgType>
@@ -130,10 +148,109 @@
 		<skillTime>800</skillTime>
 		<aniAction>11</aniAction>
 		<isCombo>0</isCombo>
+		<nextComboID>-1</nextComboID>
+		<transitionTime>-1</transitionTime>
 		<isCollide>1</isCollide>
 		<isBreak>0</isBreak>
 		<dmgType>2</dmgType>
 		<skillActionLst>2211</skillActionLst>
 		<skillDamageLst>65</skillDamageLst>
+	</item>
+	<item ID="401">
+		<skillName>连击1</skillName>
+		<cdTime>0</cdTime>
+		<skillTime>500</skillTime>
+		<aniAction>11</aniAction>
+		<isCombo>1</isCombo>
+		<nextComboID>402</nextComboID>
+		<transitionTime>628</transitionTime>
+		<isCollide>1</isCollide>
+		<isBreak>1</isBreak>
+		<dmgType>1</dmgType>
+		<skillMoveLst>2001</skillMoveLst>
+		<skillActionLst>1201</skillActionLst>
+		<skillDamageLst>18</skillDamageLst>
+	</item>
+	<item ID="402">
+		<skillName>连击2</skillName>
+		<cdTime>0</cdTime>
+		<skillTime>520</skillTime>
+		<aniAction>12</aniAction>
+		<isCombo>1</isCombo>
+		<nextComboID>403</nextComboID>
+		<transitionTime>709</transitionTime>
+		<isCollide>1</isCollide>
+		<isBreak>1</isBreak>
+		<dmgType>1</dmgType>
+		<skillMoveLst>2002</skillMoveLst>
+		<skillDamageLst>21</skillDamageLst>
+	</item>
+	<item ID="403">
+		<skillName>连击3</skillName>
+		<cdTime>0</cdTime>
+		<skillTime>590</skillTime>
+		<aniAction>13</aniAction>
+		<isCombo>1</isCombo>
+		<nextComboID>404</nextComboID>
+		<transitionTime>540</transitionTime>
+		<isCollide>1</isCollide>
+		<isBreak>1</isBreak>
+		<dmgType>1</dmgType>
+		<skillMoveLst>2003</skillMoveLst>
+		<skillDamageLst>23</skillDamageLst>
+	</item>
+	<item ID="404">
+		<skillName>连击4</skillName>
+		<cdTime>0</cdTime>
+		<skillTime>670</skillTime>
+		<aniAction>14</aniAction>
+		<isCombo>1</isCombo>
+		<nextComboID>405</nextComboID>
+		<transitionTime>1189</transitionTime>
+		<isCollide>1</isCollide>
+		<isBreak>1</isBreak>
+		<dmgType>1</dmgType>
+		<skillMoveLst>2004</skillMoveLst>
+		<skillDamageLst>27</skillDamageLst>
+	</item>
+	<item ID="405">
+		<skillName>连击5</skillName>
+		<cdTime>0</cdTime>
+		<skillTime>840</skillTime>
+		<aniAction>15</aniAction>
+		<isCombo>1</isCombo>
+		<nextComboID>401</nextComboID>
+		<transitionTime>-1</transitionTime>
+		<isCollide>1</isCollide>
+		<isBreak>1</isBreak>
+		<dmgType>1</dmgType>
+		<skillMoveLst>2005</skillMoveLst>
+		<skillDamageLst>34</skillDamageLst>
+	</item>
+	<item ID="501">
+		<skillName>普攻1</skillName>
+		<cdTime>0</cdTime>
+		<skillTime>840</skillTime>
+		<aniAction>11</aniAction>
+		<isCombo>1</isCombo>
+		<nextComboID>502</nextComboID>
+		<isCollide>1</isCollide>
+		<isBreak>1</isBreak>
+		<dmgType>1</dmgType>
+		<skillActionLst>1201</skillActionLst>
+		<skillDamageLst>26</skillDamageLst>
+	</item>
+	<item ID="502">
+		<skillName>普攻2</skillName>
+		<cdTime>0</cdTime>
+		<skillTime>840</skillTime>
+		<aniAction>12</aniAction>
+		<isCombo>1</isCombo>
+		<nextComboID>501</nextComboID>
+		<isCollide>1</isCollide>
+		<isBreak>1</isBreak>
+		<dmgType>1</dmgType>
+		<skillActionLst>1202</skillActionLst>
+		<skillDamageLst>36</skillDamageLst>
 	</item>
 </root>

@@ -4,8 +4,10 @@ using System.Xml;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using PEProtocol;
+using Game.Common;
+using UnityEngine.Timeline;
 
-public class ResService : MonoSingleton<ResService>
+public class ResService : MonoSingleton<ResService>, IService
 {
     public void ServiceInit()
     {
@@ -14,15 +16,14 @@ public class ResService : MonoSingleton<ResService>
         InitRDNameCfg(PathDefine.RDNameCfg);
         InitMonsterCfg(PathDefine.MonsterCfg);
         InitMapCfg(PathDefine.MapCfg);
-        InitGuideCfg(PathDefine.GuideCfg);
         InitStrongCfg(PathDefine.StrongCfg);
-        InitTaskCfg(PathDefine.TaskCfg);
         InitSkillCfg(PathDefine.SkillCfg);
         InitSkillMoveCfg(PathDefine.SkillMoveCfg);
         InitSkillActionCfg(PathDefine.SkillActionCfg);
         InitNPCCfg(PathDefine.NPCCfg);
-        InitTaskData(PathDefine.TaskCfg);
+        InitTaskCfg(PathDefine.TaskCfg);
         InitTalkCfg(PathDefine.TalkCfg);
+        InitGroupCfg(PathDefine.GroupCfg);
     }
 
     public void ReSetSkillCfgData()
@@ -50,15 +51,15 @@ public class ResService : MonoSingleton<ResService>
             {
                 PrgCB = null;
                 sceneAsync = null;
-                GameRoot.Instance.loadingWin.SetWinState(false);
                 if (loaded != null)
                 {
                     loaded();
                 }
+
+                GameRoot.Instance.loadingWin.SetWinState(false);
             }
         };
     }
-
     private void Update()
     {
         if (PrgCB != null)
@@ -80,6 +81,24 @@ public class ResService : MonoSingleton<ResService>
             }
         }
         return au;
+    }
+    #endregion
+
+    #region Timeline
+    Dictionary<string, TimelineAsset> timelineDic = new Dictionary<string, TimelineAsset>();
+    public TimelineAsset GetTimelineAsset(string path, bool cache = true)
+    {
+        TimelineAsset tla = null;
+        if(!timelineDic.TryGetValue(name, out tla))
+        {
+            tla = Resources.Load<TimelineAsset>("ResTimeline/" + path);
+            if (tla != null && cache)
+            {
+                timelineDic.Add(path, tla);
+            }
+        }
+        return tla;
+        
     }
     #endregion
 
@@ -341,7 +360,7 @@ public class ResService : MonoSingleton<ResService>
 
                     case "atkDis":
                         data.bps.atkDis = float.Parse(e.InnerText);
-                        Debug.Log(data.bps.atkDis);
+                       
                         break;
 
                     case "hp":
@@ -393,74 +412,93 @@ public class ResService : MonoSingleton<ResService>
     }
     #endregion
 
-    #region GuideData
-    private Dictionary<int, GuideCfg> guideTaskDic = new Dictionary<int, GuideCfg>();
-    private void InitGuideCfg(string path)
+    #region Group
+    private Dictionary<int, GroupData> groupDic = new Dictionary<int, GroupData>();
+    private void InitGroupCfg(string path)
     {
         TextAsset xml = Resources.Load<TextAsset>(path);
-        if (xml == null)
+        if (xml != null)
         {
-            PECommon.Log("xml file:" + path + "is not existed", PEProtocol.LogType.Error);
+            PECommon.Log($"xml file {path} is not existed", PEProtocol.LogType.Error);
         }
         else
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml.text);
+
             XmlNodeList nodLst = doc.SelectSingleNode("root").ChildNodes;
-            for(int i = 0; i < nodLst.Count; i++)
+            for (int i = 0; i < nodLst.Count; i++)
             {
                 XmlElement ele = nodLst[i] as XmlElement;
-                if(ele.GetAttributeNode("ID") == null)
+                if (ele.GetAttributeNode("ID") == null)
                 {
                     continue;
                 }
 
                 int ID = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
-                GuideCfg gc = new GuideCfg()
-                { ID = ID };
-                foreach (XmlElement e  in ele)
+                GroupData gd = new GroupData()
+                {
+                    ID = ID,
+                    monsters = new List<MonsterData>(),
+                };
+                foreach (XmlElement e in ele)
                 {
                     switch (e.Name)
                     {
-                        case "npcID":
-                            gc.npcID = int.Parse(e.InnerText);
+                        case "pos":
+                            string[] posArr = e.InnerText.Split(',');
+                            gd.pos = new Vector3(float.Parse(posArr[0]),
+                                                 float.Parse(posArr[1]),
+                                                 float.Parse(posArr[2]));
                             break;
-                        case "dilogArr":
-                            gc.dilogArr = e.InnerText;
+                        case "normalRange":
+                            gd.normalRange = float.Parse(e.InnerText);
                             break;
-                        case "actID":
-                            gc.actID = int.Parse(e.InnerText);
+                        case "battleRange":
+                            gd.battleRange = float.Parse(e.InnerText);
                             break;
-                        case "coin":
-                            gc.coin = int.Parse(e.InnerText);
-                            break;
-                        case "exp":
-                            gc.exp = int.Parse(e.InnerText);
-                            break;
+                        case "monsters":
+                            {
+                                string[] monsterDataArr = e.InnerText.Split(',');
+                                MonsterCfg mc = GetMonsterCfg(int.Parse(monsterDataArr[0]));
+                                Vector3 pos = new Vector3(float.Parse(monsterDataArr[1]),
+                                                          float.Parse(monsterDataArr[2]),
+                                                          float.Parse(monsterDataArr[3]));
+                                float rotate = float.Parse(monsterDataArr[4]);
+                                int lv = int.Parse(monsterDataArr[5]);
+                                MonsterData md = new MonsterData()
+                                {
+                                    lv = lv,
+                                    mCfg = mc,
+                                    mBornPos = pos,
+                                    mBornRote = new Vector3(0, rotate, 0),
+                                };
+
+                                gd.monsters.Add(md);
+                                break;
+                            }
+                            
                     }
                 }
-                gc.ID = gc.npcID;
-                guideTaskDic.Add(gc.ID, gc);
+
+                groupDic.Add(ID, gd);
             }
         }
     }
-
-    public GuideCfg GetGuideCfgData(int id)
+    public GroupData GetGroupData(int id)
     {
-
-        GuideCfg data = null;
-        if(guideTaskDic.TryGetValue(id, out data))
+        GroupData data;
+        if(groupDic.TryGetValue(id, out data))
         {
             return data;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
+
     }
     #endregion
 
-    #region TalkData
+    #region Talk
 
     private Dictionary<int, List<TalkCfg>> talkDic = new Dictionary<int, List<TalkCfg>>();
     private Dictionary<int, TalkCfg> npcTalkRootDic = new Dictionary<int, TalkCfg>();
@@ -587,70 +625,7 @@ public class ResService : MonoSingleton<ResService>
 
     #endregion
 
-    #region TaskData
-    private Dictionary<int, TaskCfg> taskDic = new Dictionary<int, TaskCfg>();
-    private void InitTaskCfg(string path)
-    {
-        TextAsset xml = Resources.Load<TextAsset>(path);
-        if(xml == null)
-        {
-            PECommon.Log("xml file:" + path + "is not existed", PEProtocol.LogType.Error);
-        }
-        else
-        {
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xml.text);
-            XmlNodeList nodeLst = doc.SelectSingleNode("root").ChildNodes;
-
-            for (int i = 0; i < nodeLst.Count; i++)
-            {
-                XmlElement ele = nodeLst[i] as XmlElement;
-                if(ele.GetAttributeNode("ID") == null)
-                {
-                    continue;
-                }
-
-                int id = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
-                TaskCfg task = new TaskCfg
-                { ID = id};
-
-                foreach (XmlElement e in ele)
-                {
-                    switch (e.Name)
-                    {
-                        case "taskName":
-                            task.taskName = e.InnerText;
-                            break;
-                        case "count":
-                            task.count = int.Parse(e.InnerText);
-                            break;
-                        case "exp":
-                            task.exp = int.Parse(e.InnerText);
-                            break;
-                        case "coin":
-                            task.coin = int.Parse(e.InnerText);
-                            break;
-                    }
-                }
-
-                taskDic.Add(task.ID, task);
-            }
-        }
-    }
-
-    public TaskCfg GetTaskCfgData(int id)
-    {
-        TaskCfg data = null;
-        if(taskDic.TryGetValue(id, out data))
-        {
-            return data;
-        }
-        else
-        return null;
-    }
-    #endregion
-
-    #region StrongData
+    #region Strong
     private Dictionary<int, Dictionary<int, StrongCfg>> strongDic = new Dictionary<int, Dictionary<int, StrongCfg>>();
     private void InitStrongCfg(string path)
     {
@@ -763,6 +738,20 @@ public class ResService : MonoSingleton<ResService>
     }
     #endregion
 
+    #region SkillData
+    private Dictionary<int, SkillData> skillDataDic = new Dictionary<int, SkillData>();
+    public SkillData GetSkillDataByID(int id)
+    {
+        SkillData data = null;
+        if(skillDataDic.TryGetValue(id, out data))
+        {
+            return data;
+        }
+
+        return null;
+    }
+    #endregion
+
     #region Skill
     private Dictionary<int, SkillCfg> skillDic = new Dictionary<int, SkillCfg>();
     private void InitSkillCfg(string path)
@@ -826,6 +815,14 @@ public class ResService : MonoSingleton<ResService>
                             skill.isCombo = true;
                         break;
 
+                    case "nextComboID":
+                        skill.nextComboID = int.Parse(e.InnerText);
+                        break;
+
+                    case "transitionTime":
+                        skill.transitionTime = int.Parse(e.InnerText);
+                        break;
+
                     case "isCollide":
                         if (e.InnerText == "0")
                             skill.isCollide = true;
@@ -843,11 +840,11 @@ public class ResService : MonoSingleton<ResService>
                     case "dmgType":
                         if (e.InnerText.Equals("1"))
                         {
-                            skill.dmgType = Message.DmgType.AD;
+                            skill.dmgType = DmgType.AD;
                         }
                         else if(e.InnerText.Equals("2"))
                         {
-                            skill.dmgType = Message.DmgType.AP;
+                            skill.dmgType = DmgType.AP;
                         }
                         break;
 
@@ -975,7 +972,7 @@ public class ResService : MonoSingleton<ResService>
 
     #region Task
     private Dictionary<int, TaskDefine> taskcfgDic = new Dictionary<int, TaskDefine>();
-    private void InitTaskData(string path)
+    private void InitTaskCfg(string path)
     {
         TextAsset xml = Resources.Load<TextAsset>(path);
         if (!xml)

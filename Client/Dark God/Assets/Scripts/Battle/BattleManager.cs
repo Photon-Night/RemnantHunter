@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using Game.Monster;
 
 public class BattleManager : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class BattleManager : MonoBehaviour
     AudioService audioSvc = null;
     TimerService timeSvc = null;
 
-    MapManager mapMgr = null;
+    //MapManager mapMgr = null;
     SkillManager skillMgr = null;
     StateManager stateMgr = null;
 
@@ -19,12 +19,15 @@ public class BattleManager : MonoBehaviour
     private MapCfg mapData;
 
     private Dictionary<string, EntityMonster> monstersDic = new Dictionary<string, EntityMonster>();
-
+    private List<MonsterGroup> groups;
+    private MonsterAIController monsterAI;
      void Update()
     {
-        foreach (var monster in monstersDic)
+        if (monsterAI != null) return;
+
+        foreach (var group in groups)
         {
-            monster.Value.TickAILogic();
+            monsterAI.LogicRoot(group);
         }
     }
 
@@ -46,8 +49,8 @@ public class BattleManager : MonoBehaviour
         {
             GameObject map = GameObject.FindGameObjectWithTag("MapRoot");
 
-            mapMgr = map.gameObject.GetComponent<MapManager>();
-            mapMgr.InitManager(this);
+            //mapMgr = map.gameObject.GetComponent<MapManager>();
+            //mapMgr.InitManager(this);
 
             map.transform.position = Vector3.zero;
             map.transform.localScale = Vector3.one;
@@ -56,7 +59,9 @@ public class BattleManager : MonoBehaviour
             Camera.main.transform.localEulerAngles = mapData.mainCamRote;
 
             LoadPlayer();
+            LoadGroup();
 
+            monsterAI = new MonsterAIController();
             ActiveCurrentBatchMonsters();
 
             audioSvc.PlayBGMusic(Message.BGHuangYe);
@@ -68,43 +73,12 @@ public class BattleManager : MonoBehaviour
         });
     }
 
-    public void RemoveMonster(string name)
-    {
-        EntityMonster _monster = null;
-        if(monstersDic.TryGetValue(name, out _monster))
-        {
-            monstersDic.Remove(name);
-            GameRoot.Instance.RemoveHpUIItem(name);
-        }
-        
-
-        if(monstersDic.Count == 0)
-        {
-            OnBattleOver();
-        }
-    }
-
-    private void OnBattleOver()
-    {
-        bool isExit = mapMgr.SetNextTrigger();
-        if(isExit)
-        {
-            StopBattle(true, ep.HP);
-        }
-    }
-
-    public void StopBattle(bool isWin, int restHP)
-    {
-        AudioService.Instance.StopBGAudio();
-        BattleSystem.Instance.EndBattle(isWin, restHP);
-    }
-
+    #region Loading Seting
     public void LoadPlayer()
     {
-        GameObject player = resSvc.LoadPrefab(PathDefine.AssissnBattlePlayerPrefab, true);
+        GameObject player = resSvc.LoadPrefab(PathDefine.DogKnight, true);
         player.transform.localPosition = mapData.playerBornPos;
         player.transform.localEulerAngles = mapData.playerBornRote;
-        player.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
 
         Camera.main.transform.position = mapData.mainCamPos;
         Camera.main.transform.localEulerAngles = mapData.mainCamRote;
@@ -127,49 +101,70 @@ public class BattleManager : MonoBehaviour
 
         ep = new EntityPlayer(pc, props);
         ep.InitPlayer(this, skillMgr, stateMgr, pd.name);
+
+    }
+
+    public void LoadGroup()
+    {
+        List<GroupData> groupLst = mapData.monsterGroups;
+        for (int i = 0; i < groupLst.Count; i++)
+        {
+            MonsterGroup group = new MonsterGroup();
+            group.InitGroup(groupLst[i], ep.GetTrans());
+            group.AddMonsters(LoadMonsterByGroup(groupLst[i].monsters));
+
+            groups.Add(group);
+        }      
+    }
+
+    private List<EntityMonster> LoadMonsterByGroup(List<MonsterData> monsters)
+    {
+        List<EntityMonster> entityMonsters = new List<EntityMonster>();
+        for(int i = 0; i < monsters.Count; i++)
+        {
+            MonsterData data = monsters[i];
+            MonsterCfg cfg = data.mCfg;
+            GameObject go = resSvc.LoadPrefab(cfg.resPath, true);
+            go.name = $"{cfg.mName}_{i}";
+            go.transform.position = data.mBornPos;
+            go.transform.localEulerAngles = data.mBornRote;
+
+            MonsterController mc = go.AddComponent<MonsterController>();
+            mc.Init();
+
+            EntityMonster em = new EntityMonster(mc, cfg.bps, cfg.ID);
+            em.InitMonster(this, skillMgr, stateMgr, data);
+
+            if (em.md.mCfg.mType == Message.MonsterType.Normal)
+                GameRoot.Instance.AddHpUIItem(go.name, em.Props.hp, mc.hpRoot);
+            else if (em.md.mCfg.mType == Message.MonsterType.Boss)
+                BattleSystem.Instance.SetMonsterHPState(true);
+
+            entityMonsters.Add(em);
+        }
+
+        return entityMonsters;
+    }
+    public void RemoveMonster(string name)
+    {
+        EntityMonster _monster = null;
+        if(monstersDic.TryGetValue(name, out _monster))
+        {
+            monstersDic.Remove(name);
+            GameRoot.Instance.RemoveHpUIItem(name);
+        }
         
 
-        //AudioService.Instance.AddAudio(player.name, pc.GetAudio());
-    }
-
-    public void LoadMonsterByWaveID(int waveIndex)
-    {
-        List<MonsterData> monsterLst = mapData.monsterLst;
-
-        for(int i = 0; i < monsterLst.Count; i++)
+        if(monstersDic.Count == 0)
         {
-            if(monsterLst[i].mWave == waveIndex)
-            {
-                MonsterData mData = monsterLst[i];
-                MonsterCfg cfg = mData.mCfg;
-                GameObject go = resSvc.LoadPrefab(cfg.resPath, true);
-                go.name = cfg.mName + "_" + waveIndex + "_" + i;
-                go.transform.position = mData.mBornPos;
-                go.transform.localEulerAngles = mData.mBornRote;
-
-                MonsterController mc = go.GetComponent<MonsterController>();
-                mc.Init();
-
-                EntityMonster em = new EntityMonster(mc, cfg.bps, cfg.ID);
-                em.InitMonster(this, skillMgr, stateMgr, mData);
-                
-
-                go.SetActive(false);
-                monstersDic.Add(go.name, em);
-
-                if (em.md.mCfg.mType == Message.MonsterType.Normal)
-                    GameRoot.Instance.AddHpUIItem(go.name, em.Props.hp, mc.hpRoot);
-                else if (em.md.mCfg.mType == Message.MonsterType.Boss)
-                    BattleSystem.Instance.SetMonsterHPState(true);
-            }
+            OnBattleOver();
         }
     }
-
     public void ActiveCurrentBatchMonsters()
     {
-        TimerService.Instance.AddTimeTask((int tid) => 
+        TimerService.Instance.AddTimeTask((int tid) =>
         {
-            foreach(var monster in monstersDic)
+            foreach (var monster in monstersDic)
             {
                 monster.Value.GetTrans().gameObject.SetActive(true);
                 monster.Value.Born();
@@ -181,110 +176,26 @@ public class BattleManager : MonoBehaviour
             }
         }, 500);
     }
+    #endregion
 
-    public void ReqReleaseSkill(int index)
+    #region Battle Setting
+    private void OnBattleOver()
     {
-        switch (index)
-        {
-            case 0:
-                ReleaseNormalAttack();
-                break;
-            case 1:
-                ReleaseSkill1();
-                break;
-            case 2:
-                ReleaseSkill2();
-                break;
-            case 3:
-                ReleaseSkill3();
-                break;
-        }
+        //bool isExit = mapMgr.SetNextTrigger();
+        //if(isExit)
+        //{
+        //    StopBattle(true, ep.HP);
+        //}
     }
 
-    public void SetMoveDir(Vector2 dir)
+    public void StopBattle(bool isWin, int restHP)
     {
-        if (ep.LockCtrl)
-        {
-            return;
-        }
-
-        if(dir != Vector2.zero)
-        {
-            ep.Move();
-            ep.SetDir(dir);
-        }
-        else
-        {
-            ep.Idle();
-            ep.SetDir(Vector2.zero);
-        }
+        AudioService.Instance.StopBGAudio();
+        BattleSystem.Instance.EndBattle(isWin, restHP);
     }
+    #endregion
 
-    private void ReleaseSkill1()
-    {
-        
-        ep.Attack(101);
-    }
-
-    private void ReleaseSkill2()
-    {
-        
-        ep.Attack(102);
-    }
-
-    private void ReleaseSkill3()
-    {
-        
-        ep.Attack(103);
-    }
-
-
-    private double lastAtkTime = 0;
-    private int[] comboArr = new int[] {111, 112, 113, 114, 115 };
-    private int comboIndex = 0;
-    private void ReleaseNormalAttack()
-    {
-        if(ep.CurrentState == AniState.Attack)
-        {
-            double currentTime = timeSvc.GetCurrentTime();
-            if(currentTime - lastAtkTime < Message.ComboSpace && lastAtkTime != 0)
-            {
-                if (comboIndex < comboArr.Length - 1)
-                {
-                    comboIndex += 1;
-                    ep.comboQue.Enqueue(comboArr[comboIndex]);
-                    lastAtkTime = timeSvc.GetCurrentTime();
-                }
-                else
-                {
-                    comboIndex = 0;
-                    lastAtkTime = 0;
-                }
-
-            }
-        }
-        else if(ep.CurrentState == AniState.Idle || ep.CurrentState == AniState.Move)
-        {
-            lastAtkTime = timeSvc.GetCurrentTime();
-            ep.Attack(111);
-        }
-    }
-
-    public void StopCombo()
-    {
-        comboIndex = 0;
-        lastAtkTime = 0;
-    }
-
-    public virtual void SetFX()
-    {
-
-    }
-
-    public Vector2 GetInputDir()
-    {
-        return BattleSystem.Instance.GetInputDir();
-    }
+    #region Action Interface
 
     public List<EntityMonster> GetMonsterLst()
     {
@@ -331,14 +242,46 @@ public class BattleManager : MonoBehaviour
     {
         BattleSystem.Instance.SetHPUI(hp);
     }
-
+    
     public void OnTargetDie(int targetId)
     {
-        if(targetId == 1002)
-        {
-            Debug.Log("kill boss");
-        }
         BattleSystem.Instance.onTargetDie(targetId);
     }
+
+    #endregion
+
+    public void SetMove(float ver, float hor)
+    {
+        ep?.SetMove(ver, hor);
+    }
+
+    public void SetNormalAttack()
+    {
+        ep?.SetAttack();
+    }
+
+    public void SetCombo()
+    {
+        ep?.SetCombo();
+    }
+
+    public void SetJump()
+    {
+        ep.SetJump();
+    }
+
+    public void SetRoll()
+    {
+        if(ep.SetRoll())
+        {
+
+        }
+    }
+
+    public void SetSprint(bool isSprint)
+    {
+        ep.SetSprint(isSprint);
+    }
+
 }
 

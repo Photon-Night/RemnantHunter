@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EntityMonster : EntityBase
 {
@@ -9,7 +10,17 @@ public class EntityMonster : EntityBase
     private float checkTimeCount = 0;
     private float atkTimeCount = 0;
     private float rdCheckTime = 0;
+    
+    public MonsterState CurMonsterState { get; private set; }
+    private NavMeshAgent agent;
 
+    public float attackRange_sqr;
+    public Vector3 bornPos; 
+    public bool IsBattle { get; set; }
+    public bool IsPatroller { get; private set; }
+    public bool InGroupRange { get; set; }
+    public bool RunAI { get; private set; }
+    public Vector3 patrolPos { get; private set; }
     public override void SetBattleProps(BattleProps props)
     {
         int lv = md.lv;
@@ -30,69 +41,22 @@ public class EntityMonster : EntityBase
         HP = Props.hp;
         
     }
-
-    bool runAI = true;
-
     public EntityMonster(MonsterController mc, BattleProps bps, int entityId = 0) : base(mc, bps, entityId)
     {
         entityType = Message.EntityType.Monster;
         rdCheckTime = Message.AICheckTimeSpace;
+        agent = mc.Agent;
     }
-
     public void InitMonster(BattleManager bm, SkillManager skm, StateManager stm, MonsterData md)
     {
         base.InitEntity(bm, skm, stm);
         this.md = md;
     }
-
-    public override void TickAILogic()
-    {
-        if(!runAI)
-        {
-            return;
-        }
-        if (currentState == AniState.Idle || currentState == AniState.Move)
-        {
-            checkTimeCount += Time.deltaTime;
-            if (checkTimeCount < rdCheckTime)
-            {
-                return;
-            }
-            else
-            {
-                Vector2 dir = GetClosedTarget();
-                if (!CheckRange())
-                {
-                    SetDir(dir);
-                    if(dir != Vector2.zero)
-                    Move();
-                }
-                else
-                {
-                    SetDir(Vector2.zero);
-                    atkTimeCount += checkTimeCount;
-                    if (atkTimeCount > Message.AIAtkTimeSpace)
-                    {
-                        SetAtkRotation(dir);
-                        Attack(md.mCfg.skillID);
-                        atkTimeCount = 0;
-                    }
-                    else
-                    {
-                        Idle();
-                    }
-                }
-                checkTimeCount = 0;
-                rdCheckTime = PETools.RdInt(1, 5) * 1f / 10;
-            }
-        }
-    }
-
     public override Vector2 GetClosedTarget()
     {
         player = battleMgr.ep;
 
-        if (player != null && player.CurrentState != AniState.Die)
+        if (player != null && player.CurrentAniState != AniState.Die)
         {
             Vector3 target = player.GetPos();
             Vector3 self = GetPos();
@@ -102,32 +66,9 @@ public class EntityMonster : EntityBase
         }
         else
         {
-            runAI = false;
+            RunAI = false;
             return Vector2.zero;
         }
-    }
-
-    private bool CheckRange()
-    {
-        player = battleMgr.ep;
-
-        if(player != null && player.CurrentState != AniState.Die)
-        {
-            Vector3 target = player.GetPos();
-            Vector3 self = GetPos();
-
-            float dis = Vector3.Distance(target, self);
-            if(dis <= md.mCfg.bps.atkDis)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-            
-        }
-        return false;
     }
 
     public override bool GetBreakState()
@@ -158,6 +99,53 @@ public class EntityMonster : EntityBase
             BattleSystem.Instance.SetBossHPVal(oldHp, newHp, Props.hp);
         }
     }
+
+    public override void MoveTo(Vector3 pos, bool immediately = false)
+    {
+        if(immediately)
+        {
+            controller.transform.position = pos;
+            return;
+        }
+        agent.SetDestination(pos);
+    }
+    public override void StopMove()
+    {
+        agent.SetDestination(GetPos());
+    }
+
+    public bool IsCloseToTarget(Vector3 target)
+    {
+        return GetDistanceToTarget_Sqr(target) < 0.5f;
+    }
+
+    public override void SetAttack()
+    {
+        int r = Random.Range(0, normalAttackLst.Count);
+        if(controller.SetNormalAttack(normalAttackLst[r].skillName))
+        {
+            
+        }
+    }
+
+    public override void SetDie()
+    {
+        base.SetDie();
+        CloseCollider();
+
+        timer.AddTimeTask((int id) =>
+        {
+            SetActive(false);
+        }, Message.DieAniLength);
+    }
 }
+
+public enum MonsterState
+{
+    None = 0,
+    Normal = 1,
+    Battle = 2,
+}
+
 
 

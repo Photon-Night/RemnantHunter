@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PEProtocol;
+using UnityEngine.Playables;
+using Game.Service;
 
 public class LoginSystem : SystemRoot<LoginSystem>
 {
     public LoginWin loginWin;
     public CreateWin createWin;
+
+    private System.Action<PlayableDirector> action = null;
     public override void InitSystem()
     {
         base.InitSystem();
@@ -15,13 +19,8 @@ public class LoginSystem : SystemRoot<LoginSystem>
 
     public void OnLoginEnter()
     {
-        resSvc.LoadSceneAsync(Message.SceneLogin, () =>
-        {
-            loginWin.SetWinState();
-            audioSvc.PlayBGMusic(Message.BGLogin);
-        });
-
-
+        audioSvc.PlayBGMusic(Message.BGLogin);
+        loginWin.SetWinState();
     }
 
     public void OnLoginRsp(GameMsg msg)
@@ -29,15 +28,25 @@ public class LoginSystem : SystemRoot<LoginSystem>
         GameRoot.AddTips("登入成功");
 
         GameRoot.Instance.SetPlayerData(msg.rspLogin);
-        if (msg.rspLogin.playerData.name == "")
+        action = (director) =>
         {
-            createWin.SetWinState();
-        }
-        else
-        {
-            MainCitySystem.Instance.EnterMainCity();
-        }
-        loginWin.SetWinState(false);
+            if (msg.rspLogin.playerData.name == "")
+            {
+                createWin.SetWinState();
+            }
+            else
+            {
+                MainCitySystem.Instance.EnterMainCity();
+            }
+            loginWin.SetWinState(false);
+            dreSvc.UnRegisterTimelineEvent(TimelineEventType.Stopped, action);
+        };
+        dreSvc.PlayTimeLine(Message.TimelineLogin);
+        dreSvc.RegisterTimelineEvent(TimelineEventType.Stopped, action);
+    }
+
+    private void ChangeScene(PlayableDirector director)
+    {
 
     }
 

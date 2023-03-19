@@ -10,6 +10,7 @@ public class LoginWin : WinRoot
     public InputField pasInput;
 
     public Button loginButton;
+    public Image cover;
 
     protected override void InitWin()
     {
@@ -27,9 +28,15 @@ public class LoginWin : WinRoot
         }
     }
 
+    protected override void ClearWin()
+    {
+        base.ClearWin();
+        SetActive(cover, false);
+    }
     public void ClickEnterBtn()
     {
         audioSvc.PlayUIAudio(Message.UILoginBtn);
+        SetActive(cover);
         string _acc = accInput.text;
         string _pas = pasInput.text;
 

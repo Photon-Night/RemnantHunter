@@ -242,7 +242,11 @@ public class TaskManager
             ownerTaskDic[result.data.taskType].Remove(info.taskID);
             ownerTaskList.Remove(result);
         }
-
+        else if(info.taskState == TaskStatus.Failed)
+        {
+            ownerTaskDic[result.data.taskType].Remove(info.taskID);
+            ownerTaskList.Remove(result);
+        }
         CheckAvailableTask();
 
         foreach (var item in allTaskDic)

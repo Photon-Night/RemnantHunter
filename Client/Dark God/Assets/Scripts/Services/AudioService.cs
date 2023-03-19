@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PEProtocol;
-public class AudioService : MonoSingleton<AudioService>
+using Game.Common;
+
+public class AudioService : MonoSingleton<AudioService>, IService
 {
     public AudioSource bgAudio;
     public AudioSource uiAudio;

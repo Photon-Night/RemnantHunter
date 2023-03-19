@@ -7,22 +7,17 @@ public class StateMove : IState
 {
     public void OnEnter(EntityBase entity, params object[] args)
     {
-        entity.CurrentState = AniState.Move;
-        
+        entity.CurrentAniState = AniState.Move;       
     }
 
     public void OnExit(EntityBase entity, params object[] args)
     {
-        
-    }
-
-    public void OnUpdate(EntityBase entity, params object[] args)
-    {
-        
+        entity.CurrentAniState = AniState.None;
     }
 
     public void Process(EntityBase entity, params object[] args)
     {
-        entity.SetBlend(Message.BlendWalk);
+        Vector3 pos = (Vector3)args[0];
+        entity.MoveTo(pos);
     }
 }

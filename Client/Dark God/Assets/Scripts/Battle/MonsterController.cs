@@ -1,27 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MonsterController : EntityController
 {
-    void Update()
+    public NavMeshAgent Agent { get; private set; }
+    private void Update()
     {
-        if(isMove)
-        {
-            SetDir();
-            SetMove();
-        }
+        canMove = anim.GetBool("canMove");
+    }
+    public override void Init()
+    {
+        base.Init();
+        Agent = GetComponent<NavMeshAgent>();
     }
 
-    private void SetDir()
+    public override bool SetNormalAttack(string animName)
     {
-        float angle = Vector2.SignedAngle(Dir, new Vector2(0, 1));
-        Vector3 eulerAngles = new Vector3(0, angle, 0);
-        this.transform.localEulerAngles = eulerAngles;
-    }
-    private void SetMove()
-    {       
-        cc.Move(transform.forward * Time.deltaTime * Message.MonsterMoveSpeed);
-        cc.Move(Vector3.down * Time.deltaTime * Message.MonsterMoveSpeed);
+        if (!canMove) return false;
+
+        anim.CrossFade(animName, .1f);
+        return true;
     }
 }

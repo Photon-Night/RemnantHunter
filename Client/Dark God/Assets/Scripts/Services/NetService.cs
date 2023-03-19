@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using PENet;
 using PEProtocol;
+using Game.Common;
 
-public class NetService : MonoSingleton<NetService>
+public class NetService : MonoSingleton<NetService>, IService
 {
 
     PESocket<ClientSession, GameMsg> client = null;
@@ -146,14 +147,6 @@ public class NetService : MonoSingleton<NetService>
                 MainCitySystem.Instance.PushPower(msg);
                 break;
 
-            //case CMD.RspTakeTaskReward:
-            //    MainCitySystem.Instance.RspTakeTaskReward(msg);
-            //    break;
-            //
-            //case CMD.PushTaskPrgs:
-            //    MainCitySystem.Instance.PushTaskPrgs(msg);
-            //    break;
-
             case CMD.RspMissionEnter:
                 MissionSystem.Instance.RspMissionEnter(msg);
                 break;
@@ -179,7 +172,7 @@ public class NetService : MonoSingleton<NetService>
 
     private void Update()
     {
-        if(msgQue.Count > 0)
+        if(msgQue != null && msgQue.Count > 0)
         {
             GameMsg msg = msgQue.Dequeue();
             ProcessMsg(msg);

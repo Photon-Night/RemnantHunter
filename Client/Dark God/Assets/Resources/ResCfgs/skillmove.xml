@@ -5,29 +5,29 @@
 		<moveTime>80</moveTime>
 		<moveDis>5.5</moveDis>
 	</item>
-	<item ID="1021">
-		<delayTime>100</delayTime>
-		<moveTime>40</moveTime>
-		<moveDis>1</moveDis>
+	<item ID="2001">
+		<delayTime>87</delayTime>
+		<moveTime>260</moveTime>
+		<moveDis>1.1</moveDis>
 	</item>
-	<item ID="1022">
-		<delayTime>800</delayTime>
-		<moveTime>40</moveTime>
-		<moveDis>2.5</moveDis>
+	<item ID="2002">
+		<delayTime>95</delayTime>
+		<moveTime>307</moveTime>
+		<moveDis>1.12</moveDis>
 	</item>
-	<item ID="1031">
-		<delayTime>0</delayTime>
-		<moveTime>800</moveTime>
-		<moveDis>3</moveDis>
+	<item ID="2003">
+		<delayTime>120</delayTime>
+		<moveTime>150</moveTime>
+		<moveDis>0.97</moveDis>
 	</item>
-	<item ID="1032">
+	<item ID="2004">
+		<delayTime>120</delayTime>
+		<moveTime>195</moveTime>
+		<moveDis>1.2</moveDis>
+	</item>
+	<item ID="2005">
 		<delayTime>200</delayTime>
-		<moveTime>200</moveTime>
-		<moveDis>-5</moveDis>
-	</item>
-	<item ID="1111">
-		<delayTime>0</delayTime>
-		<moveTime>200</moveTime>
-		<moveDis>1</moveDis>
+		<moveTime>300</moveTime>
+		<moveDis>1.1</moveDis>
 	</item>
 </root>

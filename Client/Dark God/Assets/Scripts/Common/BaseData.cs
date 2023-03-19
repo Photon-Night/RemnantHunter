@@ -17,6 +17,7 @@ public class MapCfg : BaseData
     public Vector3 playerBornPos;
     public Vector3 playerBornRote;
     public List<MonsterData> monsterLst;
+    public List<GroupData> monsterGroups;
     public List<int> npcs;
     public int exp;
     public int coin;
@@ -79,12 +80,23 @@ public class SkillCfg : BaseData
     public int aniAction;
     public string fx;
     public bool isCombo;
+    public int nextComboID;
+    public int transitionTime;
     public bool isCollide;
     public bool isBreak;
-    public Message.DmgType dmgType;
+    public DmgType dmgType;
     public int cdTime;
     public List<int> skillMoveLst;
     public List<int> skillActionLst;
+    public List<int> skillDamageLst;
+}
+
+public class SkillData : BaseData
+{
+    public string skillName;
+    public bool isCollide;
+    public bool isBreak;
+    public DmgType type;
     public List<int> skillDamageLst;
 }
 
@@ -125,6 +137,15 @@ public class NPCCfg : BaseData
     public NPCFunction func;
 }
 
+public class GroupData : BaseData
+{
+    public int mpaID;
+    public Vector3 pos;
+    public float normalRange;
+    public float battleRange;
+    public List<MonsterData> monsters;
+    public Vector3 patrolPos;
+}
 
 public class SkillActionCfg : BaseData
 {

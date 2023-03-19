@@ -67,24 +67,22 @@ public class BattleWin : WinRoot
         pointDis = Screen.height * 1f / Message.ScreenStandardHeight * Message.ScreenOPDis;
         defaultPos = imgDirBg.transform.position;
         SetActive(imgDirPoint, false);
-        RegisterTouchEvts();
+        //RegisterTouchEvts();
 
         skill1CDTime = resSvc.GetSkillData(101).cdTime/1000;
         skill2CDTime = resSvc.GetSkillData(102).cdTime / 1000;
         skill3CDTime = resSvc.GetSkillData(103).cdTime / 1000;
 
+        isSkill1CD = false;
+        isSkill2CD = false;
+        isSkill3CD = false;
 
         RefreshUI();
     }
 
     public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            BattleSystem.Instance.bm.ReqReleaseSkill(1);
-        }
-
-        SkillCD();
+    {      
+        //SkillCD();
 
         if(bossHPBar.gameObject.activeSelf)
         {
@@ -93,75 +91,75 @@ public class BattleWin : WinRoot
         }
     }
 
-    public void SkillCD()
-    {
-        if (isSkill1CD)
-        {
-            skill1FillCount += Time.deltaTime;
-            if (skill1FillCount >= skill1CDTime)
-            {
-                skill1FillCount = 0;
-                SetActive(imgSkill1CD, false);
-                isSkill1CD = false;
-            }
-            else
-            {
-                imgSkill1CD.fillAmount = 1 - skill1FillCount / skill1CDTime;
-            }
-
-            skill1NumCount += Time.deltaTime;
-            if (skill1NumCount >= 1)
-            {
-                skill1NumCount -= 1;
-                skill1CDNum -= 1;
-                SetText(txtSkill1CD, skill1CDNum);
-            }
-        }
-        if (isSkill2CD)
-        {
-            skill2FillCount += Time.deltaTime;
-            if (skill2FillCount >= skill2CDTime)
-            {
-                skill2FillCount = 0;
-                SetActive(imgSkill2CD, false);
-                isSkill2CD = false;
-            }
-            else
-            {
-                imgSkill2CD.fillAmount = 1 - skill2FillCount / skill2CDTime;
-            }
-
-            skill2NumCount += Time.deltaTime;
-            if (skill2NumCount >= 1)
-            {
-                skill2NumCount -= 1;
-                skill2CDNum -= 1;
-                SetText(txtSkill2CD, skill2CDNum);
-            }
-        }
-        if (isSkill3CD)
-        {
-            skill3FillCount += Time.deltaTime;
-            if (skill3FillCount >= skill3CDTime)
-            {
-                skill3FillCount = 0;
-                SetActive(imgSkill3CD, false);
-                isSkill3CD = false;
-            }
-            else
-            {
-                imgSkill3CD.fillAmount = 1 - skill3FillCount / skill3CDTime;
-            }
-
-            skill3NumCount += Time.deltaTime;
-            if (skill3NumCount >= 1)
-            {
-                skill3NumCount -= 1;
-                skill3CDNum -= 1;
-                SetText(txtSkill3CD, skill3CDNum);
-            }
-        }
-    }
+    //public void SkillCD()
+    //{
+    //    if (isSkill1CD)
+    //    {
+    //        skill1FillCount += Time.deltaTime;
+    //        if (skill1FillCount >= skill1CDTime)
+    //        {
+    //            skill1FillCount = 0;
+    //            SetActive(imgSkill1CD, false);
+    //            isSkill1CD = false;
+    //        }
+    //        else
+    //        {
+    //            imgSkill1CD.fillAmount = 1 - skill1FillCount / skill1CDTime;
+    //        }
+    //
+    //        skill1NumCount += Time.deltaTime;
+    //        if (skill1NumCount >= 1)
+    //        {
+    //            skill1NumCount -= 1;
+    //            skill1CDNum -= 1;
+    //            SetText(txtSkill1CD, skill1CDNum);
+    //        }
+    //    }
+    //    if (isSkill2CD)
+    //    {
+    //        skill2FillCount += Time.deltaTime;
+    //        if (skill2FillCount >= skill2CDTime)
+    //        {
+    //            skill2FillCount = 0;
+    //            SetActive(imgSkill2CD, false);
+    //            isSkill2CD = false;
+    //        }
+    //        else
+    //        {
+    //            imgSkill2CD.fillAmount = 1 - skill2FillCount / skill2CDTime;
+    //        }
+    //
+    //        skill2NumCount += Time.deltaTime;
+    //        if (skill2NumCount >= 1)
+    //        {
+    //            skill2NumCount -= 1;
+    //            skill2CDNum -= 1;
+    //            SetText(txtSkill2CD, skill2CDNum);
+    //        }
+    //    }
+    //    if (isSkill3CD)
+    //    {
+    //        skill3FillCount += Time.deltaTime;
+    //        if (skill3FillCount >= skill3CDTime)
+    //        {
+    //            skill3FillCount = 0;
+    //            SetActive(imgSkill3CD, false);
+    //            isSkill3CD = false;
+    //        }
+    //        else
+    //        {
+    //            imgSkill3CD.fillAmount = 1 - skill3FillCount / skill3CDTime;
+    //        }
+    //
+    //        skill3NumCount += Time.deltaTime;
+    //        if (skill3NumCount >= 1)
+    //        {
+    //            skill3NumCount -= 1;
+    //            skill3CDNum -= 1;
+    //            SetText(txtSkill3CD, skill3CDNum);
+    //        }
+    //    }
+    //}
     
 
     public void RefreshUI()
@@ -201,89 +199,45 @@ public class BattleWin : WinRoot
         }
     }
 
-    public void RegisterTouchEvts()
-    {
-        OnClickDown(imgTouch.gameObject, (PointerEventData evt) =>
-        {
-            startPos = evt.position;
-            SetActive(imgDirPoint);
-            imgDirBg.transform.position = evt.position;
-        });
-
-        OnClickUp(imgTouch.gameObject, (PointerEventData evt) =>
-        {
-            imgDirBg.transform.position = defaultPos;
-            SetActive(imgDirPoint, false);
-            imgDirPoint.transform.localPosition = Vector2.zero;
-            currentDir = Vector2.zero;
-            BattleSystem.Instance.SetMoveDir(currentDir);
-
-        });
-
-        OnDrag(imgTouch.gameObject, (PointerEventData evt) =>
-        {
-            Vector2 _dir = evt.position - startPos;
-            float len = _dir.magnitude;
-
-            if (len > pointDis)
-            {
-                Vector2 clampDir = Vector2.ClampMagnitude(_dir, Message.ScreenOPDis);
-                imgDirPoint.transform.position = startPos + clampDir;
-            }
-            else
-            {
-                imgDirPoint.transform.position = evt.position;
-            }
-
-            currentDir = _dir.normalized;
-
-            BattleSystem.Instance.SetMoveDir(currentDir);
-        });
-    }
-
-    public void OnlClickSkill1Btn()
-    {
-        if (!isSkill1CD && !BattleSystem.Instance.isPlayerAttack())
-        {
-            isSkill1CD = true;
-            SetActive(imgSkill1CD);
-            imgSkill1CD.fillAmount = 1;
-            skill1CDNum = (int)skill1CDTime;
-            SetText(txtSkill1CD, skill1CDNum);
-            BattleSystem.Instance.ReqReleaseSkill(1);
-        }
-    }
-
-    public void OnClickSkill2Btn()
-    {
-        if (!isSkill2CD && !BattleSystem.Instance.isPlayerAttack())
-        {
-            isSkill2CD = true;
-            SetActive(imgSkill2CD);
-            imgSkill2CD.fillAmount = 1;
-            skill2CDNum = (int)skill2CDTime;
-            SetText(txtSkill2CD, skill2CDNum);
-            BattleSystem.Instance.ReqReleaseSkill(2);
-        }
-    }
-
-    public void OnClickSkill3Btn()
-    {
-        if (!isSkill3CD && !BattleSystem.Instance.isPlayerAttack())
-        {
-            isSkill3CD = true;
-            SetActive(imgSkill3CD);
-            imgSkill3CD.fillAmount = 1;
-            skill3CDNum = (int)skill3CDTime;
-            SetText(txtSkill3CD, skill3CDNum);
-            BattleSystem.Instance.ReqReleaseSkill(3);
-        }
-    }
-
-    public void OnClickNormalAtk()
-    {
-        BattleSystem.Instance.ReqReleaseSkill(0);
-    }
+    //public void RegisterTouchEvts()
+    //{
+    //    OnClickDown(imgTouch.gameObject, (PointerEventData evt) =>
+    //    {
+    //        startPos = evt.position;
+    //        SetActive(imgDirPoint);
+    //        imgDirBg.transform.position = evt.position;
+    //    });
+    //
+    //    OnClickUp(imgTouch.gameObject, (PointerEventData evt) =>
+    //    {
+    //        imgDirBg.transform.position = defaultPos;
+    //        SetActive(imgDirPoint, false);
+    //        imgDirPoint.transform.localPosition = Vector2.zero;
+    //        currentDir = Vector2.zero;
+    //        BattleSystem.Instance.SetMoveDir(currentDir);
+    //
+    //    });
+    //
+    //    OnDrag(imgTouch.gameObject, (PointerEventData evt) =>
+    //    {
+    //        Vector2 _dir = evt.position - startPos;
+    //        float len = _dir.magnitude;
+    //
+    //        if (len > pointDis)
+    //        {
+    //            Vector2 clampDir = Vector2.ClampMagnitude(_dir, Message.ScreenOPDis);
+    //            imgDirPoint.transform.position = startPos + clampDir;
+    //        }
+    //        else
+    //        {
+    //            imgDirPoint.transform.position = evt.position;
+    //        }
+    //
+    //        currentDir = _dir.normalized;
+    //
+    //        BattleSystem.Instance.SetMoveDir(currentDir);
+    //    });
+    //}
 
     public void OnClickResetSkillDataBtn()
     {

@@ -7,38 +7,15 @@ public class StateIdle : IState
 {
     public void OnEnter(EntityBase entity, params object[] args)
     {
-
-        entity.CurrentState = AniState.Idle;
-        
-      
-        
+        entity.CurrentAniState = AniState.Idle;
     }
-
     public void OnExit(EntityBase entity, params object[] args)
     {
-        
+        entity.CurrentAniState = AniState.None;
     }
-
-    public void OnUpdate(EntityBase entity, params object[] args)
-    {
-        
-    }
-
     public void Process(EntityBase entity, params object[] args)
     {
-        if (entity.nextCombo != 0)
-        {
-            entity.Attack(entity.nextCombo);
-        }
-        else
-        {
-            if (entity.GetInputDir() != Vector2.zero)
-            {
-                entity.Move();
-                entity.SetDir(entity.GetInputDir());
-            }
-            else
-                entity.SetBlend(Message.BlendIdle);
-        }
+        entity.SetIdle();
+        
     }
 }

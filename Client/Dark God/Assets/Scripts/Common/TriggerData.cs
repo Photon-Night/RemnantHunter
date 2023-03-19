@@ -13,7 +13,7 @@ public class TriggerData : MonoBehaviour
         {
             if(mapMgr != null)
             {
-                mapMgr.TriggerMonsterBorn(this, waveIndex);
+                //mapMgr.TriggerMonsterBorn(this, waveIndex);
             }
         }
     }

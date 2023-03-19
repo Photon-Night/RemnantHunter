@@ -15,6 +15,9 @@ public class Message
     public const string BGMMainCity = "bgMainCity";
     public const string BGHuangYe = "bgHuangYe";
 
+    //Timeline
+    public const string TimelineLogin = "Login";
+
     //UIAudio
     public const string UIClickBtn = "uiClickBtn";
     public const string UILoginBtn = "uiLoginBtn";
@@ -24,6 +27,10 @@ public class Message
     public const string PlayerHit = "assassin_Hit";
     public const string FBLose = "fblose";
     public const string FBWin = "fbwin";
+    public const string Hit1 = "Hit_1";
+    public const string Hit2 = "Hit_2";
+    public const string SwordWave_Heavy = "SwordWave_4";
+    public const string SwordWave_Normal = "SwordWave_2";
 
     //ScreenStandardWidthAndHeight
     public const int ScreenStandardWidth = 1920;
@@ -32,7 +39,7 @@ public class Message
     //ҡ�˵�ҡ����Χ
     public const int ScreenOPDis = 90;
 
-    public const int PlayerMoveSpeed = 8;
+    public const int PlayerMoveSpeed = 5;
     public const int MonsterMoveSpeed = 3;
 
     public const float AccelerSpeed = 7f;
@@ -82,12 +89,7 @@ public class Message
         return result;
     }
 
-    public enum DmgType
-    {
-        None = 0, 
-        AD = 1,
-        AP = 2,
-    }
+   
 
     public enum EntityType
     {
@@ -118,4 +120,17 @@ public enum TalkType
     None = 0,
     Talk = 1,
     Answer = 2,
+}
+
+public enum AttackType
+{
+    None = 0,
+    Heavy = 1,
+    Normal = 2,
+}
+public enum DmgType
+{
+    None = 0,
+    AD = 1,
+    AP = 2,
 }

@@ -27,18 +27,17 @@ public class NPCManager : MonoSingleton<NPCManager>
 
     public void LoadNPC(ref List<int> npcs, PlayerController pc)
     {
+
         foreach (var npcID in npcs)
         {
             NPCCfg data = resSvc.GetNPCData(npcID);
             GameObject npcGo = resSvc.LoadPrefab(data.resPath);
             npcGo.transform.position = data.pos;
-            NPCController controller = npcGo.AddComponent<NPCController>();
+            NPCController controller = npcGo.GetComponent<NPCController>();
             controller.InitNPC(data, pc);
-            controller.RegisterEvnet(OnPlayerCloseNPC);
+            controller.RegisterEvnet(OnPlayerCloseNPC);           
             npcDic.Add(npcID, controller);
         }
-
-        
     }
 
     public void Interactive(int npcID)
@@ -61,6 +60,11 @@ public class NPCManager : MonoSingleton<NPCManager>
         {
             npcEventDic[type](npcID);
         }
+    }
+
+    public void OnSceneChange()
+    {
+        npcDic.Clear();
     }
 }
 public enum NPCFunction

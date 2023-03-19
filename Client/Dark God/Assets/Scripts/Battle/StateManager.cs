@@ -21,12 +21,12 @@ public class StateManager : MonoBehaviour
 
     public void ChangeState(EntityBase entity, AniState state, params object[] args)
     {
-        if (entity.CurrentState == state) return;
+        if (entity.CurrentAniState == state && entity.CurrentAniState != AniState.Attack) return;
 
         if(FSM.ContainsKey(state))
         {
-            if(entity.CurrentState != AniState.None)
-            FSM[entity.CurrentState].OnExit(entity, args);
+            if(entity.CurrentAniState != AniState.None)
+            FSM[entity.CurrentAniState].OnExit(entity, args);
 
             FSM[state].OnEnter(entity, args);
             FSM[state].Process(entity, args);

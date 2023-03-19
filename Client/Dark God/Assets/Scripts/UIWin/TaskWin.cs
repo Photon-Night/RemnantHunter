@@ -42,6 +42,7 @@ public class TaskWin : WinRoot
             {
                 if (isOn)
                 {
+                    audioSvc.PlayUIAudio(Message.UIOpenPage);
                     ChangeNpcTaskType(1);
                 }
             });
@@ -49,13 +50,19 @@ public class TaskWin : WinRoot
             togInProgess.onValueChanged.AddListener((isOn) =>
             {
                 if (isOn)
+                {
+                    audioSvc.PlayUIAudio(Message.UIOpenPage);
                     ChangeNpcTaskType(2);
+                }
             });
 
             toggleFinish.onValueChanged.AddListener((isOn) =>
             {
                 if (isOn)
+                {
+                    audioSvc.PlayUIAudio(Message.UIOpenPage);
                     ChangeNpcTaskType(3);
+                }
             });
         }
         else

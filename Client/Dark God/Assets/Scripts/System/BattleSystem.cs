@@ -1,10 +1,11 @@
-﻿using PEProtocol;
+﻿using Game.Common;
+using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-public class BattleSystem : SystemRoot<BattleSystem>
+public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
 {
     public BattleWin battleWin;
     public BattleEndWin battleEndWin;
@@ -20,42 +21,35 @@ public class BattleSystem : SystemRoot<BattleSystem>
         PECommon.Log("BattleSystem Loading");
     }
 
-    public void StartBattle(int mapId)
+    #region Battle Interface
+    public void Move(float ver, float hor)
     {
-        GameObject go = new GameObject
-        {
-            name = "BattleRoot"
-        };
-
-        go.transform.SetParent(GameRoot.Instance.transform);
-        bm = go.AddComponent<BattleManager>();
-        SetBattleWinState();
-        bm.InitManager(mapId, () => 
-        {
-            startTime = timeSvc.GetCurrentTime();
-        });
-
-        fid = mapId;
+        bm.SetMove(ver, hor);
     }
 
-    public void SetBattleWinState(bool isActive = true)
+    public void Attack()
     {
-        battleWin.SetWinState(isActive);
+        bm.SetNormalAttack();
     }
 
-    public void SetMoveDir(Vector2 dir)
+    public void Jump()
     {
-        bm.SetMoveDir(dir);
+        bm.SetJump();
     }
 
-    public void ReqReleaseSkill(int index)
+    public void Sprint(bool isSprint)
     {
-        bm.ReqReleaseSkill(index);
+        bm.SetSprint(isSprint);
     }
 
-    public Vector2 GetInputDir()
+    public void Combo()
     {
-        return battleWin.GetCurrentDir();
+        bm.SetCombo();
+    }
+
+    public void Roll()
+    {
+        bm.SetRoll();
     }
 
     public bool isPlayerAttack()
@@ -72,10 +66,35 @@ public class BattleSystem : SystemRoot<BattleSystem>
     {
         battleWin.SetBossHPVal(oldVal, newVal, sumVal);
     }
-
     public void SetMonsterHPState(bool state, float prg = 1)
     {
         battleWin.SetMonsterHPState(state, prg);
+    }
+
+    #endregion
+
+    #region Battle Setting
+    public void StartBattle(int mapId)
+    {
+        GameObject go = new GameObject
+        {
+            name = "BattleRoot"
+        };
+
+        go.transform.SetParent(GameRoot.Instance.transform);
+        bm = go.AddComponent<BattleManager>();
+        SetBattleWinState();
+        bm.InitManager(mapId, () =>
+        {
+            startTime = timeSvc.GetCurrentTime();
+        });
+
+        fid = mapId;
+    }
+
+    public void SetBattleWinState(bool isActive = true)
+    {
+        battleWin.SetWinState(isActive);
     }
 
     public void EndBattle(bool isWin, int restHP)
@@ -120,7 +139,9 @@ public class BattleSystem : SystemRoot<BattleSystem>
         GameRoot.Instance.RemoveAllHPUIItem();
         Destroy(bm.gameObject);
     }
+    #endregion
 
+    #region NetSetting
     public void RspFBFightEnd(GameMsg msg)
     {
         RspFBFightEnd data = msg.rspFBFightEnd;
@@ -130,5 +151,7 @@ public class BattleSystem : SystemRoot<BattleSystem>
         SetBattleEndWinState(FBEndType.Win);
     }
 
+    
+    #endregion
 }
 

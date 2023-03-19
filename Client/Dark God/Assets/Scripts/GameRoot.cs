@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PEProtocol;
+using Game.Common;
 
 public class GameRoot : MonoSingleton<GameRoot>
 {
@@ -18,11 +19,11 @@ public class GameRoot : MonoSingleton<GameRoot>
 
     private void Init()
     {
-        //�����ʼ������
-        NetService.Instance.ServiceInit();
-        ResService.Instance.ServiceInit();
-        AudioService.Instance.ServiceInit();
-        TimerService.Instance.ServiceInit();
+        IService[] services = this.GetComponents<IService>();
+        for(int i = 0; i < services.Length; i++)
+        {
+            services[i].ServiceInit();
+        }
 
         MainCitySystem.Instance.InitSystem();
         MissionSystem.Instance.InitSystem();

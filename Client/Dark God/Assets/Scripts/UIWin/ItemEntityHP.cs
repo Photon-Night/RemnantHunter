@@ -86,7 +86,7 @@ public class ItemEntityHP : MonoBehaviour
     [SerializeField]private float targetPrg;
     public void SetHpVal(int oldHp, int newHp)
     {
-        Debug.Log(oldHp + " " + newHp + " " + hp);
+        //Debug.Log(oldHp + " " + newHp + " " + hp);
         currentPrg = oldHp * 1f / hp;
         targetPrg = newHp * 1f / hp;
         imgHpRed.fillAmount = targetPrg;

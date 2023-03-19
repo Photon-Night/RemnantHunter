@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using PEProtocol;
 using UnityEngine.AI;
+using Game.Common;
+using Game.Manager;
+using Cinemachine;
 
-public class MainCitySystem : SystemRoot<MainCitySystem>
+public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
 {
 
     public MainCityWin mainCityWin;
@@ -27,46 +30,78 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
         npcMgr = NPCManager.Instance;
         PECommon.Log("MainCitySystem Loading");
     }
+
+    #region PlayerInput
+    public void Move(float ver, float hor)
+    {
+        pc.SetMove(ver, hor);
+    }
+
+    public void Attack()
+    {
+        return;
+    }
+
+    public void Combo()
+    {
+        return;
+    }
+
+    public void Jump()
+    {
+        pc?.SetJump();
+    }
+
+    public void Roll()
+    {
+        return;
+    }
+
+    public void Sprint(bool isSprint)
+    {
+        pc?.SetSprint(isSprint);
+    }
+    #endregion
+    #region MainCityWin
     public void EnterMainCity()
     {
         MapCfg mapData = resSvc.GetMapCfgData(Message.MainCityMapID);
         mainCityWin.SetBtnTalkActive(false);
         resSvc.LoadSceneAsync(mapData.sceneName, () =>
         {
-            PECommon.Log("Enter MainCity");
-
-            //TODO ���ؽ�ɫģ��
             LoadPlayer(mapData);
-            //��������ui
+            npcMgr.LoadNPC(ref mapData.npcs, pc);
+
+            LoadCam();
+     
+
             mainCityWin.SetWinState();
             GameRoot.Instance.GetComponent<AudioListener>().enabled = false;
             audioSvc.PlayBGMusic(Message.BGMMainCity);
-
-            //TODO ��������
 
             if (charShowCam != null)
             {
                 charShowCam.gameObject.SetActive(false);
             }
 
-            GameObject map = GameObject.FindGameObjectWithTag("MapRoot");
-
-            
-            npcMgr.LoadNPC(ref mapData.npcs, pc);
+            InputManager.Instance.SetInputRoot(this);
+            PECommon.Log("Enter MainCity");                    
         });
     }
 
     public void OpenMissionWin()
     {
         MissionSystem.Instance.OpenMissionWin();
-        //StopNavTask();
     }
 
     public void CloseMainCityWin()
     {
         mainCityWin.SetWinState(false);
+        npcMgr.OnSceneChange();
+        InputManager.Instance.CloseInput();
     }
-    #region MainWin
+    #endregion
+    #region Player
     public void OnPlayerCloseNPC(NPCCfg npc)
     {
         mainCityWin.SetBtnTalkActive(true, npc.name);
@@ -101,12 +136,11 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
     #region LoadSetting
     private void LoadPlayer(MapCfg mapData)
     {
-        GameObject player = resSvc.LoadPrefab(PathDefine.AssissnCityPlayerPrefab, true);
+        GameObject player = resSvc.LoadPrefab(PathDefine.DogStandard, true);
         player.transform.localEulerAngles = mapData.playerBornRote;
         player.transform.position = mapData.playerBornPos;
-        player.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-        Camera.main.transform.position = mapData.mainCamPos;
-        Camera.main.transform.localEulerAngles = mapData.mainCamRote;
+        //Camera.main.transform.position = mapData.mainCamPos;
+        //Camera.main.transform.localEulerAngles = mapData.mainCamRote;
 
         pc = player.GetComponent<PlayerController>();
         //agent = player.GetComponent<NavMeshAgent>();
@@ -115,18 +149,25 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
         
     }
 
+    private void LoadCam()
+    {
+        GameObject cam = resSvc.LoadPrefab(PathDefine.FreeLookCam1);
+        var fl = cam.GetComponent<CinemachineFreeLook>();
+        fl.LookAt = pc.transform;
+        fl.Follow = pc.transform;
+    }
     public void SetMoveDir(Vector2 dir)
     {
         //StopNavTask();
-        if (dir == Vector2.zero)
-        {
-            pc.SetBlend(Message.BlendIdle);
-        }
-        else
-        {
-            pc.SetBlend(Message.BlendWalk);
-        }
-        pc.Dir = dir;
+        //if (dir == Vector2.zero)
+        //{
+        //    pc.SetBlend(Message.BlendIdle);
+        //}
+        //else
+        //{
+        //    pc.SetBlend(Message.BlendWalk);
+        //}
+        //pc.Dir = dir;
     }
     private float startRoate = 0;
     public void SetStartRoate()
@@ -238,9 +279,5 @@ public class MainCitySystem : SystemRoot<MainCitySystem>
             mainCityWin.RefreshUI();
         }
     }
-    #endregion
-
-    #region Task
-   
     #endregion
 }

@@ -1,8 +1,9 @@
 using PEProtocol;
 using UnityEngine;
 using System;
+using Game.Common;
 
-public class TimerService : MonoSingleton<TimerService>
+public class TimerService : MonoSingleton<TimerService>, IService
 {
 
     private PETimer pt;
@@ -19,6 +20,7 @@ public class TimerService : MonoSingleton<TimerService>
 
     public void Update()
     {
+        if(pt != null)
         pt.Update();
     }
 

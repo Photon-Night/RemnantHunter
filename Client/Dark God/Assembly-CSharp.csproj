@@ -54,44 +54,52 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\UIWin\BuyWin.cs" />
+    <Compile Include="Assets\Scripts\Test\EntityTest.cs" />
     <Compile Include="Assets\Scripts\Task\TaskManager.cs" />
     <Compile Include="Assets\Scripts\Common\BaseData.cs" />
+    <Compile Include="Assets\Scripts\Test\GroupTest.cs" />
     <Compile Include="Assets\Scripts\UIWin\LoginWin.cs" />
     <Compile Include="Assets\Scripts\Battle\StateManager.cs" />
     <Compile Include="Assets\Scripts\UIWin\TaskWin.cs" />
     <Compile Include="Assets\Scripts\Common\MonoSingleton.cs" />
     <Compile Include="Assets\Scripts\UIWin\BattleEndWin.cs" />
+    <Compile Include="Assets\Scripts\Common\IService.cs" />
     <Compile Include="Assets\Scripts\UIWin\ItemEntityHP.cs" />
     <Compile Include="Assets\Scripts\UIWin\LoadingWin.cs" />
     <Compile Include="Assets\Scripts\Battle\EntityPlayer.cs" />
+    <Compile Include="Assets\GameAssets\ModularAnimalKnightsPolyart\TPController\Scripts\ResetTimer.cs" />
     <Compile Include="Assets\Scripts\UIWin\MainCityWin.cs" />
     <Compile Include="Assets\Scripts\FSM\StateMove.cs" />
-    <Compile Include="Assets\Scripts\Battle\StateHit.cs" />
+    <Compile Include="Assets\Scripts\Services\DirectorService.cs" />
+    <Compile Include="Assets\Scripts\Test\AITest.cs" />
     <Compile Include="Assets\Scripts\Common\PathDefine.cs" />
+    <Compile Include="Assets\GameAssets\ModularAnimalKnightsPolyart\TPController\Scripts\BoolOperator1.cs" />
     <Compile Include="Assets\Scripts\System\LoginSystem.cs" />
+    <Compile Include="Assets\GameAssets\ModularAnimalKnightsPolyart\TPController\Scripts\BoolOperator2.cs" />
     <Compile Include="Assets\Scripts\Services\ResService.cs" />
     <Compile Include="Assets\Scripts\MainCityMap.cs" />
     <Compile Include="Assets\Scripts\Battle\MonsterController.cs" />
     <Compile Include="Assets\Scripts\UIWin\BattleWin.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\Levels\Test.cs" />
     <Compile Include="Assets\Scripts\UIWin\TaskUIItem.cs" />
     <Compile Include="Assets\Scripts\UIWin\CreateWin.cs" />
+    <Compile Include="Assets\Scripts\FSM\StateHit.cs" />
+    <Compile Include="Assets\GameAssets\ModularAnimalKnightsPolyart\TPController\Scripts\AnimatorMatcher.cs" />
     <Compile Include="Assets\Scripts\UIWin\InfoWin.cs" />
     <Compile Include="Assets\Scripts\Net\ClientSession.cs" />
     <Compile Include="Assets\Scripts\Services\TimerService.cs" />
     <Compile Include="Assets\Scripts\System\SystemRoot.cs" />
-    <Compile Include="Assets\Scripts\Battle\StateAttack.cs" />
     <Compile Include="Assets\Scripts\Task\TaskItem.cs" />
+    <Compile Include="Assets\Scripts\Monster\MonsterGroup.cs" />
     <Compile Include="Assets\Scripts\Common\PEListener.cs" />
-    <Compile Include="Assets\Scripts\FSM\EntityBase.cs" />
+    <Compile Include="Assets\Scripts\Battle\EntityBase.cs" />
     <Compile Include="Assets\Scripts\Common\TriggerData.cs" />
     <Compile Include="Assets\Scripts\Services\AudioService.cs" />
     <Compile Include="Assets\Scripts\Battle\MapManager.cs" />
-    <Compile Include="Assets\Scripts\Battle\StateDie.cs" />
     <Compile Include="Assets\Scripts\Services\NetService.cs" />
     <Compile Include="Assets\Scripts\UIWin\ChatWin.cs" />
-    <Compile Include="Assets\Scripts\Battle\StateBorn.cs" />
+    <Compile Include="Assets\GameAssets\ModularAnimalKnightsPolyart\TPController\Scripts\CameraManager.cs" />
     <Compile Include="Assets\Scripts\UIWin\UIRoot.cs" />
     <Compile Include="Assets\Scripts\System\MainCitySystem.cs" />
     <Compile Include="Assets\Scripts\Common\PETools.cs" />
@@ -99,28 +107,41 @@
     <Compile Include="Assets\Scripts\FSM\StateIdle.cs" />
     <Compile Include="Assets\Scripts\Battle\SkillManager.cs" />
     <Compile Include="Assets\Scripts\Common\Message.cs" />
+    <Compile Include="Assets\Scripts\FSM\StateDie.cs" />
+    <Compile Include="Assets\Scripts\Common\IPlayerInputSet.cs" />
+    <Compile Include="Assets\Scripts\Player\CameraManager.cs" />
     <Compile Include="Assets\Scripts\UIWin\StrongWin.cs" />
     <Compile Include="Assets\Scripts\NPC\NPCController.cs" />
     <Compile Include="Assets\Scripts\Battle\BattleManager.cs" />
     <Compile Include="Assets\Scripts\System\MissionSystem.cs" />
+    <Compile Include="Assets\Scripts\FSM\StateAttack.cs" />
     <Compile Include="Assets\Scripts\NPC\NPCManager.cs" />
+    <Compile Include="Assets\Scripts\Player\InputManager.cs" />
     <Compile Include="Assets\Scripts\UIWin\TalkWin.cs" />
+    <Compile Include="Assets\Scripts\Common\AnimationResetTrigger.cs" />
     <Compile Include="Assets\Scripts\Common\Singleton.cs" />
     <Compile Include="Assets\Scripts\GameRoot.cs" />
-    <Compile Include="Assets\Scripts\Common\EntityController.cs" />
+    <Compile Include="Assets\Scripts\Battle\EntityController.cs" />
     <Compile Include="Assets\Scripts\System\BattleSystem.cs" />
     <Compile Include="Assets\Scripts\FSM\IState.cs" />
+    <Compile Include="Assets\GameAssets\ModularAnimalKnightsPolyart\TPController\Scripts\ControlManager.cs" />
+    <Compile Include="Assets\Scripts\Monster\MonsterAIController.cs" />
     <Compile Include="Assets\Scripts\UIWin\MissionWin.cs" />
+    <Compile Include="Assets\Scripts\FSM\StateBorn.cs" />
     <Compile Include="Assets\Scripts\UIWin\WinRoot.cs" />
     <Compile Include="Assets\Scripts\UIWin\DynamicWin.cs" />
     <Compile Include="Assets\Scripts\Battle\EntityMonster.cs" />
+    <Compile Include="Assets\Scripts\FSM\StateBack.cs" />
+    <Compile Include="Assets\Scripts\FSM\StateChase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\ResCfgs\monster.xml" />
     <None Include="Assets\Shader\MyMobile VertexLit Diffuse.shader" />
+    <None Include="Assets\GameAssets\Sci_Fi_Character_09\Materials\Standard_Two_Sided.shader" />
     <None Include="Assets\Shader\MyMobile Particles AddNoMask Diff.shader" />
     <None Include="Assets\Compond\MakeChar\Shader\PlayerShader.shader" />
     <None Include="Assets\Shader\Lightmap\Lightmap.shader" />
+    <None Include="Assets\GameAssets\ModularAnimalKnightsPolyart\SRP\HowToTestSRPs.txt" />
     <None Include="Assets\Resources\ResCfgs\task1.xml" />
     <None Include="Assets\Resources\ResCfgs\skillmove.xml" />
     <None Include="Assets\Resources\ResCfgs\task.xml" />
@@ -130,6 +151,7 @@
     <None Include="Assets\Shader\UITest.shader" />
     <None Include="Assets\Compond\MakeChar\Shader\MogoFakeLight.shader" />
     <None Include="Assets\Compond\MakeScene\SceneShader\MogoTransparentDiffuse.shader" />
+    <None Include="Assets\GameAssets\ModularAnimalKnightsPolyart\ReadMe.txt" />
     <None Include="Assets\Resources\ResCfgs\rdname.xml" />
     <None Include="Assets\Compond\Shader\MogoSkybox.shader" />
     <None Include="Assets\Compond\Shader\Mul-skybox.shader" />
@@ -137,6 +159,7 @@
     <None Include="Assets\Shader\Particle\ParticleAdditive.shader" />
     <None Include="Assets\Compond\Shader\MonsterShader.shader" />
     <None Include="Assets\Resources\ResCfgs\skill.xml" />
+    <None Include="Assets\GameAssets\ModularAnimalKnightsPolyart\Shader\PolyArtMaskTint.shader" />
     <None Include="Assets\Scripts\Net\PEProtocol.dll" />
     <None Include="Assets\Resources\ResCfgs\map.xml" />
     <None Include="Assets\Resources\ResCfgs\talk.xml" />
@@ -728,8 +751,14 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>D:\unity3d\2020.3.21f1c1\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
+    <Reference Include="Cinemachine">
+      <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+      <HintPath>Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>

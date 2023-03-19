@@ -16,9 +16,15 @@ public class PathDefine
     public const string SkillActionCfg = "ResCfgs/skillaction";
     public const string NPCCfg = "ResCfgs/npc";
     public const string TalkCfg = "ResCfgs/talk";
+    public const string GroupCfg = "ResCfs/group";
 
     public const string AssissnCityPlayerPrefab = "PrefabPlayer/AssassinCity";
     public const string AssissnBattlePlayerPrefab = "PrefabPlayer/Assassin";
+    public const string PlayerPrefab = "PrefabPlayer/Player";
+    public const string DogKnight = "PrefabPlayer/DogPolyart";
+    public const string DogStandard = "PrefabPlayer/DogStandard";
+
+    public const string FreeLookCam1 = "PrefabCam/FreeLook1";
     #endregion
 
     public const string TaskHead = "ResImages/task";
