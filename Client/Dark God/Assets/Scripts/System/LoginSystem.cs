@@ -7,8 +7,7 @@ using Game.Service;
 
 public class LoginSystem : SystemRoot<LoginSystem>
 {
-    public LoginWin loginWin;
-    public CreateWin createWin;
+    public LoginWin loginWin;  
 
     private System.Action<PlayableDirector> action = null;
     public override void InitSystem()
@@ -30,14 +29,14 @@ public class LoginSystem : SystemRoot<LoginSystem>
         GameRoot.Instance.SetPlayerData(msg.rspLogin);
         action = (director) =>
         {
-            if (msg.rspLogin.playerData.name == "")
-            {
-                createWin.SetWinState();
-            }
-            else
-            {
+            //if (msg.rspLogin.playerData.name == "")
+            //{
+            //    createWin.SetWinState();
+            //}
+            //else
+            //{
                 MainCitySystem.Instance.EnterMainCity();
-            }
+            //}
             loginWin.SetWinState(false);
             dreSvc.UnRegisterTimelineEvent(TimelineEventType.Stopped, action);
         };
@@ -45,16 +44,5 @@ public class LoginSystem : SystemRoot<LoginSystem>
         dreSvc.RegisterTimelineEvent(TimelineEventType.Stopped, action);
     }
 
-    private void ChangeScene(PlayableDirector director)
-    {
-
-    }
-
-    public void OnRenameRsp(GameMsg msg)
-    {
-        GameRoot.Instance.SetPlayerName(msg.rspRename.name);
-
-        MainCitySystem.Instance.EnterMainCity();
-        createWin.SetWinState(false);
-    }
+    
 }

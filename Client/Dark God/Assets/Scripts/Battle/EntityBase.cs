@@ -83,7 +83,6 @@ public class EntityBase
             controller.lockCtrl = value;
         }
     }
-
     public AniState CurrentAniState
     {
         get
@@ -96,6 +95,7 @@ public class EntityBase
             currentAniState = value;
         }
     }
+
     public EntityBase()
     {
 
@@ -165,7 +165,6 @@ public class EntityBase
 
         return result;
     }
-    public virtual void SetMove(float ver, float hor) { }
     public virtual void SetMove(Vector3 dir) { }
     public virtual void SetAttack() { }
     public virtual void SetIdle() { }

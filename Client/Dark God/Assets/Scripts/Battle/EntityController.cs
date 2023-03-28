@@ -45,6 +45,10 @@ public abstract class EntityController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        canMove = anim.GetBool("canMove");
+    }
 
     public virtual void Init()
     {       
@@ -73,9 +77,14 @@ public abstract class EntityController : MonoBehaviour
         OnAnimatorAttack -= action;
     }
     #region Action
-    public virtual void SetMove(float ver, float hor)
+    public virtual void SetMove(Vector3 dir)
     {
         
+    }
+
+    public virtual void SetMove(float ver, float hor)
+    {
+
     }
 
     public virtual bool SetJump()
@@ -143,7 +152,7 @@ public abstract class EntityController : MonoBehaviour
     }
     protected void OnTriggerStay(Collider col)
     {
-        if (col.gameObject.tag == "Ground")
+        if (!onGround && col.gameObject.tag == "Ground")
         {
             onGround = true;
             anim.SetBool("onGround", true);
@@ -158,18 +167,6 @@ public abstract class EntityController : MonoBehaviour
         }
     }
 
-    protected void OnAnimatorMove()
-    {
-        if (canMove || !onGround)
-            return;
-
-        rigid.drag = 0;
-
-        Vector3 dPosition = anim.deltaPosition;
-        dPosition.y = 0;
-        Vector3 vPosition = (dPosition * .6f) / Time.deltaTime;
-        rigid.velocity = vPosition;
-
-    }
+    
 
 }

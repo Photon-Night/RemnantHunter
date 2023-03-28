@@ -21,6 +21,8 @@ public class BattleManager : MonoBehaviour
     private Dictionary<string, EntityMonster> monstersDic = new Dictionary<string, EntityMonster>();
     private List<MonsterGroup> groups;
     private MonsterAIController monsterAI;
+
+    private Transform camTrans;
      void Update()
     {
         if (monsterAI != null) return;
@@ -57,7 +59,7 @@ public class BattleManager : MonoBehaviour
 
             Camera.main.transform.position =mapData.mainCamPos;
             Camera.main.transform.localEulerAngles = mapData.mainCamRote;
-
+            camTrans = Camera.main.transform;
             LoadPlayer();
             LoadGroup();
 
@@ -252,7 +254,8 @@ public class BattleManager : MonoBehaviour
 
     public void SetMove(float ver, float hor)
     {
-        ep?.SetMove(ver, hor);
+        var dir = (camTrans.forward * ver + camTrans.right * hor).normalized;
+        ep?.SetMove(dir);
     }
 
     public void SetNormalAttack()

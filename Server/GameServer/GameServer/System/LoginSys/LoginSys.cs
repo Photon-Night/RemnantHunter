@@ -85,16 +85,18 @@ namespace GameServer
             else
             {
                 PlayerData playerData = cacheSvc.GetPlayerDataBySession(pack.session);
-                playerData.name = data.name; 
+                playerData.name = data.name;
+                playerData.modle = data.modle;
                 if(!cacheSvc.UpdatePlayerData(playerData.id, playerData))
                 {
                     msg.err = (int)ErrorCode.UpdateDBError;
                 }
                 else
                 {
-                    msg.rspRename = new RspRename 
-                    { 
-                        name = data.name
+                    msg.rspRename = new RspRename
+                    {
+                        name = data.name,
+                        modle = data.modle,
                     };
 
                 }

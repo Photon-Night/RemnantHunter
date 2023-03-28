@@ -25,6 +25,8 @@ public class PathDefine
     public const string DogStandard = "PrefabPlayer/DogStandard";
 
     public const string FreeLookCam1 = "PrefabCam/FreeLook1";
+    public const string PointCam = "PrefabCam/PointCam";
+    public const string CreateCam = "PrefabCam/CreateCam";
     #endregion
 
     public const string TaskHead = "ResImages/task";

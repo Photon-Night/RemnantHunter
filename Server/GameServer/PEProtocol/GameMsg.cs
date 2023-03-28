@@ -57,12 +57,14 @@ namespace PEProtocol
     public class ReqRename
     {
         public string name;
+        public string modle;
     }
 
     [System.Serializable]
     public class RspRename
     {
         public string name;
+        public string modle;
     }
 
     [System.Serializable]
@@ -275,6 +277,7 @@ namespace PEProtocol
         public string[] task;
 
         public NTaskInfo[] taskDatas;
+        public string modle;
     }
     [Serializable]
     public class NTaskInfo

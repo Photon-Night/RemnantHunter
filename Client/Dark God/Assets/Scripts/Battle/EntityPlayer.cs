@@ -63,14 +63,13 @@ public class EntityPlayer : EntityBase
         }
     }
 
-    public override void SetMove(float ver, float hor)
+    public override void SetMove(Vector3 dir)
     {
-        if (ver == 0 && hor == 0)
-            stateMgr.ChangeState(this, AniState.Idle);
+        if (dir.sqrMagnitude != 0)
+            currentAniState = AniState.Move;
         else
-            stateMgr.ChangeState(this, AniState.Move);
-
-        controller.SetMove(ver, hor);
+            currentAniState = AniState.Idle;
+        controller.SetMove(dir);
     }
 
     public override void SetAttack()

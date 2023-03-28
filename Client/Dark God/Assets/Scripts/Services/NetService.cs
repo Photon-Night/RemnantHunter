@@ -124,7 +124,7 @@ public class NetService : MonoSingleton<NetService>, IService
                 break;
 
             case CMD.RspRename:
-                LoginSystem.Instance.OnRenameRsp(msg);
+                MainCitySystem.Instance.OnRenameRsp(msg);
                 break;
 
             //case CMD.RspGuide:

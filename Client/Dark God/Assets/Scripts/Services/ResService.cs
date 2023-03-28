@@ -23,7 +23,7 @@ public class ResService : MonoSingleton<ResService>, IService
         InitNPCCfg(PathDefine.NPCCfg);
         InitTaskCfg(PathDefine.TaskCfg);
         InitTalkCfg(PathDefine.TalkCfg);
-        InitGroupCfg(PathDefine.GroupCfg);
+        //InitGroupCfg(PathDefine.GroupCfg);
     }
 
     public void ReSetSkillCfgData()

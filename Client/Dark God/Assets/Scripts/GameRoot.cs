@@ -68,9 +68,10 @@ public class GameRoot : MonoSingleton<GameRoot>
         TaskSystem.Instance.InitSystem();
     }
 
-    public void SetPlayerName(string name)
+    public void SetPlayerDataByCreate(RspRename data)
     {
-        PlayerData.name = name;
+        PlayerData.name = data.name;
+        PlayerData.modle = data.modle;
     }
 
     public void SetPlayerDataByGuide(RspGuide data)

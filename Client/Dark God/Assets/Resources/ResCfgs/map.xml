@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<item ID="10000">
-		<mapName>圣光主城</mapName>
+		<mapName>传火祭祀场</mapName>
 		<sceneName>SceneMainCity</sceneName>
 		<power>0</power>
 		<mainCamPos>17.4,7,50</mainCamPos>
 		<mainCamRote>45,135,0</mainCamRote>
-		<playerBornPos>22,-1.1,45</playerBornPos>
-		<playerBornRote>0,0,0</playerBornRote>
+		<playerBornPos>2.46,-3.41,78.6</playerBornPos>
+		<playerBornRote>0,180,0</playerBornRote>
 		<npcLst>101#102#103#104</npcLst>
 		<exp>0</exp>
 		<coin>0</coin>

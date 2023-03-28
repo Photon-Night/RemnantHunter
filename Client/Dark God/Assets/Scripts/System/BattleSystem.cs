@@ -10,6 +10,7 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
     public BattleWin battleWin;
     public BattleEndWin battleEndWin;
     public BattleManager bm;
+    private Transform camTrans;
 
     public System.Action<int> onTargetDie;
 
@@ -23,7 +24,7 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
 
     #region Battle Interface
     public void Move(float ver, float hor)
-    {
+    {        
         bm.SetMove(ver, hor);
     }
 

@@ -83,6 +83,9 @@ public class Message
 
     public const int DieAniLength = 5000;
 
+    #region EventName 
+    #endregion
+
     public static string Color(string str, string color)
     {
         string result = color + str + ColorEnd;
@@ -133,4 +136,19 @@ public enum DmgType
     None = 0,
     AD = 1,
     AP = 2,
+}
+
+public enum EventNode
+{
+    None = 0,
+    Battle = 101,
+    UIClick = 102,
+    NPC = 103,
+
+    OnKillMonster = 201,
+    OnTalkToNPC = 202,
+    OnTakeDamage = 203,
+    OnFinishTask = 204,
+    OnTaskStatusChange = 205,
+
 }

@@ -212,7 +212,7 @@ MonoBehaviour:
     Dutch: 0
     LensShift: {x: 0, y: 0}
   m_Transitions:
-    m_BlendHint: 3
+    m_BlendHint: 1
     m_InheritPosition: 0
     m_OnCameraLive:
       m_PersistentCalls:
@@ -312,7 +312,7 @@ MonoBehaviour:
   m_MaximumEffort: 4
   m_SmoothingTime: 0.3
   m_Damping: 2
-  m_DampingWhenOccluded: 2
+  m_DampingWhenOccluded: 0
   m_OptimalTargetDistance: 0
 --- !u!1 &8550479943294926186
 GameObject:

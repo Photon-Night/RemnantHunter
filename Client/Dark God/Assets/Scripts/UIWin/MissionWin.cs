@@ -18,6 +18,7 @@ public class MissionWin : WinRoot
     public void OnClickCloseBtn()
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
+        MainCitySystem.Instance.EnableCam();
         this.SetWinState(false);
     }
 

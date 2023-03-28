@@ -168,6 +168,7 @@ public class StrongWin : WinRoot
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         SetWinState(false);
+        MainCitySystem.Instance.EnableCam();
     }
 
     public void OnClickStrongBtn()

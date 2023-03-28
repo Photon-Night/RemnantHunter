@@ -225,6 +225,7 @@ public class TaskWin : WinRoot
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         isOwner = false;
         this.SetWinState(false);
+        MainCitySystem.Instance.EnableCam();
     }
 
 }

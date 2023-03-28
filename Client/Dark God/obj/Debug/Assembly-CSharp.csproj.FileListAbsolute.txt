@@ -302,3 +302,7 @@ D:\UnityProject\Dark God\Dark-God\Client\Dark God\obj\Debug\Assembly-CSharp.cspr
 D:\UnityProject\Dark God\Dark-God\Client\Dark God\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 D:\UnityProject\Dark God\Dark-God\Client\Dark God\obj\Debug\Assembly-CSharp.dll
 D:\UnityProject\Dark God\Dark-God\Client\Dark God\obj\Debug\Assembly-CSharp.pdb
+D:\UnityProject\Dark God\Dark-God\Client\Dark God\Temp\Bin\Debug\Cinemachine.dll
+D:\UnityProject\Dark God\Dark-God\Client\Dark God\Temp\Bin\Debug\com.unity.cinemachine.editor.dll
+D:\UnityProject\Dark God\Dark-God\Client\Dark God\Temp\Bin\Debug\Cinemachine.pdb
+D:\UnityProject\Dark God\Dark-God\Client\Dark God\Temp\Bin\Debug\com.unity.cinemachine.editor.pdb

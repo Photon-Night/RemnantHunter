@@ -8,21 +8,44 @@ using PENet;
 public class CreateWin : WinRoot
 {
     public InputField iptName;
-    public Button rdNameBtn;
+    public Button btnRdName;
+
     protected override void InitWin()
     {
         base.InitWin();
         iptName.text = resSvc.GetRDNameData();
-        rdNameBtn.onClick.AddListener(ClickRDNameBtn);
+        btnRdName.onClick.AddListener(OnClickbtnRdName);
     }
 
-    public void ClickRDNameBtn()
+    public void OnClickbtnRdName()
     {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
         iptName.text = resSvc.GetRDNameData();
+    }
+
+    public void OnClickChangeRole()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+        MainCitySystem.Instance.ChangeRole();
+    }
+
+    public void OnClickChangeBody()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+        MainCitySystem.Instance.ChangeBody();
+    }
+
+    public void OnClickChangeWeapon()
+    {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
     }
 
-    public void ClickCreateBtn()
+    public void OnClickChangeShield()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+    }
+
+    public void OnClickCreateBtn()
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
 
@@ -33,7 +56,8 @@ public class CreateWin : WinRoot
                 cmd = (int)CMD.ReqRename,
                 reqRename = new ReqRename
                 {
-                    name = iptName.text
+                    name = iptName.text,
+                    modle = MainCitySystem.Instance.GetPlayerModleIndex(),
                 }
             };
 

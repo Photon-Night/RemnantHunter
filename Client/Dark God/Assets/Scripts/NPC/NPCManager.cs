@@ -25,7 +25,7 @@ public class NPCManager : MonoSingleton<NPCManager>
         resSvc = ResService.Instance;
     }
 
-    public void LoadNPC(ref List<int> npcs, PlayerController pc)
+    public void LoadNPC(List<int> npcs, PlayerController pc)
     {
 
         foreach (var npcID in npcs)
