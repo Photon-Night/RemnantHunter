@@ -7,9 +7,24 @@ using UnityEngine.UI;
 public class TaskWin : WinRoot
 {
     public Transform taskItemContent;
+    public Transform rightPanelTrans;
+    public Transform rewardGroup;
+
+    public ToggleGroup taskGroup;
+
     public Toggle togAvaliable;
     public Toggle togInProgess;
     public Toggle toggleFinish;
+
+    public Button btnTake;
+    public Button btnFinish;
+    public Button btnCancel;
+
+    public Text txtDes;
+    public Text txtCoin;
+    public Text txtExp;
+    public Text txtTaskName;
+    public Text txtSubmit;
 
     private List<TaskItem> taskList;
     private List<TaskItem> ownerTasks_InComplete = new List<TaskItem>();
@@ -18,6 +33,10 @@ public class TaskWin : WinRoot
     private int currentNpcId = -1;
     private NpcTaskStatus currentStatus = NpcTaskStatus.Available;
     private bool isOwner = false;
+    private TaskItem currentTask;
+
+    private bool isSetToggle = false;
+    private bool firstInitToggle = false;
 
     public void SetCurrentNpcId(int id)
     {
@@ -37,33 +56,41 @@ public class TaskWin : WinRoot
             SetActive(togAvaliable.gameObject);
             SetActive(togInProgess.gameObject);
             SetActive(toggleFinish.gameObject);
-
-            togAvaliable.onValueChanged.AddListener((isOn) =>
+            if(!isSetToggle)
             {
-                if (isOn)
+                togAvaliable.onValueChanged.AddListener((isOn) =>
                 {
-                    audioSvc.PlayUIAudio(Message.UIOpenPage);
-                    ChangeNpcTaskType(1);
-                }
-            });
+                    if (isOn)
+                    {
+                        audioSvc.PlayUIAudio(Message.UIOpenPage);
+                        ChangeNpcTaskType(1);
 
-            togInProgess.onValueChanged.AddListener((isOn) =>
-            {
-                if (isOn)
-                {
-                    audioSvc.PlayUIAudio(Message.UIOpenPage);
-                    ChangeNpcTaskType(2);
-                }
-            });
+                    }
+                });
 
-            toggleFinish.onValueChanged.AddListener((isOn) =>
-            {
-                if (isOn)
+                togInProgess.onValueChanged.AddListener((isOn) =>
                 {
-                    audioSvc.PlayUIAudio(Message.UIOpenPage);
-                    ChangeNpcTaskType(3);
-                }
-            });
+                    if (isOn)
+                    {
+                        audioSvc.PlayUIAudio(Message.UIOpenPage);
+                        ChangeNpcTaskType(2);
+
+                    }
+                });
+
+                toggleFinish.onValueChanged.AddListener((isOn) =>
+                {
+                    if (isOn)
+                    {
+                        audioSvc.PlayUIAudio(Message.UIOpenPage);
+                        ChangeNpcTaskType(3);
+
+                    }
+                });
+
+                isSetToggle = true;
+            }
+            
         }
         else
         {
@@ -105,6 +132,10 @@ public class TaskWin : WinRoot
             Destroy(taskItemContent.GetChild(i).gameObject);
         }
 
+        SetActive(btnCancel, false);
+        SetActive(btnTake, false);
+        SetActive(btnFinish, false);
+        SetActive(rightPanelTrans, false);
         if (isOwner)
         {
             ShowByOwner();
@@ -125,6 +156,8 @@ public class TaskWin : WinRoot
         ownerTasks_Result.Clear();
         ownerTasks_InComplete.Clear();
 
+        TaskUIItem firstItem = null;
+
         for(int i = 0; i < list.Count; i++)
         {
             if(list[i].npcInfo.taskState == TaskStatus.Complated)
@@ -138,34 +171,54 @@ public class TaskWin : WinRoot
         }
         ownerTasks_Result.AddRange(ownerTasks_InComplete);
         taskList = ownerTasks_Result;
-       
+
         for (int i = 0; i < taskList.Count; i++)
         {
-            GameObject taskGo = resSvc.LoadPrefab(PathDefine.TaskItem);
+            GameObject taskGo = resSvc.LoadPrefab(PathDefine.TogTaskItem);
             taskGo.transform.SetParent(taskItemContent);
-
             TaskUIItem item = taskGo.GetComponent<TaskUIItem>();
-            item.InitItem(taskList[i]);
+            TaskItem taskData = taskList[i];
+            item.InitItem(taskData, taskGroup);
 
-            TaskItem task = taskList[i];
-
-            if (task.npcInfo.taskState == TaskStatus.Complated)
-            {               
-                item.btnFinish.onClick.AddListener(() =>
-                {
-                    audioSvc.PlayUIAudio(Message.UIClickBtn);
-                    TaskSystem.Instance.ChangeTaskStatus(task, TaskStatus.Finished);
-                });
-            }
-            else if (task.npcInfo.taskState == TaskStatus.InProgress)
+            if (i == 0)
             {
-                SetActive(item.btnAbondon.gameObject);
-                item.btnAbondon.onClick.AddListener(() =>
+                firstItem = item;
+            }
+
+            item.togTask.onValueChanged.AddListener((isOn) =>
+            {
+                if (!isOn) return;
+
+                if (!firstInitToggle)
                 {
                     audioSvc.PlayUIAudio(Message.UIClickBtn);
-                    TaskSystem.Instance.ChangeTaskStatus(task, TaskStatus.Failed);
-                });
-            }
+                }
+                else
+                {
+                    firstInitToggle = false;
+                }
+
+
+                currentTask = taskData;
+                SetRightPanelInfo(taskData);
+                switch (taskData.npcInfo.taskState)
+                {
+                    case TaskStatus.None:
+                        break;
+                    case TaskStatus.InProgress:
+                        SetActive(btnCancel);
+                        break;
+                    case TaskStatus.Complated:
+                        SetActive(btnFinish);
+                        break;
+                }
+                SetActive(rightPanelTrans);
+            });
+        }
+
+        if (taskList.Count > 0)
+        {
+            SetRightPanelOnRefresh(firstItem);
         }
     }
 
@@ -178,46 +231,82 @@ public class TaskWin : WinRoot
         if (taskList == null)
             return;
 
+        TaskUIItem firstItem = null;
+
         for (int i = 0; i < taskList.Count; i++)
         {
-            GameObject taskGo = resSvc.LoadPrefab(PathDefine.TaskItem);
+            GameObject taskGo = resSvc.LoadPrefab(PathDefine.TogTaskItem);
             taskGo.transform.SetParent(taskItemContent);
-
             TaskUIItem item = taskGo.GetComponent<TaskUIItem>();
-            item.InitItem(taskList[i]);
+            TaskItem taskData = taskList[i];
 
-            TaskItem task = taskList[i];
+            if(i == 0)
+            {
+                firstItem = item;
+            }
+
+            item.InitItem(taskData, taskGroup);
+            item.togTask.onValueChanged.AddListener((isOn) =>
+            {
+                if (!isOn) return;
+
+                if(!firstInitToggle)
+                {
+                    audioSvc.PlayUIAudio(Message.UIClickBtn);
+                }
+                else
+                {
+                    firstInitToggle = false;
+                }
+
+                currentTask = taskData;
+                SetRightPanelInfo(taskData);
+                SetActive(rightPanelTrans);
+                
+            });
+
             if (currentStatus == NpcTaskStatus.Available)
             {
                 SetActive(item.txtPrg, false);
                 SetActive(item.imgPrg, false);
                 SetActive(item.imgPrgBg, false);
-                SetActive(item.btnTake.gameObject);
-                item.btnTake.onClick.AddListener(() =>
-                {
-                    audioSvc.PlayUIAudio(Message.UIClickBtn);
-                    TaskSystem.Instance.ChangeTaskStatus(task, TaskStatus.InProgress);
-                });
+                SetActive(btnTake);
             }
             else if (currentStatus == NpcTaskStatus.Complete)
             {
-                SetActive(item.btnFinish.gameObject);
-                item.btnFinish.onClick.AddListener(() =>
-                {
-                    audioSvc.PlayUIAudio(Message.UIClickBtn);
-                    TaskSystem.Instance.ChangeTaskStatus(task, TaskStatus.Finished);
-                });
+                SetActive(btnFinish);
             }
             else if (currentStatus == NpcTaskStatus.Incomplete)
             {
-                SetActive(item.btnAbondon.gameObject);
-                item.btnAbondon.onClick.AddListener(() =>
-                {
-                    audioSvc.PlayUIAudio(Message.UIClickBtn);
-                    TaskSystem.Instance.ChangeTaskStatus(task, TaskStatus.Failed);
-                });
+                SetActive(btnCancel);
             }
         }
+
+        if(taskList.Count > 0)
+        {
+            SetRightPanelOnRefresh(firstItem);
+        }
+    }
+
+    private void SetRightPanelOnRefresh(TaskUIItem firstItem)
+    {
+        currentTask = taskList[0];
+        firstInitToggle = true;
+        firstItem.togTask.isOn = true;
+
+        if (taskList.Count == 1)
+        {
+            firstItem.togTask.onValueChanged.Invoke(true);
+        }
+    }
+
+    private void SetRightPanelInfo(TaskItem taskData)
+    {
+        SetText(txtTaskName, taskData.data.taskName);
+        SetText(txtSubmit, resSvc.GetNPCData(taskData.data.submitNpcID).name);
+        SetText(txtCoin, taskData.data.coin.ToString());
+        SetText(txtExp, taskData.data.exp.ToString());
+        SetText(txtDes, taskData.data.description);
     }
 
     public void OnClickCloseBtn()
@@ -225,7 +314,33 @@ public class TaskWin : WinRoot
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         isOwner = false;
         this.SetWinState(false);
-        MainCitySystem.Instance.EnableCam();
+        
     }
 
+    public void OnClickTakeBtn()
+    {
+        if(currentTask != null)
+        {
+            TaskSystem.Instance.ChangeTaskStatus(currentTask, TaskStatus.InProgress);
+            audioSvc.PlayUIAudio(Message.UIClickBtn);
+        }
+    }
+
+    public void OnClickFinishBtn()
+    {
+        if(currentTask != null)
+        {
+            TaskSystem.Instance.ChangeTaskStatus(currentTask, TaskStatus.Finished);
+            audioSvc.PlayUIAudio(Message.UIClickBtn);
+        }
+    }
+
+    public void OnClickCancelBtn()
+    {
+        if(currentTask != null)
+        {
+            TaskSystem.Instance.ChangeTaskStatus(currentTask, TaskStatus.Failed);
+            audioSvc.PlayUIAudio(Message.UIClickBtn);
+        }
+    }
 }

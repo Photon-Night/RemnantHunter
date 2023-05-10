@@ -1,4 +1,6 @@
-﻿using Game.Common;
+﻿using Cinemachine;
+using Game.Common;
+using Game.Manager;
 using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,21 +12,23 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
     public BattleWin battleWin;
     public BattleEndWin battleEndWin;
     public BattleManager bm;
-    private Transform camTrans;
-
-    public System.Action<int> onTargetDie;
+    private CinemachineFreeLook freeLookCam;
+    private CinemachineVirtualCamera battleEndCam;
 
     private int fid = 0;
     private double startTime;
+
+    public static bool IsEnterBattle { get; private set; }
+
     public override void InitSystem()
     {
         base.InitSystem();
         PECommon.Log("BattleSystem Loading");
+        IsEnterBattle = false;
     }
-
-    #region Battle Interface
+    #region Input Interface
     public void Move(float ver, float hor)
-    {        
+    {
         bm.SetMove(ver, hor);
     }
 
@@ -52,7 +56,8 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
     {
         bm.SetRoll();
     }
-
+    #endregion
+    #region Battle Interface
     public bool isPlayerAttack()
     {
         return bm.isPlayerAttack();
@@ -61,6 +66,11 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
     public void SetHPUI(int hp)
     {
         battleWin.SetHPUI(hp);
+    }
+
+    public void SetPowerUI(float power)
+    {
+        battleWin.SetPowerUI(power);
     }
 
     public void SetBossHPVal(int oldVal, int newVal, int sumVal)
@@ -72,6 +82,16 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
         battleWin.SetMonsterHPState(state, prg);
     }
 
+    public EntityMonster FindClosedMonster(float distance = 0f)
+    {
+        return bm.FindClosedMonster(distance);
+    }
+
+
+    public void SkillAttack(EntityBase entity, SkillData skill, int dmgIndex)
+    {
+        bm.SkillAttack(entity, skill, dmgIndex);
+    }
     #endregion
 
     #region Battle Setting
@@ -84,13 +104,15 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
 
         go.transform.SetParent(GameRoot.Instance.transform);
         bm = go.AddComponent<BattleManager>();
-        SetBattleWinState();
+        battleWin.SetWinState();
         bm.InitManager(mapId, () =>
         {
             startTime = timeSvc.GetCurrentTime();
+            InputManager.Instance.SetPlayerInputRoot(this);
         });
-
         fid = mapId;
+
+        IsEnterBattle = true;
     }
 
     public void SetBattleWinState(bool isActive = true)
@@ -125,6 +147,8 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
         {
             SetBattleEndWinState(FBEndType.Lose);
         }
+
+        IsEnterBattle = false;
     }
 
     public void SetBattleEndWinState(FBEndType endType, bool isActive = true)
@@ -152,7 +176,29 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
         SetBattleEndWinState(FBEndType.Win);
     }
 
-    
+    public void SetCamLock(bool state)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SetInteraction()
+    {
+        throw new System.NotImplementedException();
+    }
+
+
     #endregion
+
+    #region Battle Win
+    public void SetSkillCount(int count)
+    {
+        battleWin.SetSkillPointUI(count);
+    }
+    #endregion
+
+    public void ChangePlayerEquipment(int itemID)
+    {
+        bm?.ChangePlayerEquipment(itemID);
+    }
 }
 

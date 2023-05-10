@@ -4,6 +4,7 @@ using UnityEngine;
 using PENet;
 using PEProtocol;
 using Game.Common;
+using Game.Bag;
 
 public class NetService : MonoSingleton<NetService>, IService
 {
@@ -113,6 +114,12 @@ public class NetService : MonoSingleton<NetService>, IService
                 case ErrorCode.LackTargetCount:
                     GameRoot.AddTips("未达到任务要求");
                     break;
+                case ErrorCode.LackEquipment:
+                    GameRoot.AddTips("未获得此装备");
+                    break;
+                case ErrorCode.LackProp:
+                    GameRoot.AddTips("道具数量不足");
+                    break;
             }
             return;
         }
@@ -165,6 +172,15 @@ public class NetService : MonoSingleton<NetService>, IService
 
             case CMD.RspUpdateTaskPrg:
                 TaskSystem.Instance.RspUpdateTaskPrg(msg);
+                break;
+
+            case CMD.RspChangeEquipment:
+                Debug.Log("sssss");
+                BagSystem.Instance.RspChangeEquipment(msg);
+                break;
+
+            case CMD.RspUseProp:
+                BagSystem.Instance.RspUseProp(msg);
                 break;
         }
 

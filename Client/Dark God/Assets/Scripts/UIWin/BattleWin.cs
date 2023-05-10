@@ -14,34 +14,39 @@ public class BattleWin : WinRoot
     public Text txtLevel;
     public Text txtExpPrg;
 
-    public Text txtSkill1CD;
-    public Image imgSkill1CD;
-    private bool isSkill1CD;
-    private int skill1CDNum;
-    private float skill1FillCount;
-    private float skill1NumCount;
-    private float skill1CDTime;
+    public Image[] imgSkillPoint;
 
-    public Text txtSkill2CD;
-    public Image imgSkill2CD;
-    private bool isSkill2CD;
-    private int skill2CDNum;
-    private float skill2CDTime;
-    private float skill2FillCount;
-    private float skill2NumCount;
-
-    public Text txtSkill3CD;
-    public Image imgSkill3CD;
-    private bool isSkill3CD;
-    private int skill3CDNum;
-    private float skill3CDTime;
-    private float skill3FillCount;
-    private float skill3NumCount;
+    //public Text txtSkill1CD;
+    //public Image imgSkill1CD;
+    //private bool isSkill1CD;
+    //private int skill1CDNum;
+    //private float skill1FillCount;
+    //private float skill1NumCount;
+    //private float skill1CDTime;
+    //
+    //public Text txtSkill2CD;
+    //public Image imgSkill2CD;
+    //private bool isSkill2CD;
+    //private int skill2CDNum;
+    //private float skill2CDTime;
+    //private float skill2FillCount;
+    //private float skill2NumCount;
+    //
+    //public Text txtSkill3CD;
+    //public Image imgSkill3CD;
+    //private bool isSkill3CD;
+    //private int skill3CDNum;
+    //private float skill3CDTime;
+    //private float skill3FillCount;
+    //private float skill3NumCount;
 
     public Transform expPrgTrans;
 
     public Image imgHP;
     public Text txtHP;
+
+    public Image imgPower;
+    public Text txtPower;
 
     public Transform bossHPBar;
     public Image imgYellow;
@@ -54,6 +59,11 @@ public class BattleWin : WinRoot
 
     private Vector2 currentDir;
     private int hpNum;
+    private float powerNum;
+
+    private int currentSkillPointIndex;
+    private bool canRecover;
+    private float currentFill = 0f;
 
     [SerializeField]private float currentPrg = 0f;
     [SerializeField]private float targetPrg = 0f;
@@ -61,21 +71,25 @@ public class BattleWin : WinRoot
     protected override void InitWin()
     {
         base.InitWin();
+        isTriggerEvent = false;
+
         imgHP.fillAmount = 1;
         hpNum = GameRoot.Instance.PlayerData.hp;
+        powerNum = GameRoot.Instance.PlayerData.lv - 1 + 100;
         SetText(txtHP, hpNum + "/" + hpNum);
         pointDis = Screen.height * 1f / Message.ScreenStandardHeight * Message.ScreenOPDis;
         defaultPos = imgDirBg.transform.position;
         SetActive(imgDirPoint, false);
+        currentSkillPointIndex = Message.SkillPointCount - 1;
         //RegisterTouchEvts();
 
-        skill1CDTime = resSvc.GetSkillData(101).cdTime/1000;
-        skill2CDTime = resSvc.GetSkillData(102).cdTime / 1000;
-        skill3CDTime = resSvc.GetSkillData(103).cdTime / 1000;
-
-        isSkill1CD = false;
-        isSkill2CD = false;
-        isSkill3CD = false;
+        //skill1CDTime = resSvc.GetSkillData(101).cdTime/1000;
+        //skill2CDTime = resSvc.GetSkillData(102).cdTime / 1000;
+        //skill3CDTime = resSvc.GetSkillData(103).cdTime / 1000;
+        //
+        //isSkill1CD = false;
+        //isSkill2CD = false;
+        //isSkill3CD = false;
 
         RefreshUI();
     }
@@ -89,8 +103,18 @@ public class BattleWin : WinRoot
             UpdateHPBlend();
             imgYellow.fillAmount = currentPrg;
         }
+
+        
     }
 
+    private void FixedUpdate()
+    {
+        if (canRecover && imgSkillPoint[currentSkillPointIndex].fillAmount < 1)
+        {
+            imgSkillPoint[currentSkillPointIndex].fillAmount += Time.fixedDeltaTime / Message.SkillPointRecoverTime;
+            currentFill = imgSkillPoint[currentSkillPointIndex].fillAmount;         
+        }
+    }
     //public void SkillCD()
     //{
     //    if (isSkill1CD)
@@ -160,7 +184,7 @@ public class BattleWin : WinRoot
     //        }
     //    }
     //}
-    
+
 
     public void RefreshUI()
     {
@@ -260,6 +284,42 @@ public class BattleWin : WinRoot
         imgHP.fillAmount = (hp * 1f) / (hpNum * 1f);
     }
 
+    public void SetPowerUI(float power)
+    {
+        SetText(txtPower, $"{(int)power}/{powerNum}");
+        imgPower.fillAmount = power / powerNum;
+    }
+
+    public void SetSkillPointUI(int count)
+    {
+        if (count == Message.SkillPointCount)
+        {
+            canRecover = false;
+        }
+        else
+        {
+            canRecover = true;
+        }
+
+        for (int i = 0; i < imgSkillPoint.Length; i++)
+        {
+            if (i < count)
+            {
+                imgSkillPoint[i].fillAmount = 1;
+            }
+            else if (i == count)
+            {
+                currentSkillPointIndex = count;
+                imgSkillPoint[i].fillAmount = currentFill >= 1 ? 0 : currentFill;
+            }
+            else
+            {
+                imgSkillPoint[i].fillAmount = 0;
+            }
+
+        }
+
+    }
     public void SetMonsterHPState(bool state, float prg = 1)
     {
         SetActive(bossHPBar, state);

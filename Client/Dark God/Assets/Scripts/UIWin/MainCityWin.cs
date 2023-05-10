@@ -1,7 +1,9 @@
+using Game.Bag;
 using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -28,21 +30,41 @@ public class MainCityWin : WinRoot
     public Transform expPrgTrans;
     public Animation menuRootAnim;
 
-    private bool menuRootState = true;
+    public RectTransform imgFrame;
+    public Vector2[] menuFramePos;
 
-    private float pointDis;
-    private Vector2 startPos;
-    private Vector2 defaultPos;
 
-    private GuideCfg currentTaskData;
+    public bool MenuRootState { get; private set; }
+
+    //private float pointDis;
+    //private Vector2 startPos;
+    //private Vector2 defaultPos;
+    //private GuideCfg currentTaskData;
+    private int menuIndex = 0;
+    public int MenuIndex
+    {
+        get
+        {
+            return menuIndex;
+        }
+        private set
+        {
+            if(menuIndex != value)
+            {
+                menuIndex = value;
+                //ChangeMenuIndex(0);
+            }
+        }
+    }
     protected override void InitWin()
     {
         base.InitWin();
-        pointDis = Screen.height * 1f / Message.ScreenStandardHeight * Message.ScreenOPDis;
-        defaultPos = imgDirBg.transform.position;
+        isTriggerEvent = false;
+        //pointDis = Screen.height * 1f / Message.ScreenStandardHeight * Message.ScreenOPDis;
+        //defaultPos = imgDirBg.transform.position;
         SetActive(imgDirPoint, false);
+        
 
-        RegisterTouchEvts();
         RefreshUI();
     }
 
@@ -50,7 +72,7 @@ public class MainCityWin : WinRoot
     {
         PlayerData pd = GameRoot.Instance.PlayerData;
         SetText(txtFight, PECommon.GetFightByProps(pd));
-        SetText(txtPower, "体力" + pd.power + "/" + PECommon.GetPowerLimit(pd.lv));
+        SetText(txtPower, $"{pd.power}/{PECommon.GetPowerLimit(pd.lv)}");
         imgPowerPrg.fillAmount = pd.power * 1f / PECommon.GetPowerLimit(pd.lv);
         SetText(txtLevel, pd.lv);
         SetText(txtName, pd.name);
@@ -84,17 +106,27 @@ public class MainCityWin : WinRoot
             else
                 img.fillAmount = 0;
         }
-
-        //currentTaskData = resSvc.GetGuideCfgData(pd.guideid);
-        //if(currentTaskData != null)
-        //{
-        //    SetGuideBtnIcon(currentTaskData.npcID);
-        //}
-        //else
-        //{
-        //    SetGuideBtnIcon(-1);
-        //}
     }
+
+    public void ChangeMenuIndex(int change)
+    {
+        if (!MenuRootState)
+            return;
+
+        MenuIndex += change;
+        if(MenuIndex < 0)
+        {
+            MenuIndex = menuFramePos.Length - 1;
+        }
+        else if(MenuIndex >= menuFramePos.Length)
+        {
+            MenuIndex = 0;
+        }
+
+        imgFrame.anchoredPosition = menuFramePos[MenuIndex];
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+    }
+   
 
     public void SetBtnTalkActive(bool active, string npcName = null)
     {
@@ -111,44 +143,18 @@ public class MainCityWin : WinRoot
         MainCitySystem.Instance.StartTalk();
         SetActive(btnTalk.gameObject, false);
     }
-
-    //private void SetGuideBtnIcon(int npcID)
-    //{
-    //    string spPath = "";
-    //    Image img = btnGuide.GetComponent<Image>();
-    //    switch (npcID)
-    //    {
-    //        case Message.NPCArtisan:
-    //            spPath = PathDefine.ArtisanHead;
-    //            break;
-    //        case Message.NPCGeneral:
-    //            spPath = PathDefine.GeneralHead;
-    //            break;
-    //        case Message.NPCTrader:
-    //            spPath = PathDefine.TraderHead;
-    //            break;
-    //        case Message.NPCWiseMan:
-    //            spPath = PathDefine.WiseManHead;
-    //            break;
-    //        default:
-    //            spPath = PathDefine.TaskHead;
-    //            break;
-    //    }
-    //    SetSprite(img, spPath);
-    //
-    //}
-
     public void OnClickMenuRoot()
     {
-        menuRootState = !menuRootState;
+        MenuRootState = !MenuRootState;
         AnimationClip clip;
-        if(menuRootState)
+        if(MenuRootState)
         {
-            clip = menuRootAnim.GetClip("MenuOpen");
+            MenuIndex = 0;
+            clip = menuRootAnim.GetClip("OpenMenu");
         }
         else
         {
-            clip = menuRootAnim.GetClip("MenuClose");
+            clip = menuRootAnim.GetClip("CloseMenu");
         }
         audioSvc.PlayUIAudio(Message.UIExtenBtn);
         menuRootAnim.Play(clip.name);
@@ -160,57 +166,58 @@ public class MainCityWin : WinRoot
         MainCitySystem.Instance.OpenInfoWin();
     }
 
-    public void RegisterTouchEvts()
-    {
-        OnClickDown(imgTouch.gameObject, (PointerEventData evt) => 
-        {
-            startPos = evt.position;
-            SetActive(imgDirPoint);
-            imgDirBg.transform.position = evt.position;
-        });
+    //public void RegisterTouchEvts()
+    //{
+    //    OnClickDown(imgTouch.gameObject, (PointerEventData evt) => 
+    //    {
+    //        startPos = evt.position;
+    //        SetActive(imgDirPoint);
+    //        imgDirBg.transform.position = evt.position;
+    //    });
+    //
+    //    OnClickUp(imgTouch.gameObject, (PointerEventData evt) => 
+    //    {
+    //        imgDirBg.transform.position = defaultPos;
+    //        SetActive(imgDirPoint, false);
+    //        imgDirPoint.transform.localPosition = Vector2.zero;
+    //        MainCitySystem.Instance.SetMoveDir(Vector2.zero);
+    //
+    //    });
+    //
+    //    OnDrag(imgTouch.gameObject, (PointerEventData evt) =>
+    //    {
+    //        Vector2 _dir = evt.position - startPos;
+    //        float len = _dir.magnitude;
+    //        if(len > pointDis)
+    //        {
+    //            Vector2 clampDir = Vector2.ClampMagnitude(_dir, Message.ScreenOPDis);
+    //            imgDirPoint.transform.position = startPos + clampDir;
+    //        }
+    //        else
+    //        {
+    //            imgDirPoint.transform.position = evt.position;
+    //        }
+    //        MainCitySystem.Instance.SetMoveDir(_dir.normalized);
+    //    });
+    //}
 
-        OnClickUp(imgTouch.gameObject, (PointerEventData evt) => 
-        {
-            imgDirBg.transform.position = defaultPos;
-            SetActive(imgDirPoint, false);
-            imgDirPoint.transform.localPosition = Vector2.zero;
-            MainCitySystem.Instance.SetMoveDir(Vector2.zero);
-
-        });
-
-        OnDrag(imgTouch.gameObject, (PointerEventData evt) =>
-        {
-            Vector2 _dir = evt.position - startPos;
-            float len = _dir.magnitude;
-            if(len > pointDis)
-            {
-                Vector2 clampDir = Vector2.ClampMagnitude(_dir, Message.ScreenOPDis);
-                imgDirPoint.transform.position = startPos + clampDir;
-            }
-            else
-            {
-                imgDirPoint.transform.position = evt.position;
-            }
-            MainCitySystem.Instance.SetMoveDir(_dir.normalized);
-        });
-    }
-
-    public void OnCLickGuideBtn()
-    {
-        audioSvc.PlayUIAudio(Message.UIClickBtn);
-
-        if(currentTaskData != null)
-        {
-            //MainCitySystem.Instance.RunTask(currentTaskData);
-        }
-        else
-        {
-            GameRoot.AddTips("无更多任务");
-        }
-    }
+    //public void OnCLickGuideBtn()
+    //{
+    //    audioSvc.PlayUIAudio(Message.UIClickBtn);
+    //
+    //    if(currentTaskData != null)
+    //    {
+    //        //MainCitySystem.Instance.RunTask(currentTaskData);
+    //    }
+    //    else
+    //    {
+    //        GameRoot.AddTips("无更多任务");
+    //    }
+    //}
 
     public void OnClickStrongBtn()
     {
+        MenuIndex = (int)MenuFunction.Strong - 1;
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         MainCitySystem.Instance.OpenStrongWin();
     }
@@ -221,8 +228,15 @@ public class MainCityWin : WinRoot
         MainCitySystem.Instance.chatWin.SetWinState();
     }
 
+    public void OnClickBagBtn()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+        MainCitySystem.Instance.OpenBagWin();
+    }
+
     public void OnClickMakeBtn()
     {
+        MenuIndex = (int)MenuFunction.Make - 1;
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         MainCitySystem.Instance.OpenBuyWin(Message.BuyCoin);
     }
@@ -235,12 +249,14 @@ public class MainCityWin : WinRoot
 
     public void OnClickMissionBtn()
     {
+        MenuIndex = (int)MenuFunction.Mission - 1;
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         MainCitySystem.Instance.OpenMissionWin();
     }
 
     public void OnClickTaskBtn()
     {
+        MenuIndex = (int)MenuFunction.Task - 1;
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         MainCitySystem.Instance.OpenTaskWin();
     }

@@ -26,7 +26,7 @@ public class BuyWin : WinRoot
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         SetWinState(false);
-        MainCitySystem.Instance.EnableCam();
+        
     }
 
     public void OnClickBuyBtn()

@@ -3,11 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemEntityHP : MonoBehaviour
+public class ItemEntityHP : UIRoot
 {
     #region UI Define
+    private bool active = false;
+    public bool Active
+    {
+        get
+        {
+            return active;
+        }
+        set
+        {
+            active = value;
+            if(!value)
+            {
+                SetActive(imgRoot, false);
+            }
+        }
+    }
+
     public Image imgHpGray;
     public Image imgHpRed;
+    public GameObject imgRoot;
 
     public Animation criticalAni;
     public Text txtCritical;
@@ -19,31 +37,35 @@ public class ItemEntityHP : MonoBehaviour
     public Text txtDodge;
     #endregion
     private int hp;
-    private Transform rootTrans;
+    public Transform rootTrans;
     private RectTransform rect;
     private float scaleRate = 1f * Message.ScreenStandardHeight / Screen.height;
 
-    private void Start()
-    {
-        
-    }
+    Vector3 screenPos;
+    Vector3 uiPos;
+
 
     public void Update()
     {
-        //if (Input.GetKeyUp(KeyCode.Space))
-        //{
-        //    Debug.Log("ssss");
-        //    SetCritical();
-        //    SetHurt(336);
-        //}
-        //
-        //if (Input.GetKeyUp(KeyCode.A))
-        //{
-        //    SetDodge();
-        //}
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(rootTrans.position);
-        rect.anchoredPosition = screenPos * scaleRate;
-        UpdateGrayHp();
+        if (rootTrans == null || !Active) return;
+
+        
+
+        screenPos = Camera.main.WorldToViewportPoint(rootTrans.position);
+        if (screenPos.x > 0 && screenPos.x < 1 && screenPos.y > 0 && screenPos.y < 1 && screenPos.z > 0)
+        {
+            SetActive(imgRoot);
+            uiPos = Camera.main.WorldToScreenPoint(rootTrans.position);
+            uiPos.z = 0; // 将z坐标设为0，使UI在屏幕上显示在最前面
+            rect.anchoredPosition = uiPos * scaleRate;
+            UpdateGrayHp();
+        }
+        else
+        {
+            // 物体不在相机的可视区域内，隐藏UI
+            SetActive(imgRoot, false);
+        }
+
     }
     public void SetItemInfo(int hp)
     {
@@ -90,6 +112,8 @@ public class ItemEntityHP : MonoBehaviour
         currentPrg = oldHp * 1f / hp;
         targetPrg = newHp * 1f / hp;
         imgHpRed.fillAmount = targetPrg;
+
+        Debug.Log($"hurt {oldHp.ToString()} {newHp.ToString()}");
     }
 
     private void UpdateGrayHp()

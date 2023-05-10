@@ -16,7 +16,6 @@ namespace Game.FSM
         public void OnExit(EntityBase entity, params object[] args)
         {
             entity.CurrentAniState = AniState.None;
-            entity.MoveTo(entity.BornPos, true);
         }
 
         public void Process(EntityBase entity, params object[] args)

@@ -51,6 +51,7 @@
     <Compile Include="Cache\CacheSvc.cs" />
     <Compile Include="Common\Program.cs" />
     <Compile Include="DB\DBMgr.cs" />
+    <Compile Include="System\BagSys\BagSys.cs" />
     <Compile Include="System\HeartbeatPacketSys\HeartbeatPacketSys.cs" />
     <Compile Include="System\MissionSys\MissionSys.cs" />
     <Compile Include="System\PowerSys\PowerSys.cs" />

@@ -6,8 +6,10 @@ using UnityEngine.AI;
 using Game.Common;
 using Game.Manager;
 using Cinemachine;
+using Game.Event;
+using Game.Bag;
 
-public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
+public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet, ICommonInputSet
 {
     #region UIWin
     public MainCityWin mainCityWin;
@@ -18,8 +20,6 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
     public BuyWin buyWin;
     public CreateWin createWin;
     #endregion
-
-    public System.Action<int> OnTalkOverEvent;
     public MapCfg MapData{ get; private set; }
 
     private PlayerController pc = null;
@@ -36,20 +36,33 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
     private CinemachineFreeLook freeLookCam;
     #endregion
 
+    public bool isUIWinOpen;
+    private bool canInteract;
     public override void InitSystem()
     {
         base.InitSystem();
         npcMgr = NPCManager.Instance;
+
+        GameEventManager.SubscribeEvent<bool>(EventNode.Event_OnSetUIWinState, SetCamLock);
+        GameEventManager.SubscribeEvent<int>(EventNode.Event_OnOverTalk, OnPlayerOverTalk);
+        GameEventManager.SubscribeEvent<int>(EventNode.Event_OnOverTalk, OpenStrongWin_EventAction);
+        GameEventManager.SubscribeEvent<NPCCfg>(EventNode.Event_OnPlayerCloseToNpc, OnPlayerCloseNPC);
+        GameEventManager.SubscribeEvent<NPCCfg>(EventNode.Event_OnPlayerFarToNpc, OnPlayerFarToNpc);
         PECommon.Log("MainCitySystem Loading");
     }
 
     #region PlayerInput
     public void Move(float ver, float hor)
     {
-
+        if(isUIWinOpen)
+        {
+            pc?.SetMove(Vector3.zero);
+            return;
+        }
         var dir = (camTrans.forward * ver + camTrans.right * hor);
-        dir.y = 0;
+        
         pc?.SetMove(dir.normalized);
+
     }
 
     public void Attack()
@@ -64,17 +77,120 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
 
     public void Jump()
     {
+        if(isUIWinOpen)
+        {
+            return;
+        }
         pc?.SetJump();
     }
 
     public void Roll()
     {
-        return;
+        if(isUIWinOpen)
+        {
+            return;
+        }
+        pc?.SetRoll();
     }
 
     public void Sprint(bool isSprint)
     {
         pc?.SetSprint(isSprint);
+    }
+    #endregion
+
+    #region CommonInput
+    public void SetCamLock(bool state)
+    {
+        if (isUIWinOpen)
+        {
+            return;
+        }
+
+        if (state)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            freeLookCam.m_XAxis.m_InputAxisName = "";
+            freeLookCam.m_YAxis.m_InputAxisName = "";
+            freeLookCam.m_XAxis.m_InputAxisValue = 0f;
+            freeLookCam.m_YAxis.m_InputAxisValue = 0f;
+
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            freeLookCam.m_XAxis.m_InputAxisName = "Mouse X";
+            freeLookCam.m_YAxis.m_InputAxisName = "Mouse Y";
+
+        }
+    }
+
+    public void SetInteraction()
+    {
+
+        if(talkWin.GetWinState())
+        {
+            talkWin.OnClickNextTalkBtn();
+        }
+
+        else if (isUIWinOpen) return;
+
+        else if (canInteract)
+        {
+            StartTalk();
+            mainCityWin.SetBtnTalkActive(false);
+        }
+        else if (mainCityWin.MenuRootState)
+        {
+            EnterMenuFunction();
+        }
+    }
+
+    private void EnterMenuFunction()
+    {
+        MenuFunction func = (MenuFunction)(mainCityWin.MenuIndex + 1);
+
+        switch (func)
+        {
+            case MenuFunction.None:
+                break;
+            case MenuFunction.Task:
+                OpenTaskWin();
+                break;
+            case MenuFunction.Mission:
+                OpenMissionWin();
+                break;
+            case MenuFunction.Make:
+                OpenBuyWin(Message.BuyCoin);
+                break;
+            case MenuFunction.Strong:
+                OpenStrongWin();
+                break;
+            case MenuFunction.Bag:
+                OpenBagWin();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void SetScrollInteraction(float axis)
+    {
+        if (isUIWinOpen) return;
+        if (axis < 0)
+        {
+            mainCityWin.ChangeMenuIndex(-1);
+        }
+        else
+        {
+            mainCityWin.ChangeMenuIndex(1);
+        }
+    }
+
+    public void SetOpenMenu()
+    {
+        if (isUIWinOpen) return;
+        mainCityWin.OnClickMenuRoot();
     }
     #endregion
     #region MainCityWin
@@ -84,11 +200,12 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
         mainCityWin.SetBtnTalkActive(false);
         resSvc.LoadSceneAsync(MapData.sceneName, () =>
         {
+            GameRoot.Instance.GetComponent<AudioListener>().enabled = false;
+            audioSvc.PlayBGMusic(Message.BGMMainCity);
+
             PlayerData pd = GameRoot.Instance.PlayerData;
             LoadPlayer(MapData,pd);
             LoadMainViewCam();          
-            GameRoot.Instance.GetComponent<AudioListener>().enabled = false;
-            audioSvc.PlayBGMusic(Message.BGMMainCity);
             npcMgr.LoadNPC(MapData.npcs, pc);
 
             if (charShowCam != null)
@@ -104,15 +221,19 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
             else
             {
                 mainCityWin.SetWinState();
-                InputManager.Instance.SetInputRoot(this);
+                InputManager.Instance.SetPlayerInputRoot(this);
+                InputManager.Instance.SetCommonInputRoot(this);
             }
+
+            
+
             PECommon.Log("Enter MainCity");
+            
         });
     }   
     public void OpenMissionWin()
     {
         MissionSystem.Instance.OpenMissionWin();
-        freeLookCam.enabled = false;
     }
 
     public void CloseMainCityWin()
@@ -123,38 +244,48 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
     }
     #endregion
     #region Player
-    public void OnPlayerCloseNPC(NPCCfg npc)
+    public void OnPlayerCloseNPC(params NPCCfg[] args)
     {
+        NPCCfg npc = args[0];
         mainCityWin.SetBtnTalkActive(true, npc.name);
         nearNPCData = npc;
+        canInteract = true;
     }
-    public void FarToPlayer()
+    public void OnPlayerFarToNpc(params NPCCfg[] args)
     {
         mainCityWin.SetBtnTalkActive(false);
+        canInteract = false;
     }
     public void StartTalk()
-    {
+    {       
         pointCam.enabled = true;
+
         pc.OnPlayerTalk();
         npcMgr.Interactive(nearNPCData.ID);
         talkWin.InitTalkData(nearNPCData.ID);
-        talkWin.SetWinState();
         mainCityWin.SetWinState(false);
+        talkWin.SetWinState();
     }
-    public void OnPlayerOverTalk(int id)
+    public void OnPlayerOverTalk(params int[] args)
     {
-        if (OnTalkOverEvent != null)
-            OnTalkOverEvent(id);
-
         pc.OnPlayerOverTalk();
         mainCityWin.SetWinState();
         pointCam.enabled = false;
     }
 
+    public void ChangePlayerEquipment(int itemID)
+    {
+        pc.ChangeEquipment(resSvc.GetGameItemCfg(itemID));      
+    }
+
     public void OpenTaskWin()
     {
-        TaskSystem.Instance.OpenOwnerTaskWin();
-        freeLookCam.enabled = false;
+        TaskSystem.Instance.OpenOwnerTaskWin();      
+    }
+
+    public void OpenBagWin()
+    {
+        BagSystem.Instance.OpenBagWin();
     }
     #endregion
     #region LoadSetting
@@ -163,13 +294,12 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
         GameObject player = resSvc.LoadPrefab(PathDefine.DogStandard, true);
         player.transform.localEulerAngles = mapData.playerBornRote;
         player.transform.position = mapData.playerBornPos;
-        //Camera.main.transform.position = mapData.mainCamPos;
-        //Camera.main.transform.localEulerAngles = mapData.mainCamRote;
-
         pc = player.GetComponent<PlayerController>();
-        //agent = player.GetComponent<NavMeshAgent>();
-        
-        pc.InitPlayer(pd.modle);      
+
+        var equipmentArr = pd.equipment.Split('|');
+        var index_weapon = resSvc.GetGameItemCfg(int.Parse(equipmentArr[0])).objPath;
+        var index_shield = resSvc.GetGameItemCfg(int.Parse(equipmentArr[1])).objPath;
+        pc.InitPlayer(pd.modle, $"{index_weapon}|{index_shield}");      
     }
 
     private void LoadMainViewCam()
@@ -180,7 +310,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
 
         pointCam = resSvc.LoadPrefab(PathDefine.PointCam).GetComponent<CinemachineVirtualCamera>();
         pointCam.LookAt = pc.transform;
-        pointCam.LookAt = pc.transform;
+        pointCam.Follow = pc.transform;
         pointCam.enabled = false;
 
         camTrans = Camera.main.transform;
@@ -218,7 +348,6 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
     public void OpenInfoWin()
     {
         //StopNavTask();
-        freeLookCam.enabled = false;
         if (charShowCam == null)
         {
             charShowCam = GameObject.FindGameObjectWithTag("CharShowCam").transform;
@@ -237,18 +366,24 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
         {
             charShowCam.gameObject.SetActive(false);
         }
-        infoWin.SetWinState(false);
-        EnableCam();
+        infoWin.SetWinState(false);       
     }
     #endregion
 
     #region StrongWin
 
     public void OpenStrongWin()
-    {
-        freeLookCam.enabled = false;
+    {        
         strongWin.SetWinState();
-       // StopNavTask();
+    }
+
+    private void OpenStrongWin_EventAction(params int[] args)
+    {
+        int actionId = args[1];
+        if(actionId == (int)NPCFunction.OpenStrongWin)
+        {
+            OpenStrongWin();
+        }
     }
 
     public void RspStrong(GameMsg msg)
@@ -268,7 +403,7 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
     #region BuyWin
     public void OpenBuyWin(int type)
     {
-        freeLookCam.enabled = false;
+        
         buyWin.SetBuyType(type);
         buyWin.SetWinState();
         //StopNavTask();
@@ -316,14 +451,14 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
 
     #region Create Role
 
-    public void ChangeRole()
+    public void ChangeRole(int index)
     {
-        pc.ChangeMesh(MeshType.Role);
+        pc.ChangeMesh(MeshType.Role, index);
     }
 
-    public void ChangeBody()
+    public void ChangeBody(int index)
     {
-        pc.ChangeMesh(MeshType.Body);
+        pc.ChangeMesh(MeshType.Body, index);
     }
 
     public void OnRenameRsp(GameMsg msg)
@@ -332,17 +467,44 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet
         createWin.SetWinState(false);
         createCam.enabled = false;
         mainCityWin.SetWinState();
-        InputManager.Instance.SetInputRoot(this);
+        InputManager.Instance.SetPlayerInputRoot(this);
+        InputManager.Instance.SetCommonInputRoot(this);
     }
     #endregion
 
-    public void EnableCam()
-    {
-        freeLookCam.enabled = true;
+    private void SetCamLock(params bool[] args)
+    {      
+        bool isLock = args[0];
+        isUIWinOpen = isLock;
+
+        if (isLock)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            if (freeLookCam != null)
+            {
+                freeLookCam.m_XAxis.m_InputAxisName = "";
+                freeLookCam.m_YAxis.m_InputAxisName = "";
+                freeLookCam.m_YAxis.m_InputAxisValue = 0f;
+                freeLookCam.m_XAxis.m_InputAxisValue = 0f;
+            }
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            if(freeLookCam != null)
+            {
+                freeLookCam.m_XAxis.m_InputAxisName = "Mouse X";
+                freeLookCam.m_YAxis.m_InputAxisName = "Mouse Y";
+            }
+            
+        }
     }
 
     public string GetPlayerModleIndex()
     {
         return pc?.GetModleIndex_Str();
     }
+
+
+
 }

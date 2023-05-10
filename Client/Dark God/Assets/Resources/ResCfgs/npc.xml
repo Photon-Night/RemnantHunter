@@ -14,7 +14,7 @@
 		<pos>10.45|-5|60</pos>
 		<rotate>0|-90|0</rotate>
 		<type>0</type>
-		<function>0</function>
+		<function>3</function>
 	</item>
 	<item ID="103">
 		<name>商人</name>
@@ -30,6 +30,6 @@
 		<pos>7.05|0.1|-6.63</pos>
 		<rotate>0|0|0</rotate>
 		<type>1</type>
-		<function>0</function>
+		<function>2</function>
 	</item>
 </root>

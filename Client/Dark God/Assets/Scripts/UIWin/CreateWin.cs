@@ -13,8 +13,9 @@ public class CreateWin : WinRoot
     protected override void InitWin()
     {
         base.InitWin();
+
         iptName.text = resSvc.GetRDNameData();
-        btnRdName.onClick.AddListener(OnClickbtnRdName);
+        
     }
 
     public void OnClickbtnRdName()
@@ -23,24 +24,24 @@ public class CreateWin : WinRoot
         iptName.text = resSvc.GetRDNameData();
     }
 
-    public void OnClickChangeRole()
+    public void OnClickChangeRoleBtn(int index)
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
-        MainCitySystem.Instance.ChangeRole();
+        MainCitySystem.Instance.ChangeRole(index);
     }
 
-    public void OnClickChangeBody()
+    public void OnClickChangeBodyBtn(int index)
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
-        MainCitySystem.Instance.ChangeBody();
+        MainCitySystem.Instance.ChangeBody(index);
     }
 
-    public void OnClickChangeWeapon()
+    public void OnClickChangeWeaponBtn()
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
     }
 
-    public void OnClickChangeShield()
+    public void OnClickChangeShieldBtn()
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
     }

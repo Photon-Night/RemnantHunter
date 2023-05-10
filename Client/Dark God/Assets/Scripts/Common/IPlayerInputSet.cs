@@ -15,5 +15,6 @@ namespace Game.Common
         public void Sprint(bool isSprint);
         public void Combo();
         public void Roll();
+       
     }
 }

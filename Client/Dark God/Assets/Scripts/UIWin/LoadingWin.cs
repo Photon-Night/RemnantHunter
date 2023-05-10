@@ -14,6 +14,7 @@ public class LoadingWin : WinRoot
     protected override void InitWin()
     {
         base.InitWin();
+        isTriggerEvent = false;
         fgWidth = imgFG.GetComponent<RectTransform>().sizeDelta.x;
 
         SetText(txtPrg, "0%");

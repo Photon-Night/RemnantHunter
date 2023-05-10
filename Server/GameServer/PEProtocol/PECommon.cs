@@ -72,4 +72,17 @@ namespace PEProtocol
         Finished = 2,
         Failed = 3,
     }
+    public enum EquipmentType
+    {
+        None = 0,
+        Weapon = 1,
+        Shield = 2,
+    }
+    public enum BagItemType
+    {
+        None = 0,
+        Prop = 1,
+        Equipment = 2,
+        Potion = 3,
+    }
 }

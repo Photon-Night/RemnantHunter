@@ -1,49 +1,122 @@
+using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EntityPlayer : EntityBase
 {
-    public float DodgeTime { get; private set; }
-    public EntityPlayer(PlayerController pc, BattleProps bps) : base(pc, bps)
+    private float dodgeTime;
+
+    private float power;
+    private float powerRecoverSpeed = 10;
+    private float powerNum;
+    private float spRecoverTimeOrigin = 0f;
+
+    private int currentComboIndex;
+    private bool canCombo;
+    private GameItemCfg weaponData;
+    private GameItemCfg shieldData;
+    public override int EquipmentADAtk => weaponData.funcType == ItemFunction.ADAtk ? (int)weaponData.funcNum : base.EquipmentADAtk;
+    public override int EquipmentADDef => shieldData.funcType == ItemFunction.ADDef ? (int)shieldData.funcNum : base.EquipmentADDef;
+    public float Power
     {
-        entityType = Message.EntityType.Player;
+        get
+        {
+            return power;
+        }
+
+        set
+        {
+            SetPowerVal(value);
+            power = value;
+        }
+    }
+    private int skillPointCount = 5;
+    public int SkillPointCount
+    {
+        get
+        {
+            return skillPointCount;
+        }
+        set
+        {
+            SetSkillPointVal(value);
+            skillPointCount = value;
+        }
     }
 
-    public bool IsDodge { get; private set; }
+    public EntityPlayer(BattleManager bm, StateManager sm, PlayerController pc, BattleProps bps, string name) : base(bm, sm, pc, bps)
+    {
+        entityType =EntityType.Player;
+        power = Props.power;
+        InitPlayer(name);
+    }
 
     #region Base Setting
-    public void InitPlayer(BattleManager bm, SkillManager skm, StateManager stm, string name)
+    public void InitPlayer(string name)
     {
-        base.InitEntity(bm, skm, stm);
+        base.InitEntity();
         this.name = name;
         currentAniState = AniState.Idle;
+
+        powerNum = power;
+        canCombo = true;
+        currentComboIndex = 0;
+        dodgeTime = GetAnimationClipLength("Roll");
+        shieldData = ResService.Instance.GetGameItemCfg(controller.ShieldID);
+        weaponData = ResService.Instance.GetGameItemCfg(controller.WeaponID);
+        
     }
+
     #endregion
 
     #region Battle Interface
 
-    public override Vector2 GetClosedTarget()
+    public override Vector3 GetClosedTarget()
     {
-        EntityMonster target = battleMgr.FindClosedMonster(this.GetTrans());
+        Debug.Log(Props.atkDis);
+        EntityMonster target = BattleSystem.Instance.FindClosedMonster(25f);
+        
         if (target != null)
         {
-            Vector2 dir = new Vector2(target.GetPos().x - this.GetPos().x, target.GetPos().z - this.GetPos().z);
+            Vector3 dir = new Vector3(target.GetPos().x - this.GetPos().x, 0f, target.GetPos().z - this.GetPos().z);
+            Debug.Log(target.Name);
             return dir.normalized;
         }
-        return Vector2.zero;
+        return Vector3.zero;
+    }
+
+    public override Vector3 GetInputDir()
+    {
+        if(controller is PlayerController pc)
+        {
+            if(pc.MoveAmount != 0)
+            {
+                return pc.Dir;
+            }
+        }
+
+        return Vector3.zero;
     }
 
     protected override void SetHpVal(int oldHp, int newHp)
     {
-        battleMgr.SetHPUI(newHp);
+        BattleSystem.Instance.SetHPUI(newHp);
     }
 
     public override void SetDodge()
     {
-        GameRoot.Instance.dynamicWin.SetDodgePlayer();
+        GameRoot.Instance.SetDodgePlayer();
+    }
+    private void SetPowerVal(float newPower)
+    {
+        BattleSystem.Instance.SetPowerUI(newPower);
     }
 
+    private void SetSkillPointVal(int count)
+    {
+        BattleSystem.Instance.SetSkillCount(count);
+    }
     public override void PlayEntityHitAudio()
     {
         AudioService.Instance.PlayeEntityAudioByAudioSource(GetEntityAudioSource(), Message.Hit1);
@@ -75,26 +148,41 @@ public class EntityPlayer : EntityBase
     public override void SetAttack()
     {
         int r = Random.Range(0, normalAttackLst.Count);
-        controller?.SetNormalAttack(normalAttackLst[r].skillName);
+        var skill = normalAttackLst[r];
+        if (Power >= skill.powerCost)
+        {
+            if (controller.SetAttack(skill.animName))
+            {
+                CurrentSkillData = normalAttackLst[r];
+                PlayEntityAttackAudio(AttackType.Normal);
+                SetAtkRotation(GetClosedTarget());
+                Power -= skill.powerCost;
+            }
+        }
     }
 
     public override bool SetRoll()
     {
         if (controller is null)
             return false;
-        if(controller.SetRoll())
+
+        if(Power >= Message.RollPowerCost)
         {
-            //ÉÁ±ÜÂß¼­
-            IsDodge = true;
-            return true;
+            if (controller.SetRoll())
+            {
+                CanHurt = false;
+                Power -= Message.RollPowerCost;
+                timer.AddTimeTask((tid) =>
+                {
+                    CanHurt = true;
+                }, dodgeTime + .5f);
+
+                return true;
+            }
         }
+        
 
         return false;
-    }
-
-    public override void SetHit()
-    {
-        controller?.SetHit();
     }
     public override void SetSprint(bool isSprint)
     {
@@ -103,12 +191,32 @@ public class EntityPlayer : EntityBase
 
     public override void SetCombo()
     {
-        if (controller is null)
-            return;
-        if (controller.SetCombo())
-        {
 
+        if (SkillPointCount <= 0 || !canCombo) return;
+
+        if (controller.CanMove)
+        {           
+            currentComboIndex = 0;
         }
+        
+        if (controller.SetCombo(comboLst[currentComboIndex].animName))
+        {
+            SetAtkRotation(GetClosedTarget());
+            PlayEntityAttackAudio(AttackType.Heavy);
+            SkillPointCount -= 1;
+            CurrentSkillData = comboLst[currentComboIndex];
+            currentComboIndex += 1;
+            if(currentComboIndex >= comboLst.Count)
+            {
+                currentComboIndex = 0;
+            }
+            canCombo = false;
+            timer.AddTimeTask((tid) =>
+            {
+                canCombo = true;
+            }, comboLst[currentComboIndex].comboCheckTime);
+        }
+        
     }
     public override void SetJump()
     {
@@ -120,5 +228,37 @@ public class EntityPlayer : EntityBase
             //ÌøÔ¾Âß¼­
         }
     }
+
     #endregion
+
+    public void RecoverPower(float delta)
+    {
+        if(controller.CanMove && Power <= powerNum)
+        {
+            Power += delta * powerRecoverSpeed;
+        }
+    }
+
+    public void RecoverSkillPoint(float delta)
+    {
+        if (SkillPointCount < Message.SkillPointCount)
+        {
+            spRecoverTimeOrigin += delta;
+            if (spRecoverTimeOrigin > Message.SkillPointRecoverTime)
+            {
+                SkillPointCount += 1;
+                spRecoverTimeOrigin = 0;
+            }
+        }     
+    }
+
+    public void ChangePlayerEquipment(GameItemCfg equipmentData)
+    {
+        if (equipmentData.equipmentType == EquipmentType.Shield)
+            shieldData = equipmentData;
+        else if (equipmentData.equipmentType == EquipmentType.Weapon)
+            weaponData = equipmentData;
+
+        controller.ChangeEquipment(equipmentData);
+    }
 }

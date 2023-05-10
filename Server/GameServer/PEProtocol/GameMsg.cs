@@ -32,6 +32,10 @@ namespace PEProtocol
         public RspUpdateTaskPrg rspUpdateTaskPrg;
         public ReqUpdateTaskInfo reqUpdateTaskInfo;
         public RspUpdateTaskInfo rspUpdateTaskInfo;
+        public ReqUseProp reqUseProp;
+        public RspUseProp rspUseProp;
+        public ReqChangeEquipment reqChangeEquipment;
+        public RspChangeEquipment rspChangeEquipment;
     }
 
     public class ServerCfg
@@ -278,6 +282,9 @@ namespace PEProtocol
 
         public NTaskInfo[] taskDatas;
         public string modle;
+
+        public string[] bag;
+        public string equipment;
     }
     [Serializable]
     public class NTaskInfo
@@ -286,6 +293,34 @@ namespace PEProtocol
         public int taskID;
         public TaskStatus taskState;
         public int prg;
+    }
+
+    [Serializable]
+    public class ReqUseProp
+    {
+        public int itemID;
+    }
+
+    [Serializable]
+    public class RspUseProp
+    {
+        public int itemID;
+        public int count;
+        public string[] bag;
+    }
+
+    [Serializable]
+    public class ReqChangeEquipment
+    {
+        public int itemID;
+        public EquipmentType type;
+    }
+    [Serializable]
+    public class RspChangeEquipment
+    {
+        public int itemID;
+        public EquipmentType type;
+        public string equipmentStr;
     }
 
 
@@ -329,6 +364,12 @@ namespace PEProtocol
 
         ReqUpdateTaskPrg = 503,
         RspUpdateTaskPrg = 504,
+
+        ReqUseProp = 505,
+        RspUseProp = 506,
+
+        ReqChangeEquipment = 507,
+        RspChangeEquipment = 508,
     }
 
     public enum ErrorCode
@@ -351,6 +392,9 @@ namespace PEProtocol
 
         LackTargetCount,
         LackPreTask,
+
+        LackProp,
+        LackEquipment,
     }
 
 

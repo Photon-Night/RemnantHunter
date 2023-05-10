@@ -25,6 +25,7 @@ namespace GameServer
             PowerSys.Instance.Init();
             TaskSys.Instance.Init();
             MissionSys.Instance.Init();
+            BagSys.Instance.Init();
             HeartbeatPacketSys.Instance.Init();
          
         }

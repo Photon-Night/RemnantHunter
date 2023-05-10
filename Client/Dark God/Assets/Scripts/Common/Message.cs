@@ -66,6 +66,7 @@ public class Message
     public const string ColorGreen = "<color=#00FF00FF>";
     public const string ColorBlue = "<color=#0000FF>";
     public const string ColorYellow = "<color=#FFFF00FF>";
+    public const string ColorOrange = "<color=#FF6900FF>";
     public const string ColorEnd = "</color>";
 
     public const int BuyCoin = 0;
@@ -76,12 +77,19 @@ public class Message
     public const int ComboSpace = 500;
     public const float AICheckTimeSpace = 2f;
     public const float AIAtkTimeSpace = 2f;
+    public const float SkillPointRecoverTime = 5f;
 
 
     //范围数据
     public const float NPCCheckRange = 5f;
 
     public const int DieAniLength = 5000;
+
+    public const int Layer_Monster = 8;
+
+    public const int SkillPointCount = 5;
+
+    public const int RollPowerCost = 10;
 
     #region EventName 
     #endregion
@@ -94,30 +102,31 @@ public class Message
 
    
 
-    public enum EntityType
-    {
-        None = 0,
-        Player = 1,
-        Monster = 2,
-    }
-
-    public enum EntityState
-    {
-        None = 0,
-        BatiState = 1,
-    }
-
-    public enum MonsterType
-    {
-        None = 0,
-        Normal = 1,
-        Boss = 2,
-    }
+  
 
    
 
 }
 
+public enum EntityType
+{
+    None = 0,
+    Player = 1,
+    Monster = 2,
+}
+
+public enum EntityState
+{
+    None = 0,
+    BatiState = 1,
+}
+
+public enum MonsterType
+{
+    None = 0,
+    Normal = 1,
+    Boss = 2,
+}
 public enum TalkType
 {
     None = 0,
@@ -141,14 +150,62 @@ public enum DmgType
 public enum EventNode
 {
     None = 0,
-    Battle = 101,
-    UIClick = 102,
-    NPC = 103,
+    Root = 100,
+    Group_Battle = 101,
+    Group_UI = 102,
+    Group_NPC = 103,
+    Group_Task = 104,
 
-    OnKillMonster = 201,
-    OnTalkToNPC = 202,
-    OnTakeDamage = 203,
-    OnFinishTask = 204,
-    OnTaskStatusChange = 205,
+    Event_OnSetUIWinState = 200,
+    Event_OnKillMonster = 201,
+    Event_OnTalkToNPC = 202,
+    Event_OnTakeDamage = 203,
+    Event_OnFinishTask = 204,
+    Event_OnNPCTaskStatusChange = 205,
+    Event_OnOverTalk = 206,
+    Event_OnPlayerCloseToNpc = 207,
+    Event_OnPlayerFarToNpc = 208,
+    Event_OnBattleEnd = 209,
+    Event_OnBattleStart = 210,
+    Event_OnGetBagItem = 211,
+    Event_OnChangeEquipment = 212,
+}
+public enum NPCFunction
+{
+    None = 0,
+    OpenTaskWin = 1,
+    OpenStrongWin = 2,
+    OpenMissionWin = 3,
+}
 
+public enum MenuFunction
+{
+    None = 0,
+    Task = 1,
+    Mission = 2,
+    Make = 3,
+    Strong = 4,
+    Bag = 5,
+}
+
+public enum SkillType
+{
+    None = 0,
+    Normal = 1,
+    Combo = 2,
+
+}
+
+
+public enum ItemFunction
+{
+    None   = 0,
+    Power  = 1,
+    Health = 2,
+    ADAtk  = 3,
+    Stamina= 4,
+    ADDef  = 5,
+    Dodge  = 6,
+    APAtk  = 7,
+    APDef  = 8,
 }

@@ -10,7 +10,7 @@ namespace Game.Event
     {
         private  EventDelegate<T> handlers;
 
-        public GameEvent(string name) : base(name)
+        public GameEvent(EventNode name) : base(name)
         {
             handlers = null;
         }

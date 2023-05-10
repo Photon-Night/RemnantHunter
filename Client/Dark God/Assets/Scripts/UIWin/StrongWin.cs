@@ -28,6 +28,7 @@ public class StrongWin : WinRoot
     public Text txtCoin;
 
     public Transform costInfoRoot;
+    public RectTransform imgFrame;
     #endregion
     public Transform imgGrp;
     private List<Image> imgs = new List<Image>();
@@ -35,13 +36,22 @@ public class StrongWin : WinRoot
     private PlayerData pd;
 
     private StrongCfg sd;
+    private bool isRegister;
+    private Vector3 imgFrameStartPos;
     protected override void InitWin()
     {
         base.InitWin();
 
-        RegisterClickEvt();
         pd = GameRoot.Instance.PlayerData;
+        if (!isRegister)
+        {
+            RegisterClickEvt();
+            isRegister = true;
+            imgFrameStartPos = imgFrame.localPosition;
+        }
+
         ClickPosItem(0);
+        imgFrame.localPosition = imgFrameStartPos;
     }
     private void RegisterClickEvt()
     {
@@ -61,24 +71,7 @@ public class StrongWin : WinRoot
     {
         currentIndex = index;
         RefreshItem();
-        for (int i = 0; i < imgs.Count; i++)
-        {
-            Transform trans = imgs[i].transform;
-            if(currentIndex == i)
-            {               
-                SetSprite(imgs[i], PathDefine.ItemArrorBG);
-                trans.localPosition = new Vector3(8.6f, trans.localPosition.y, trans.localPosition.z);
-                trans.GetComponent<RectTransform>().sizeDelta = new Vector2(309f, 131.3f);
-
-            }
-
-            else
-            {
-                SetSprite(imgs[i], PathDefine.ItemPlatBG);
-                trans.localPosition = new Vector3(-1.8f, trans.localPosition.y, trans.localPosition.z);
-                trans.GetComponent<RectTransform>().sizeDelta = new Vector2(276.4f, 119f);
-            }
-        }
+        imgFrame.position = imgs[index].rectTransform.position;
     }
 
     private void RefreshItem()
@@ -114,11 +107,11 @@ public class StrongWin : WinRoot
             var img = starTransGrp.GetChild(i).GetComponent<Image>();
             if(i < currentLv)
             {            
-                SetSprite(img, PathDefine.SpStar2);
+                SetActive(img);
             }
             else
             {
-                SetSprite(img, PathDefine.SpStar1);
+                SetActive(img, false);
             }
         }
 
@@ -168,7 +161,7 @@ public class StrongWin : WinRoot
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         SetWinState(false);
-        MainCitySystem.Instance.EnableCam();
+       
     }
 
     public void OnClickStrongBtn()

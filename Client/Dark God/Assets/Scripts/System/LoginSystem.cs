@@ -4,6 +4,7 @@ using UnityEngine;
 using PEProtocol;
 using UnityEngine.Playables;
 using Game.Service;
+using Game.Bag;
 
 public class LoginSystem : SystemRoot<LoginSystem>
 {
@@ -27,19 +28,15 @@ public class LoginSystem : SystemRoot<LoginSystem>
         GameRoot.AddTips("登入成功");
 
         GameRoot.Instance.SetPlayerData(msg.rspLogin);
+        
+
         action = (director) =>
         {
-            //if (msg.rspLogin.playerData.name == "")
-            //{
-            //    createWin.SetWinState();
-            //}
-            //else
-            //{
-                MainCitySystem.Instance.EnterMainCity();
-            //}
             loginWin.SetWinState(false);
+            MainCitySystem.Instance.EnterMainCity();
             dreSvc.UnRegisterTimelineEvent(TimelineEventType.Stopped, action);
         };
+
         dreSvc.PlayTimeLine(Message.TimelineLogin);
         dreSvc.RegisterTimelineEvent(TimelineEventType.Stopped, action);
     }

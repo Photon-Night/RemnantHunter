@@ -5,79 +5,156 @@ using UnityEngine.AI;
 
 public class EntityMonster : EntityBase
 {
+    private NavMeshAgent agent;
     public MonsterData md;
-    private EntityPlayer player;
-    private float checkTimeCount = 0;
-    private float atkTimeCount = 0;
-    private float rdCheckTime = 0;
     
     public MonsterState CurMonsterState { get; private set; }
-    private NavMeshAgent agent;
 
     public float attackRange_sqr;
     public Vector3 bornPos; 
     public bool IsBattle { get; set; }
     public bool IsPatroller { get; private set; }
-    public bool InGroupRange { get; set; }
     public bool RunAI { get; private set; }
+
+    public int GroupID { get; private set; }
     public Vector3 patrolPos { get; private set; }
-    public override void SetBattleProps(BattleProps props)
+    private float checkRange;
+
+    private List<int> AttackTaskLst = new List<int>();
+
+    private float attackCoolDownTime = 0f;
+    public float CheckRange_Sqr
     {
-        int lv = md.lv;
-
-        Props = new BattleProps
+        get
         {
-            hp = lv * props.hp,
-            ad = lv * props.ad,
-            ap = lv * props.ap,
-            addef = lv * props.addef,
-            apdef = lv * props.apdef,
-            dodge = lv * props.dodge,
-            pierce = lv * props.pierce,
-            critical = lv * props.critical,
-            atkDis = props.atkDis
-        };
+            return checkRange * checkRange;
+        }
+    }
+    public EntityMonster(BattleManager bm, StateManager sm, MonsterController mc, BattleProps bps, int entityId = 0) : base(bm, sm, mc, bps, entityId)
+    {
+        entityType = EntityType.Monster;
+        agent = mc.Agent;
+        BornPos = mc.transform.position;
+        controller = mc;
+        checkRange = bps.atkDis * 1.5f;
+        mc.checkRange = checkRange;
+    }
+    public void InitMonster(MonsterData md, EntityBase target, int groupID)
+    {
+        base.InitEntity();
+        this.md = md;
+        RunAI = true;
+        attackRange_sqr = Props.atkDis * Props.atkDis;
+        Target = target;
+        GroupID = groupID;
+    }
 
-        HP = Props.hp;
+    float distance = 0;
+    public void TickMonsterAILogic_Active(Vector3 targetPos, out bool canActiveAllMonster)
+    {
+        canActiveAllMonster = false;
+
+        if (CurrentAniState == AniState.Back)
+        {
+            if (GetDistanceToTarget_Sqr(BornPos) < .1f)
+            {
+                sm.ChangeState(this, AniState.Idle);
+                attackCoolDownTime = 0f;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        if (IsHit) return;
+
+        distance = GetDistanceToTarget_Sqr(targetPos);
+
+        if(!IsBattle && distance <= CheckRange_Sqr)
+        {
+            canActiveAllMonster = true;
+            return;
+        }
+
+        if(!IsBattle)
+        {
+            return;
+        }
+       
+        if(attackCoolDownTime < 0)
+        {
+
+            if (distance <= attackRange_sqr)
+            {              
+                sm.ChangeState(this, AniState.Attack);
+            }
+            else
+            {
+                sm.ChangeState(this, AniState.Chase);
+            }
+        }
+        else
+        {
+            attackCoolDownTime -= Time.deltaTime;
+            agent.SetDestination(GetPos());
+        }
         
     }
-    public EntityMonster(MonsterController mc, BattleProps bps, int entityId = 0) : base(mc, bps, entityId)
+    public void TickMonsterAILogic_Standby(in Vector3 groupPos, float groupRange)
     {
-        entityType = Message.EntityType.Monster;
-        rdCheckTime = Message.AICheckTimeSpace;
-        agent = mc.Agent;
-    }
-    public void InitMonster(BattleManager bm, SkillManager skm, StateManager stm, MonsterData md)
-    {
-        base.InitEntity(bm, skm, stm);
-        this.md = md;
-    }
-    public override Vector2 GetClosedTarget()
-    {
-        player = battleMgr.ep;
-
-        if (player != null && player.CurrentAniState != AniState.Die)
+        if (!RunAI)
+            return;
+        if (IsBattle)
         {
-            Vector3 target = player.GetPos();
+            if (CurrentAniState != AniState.Back)
+            {
+                var distance = GetDistanceToTarget_Sqr(groupPos);
+                if (distance > groupRange)
+                {
+                    sm.ChangeState(this, AniState.Back);
+                }
+            }
+            else
+            {
+                if (GetDistanceToTarget_Sqr(BornPos) < .2f)
+                {
+                    sm.ChangeState(this, AniState.Idle);
+                    IsBattle = false;             
+                }
+            
+            }
+        }
+        else
+        {
+            sm.ChangeState(this, AniState.Idle);
+        }
+    }
+    public override Vector3 GetClosedTarget()
+    {       
+        if (Target != null && Target.CurrentAniState != AniState.Die)
+        {
+            Vector3 target = Target.GetPos();
             Vector3 self = GetPos();
 
-            Vector2 dir = new Vector2(target.x - self.x, target.z - self.z);
+            Vector3 dir = new Vector3(target.x - self.x,0f, target.z - self.z);
             return dir.normalized;
         }
         else
         {
             RunAI = false;
-            return Vector2.zero;
+            return Vector3.zero;
         }
     }
 
     public override bool GetBreakState()
     {
+
         if(md.mCfg.isStop)
         {
-            if (currentSkillCfg != null)
+            if (CurrentSkillData != null)
             {
-                return currentSkillCfg.isBreak;
+                return CurrentSkillData.isBreak;
             }
             else
             {
@@ -85,16 +162,16 @@ public class EntityMonster : EntityBase
             }
         }
         else
-        {
+        
             return false;
-        }
+        
     }
 
     protected override void SetHpVal(int oldHp, int newHp)
     {
-        if (md.mCfg.mType == Message.MonsterType.Normal)
+        if (md.mCfg.mType == MonsterType.Normal)
             base.SetHpVal(oldHp, newHp);
-        else if(md.mCfg.mType == Message.MonsterType.Boss)
+        else if(md.mCfg.mType == MonsterType.Boss)
         {           
             BattleSystem.Instance.SetBossHPVal(oldHp, newHp, Props.hp);
         }
@@ -108,25 +185,18 @@ public class EntityMonster : EntityBase
             return;
         }
         agent.SetDestination(pos);
+        controller.SetMove();
     }
     public override void StopMove()
     {
         agent.SetDestination(GetPos());
+        controller.StopMove();
     }
 
     public bool IsCloseToTarget(Vector3 target)
     {
         return GetDistanceToTarget_Sqr(target) < 0.5f;
-    }
-
-    public override void SetAttack()
-    {
-        int r = Random.Range(0, normalAttackLst.Count);
-        if(controller.SetNormalAttack(normalAttackLst[r].skillName))
-        {
-            
-        }
-    }
+    }   
 
     public override void SetDie()
     {
@@ -138,13 +208,54 @@ public class EntityMonster : EntityBase
             SetActive(false);
         }, Message.DieAniLength);
     }
+
+    public override void SetAttack()
+    {
+        attackCoolDownTime = Random.Range(1f, 4f);
+
+        float r = Random.Range(0, .5f);
+        int tid = timer.AddTimeTask((tid) =>
+        {
+            base.SetAttack();
+        }, r);
+
+        AttackTaskLst.Add(tid);
+    }
+
+    public override void SetHit()
+    {
+        PlayEntityHitAudio();
+        if (currentAniState == AniState.Back) return;
+
+        if (!IsHit)
+        {
+            controller.SetHit();
+            IsHit = true;
+            StopAttackTask();
+            timer.AddTimeTask((tid) =>
+            {
+                IsHit = false;
+            }, hitTime);
+        }
+    }
+
+    public void StopAttackTask()
+    {
+        for(int i = 0; i < AttackTaskLst.Count; i++)
+        {
+            timer.DeleteTimeTask(AttackTaskLst[i]);
+        }
+
+        AttackTaskLst.Clear();
+    }
 }
 
 public enum MonsterState
 {
     None = 0,
-    Normal = 1,
-    Battle = 2,
+    Standby = 1,
+    Check = 2,
+    Battle = 3,
 }
 
 

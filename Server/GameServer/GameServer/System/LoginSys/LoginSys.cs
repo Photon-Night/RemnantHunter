@@ -64,6 +64,7 @@ namespace GameServer
                     };
 
                     cacheSvc.AccOnLine(_data.acc, pack.session, _playerData);
+                    BagSys.Instance.SetOnlineClientBagCache(pack.session, _playerData.bag);
                 }
             }
 
@@ -118,6 +119,7 @@ namespace GameServer
                 }
             }
             cacheSvc.ReleaseCache(session);
+            BagSys.Instance.ReleaseClientBagCache(session);
         }
     }
 }

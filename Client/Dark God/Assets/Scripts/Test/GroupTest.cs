@@ -38,8 +38,6 @@ namespace Assets.Scripts.Test
         public bool IsTargetInRange(Vector3 target)
         {
             var distance_sqr = GetDistanceToTarget_Sqr(target);
-            Debug.Log(distance_sqr +" " +checkRange_sqr);
-            Debug.Log(distance_sqr < checkRange_sqr);
             return distance_sqr < checkRange_sqr;
         }
         public void ActiveMonsters(System.Action<GroupTest, EntityTest> action)
@@ -47,6 +45,14 @@ namespace Assets.Scripts.Test
             for(int i = 0; i < monsters.Length; i++)
             {
                 action(this, monsters[i]);
+            }
+        }
+
+        public void ActiveAll()
+        {
+            for(int i = 0; i < monsters.Length; i++)
+            {
+                monsters[i].Battle = true;
             }
         }
 
@@ -69,5 +75,6 @@ namespace Assets.Scripts.Test
                 range = secondRange;
             }
         }
+
     }
 }

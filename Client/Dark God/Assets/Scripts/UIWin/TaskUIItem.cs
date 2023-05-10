@@ -6,48 +6,26 @@ using UnityEngine.UI;
 
 public class TaskUIItem : UIRoot
 {
-    public Image imgItemBg;
+    public Toggle togTask;
+
     public Text txtName;
     public Text txtPrg;
-    public Text txtCoin;
-    public Text txtExp;
-
-    public Button btnTake;
-    public Button btnFinish;
-    public Button btnAbondon;
+    public Text txtAccepter;
 
     public Image imgPrg;
     public Image imgPrgBg;
-    public void InitItem(TaskItem task)
+    public Image imgItemBg;
+
+    public void InitItem(TaskItem task, ToggleGroup root)
     {
         base.InitUI();
-        txtName.text = task.data.taskName;
-        txtCoin.text = task.data.coin.ToString();
-        txtExp.text = task.data.exp.ToString();
+        SetText(txtName, task.data.taskName);   
+        SetText(txtAccepter, resSvc.GetNPCData(task.data.acceptNpcID).name);
+        togTask.group = root;
         if (task.npcInfo != null)
         {
-            txtPrg.text = task.npcInfo.prg + "/" + task.data.targetCount;
+            SetText(txtPrg, $"{task.npcInfo.prg}/{task.data.targetCount}");
             imgPrg.fillAmount = (float)task.npcInfo.prg / (float)task.data.targetCount;
         }
-
-        RegisterTouchEvts();
-    }
-
-    private void RegisterTouchEvts()
-    {
-        OnEnter(this.gameObject, (PointerEventData evt) => 
-        {
-            imgItemBg.color = Color.gray;
-        });
-
-        OnExit(this.gameObject, (PointerEventData evt) =>
-        {
-            imgItemBg.color = Color.white;
-        });
-
-        OnClickDown(this.gameObject, (PointerEventData evt) =>
-        {
-            audioSvc.PlayUIAudio(Message.UIClickBtn);
-        });
     }
 }

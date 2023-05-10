@@ -1,3 +1,4 @@
+using Game.Event;
 using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
@@ -253,11 +254,6 @@ public class TaskManager
         {
             this.AddNpcTask(item.Value.data.acceptNpcID, item.Value);
             this.AddNpcTask(item.Value.data.submitNpcID, item.Value);
-        }
-
-        if(onTaskStatusChanged != null)
-        {
-            onTaskStatusChanged(result);
         }
 
     }

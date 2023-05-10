@@ -8,15 +8,12 @@ public class LoginWin : WinRoot
 {
     public InputField accInput;
     public InputField pasInput;
-
-    public Button loginButton;
     public Image cover;
 
     protected override void InitWin()
     {
         base.InitWin();
-        
-        if(PlayerPrefs.GetString("acc") != null && PlayerPrefs.GetString("pas") != null)
+        if (PlayerPrefs.GetString("acc") != null && PlayerPrefs.GetString("pas") != null)
         {
             accInput.text = PlayerPrefs.GetString("acc");
             pasInput.text = PlayerPrefs.GetString("pas");

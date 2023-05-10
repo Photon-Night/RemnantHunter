@@ -6,21 +6,38 @@ using UnityEngine.AI;
 public class MonsterController : EntityController
 {
     public NavMeshAgent Agent { get; private set; }
-    private void Update()
-    {
-        canMove = anim.GetBool("canMove");
-    }
+
+    public float checkRange;
+
+    private float moveAmount = 1;
     public override void Init()
     {
         base.Init();
         Agent = GetComponent<NavMeshAgent>();
     }
 
-    public override bool SetNormalAttack(string animName)
+    public override bool SetAttack(string animName)
     {
-        if (!canMove) return false;
-
+        if (!CanMove) return false;
+        
         anim.CrossFade(animName, .1f);
         return true;
+    }
+
+
+    public override void SetMove(Vector3 dir = default)
+    {
+        anim.SetFloat("Blend", moveAmount);
+    }
+    public override void SetDie()
+    {
+        anim.CrossFade("Die", .1f);
+        Agent.isStopped = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(this.transform.position, checkRange);
     }
 }

@@ -1,3 +1,4 @@
+using Game.Event;
 using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,13 +23,19 @@ public class TaskSystem : SystemRoot<TaskSystem>
         }
         taskMgr.InitManager(infos);
 
-        BattleSystem.Instance.onTargetDie += ChangeKillTaskPrg;
-        NPCManager.Instance.RegisterNPCEvent(NPCFunction.OpenTaskWin, OpenTaskWin);
+        //BattleSystem.Instance.onTargetDie += ChangeKillTaskPrg;
+        //NPCManager.Instance.RegisterNPCEvent(NPCFunction.OpenTaskWin, OpenTaskWin);
+        GameEventManager.SubscribeEvent<int>(EventNode.Event_OnOverTalk, OpenTaskWin_EventAction);
+        GameEventManager.SubscribeEvent<int>(EventNode.Event_OnKillMonster, ChangeKillTaskPrg);
     }
 
-    private void OpenTaskWin(int npcID)
+    private void OpenTaskWin_EventAction(params int[] args)
     {
-        OpenNpcTaskWin(npcID);
+        int npcId = args[0];
+        int actionId = args[1];
+
+        if(actionId == (int)NPCFunction.OpenTaskWin)
+        OpenNpcTaskWin(npcId);
     }
 
     public void SetRegisterEvent(System.Action<TaskItem> action, bool reg = true)
@@ -53,11 +60,14 @@ public class TaskSystem : SystemRoot<TaskSystem>
     public void RspUpdateTaskInfo(GameMsg msg)
     {
         RspUpdateTaskInfo data = msg.rspUpdateTaskInfo;
+
         taskMgr.RefreshTaskState(data.info);
         if (taskWin.GetWinState())
         {
             taskWin.Refresh();
         }
+
+
 
         if(data.info.taskState == TaskStatus.Finished)
         {
@@ -65,7 +75,9 @@ public class TaskSystem : SystemRoot<TaskSystem>
             GameRoot.Instance.SetPlayerDataByFinishTask(data);
             GameRoot.AddTips("½ð±Ò+" + taskData.coin);
             GameRoot.AddTips("¾­Ñé+" + taskData.exp);
-        }      
+        }
+
+        NPCManager.Instance.UpdateNpcTaskStatus();
     }
 
     public void RspUpdateTaskPrg(GameMsg msg)
@@ -129,8 +141,13 @@ public class TaskSystem : SystemRoot<TaskSystem>
         taskWin.OpenOwnerTaskWin();
     }
 
-    private void ChangeKillTaskPrg(int entityId)
+    private void ChangeKillTaskPrg(params int[] args)
     {
+        int entityId = args[1];
+        TaskType type = (TaskType)args[0];
+
+        if (type != TaskType.Kill) return;
+
         TaskItem task = taskMgr.GetPlayerTask(entityId, TaskType.Kill);
         
         if (task == null || task.npcInfo.prg == task.data.targetCount)
@@ -166,7 +183,6 @@ public enum TaskType
     Kill = 1,
     Talk = 2,
     Gather = 3,
-    Arrive = 4,
 }
 
 

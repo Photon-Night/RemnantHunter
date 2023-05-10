@@ -127,6 +127,7 @@ namespace GameServer
                             time = reader.GetInt64("time"),
                             mission = reader.GetInt32("mission"),
                             modle = reader.GetString("modle"),
+                            equipment = reader.GetString("equipment"),
                         };
 
                         string[] strong_strArr = reader.GetString("strong").Split('#');
@@ -166,6 +167,8 @@ namespace GameServer
                                 PECommon.Log("Data Error",LogType.Error);
                             }
                         }
+
+                        playerData.bag = reader.GetString("bag").Split('|');
 
                         reader.Close();
                         QueryPlayerTaskData(ref playerData);
@@ -210,6 +213,8 @@ namespace GameServer
                         mission = 10001,
                         taskDatas = { },
                         modle = "",
+                        bag = new string[] { "10000001#5", "10000002#5", "10000016#1", "10000005#1" },
+                        equipment = "10000016|10000005",
                     };
 
                     string[] _taskArr = playerData.task;
@@ -243,7 +248,7 @@ namespace GameServer
                     "dodge=@dodge,pierce=@pierce," +
                     "critical=@critical, guideid=@guideid," +
                     "strong=@strong,crystal=@crystal,time=@time" +
-                    ",task=@task,mission=@mission,modle=@modle", conn);
+                    ",task=@task,mission=@mission,modle=@modle,bag=@bag,equipment=@equipment", conn);
                 cmd.Parameters.AddWithValue("acc", acc);
                 cmd.Parameters.AddWithValue("pas", pas);
                 cmd.Parameters.AddWithValue("name", pd.name);
@@ -266,6 +271,7 @@ namespace GameServer
                 cmd.Parameters.AddWithValue("time", pd.time);
                 cmd.Parameters.AddWithValue("mission", pd.mission);
                 cmd.Parameters.AddWithValue("modle", pd.modle);
+                cmd.Parameters.AddWithValue("equipment", pd.equipment);
                 int[] _strongArr = pd.strong;
                 string strongDBInfo = "";
                 for (int i = 0; i < _strongArr.Length; i++)
@@ -285,6 +291,9 @@ namespace GameServer
                 }
 
                 cmd.Parameters.AddWithValue("task", taskDBInfo);
+
+                var bagStr = string.Join("|", pd.bag);
+                cmd.Parameters.AddWithValue("bag", bagStr);
 
                 cmd.ExecuteNonQuery();
                 _id = (int)cmd.LastInsertedId;
@@ -335,7 +344,7 @@ namespace GameServer
                "ad=@ad,ap=@ap,addef=@addef,apdef=@apdef," +
                "dodge=@dodge,pierce=@pierce,critical=@critical," +
                "guideid=@guideid,strong=@strong,crystal=@crystal," +
-               "time=@time,task=@task,mission=@mission,modle=@modle" + 
+               "time=@time,task=@task,mission=@mission,modle=@modle,bag=@bag,equipment=@equipment" + 
                " where id =@id", conn);
 
                 cmd.Parameters.AddWithValue("id", id);
@@ -358,6 +367,8 @@ namespace GameServer
                 cmd.Parameters.AddWithValue("crystal", pd.crystal);
                 cmd.Parameters.AddWithValue("mission", pd.mission);
                 cmd.Parameters.AddWithValue("modle", pd.modle);
+                cmd.Parameters.AddWithValue("bag", string.Join("|", pd.bag));
+                cmd.Parameters.AddWithValue("equipment", pd.equipment);
                 int[] _strongArr = pd.strong;
                 string strongDBInfo = "";
                 for (int i = 0; i < _strongArr.Length; i++)

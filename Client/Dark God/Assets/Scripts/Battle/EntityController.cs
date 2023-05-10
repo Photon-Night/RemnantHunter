@@ -7,8 +7,8 @@ public abstract class EntityController : MonoBehaviour
     [Header("Stats")]
     public float moveSpeed = 3.5f;
     public float sprintSpeed = 5f;
-    public float rotateSpeed = 5f;
-    public float jumpForce = 600f;
+    public float rotateSpeed = 8f;
+    public float jumpSpeed = 15f;
 
     [Header("States")]
     public bool onGround;
@@ -17,21 +17,27 @@ public abstract class EntityController : MonoBehaviour
     public bool normalAttack;
     public bool comboAttack;
     public bool roll;
-    public bool canMove;
+    public bool CanMove { get; protected set; }
 
     public bool lockCtrl;
+
+    public int ComboIndex { get; protected set; }
+    public int ShieldID { get; protected set; }
+    public int WeaponID { get; protected set; }
 
     protected Dictionary<string, GameObject> fxDic = new Dictionary<string, GameObject>();
     public Transform hpRoot;
 
     protected Transform camTrans;
-
-    public Rigidbody rigid;
     public AudioSource audioSource;
     public Animator anim;
+    public Collider bodyCollider;
 
-    protected System.Action<int> OnAnimatorAttack;
+    public event System.Action<int> AnimationAttackDamageEvent;
     
+    public bool IsMove { get; protected set; }
+    public bool IsReleaseAttack { get; protected set; }
+
     protected Vector3 dir;
     public Vector3 Dir
     {
@@ -39,15 +45,20 @@ public abstract class EntityController : MonoBehaviour
         {
             return dir;
         }
-        set
-        {           
+        protected set
+        {
+            if (dir == Vector3.zero)
+                IsMove = false;
+            else
+                IsMove = true;
+
             dir = value;
         }
     }
 
     private void Update()
     {
-        canMove = anim.GetBool("canMove");
+        CanMove = anim.GetBool("canMove");          
     }
 
     public virtual void Init()
@@ -59,32 +70,10 @@ public abstract class EntityController : MonoBehaviour
         }
     }
 
-    public void RegisterAttackEvent(System.Action<int> action)
-    {
-        if(OnAnimatorAttack != null)
-        {
-            OnAnimatorAttack += action;
-        }
-        else
-        {
-            OnAnimatorAttack = action;
-        }
-    }
-
-    public void UnRegisterAttackEvent(System.Action<int> action)
-    {
-        if(OnAnimatorAttack != null)
-        OnAnimatorAttack -= action;
-    }
     #region Action
-    public virtual void SetMove(Vector3 dir)
+    public virtual void SetMove(Vector3 dir = default)
     {
         
-    }
-
-    public virtual void SetMove(float ver, float hor)
-    {
-
     }
 
     public virtual bool SetJump()
@@ -92,11 +81,12 @@ public abstract class EntityController : MonoBehaviour
         return true;
     }
 
-    public virtual bool SetCombo()
+    public virtual bool SetCombo(string comboName)
     {
         if (onGround)
         {
-            anim.SetTrigger("combo");
+            anim.CrossFade(comboName, .1f);
+            IsReleaseAttack = true;
             return true;
         }
         return false;
@@ -112,7 +102,7 @@ public abstract class EntityController : MonoBehaviour
         return false;
     }
 
-    public virtual bool SetNormalAttack(string animName)
+    public virtual bool SetAttack(string animName)
     {       
         return true;
     }
@@ -124,49 +114,60 @@ public abstract class EntityController : MonoBehaviour
 
     public virtual void SetHit()
     {
-        anim.SetTrigger("hit");
+        anim.CrossFade("Hit", .1f);
     }
 
-    public virtual void SetIdle()
+
+    public virtual void StopMove()
+    {
+        anim.SetFloat("Blend", Message.BlendIdle);
+    }
+    public virtual void SetDie()
+    {
+        bodyCollider.enabled = false;
+        anim.SetBool("die", true);
+    }
+    #endregion
+
+    public virtual void SetAtkRotationLocal(Vector3 atkDir)
+    {
+        Quaternion tr = Quaternion.LookRotation(atkDir);
+        //Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, Time.deltaTime * rotateSpeed);
+        //transform.rotation = targetRotation;
+        transform.rotation = tr;
+    }
+
+    public virtual void ChangeMesh(MeshType type, int index)
     {
         
     }
-    public virtual void SetDie() {  }
-    #endregion
-
-    public virtual void SetAtkRotationLocal(Vector2 atkDir)
-    {
-        float angle = Vector2.SignedAngle(atkDir, new Vector2(0, 1));
-        Vector3 eulerAngles = new Vector3(0, angle, 0);
-        this.transform.localEulerAngles = eulerAngles;
-    }
-
+    public virtual void ChangeEquipment(GameItemCfg equipmentData) { }
     public AudioSource GetAudio()
-    {
-        return audioSource;
+    {       
+        return audioSource ??= GetComponent<AudioSource>();
     }
 
-    protected void OnAnimtionAttack(int id)
+    protected void OnAnimationAttackDamage(int dmgIndex)
     {
-        OnAnimatorAttack(id);
+        IsReleaseAttack = false;
+        AnimationAttackDamageEvent?.Invoke(dmgIndex);
     }
     protected void OnTriggerStay(Collider col)
-    {
-        if (!onGround && col.gameObject.tag == "Ground")
+    {        
+        if (!onGround && col.gameObject.layer == 10)
         {
+        
             onGround = true;
             anim.SetBool("onGround", true);
         }
     }
     protected void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.tag == "Ground")
+        if (col.gameObject.layer == 10)
         {
             onGround = false;
             anim.SetBool("onGround", false);
         }
     }
-
-    
 
 }

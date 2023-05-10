@@ -1,3 +1,4 @@
+using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -93,10 +94,18 @@ public class SkillCfg : BaseData
 
 public class SkillData : BaseData
 {
+    public int entityID;
     public string skillName;
+    public string animName;
+    public string fxName;
+    public SkillType skillType;
+    public int nextComboID;
+    public int comboCheckTime;
     public bool isCollide;
     public bool isBreak;
-    public DmgType type;
+    public float powerCost;
+    public DmgType dmgType;
+    public List<int> skillActionLst;
     public List<int> skillDamageLst;
 }
 
@@ -110,7 +119,7 @@ public class SkillMoveCfg : BaseData
 public class MonsterCfg : BaseData
 {
     public string mName;
-    public Message.MonsterType mType;
+    public MonsterType mType;
     public bool isStop;
     public string resPath;
     public int skillID;
@@ -125,6 +134,40 @@ public class MonsterData : BaseData
     public MonsterCfg mCfg;
     public Vector3 mBornPos;
     public Vector3 mBornRote;
+}
+
+public class GameItemCfg : BaseData
+{
+    public string name;
+    public string des;
+    public BagItemType ItemType;
+    public EquipmentType equipmentType;
+    public ItemFunction funcType;
+    public float funcNum;
+    public float duration;
+    public string objPath;
+    public string iconPath;
+    public bool useWithoutBattle;
+}
+
+public class BagItemData
+{
+    public GameItemCfg cfg;
+
+    public BagItemData(GameItemCfg cfg, int count)
+    {
+        this.cfg = cfg;
+        this.count = count;
+    } 
+    public bool CanUse
+    {
+        get
+        {
+            return cfg.useWithoutBattle | BattleSystem.IsEnterBattle;
+        }
+    }
+
+    public int count;
 }
 
 public class NPCCfg : BaseData
@@ -145,9 +188,10 @@ public class GroupData : BaseData
     public float battleRange;
     public List<MonsterData> monsters;
     public Vector3 patrolPos;
+    public int lv;
 }
 
-public class SkillActionCfg : BaseData
+public class SkillActionData : BaseData
 {
     public float delayTime; 
     public float radius;
@@ -181,6 +225,7 @@ public class TaskDefine : BaseData
 
 public class BattleProps
 {
+    public int power;
     public float atkDis;
     public int hp;
     public int ad;

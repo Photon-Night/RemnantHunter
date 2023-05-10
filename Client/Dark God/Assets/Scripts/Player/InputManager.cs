@@ -10,11 +10,12 @@ namespace Game.Manager
 {
     class InputManager : MonoSingleton<InputManager>
     {
-        private IPlayerInputSet inputRoot;
-
+        private IPlayerInputSet playerInputRoot;
+        private ICommonInputSet commonInputRoot;
         [Header("Inputs")]
         [SerializeField] private float vertical;
         [SerializeField] private float horizontal;
+        [SerializeField] private float mouseAxis;
 
         [Header("PlayerInputStates")]        
         public bool sprint;     
@@ -24,16 +25,23 @@ namespace Game.Manager
         public bool normalAttack;   
         [HideInInspector]
         public bool comboAttack;    
-        public bool canMove;    
+        public bool CanMove;    
         [HideInInspector]
         public bool roll;
-
+        [HideInInspector]
+        public bool unlockCam;
+        public bool lockCam;
+        public bool interaction;
+        public bool openUI;
         private void Update()
         {
             GetInput();
             SetPlayerStates();
         }
-
+        private void FixedUpdate()
+        {
+            
+        }
         private void GetInput()
         {
             vertical = Input.GetAxis("Vertical");    //for getting vertical input.
@@ -43,48 +51,83 @@ namespace Game.Manager
             normalAttack = Input.GetButtonDown("Fire1"); //for getting normal attack input.
             comboAttack = Input.GetButtonDown("Fire2");    //for getting combo attack input.
             roll = Input.GetButtonDown("Fire3");     //for getting roll input.
+            lockCam = Input.GetKeyDown(KeyCode.LeftAlt);
+            unlockCam = Input.GetKeyUp(KeyCode.LeftAlt);
+            interaction = Input.GetKeyDown(KeyCode.F);
+            mouseAxis = Input.GetAxis("Mouse ScrollWheel");
+            openUI = Input.GetKeyDown(KeyCode.Q);
         }
 
         private void SetPlayerStates()
         {
-            if (inputRoot == null)
+
+            if (playerInputRoot == null)
             {
                 return;
             }
 
+            if(unlockCam)
+            {
+                commonInputRoot?.SetCamLock(false);
+            }
+
+            if(lockCam)
+            {
+                commonInputRoot?.SetCamLock(true);
+            }
+
+            playerInputRoot.Sprint(sprint);
+
             if (jump)
             {
-                inputRoot.Jump();
+                playerInputRoot.Jump();
+            }
+            else if (roll)
+            {
+                playerInputRoot.Roll();
             }
 
             if (comboAttack)
             {
-                inputRoot.Combo();
+                playerInputRoot.Combo();
             }
 
-            if (roll)
-            {
-                inputRoot.Roll();
-            }
 
             if(normalAttack)
             {
-                inputRoot.Attack();
+                playerInputRoot.Attack();
             }
 
+            if(interaction)
+            {
+                commonInputRoot?.SetInteraction();
+            }
 
-            inputRoot.Sprint(sprint);            
-            inputRoot.Move(vertical, horizontal);
+            if(mouseAxis != 0)
+            {
+                commonInputRoot?.SetScrollInteraction(mouseAxis);
+            }
+
+            if(openUI)
+            {
+                commonInputRoot?.SetOpenMenu();
+            }
+
+            playerInputRoot.Move(vertical, horizontal);
         }
 
-        public void SetInputRoot(IPlayerInputSet root)
+        public void SetPlayerInputRoot(IPlayerInputSet root)
         {
-            inputRoot = root;
+            playerInputRoot = root;
         }
-
+        public void SetCommonInputRoot(ICommonInputSet root)
+        {
+            commonInputRoot = root;
+        }
         public void CloseInput()
         {
-            inputRoot = null;
+            playerInputRoot = null;
+            commonInputRoot = null;
         }
 
     }

@@ -18,7 +18,6 @@ public class MissionWin : WinRoot
     public void OnClickCloseBtn()
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
-        MainCitySystem.Instance.EnableCam();
         this.SetWinState(false);
     }
 
@@ -41,7 +40,7 @@ public class MissionWin : WinRoot
     public void OnClickMissionBtn(int index)
     {
         audioSvc.PlayUIAudio(Message.UIClickBtn);
-
+        GameRoot.Instance.RemoveAllTaskUIItem();
         MapCfg data = resSvc.GetMapCfgData(index);
         if(pd.power - data.power < 0)
         {

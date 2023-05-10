@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<item ID="20001">
+		<pos>25,0,-25</pos>
+		<lv>1</lv>
+		<normalRange>8</normalRange>
+		<battleRange>15</battleRange>
+		<monsters>1002,0,0,3.8,50|1003,1,0,0.6,50</monsters>
+	</item>
+	<item ID="20002">
+		<pos>25,0,25</pos>
+		<lv>1</lv>
+		<normalRange>8</normalRange>
+		<battleRange>15</battleRange>
+		<monsters>1002,0,0,3.8,50|1003,1,0,0.6,50</monsters>
+	</item>
+	<item ID="20003">
+		<pos>-25,0,25</pos>
+		<lv>1</lv>
+		<normalRange>8</normalRange>
+		<battleRange>15</battleRange>
+		<monsters>1002,0,0,3.8,50|1003,1,0,0.6,50</monsters>
+	</item>
+</root>

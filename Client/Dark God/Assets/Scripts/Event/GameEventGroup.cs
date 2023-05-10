@@ -9,16 +9,21 @@ namespace Game.Event
 {
     public class GameEventGroup : GameEventNode
     {
-        private Dictionary<string, GameEventNode> childNode = new Dictionary<string, GameEventNode>();
-        public GameEventGroup(string name) : base(name)
+        private Dictionary<EventNode, GameEventNode> childNode = new Dictionary<EventNode, GameEventNode>();
+        public GameEventGroup(EventNode name) : base(name)
         {
 
         }
-        public bool AddEvent(GameEventNode eventNode, string groupName = "Root")
+        public bool AddNode(GameEventNode eventNode, EventNode groupName)
         {           
 
-            if (groupName == nodeName || groupName == null)
+            if (groupName == nodeName || groupName == EventNode.None)
             {
+                if(childNode.ContainsKey(groupName))
+                {
+                    PECommon.Log($"{eventNode.NodeName} is existed");
+                    return false;
+                }
                 childNode[eventNode.NodeName] = eventNode;
                 PECommon.Log($"{eventNode.NodeName} register");
                 return true;
@@ -31,7 +36,7 @@ namespace Game.Event
                 {
                     if(e.Current.Value is GameEventGroup group)
                     {
-                        if(group.AddEvent(eventNode, groupName))
+                        if(group.AddNode(eventNode, groupName))
                         {
                             isFind = true;
                             break;
@@ -44,14 +49,14 @@ namespace Game.Event
                 return isFind;
             }           
         }
-        public bool RemoveEvent(string eventName)
+        public bool RemoveNode(EventNode nodeName)
         {
             
-            if(childNode.ContainsKey(eventName))
+            if(childNode.ContainsKey(nodeName))
             {
-                childNode[eventName].Enable = false;
-                childNode.Remove(eventName);
-                PECommon.Log($"{eventName} is removed");
+                childNode[nodeName].Enable = false;
+                childNode.Remove(nodeName);
+                PECommon.Log($"{nodeName} is removed");
                 return true;
             }
             else
@@ -63,7 +68,7 @@ namespace Game.Event
                     var node = e.Current;
                     if(node.Value is GameEventGroup group)
                     {
-                        if(group.RemoveEvent(eventName))
+                        if(group.RemoveNode(nodeName))
                         {
                             isFind = true;
                             break;
@@ -75,7 +80,7 @@ namespace Game.Event
                 return isFind;
             }
         }
-        public bool Subscrible<T>(string eventName, EventDelegate<T> handler)
+        public bool Subscrible<T>(EventNode eventName, EventDelegate<T> handler)
         {
             if(childNode.ContainsKey(eventName))
             {
@@ -111,7 +116,7 @@ namespace Game.Event
                 return isFind;
             }
         }
-        public bool Unsubscrible<T>(string eventName, EventDelegate<T> handler)
+        public bool Unsubscrible<T>(EventNode eventName, EventDelegate<T> handler)
         {
             if (childNode.ContainsKey(eventName))
             {
@@ -147,7 +152,7 @@ namespace Game.Event
                 return isFind;
             }
         }
-        public bool ClearSubscrible(string eventName)
+        public bool ClearSubscrible(EventNode eventName)
         {           
 
             if(childNode.ContainsKey(eventName))
@@ -176,7 +181,7 @@ namespace Game.Event
                 return isFind;
             }
         }        
-        public bool Trigger<T>(string eventName, params T[] args)
+        public bool Trigger<T>(EventNode eventName, params T[] args)
         {
             if (!Enable)
                 return false;

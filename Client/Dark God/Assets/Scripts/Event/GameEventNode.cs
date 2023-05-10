@@ -8,14 +8,14 @@ namespace Game.Event
 {
     public abstract class GameEventNode
     {
-        protected string nodeName;
+        protected EventNode nodeName;
 
-        public GameEventNode(string name)
+        public GameEventNode(EventNode name)
         {
             nodeName = name;
             enable = true;
         }
-        public string NodeName
+        public EventNode NodeName
         {
             get { return nodeName; }
             protected set { nodeName = value; }

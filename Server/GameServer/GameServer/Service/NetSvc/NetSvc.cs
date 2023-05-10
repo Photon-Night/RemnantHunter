@@ -49,6 +49,7 @@ namespace GameServer
 
                 case CMD.ReqLogin:
                     LoginSys.Instance.ReqLogin(pack);
+                    
                     break;
 
                 case CMD.ReqRename:
@@ -88,6 +89,13 @@ namespace GameServer
                 case CMD.ReqUpdateTaskInfo:
                     TaskSys.Instance.ReqUpdateTaskInfo(pack);
                     break;
+                case CMD.ReqUseProp:
+                    BagSys.Instance.ReqUseProp(pack);
+                    break;
+                case CMD.ReqChangeEquipment:
+                    BagSys.Instance.ReqChangeEquipent(pack);
+                    break;
+
 
             }
 

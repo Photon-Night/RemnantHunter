@@ -22,8 +22,8 @@ namespace GameServer
 
             sessionDic = cacheSvc.GetConnSessionCache();
 
-            timerSvc.AddTimeTask((tid) => { Heartbeat(); }, PECommon.HeartbeatSpace, PETimeUnit.Second, 0);
-            timerSvc.AddTimeTask((tid) => { CheckConnection(); }, PECommon.CheckSpace + PECommon.HeartbeatSpace, PETimeUnit.Second, 0);
+            //timerSvc.AddTimeTask((tid) => { Heartbeat(); }, PECommon.HeartbeatSpace, PETimeUnit.Second, 0);
+            //timerSvc.AddTimeTask((tid) => { CheckConnection(); }, PECommon.CheckSpace + PECommon.HeartbeatSpace, PETimeUnit.Second, 0);
         }
 
         private void Heartbeat()
@@ -56,6 +56,7 @@ namespace GameServer
                 else
                 {
                     cacheSvc.ReleaseCache(session[i]);
+
                 }
             }
         }

@@ -15,19 +15,26 @@ namespace Assets.Scripts.Test
         public bool IsBack;
         public NavMeshAgent agent;
         public float attackRange_sqr;
-        public float range;
+        public float checkRange_sqr;
+        public float range_Attack;
+        public float range_Check;
 
         public int EntityType;
+
+        public bool Battle;
+        public bool Check;
         public void Start()
         {
             bornPos = transform.position;
-            attackRange_sqr = range * range;
+            attackRange_sqr = range_Attack * range_Attack;
+            checkRange_sqr = range_Check * range_Check;
         }
 
         public void MoveTo(Vector3 pos)
         {
             agent.SetDestination(pos);
         }
+
 
         public float GetDistanceToTarget_Sqr(Vector3 pos)
         {
@@ -37,7 +44,10 @@ namespace Assets.Scripts.Test
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(this.transform.position, range);
+            Gizmos.DrawWireSphere(this.transform.position, range_Attack);
+            Gizmos.DrawWireSphere(this.transform.position, range_Check);
         }
+
+        
     }
 }

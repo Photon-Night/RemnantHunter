@@ -3,8 +3,15 @@
 /Client/Dark God/Logs
 /Client/Dark God/Assets/GameAssets
 /Client/Dark God/Assets/Test
-/Client/Dark God/Asset/Resources/ResIcon
-/Client/Dark God/Asset/Resources/PrefabCam
-/Client/Dark God/Asset/Resources/PrefabMonster
-/Client/Dark God/Asset/Resources/PrefabPlayer
-/Client/Dark God/Asset/Resources/PrefabUI
+/Client/Dark God/Assets/Resources/ResIcon
+/Client/Dark God/Assets/Resources/PrefabPlayer
+/Client/Dark God/Assets/Resources/PrefabMonster
+/Client/Dark God/Assets/Resources/PrefabNPC
+/Client/Dark God/Assets/Resources/PrefabUI
+/Client/Dark God/Assets/Resources/ResImages
+/Client/Dark God/Assets/Resources/ResScenes
+/Client/Dark God/Assets/Resources/UIAnimation
+*.prefab
+*.meta
+*.json
+*.unity

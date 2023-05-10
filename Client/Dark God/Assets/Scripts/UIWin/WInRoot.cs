@@ -4,21 +4,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Game.Event;
 
-public class WinRoot : UIRoot
+public abstract class WinRoot : UIRoot
 {
+    protected bool isTriggerEvent = true;
     public void SetWinState(bool isActive = true)
     {
         if(this.gameObject.activeSelf != isActive)
         this.gameObject.SetActive(isActive);
 
-        if(isActive)
+
+        if (isActive)
         {
             InitWin();
         }
         else
         {
             ClearWin();
+        }
+
+        if (isTriggerEvent)
+        {
+            GameEventManager.TriggerEvent<bool>(EventNode.Event_OnSetUIWinState, isActive);
+
         }
     }
 

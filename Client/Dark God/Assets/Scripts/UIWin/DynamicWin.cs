@@ -9,6 +9,7 @@ public class DynamicWin : WinRoot
     public Text txtTips;
 
     public Transform hpItemRoot;
+    public Transform taskStatusItemRoot;
 
     public Text txtPlayerDodge;
     public Animation playerDodge;
@@ -17,10 +18,11 @@ public class DynamicWin : WinRoot
 
     private Queue<string> tipsQue = new Queue<string>();
     private Dictionary<string, ItemEntityHP> hpUIItemDic = new Dictionary<string, ItemEntityHP>();
+    private Dictionary<int, NpcTaskStatusItem> taskStatusUIDic = new Dictionary<int, NpcTaskStatusItem>(); 
     protected override void InitWin()
     {
         base.InitWin();
-
+        isTriggerEvent = false;
         SetActive(txtTips, false);
         SetActive(txtPlayerDodge, false);
     }
@@ -86,7 +88,34 @@ public class DynamicWin : WinRoot
 
         hpUIItemDic.Add(name, item);
     }
+    public void AddTaskStatusItem(int npcId, NpcTaskStatus status, Transform trans)
+    {
+        GameObject go = resSvc.LoadPrefab(PathDefine.TaskStatusItem, true);
+        go.transform.SetParent(taskStatusItemRoot);
+        go.transform.localPosition = new Vector3(-1000, 0, 0);
+        NpcTaskStatusItem item = go.GetComponent<NpcTaskStatusItem>();
+        item.InitItem(status, trans);
 
+        taskStatusUIDic.Add(npcId, item);
+    }
+
+    public void UpdateTaskStatus(int npcId, NpcTaskStatus status)
+    {
+        if(taskStatusUIDic.ContainsKey(npcId))
+        {
+            taskStatusUIDic[npcId].SetItemState(status);
+        }
+    }
+
+    public void RemoveAllTaskUIItem()
+    {
+        foreach (var item in taskStatusUIDic)
+        {
+            Destroy(item.Value.gameObject);
+        }
+
+        taskStatusUIDic.Clear();
+    }
     public void ReMoveHpUIItem(string name)
     {
         ItemEntityHP _uiItem = null;
@@ -107,6 +136,13 @@ public class DynamicWin : WinRoot
         hpUIItemDic.Clear();
     }
 
+    public void SetHpUIItemActive(string name, bool active = true)
+    {
+        if(hpUIItemDic.TryGetValue(name, out var item))
+        {
+            item.Active = active;
+        }
+    }
     public void SetHurt(string index, int hurt)
     {
         ItemEntityHP item = null;
@@ -139,6 +175,7 @@ public class DynamicWin : WinRoot
         ItemEntityHP item = null;
         if(hpUIItemDic.TryGetValue(index, out item))
         {
+
             item.SetHpVal(oldHp, newHp);
         }
     }
@@ -148,5 +185,10 @@ public class DynamicWin : WinRoot
         SetActive(txtPlayerDodge);
         playerDodge.Stop();
         playerDodge.Play();
+    }
+
+    public void SetNpcTaskStatusItemState(bool state)
+    {
+        SetActive(taskStatusItemRoot.gameObject, state);
     }
 }

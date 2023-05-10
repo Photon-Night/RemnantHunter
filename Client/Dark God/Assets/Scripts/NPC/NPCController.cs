@@ -1,53 +1,45 @@
 using System.Collections;
 using System;
 using UnityEngine;
+using Game.Event;
 
 public class NPCController : MonoBehaviour
 {
     private Animator anim;
-    private NPCCfg NpcData;
+    public NPCCfg NpcData { get; private set; }
     private bool isInteractive = false;
     private PlayerController pc;
     private Vector3 startForward;
     private bool turnBack = false;
-    public Action<NPCCfg> OnPlayerGetClose;
     private NpcTaskStatus taskStatus;
+    public NpcTaskStatus TaskStatus
+    { 
+        get
+        {
+            return taskStatus;
+        }
+        set
+        {
+            if(taskStatus != value)
+            {
+                taskStatus = value;
+                GameEventManager.TriggerEvent(EventNode.Event_OnNPCTaskStatusChange, NpcData.ID, (int)taskStatus);
+                Debug.Log(value);
+            }
+        }
+    }
+    public Transform uiRoot;
+    public int StatusIndex { get; set; }
 
-    public void InitNPC(NPCCfg data, PlayerController player)
+    public void InitNPC(NPCCfg data, PlayerController player, NpcTaskStatus status)
     {
         NpcData = data;
         anim = this.GetComponent<Animator>();
         pc = player;
         startForward = this.transform.forward;
-        TaskSystem.Instance.SetRegisterEvent(OnTaskStatusChange);
+        taskStatus = status;
     }
-
-    public void OnDestroy()
-    {
-        if(TaskSystem.Instance != null)
-        TaskSystem.Instance.SetRegisterEvent(OnTaskStatusChange, false);
-    }
-    private void OnTaskStatusChange(TaskItem task)
-    {
-        if(task.data.submitNpcID == NpcData.ID)
-        {
-            taskStatus = TaskSystem.Instance.GetNpcTaskStatus(NpcData.ID);
-        }
-    }
-
-    public void RegisterEvnet(Action<NPCCfg> action)
-    {
-        if (OnPlayerGetClose == null)
-            OnPlayerGetClose = action;
-        else
-        OnPlayerGetClose += action;
-    }
-
-    public void OnPlayerExit()
-    {
-        MainCitySystem.Instance.FarToPlayer();
-    }
-
+   
     public void SetAction(int action)
     {
         anim.SetInteger("Action", action);
@@ -82,12 +74,12 @@ public class NPCController : MonoBehaviour
         }
     }
 
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (OnPlayerGetClose != null)
-                OnPlayerGetClose(NpcData);
+            GameEventManager.TriggerEvent(EventNode.Event_OnPlayerCloseToNpc, NpcData);
         }
     }
 
@@ -96,7 +88,7 @@ public class NPCController : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            OnPlayerExit();
+            GameEventManager.TriggerEvent(EventNode.Event_OnPlayerFarToNpc, NpcData);
             if (turnBack)
             {
                 StartCoroutine(FaceToTheTarget(startForward));

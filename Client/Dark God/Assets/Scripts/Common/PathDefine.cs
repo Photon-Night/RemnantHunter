@@ -13,15 +13,16 @@ public class PathDefine
     public const string SkillCfg = "ResCfgs/skill";
     public const string SkillMoveCfg = "ResCfgs/skillmove";
     public const string MonsterCfg = "ResCfgs/monster";
-    public const string SkillActionCfg = "ResCfgs/skillaction";
+    public const string SkillActionData = "ResCfgs/skillaction";
     public const string NPCCfg = "ResCfgs/npc";
     public const string TalkCfg = "ResCfgs/talk";
-    public const string GroupCfg = "ResCfs/group";
+    public const string GroupCfg = "ResCfgs/group";
+    public const string ItemCfg = "ResCfgs/item";
 
     public const string AssissnCityPlayerPrefab = "PrefabPlayer/AssassinCity";
     public const string AssissnBattlePlayerPrefab = "PrefabPlayer/Assassin";
     public const string PlayerPrefab = "PrefabPlayer/Player";
-    public const string DogKnight = "PrefabPlayer/DogPolyart";
+    public const string DogKnight = "PrefabPlayer/DogKnight";
     public const string DogStandard = "PrefabPlayer/DogStandard";
 
     public const string FreeLookCam1 = "PrefabCam/FreeLook1";
@@ -41,15 +42,15 @@ public class PathDefine
     public const string ArtisanIcon = "ResImages/npc2";
     public const string TraderIcon = "ResImages/npc3";
 
-    public const string ItemTouKui = "ResImages/toukui";
-    public const string ItemBody = "ResImages/body";
-    public const string ItemYaobu = "ResImages/yaobu";
-    public const string ItemHand = "ResImages/hand";
-    public const string ItemLeg = "ResImages/leg";
-    public const string ItemFoot = "ResImages/Foot";
+    public const string ItemTouKui = "ResImages/helmet";
+    public const string ItemBody = "ResImages/chest_armor";
+    public const string ItemYaobu = "ResImages/belt";
+    public const string ItemHand = "ResImages/gloves";
+    public const string ItemLeg = "ResImages/wrist_guards";
+    public const string ItemFoot = "ResImages/boots";
 
     public const string SpStar1 = "ResImages/star1";
-    public const string SpStar2 = "ResImages/star2";
+    public const string SpStar2 = "ResImages/star";
 
     public const string BtnType1 = "ResImages/btntype1";
     public const string BtnType2 = "ResImages/btntype2";
@@ -60,5 +61,9 @@ public class PathDefine
     public const string TaskItem = "PrefabUI/TaskItem";
     public const string HpUIItem = "PrefabUI/HpUIItem";
     public const string BtnOption = "PrefabUI/btnOption";
+    public const string TaskStatusItem = "PrefabUI/TaskStatusItem";
+    public const string TogTaskItem = "PrefabUI/togTaskItem";
+    public const string BagItem = "PrefabUI/bagItem";
+    
 
 }

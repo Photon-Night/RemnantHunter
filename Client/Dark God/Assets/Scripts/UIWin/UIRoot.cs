@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class UIRoot : MonoBehaviour
+public abstract class UIRoot : MonoBehaviour
 {
     protected ResService resSvc = null;
     protected AudioService audioSvc = null;
@@ -25,6 +25,10 @@ public class UIRoot : MonoBehaviour
         go.SetActive(isActive);
     }
 
+    protected void SetActive(Button btn, bool isActive = true)
+    {
+        SetActive(btn.gameObject, isActive);
+    }
     protected void SetActive(Transform trans, bool state = true)
     {
         trans.gameObject.SetActive(state);
@@ -45,6 +49,26 @@ public class UIRoot : MonoBehaviour
         text.gameObject.SetActive(state);
     }
 
+    protected bool GetActive(GameObject go)
+    {
+        return go.activeSelf;
+    }
+
+    protected bool GetActive(Text text)
+    {
+        return GetActive(text.gameObject);
+    }
+
+    protected bool GetActive(RectTransform trans)
+    {
+        return GetActive(trans.gameObject);
+    }
+
+    protected bool GetActive(Button btn)
+    {
+        return GetActive(btn.gameObject);
+    }
+
     protected void SetText(Text text, string context = "")
     {
         text.text = context;
@@ -53,6 +77,11 @@ public class UIRoot : MonoBehaviour
     protected void SetText(Text text, int num = 0)
     {
         text.text = num.ToString();
+    }
+
+    protected void SetText(Text text, float num = 0)
+    {
+        SetText(text, num.ToString());
     }
     protected void SetText(Transform trans, string context = "")
     {

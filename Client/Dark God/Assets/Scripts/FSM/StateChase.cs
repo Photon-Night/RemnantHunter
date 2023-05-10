@@ -20,6 +20,7 @@ namespace Game.FSM
 
         public void Process(EntityBase entity, params object[] args)
         {
+            if(entity.CanMove)
             entity.MoveTo(entity.Target.GetPos());
         }
     }

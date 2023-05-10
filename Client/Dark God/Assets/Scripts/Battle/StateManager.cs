@@ -1,3 +1,4 @@
+using Game.FSM;
 using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,15 +18,15 @@ public class StateManager : MonoBehaviour
         FSM.Add(AniState.Born, new StateBorn());
         FSM.Add(AniState.Die, new StateDie());
         FSM.Add(AniState.Hit, new StateHit());
+        FSM.Add(AniState.Chase, new StateChase());
+        FSM.Add(AniState.Back, new StateBack());
     }
 
     public void ChangeState(EntityBase entity, AniState state, params object[] args)
     {
-        if (entity.CurrentAniState == state && entity.CurrentAniState != AniState.Attack) return;
-
         if(FSM.ContainsKey(state))
         {
-            if(entity.CurrentAniState != AniState.None)
+            if(entity.CurrentAniState != AniState.None && entity.CurrentAniState != state)
             FSM[entity.CurrentAniState].OnExit(entity, args);
 
             FSM[state].OnEnter(entity, args);

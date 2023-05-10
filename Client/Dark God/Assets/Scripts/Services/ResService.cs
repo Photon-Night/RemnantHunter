@@ -15,15 +15,16 @@ public class ResService : MonoSingleton<ResService>, IService
         
         InitRDNameCfg(PathDefine.RDNameCfg);
         InitMonsterCfg(PathDefine.MonsterCfg);
+        InitGroupCfg(PathDefine.GroupCfg);
         InitMapCfg(PathDefine.MapCfg);
         InitStrongCfg(PathDefine.StrongCfg);
         InitSkillCfg(PathDefine.SkillCfg);
         InitSkillMoveCfg(PathDefine.SkillMoveCfg);
-        InitSkillActionCfg(PathDefine.SkillActionCfg);
+        InitSkillActionData(PathDefine.SkillActionData);
         InitNPCCfg(PathDefine.NPCCfg);
         InitTaskCfg(PathDefine.TaskCfg);
         InitTalkCfg(PathDefine.TalkCfg);
-        //InitGroupCfg(PathDefine.GroupCfg);
+        InitItemCfg(PathDefine.ItemCfg);
     }
 
     public void ReSetSkillCfgData()
@@ -46,6 +47,7 @@ public class ResService : MonoSingleton<ResService>, IService
         PrgCB = () =>
         {
             float val = sceneAsync.progress;
+
             GameRoot.Instance.loadingWin.SetProgress(val);
             if (val == 1)
             {
@@ -195,7 +197,8 @@ public class ResService : MonoSingleton<ResService>, IService
                 {
                     ID = ID,
                     npcs = new List<int>(),
-                    monsterLst = new List<MonsterData>()
+                    monsterLst = new List<MonsterData>(),
+                    monsterGroups = new List<GroupData>(),
                 };
 
                 foreach (XmlElement e in nodList[i].ChildNodes)
@@ -237,25 +240,11 @@ public class ResService : MonoSingleton<ResService>, IService
                             break;
                         case "monsterLst":
                             {
-                                string[] valArr = e.InnerText.Split('#');
-                                for(int waveIndex = 1; waveIndex < valArr.Length; waveIndex++)
+                                string[] groupArr = e.InnerText.Split('|');
+                                for (int j = 0; j < groupArr.Length; j++)
                                 {
-                                    string[] tempArr = valArr[waveIndex].Split('|');
-                                    for(int j = 1; j < tempArr.Length; j++)
-                                    {
-                                        string[] arr = tempArr[j].Split(',');
-                                        MonsterData mData = new MonsterData
-                                        {
-                                            ID = int.Parse(arr[0]),
-                                            mWave = waveIndex,
-                                            mIndex = j,
-                                            mCfg = GetMonsterCfg(int.Parse(arr[0])),
-                                            mBornPos = new Vector3(float.Parse(arr[1]), float.Parse(arr[2]), float.Parse(arr[3])),
-                                            mBornRote = new Vector3(0, float.Parse(arr[4]), 0),
-                                            lv = int.Parse(arr[5])
-                                        };
-                                        mc.monsterLst.Add(mData);                       
-                                    }
+                                    GroupData gd = GetGroupData(int.Parse(groupArr[j]));
+                                    mc.monsterGroups.Add(gd);
                                 }
                             }
                             break;
@@ -338,9 +327,9 @@ public class ResService : MonoSingleton<ResService>, IService
 
                     case "mType":
                         if (e.InnerText == "1")
-                            data.mType = Message.MonsterType.Normal;
+                            data.mType = MonsterType.Normal;
                         else if (e.InnerText == "2")
-                            data.mType = Message.MonsterType.Boss;
+                            data.mType = MonsterType.Boss;
                         break;
 
                     case "isStop":
@@ -417,7 +406,7 @@ public class ResService : MonoSingleton<ResService>, IService
     private void InitGroupCfg(string path)
     {
         TextAsset xml = Resources.Load<TextAsset>(path);
-        if (xml != null)
+        if (xml == null)
         {
             PECommon.Log($"xml file {path} is not existed", PEProtocol.LogType.Error);
         }
@@ -447,9 +436,10 @@ public class ResService : MonoSingleton<ResService>, IService
                     {
                         case "pos":
                             string[] posArr = e.InnerText.Split(',');
-                            gd.pos = new Vector3(float.Parse(posArr[0]),
-                                                 float.Parse(posArr[1]),
-                                                 float.Parse(posArr[2]));
+                            gd.pos = new Vector3(float.Parse(posArr[0]), float.Parse(posArr[1]), float.Parse(posArr[2]));
+                            break;
+                        case "lv":
+                            gd.lv = int.Parse(e.InnerText);
                             break;
                         case "normalRange":
                             gd.normalRange = float.Parse(e.InnerText);
@@ -459,24 +449,28 @@ public class ResService : MonoSingleton<ResService>, IService
                             break;
                         case "monsters":
                             {
-                                string[] monsterDataArr = e.InnerText.Split(',');
-                                MonsterCfg mc = GetMonsterCfg(int.Parse(monsterDataArr[0]));
-                                Vector3 pos = new Vector3(float.Parse(monsterDataArr[1]),
-                                                          float.Parse(monsterDataArr[2]),
-                                                          float.Parse(monsterDataArr[3]));
-                                float rotate = float.Parse(monsterDataArr[4]);
-                                int lv = int.Parse(monsterDataArr[5]);
-                                MonsterData md = new MonsterData()
-                                {
-                                    lv = lv,
-                                    mCfg = mc,
-                                    mBornPos = pos,
-                                    mBornRote = new Vector3(0, rotate, 0),
-                                };
+                                string[] monstersDataArr = e.InnerText.Split('|');
 
-                                gd.monsters.Add(md);
+                                for(int j = 0; j < monstersDataArr.Length; j++)
+                                {
+                                    string[] monsterArr = monstersDataArr[j].Split(',');
+                                    MonsterCfg mc = GetMonsterCfg(int.Parse(monsterArr[0]));
+                                    Vector3 pos = new Vector3(float.Parse(monsterArr[1]),
+                                                              float.Parse(monsterArr[2]),
+                                                              float.Parse(monsterArr[3]));
+                                    float rotate = float.Parse(monsterArr[4]);
+                                    MonsterData md = new MonsterData()
+                                    {
+                                        mCfg = mc,
+                                        mBornPos = pos,
+                                        mBornRote = new Vector3(0, rotate, 0),
+                                    };
+                                    gd.monsters.Add(md);
+                                }
+                                
                                 break;
                             }
+                        
                             
                     }
                 }
@@ -738,22 +732,9 @@ public class ResService : MonoSingleton<ResService>, IService
     }
     #endregion
 
-    #region SkillData
-    private Dictionary<int, SkillData> skillDataDic = new Dictionary<int, SkillData>();
-    public SkillData GetSkillDataByID(int id)
-    {
-        SkillData data = null;
-        if(skillDataDic.TryGetValue(id, out data))
-        {
-            return data;
-        }
-
-        return null;
-    }
-    #endregion
-
     #region Skill
-    private Dictionary<int, SkillCfg> skillDic = new Dictionary<int, SkillCfg>();
+    private Dictionary<int, SkillData> skillDic = new Dictionary<int, SkillData>();
+    private Dictionary<int, Dictionary<SkillType, List<SkillData>>> entitySkillDic = new Dictionary<int, Dictionary<SkillType, List<SkillData>>>();
     private void InitSkillCfg(string path)
     {
         TextAsset xml = Resources.Load<TextAsset>(path);
@@ -768,129 +749,121 @@ public class ResService : MonoSingleton<ResService>, IService
 
         XmlNodeList nodeLst = doc.SelectSingleNode("root").ChildNodes;
 
-        for(int i = 0; i < nodeLst.Count; i++)
+        for (int i = 0; i < nodeLst.Count; i++)
         {
             XmlElement ele = nodeLst[i] as XmlElement;
-            if(ele.GetAttributeNode("ID") == null)
+            if (ele.GetAttributeNode("ID") == null)
             {
                 continue;
             }
 
             int id = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
-            SkillCfg skill = new SkillCfg
+            SkillData skill = new SkillData
             {
                 ID = id,
-                skillMoveLst = new List<int>(),
                 skillActionLst = new List<int>(),
                 skillDamageLst = new List<int>(),
             };
             foreach (XmlElement e in ele)
             {
-                switch(e.Name)
+                switch (e.Name)
                 {
+                    case "entityID":
+                        skill.entityID = int.Parse(e.InnerText);
+                        break;
+
                     case "skillName":
                         skill.skillName = e.InnerText;
                         break;
 
-                    case "cdTime":
-                        skill.cdTime = int.Parse(e.InnerText);
+                    case "animName":
+                        skill.animName = e.InnerText;
                         break;
 
-                    case "skillTime":
-                        skill.skillTime = int.Parse(e.InnerText);
+                    case "fxName":
+                        skill.animName = e.InnerText;
                         break;
 
-                    case "aniAction":
-                        skill.aniAction = int.Parse(e.InnerText);
+                    case "skillType":
+                        skill.skillType = (SkillType)int.Parse(e.InnerText);
                         break;
 
-                    case "fx":
-                        skill.fx = e.InnerText;
-                        break;
-
-                    case "isCombo":
-                        if (e.InnerText == "0")
-                            skill.isCombo = false;
-                        else if (e.InnerText == "1")
-                            skill.isCombo = true;
+                    case "cost":
+                        skill.powerCost = float.Parse(e.InnerText);
                         break;
 
                     case "nextComboID":
                         skill.nextComboID = int.Parse(e.InnerText);
                         break;
 
-                    case "transitionTime":
-                        skill.transitionTime = int.Parse(e.InnerText);
+                    case "comboCheckTime":
+                        skill.comboCheckTime = int.Parse(e.InnerText);
                         break;
 
-                    case "isCollide":
-                        if (e.InnerText == "0")
-                            skill.isCollide = true;
-                        else if (e.InnerText == "1")
-                            skill.isCollide = false;
+                    case "isCollider":
+                        skill.isCollide = int.Parse(e.InnerText) == 0 ? false : true;
                         break;
 
                     case "isBreak":
-                        if (e.InnerText == "0")
-                            skill.isBreak = true;
-                        else if (e.InnerText == "1")
-                            skill.isBreak = false;
+                        skill.isBreak = int.Parse(e.InnerText) == 0 ? false : true;
                         break;
 
                     case "dmgType":
-                        if (e.InnerText.Equals("1"))
-                        {
-                            skill.dmgType = DmgType.AD;
-                        }
-                        else if(e.InnerText.Equals("2"))
-                        {
-                            skill.dmgType = DmgType.AP;
-                        }
-                        break;
-
-                    case "skillMoveLst":
-                        string[] _skillMoveStr = e.InnerText.Split('|');
-                        for(int j = 0; j < _skillMoveStr.Length; j++)
-                        {
-                            if(_skillMoveStr[j] != "")
-                            {
-                                skill.skillMoveLst.Add(int.Parse(_skillMoveStr[j]));
-                            }
-                        }
+                        skill.dmgType = (DmgType)int.Parse(e.InnerText);
                         break;
 
                     case "skillActionLst":
-                        string[] _skillActionStr = e.InnerText.Split('|');
-                        for(int j = 0; j < _skillActionStr.Length; j++)
+                        string[] actionArr = e.InnerText.Split('|');
+                        for (int j = 0; j < actionArr.Length; j++)
                         {
-                            if(_skillActionStr[j] != "")
-                            {
-                                skill.skillActionLst.Add(int.Parse(_skillActionStr[j]));
-                            }
+                            skill.skillActionLst.Add(int.Parse(actionArr[j]));
                         }
                         break;
 
                     case "skillDamageLst":
-                        string[] _skillDamageStr = e.InnerText.Split('|');
-                        for(int j = 0; j < _skillDamageStr.Length; j++)
+                        string[] dmgArr = e.InnerText.Split('|');
+                        for (int j = 0; j < dmgArr.Length; j++)
                         {
-                            if(_skillDamageStr[j] != "")
-                            skill.skillDamageLst.Add(int.Parse(_skillDamageStr[j]));
+                            skill.skillDamageLst.Add(int.Parse(dmgArr[j]));
                         }
                         break;
                 }
             }
 
             skillDic.Add(id, skill);
+
+            if (!entitySkillDic.ContainsKey(skill.entityID))
+            {
+                entitySkillDic[skill.entityID] = new Dictionary<SkillType, List<SkillData>>();
+            }
+            if (!entitySkillDic[skill.entityID].ContainsKey(skill.skillType))
+            {
+                entitySkillDic[skill.entityID][skill.skillType] = new List<SkillData>();
+            }
+
+            entitySkillDic[skill.entityID][skill.skillType].Add(skill);
         }
     }
 
-    public SkillCfg GetSkillData(int id)
+    public SkillData GetSkillData(int id)
     {
-        SkillCfg data;
+        SkillData data;
         if(skillDic.TryGetValue(id, out data))
         {
             return data;
+        }
+
+        return null;
+    }
+
+    public List<SkillData> GetEntitySkillLst(int entityID, SkillType type)
+    {
+        if(entitySkillDic.ContainsKey(entityID))
+        {
+            if (entitySkillDic[entityID].ContainsKey(type))
+            {
+                return entitySkillDic[entityID][type];
+            }
         }
 
         return null;
@@ -1148,8 +1121,8 @@ public class ResService : MonoSingleton<ResService>, IService
     #endregion
 
     #region SKillAction
-    private Dictionary<int, SkillActionCfg> skillActionDic = new Dictionary<int, SkillActionCfg>();
-    private void InitSkillActionCfg(string path)
+    private Dictionary<int, SkillActionData> skillActionDic = new Dictionary<int, SkillActionData>();
+    private void InitSkillActionData(string path)
     {
         TextAsset xml = Resources.Load<TextAsset>(path);
         if(!xml)
@@ -1171,7 +1144,7 @@ public class ResService : MonoSingleton<ResService>, IService
             }
 
             int id = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
-            SkillActionCfg data = new SkillActionCfg
+            SkillActionData data = new SkillActionData
             {
                 ID = id
             };
@@ -1197,15 +1170,98 @@ public class ResService : MonoSingleton<ResService>, IService
     }
 
 
-    public SkillActionCfg GetSkillActionCfg(int id)
+    public SkillActionData GetSkillActionData(int id)
     {
-        SkillActionCfg data = null;
+        SkillActionData data = null;
         if(skillActionDic.TryGetValue(id, out data))
         {
             return data;
         }
 
         return null;
+    }
+    #endregion
+
+    #region Item
+    private Dictionary<int, GameItemCfg> itemDic = new Dictionary<int, GameItemCfg>();
+    private void InitItemCfg(string path)
+    {
+        TextAsset xml = Resources.Load<TextAsset>(path);
+        if (xml == null)
+        {
+            PECommon.Log("xml file:" + path + "is not existed", PEProtocol.LogType.Error);
+            return;
+        }
+
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(xml.text);
+
+        XmlNodeList nodeLst = doc.SelectSingleNode("root").ChildNodes;
+
+        for (int i = 0; i < nodeLst.Count; i++)
+        {
+            XmlElement ele = nodeLst[i] as XmlElement;
+            if (ele.GetAttributeNode("ID") == null)
+            {
+                continue;
+            }
+
+            int id = System.Convert.ToInt32(ele.GetAttributeNode("ID").InnerText);
+            GameItemCfg item = new GameItemCfg
+            {
+                ID = id            
+            };
+            foreach (XmlElement e in ele)
+            {
+                switch (e.Name)
+                {
+                    case "name":
+                        item.name = e.InnerText;
+                        break;    
+                    case "ItemType":
+                        item.ItemType = (BagItemType)int.Parse(e.InnerText);
+                        break;
+                    case "equipmentType":
+                        item.equipmentType = (EquipmentType)int.Parse(e.InnerText);
+                        break;
+                    case "funcType":
+                        item.funcType = (ItemFunction)int.Parse(e.InnerText);
+                        break;
+                    case "funcNum":
+                        item.funcNum = float.Parse(e.InnerText);
+                        break;
+                    case "duration":
+                        item.duration = float.Parse(e.InnerText);
+                        break;
+                    case "objPath":
+                        item.objPath = e.InnerText;
+                        break;
+                    case "iconPath":
+                        item.iconPath = e.InnerText;
+                        break;
+                    case "useWithoutBattle":
+                        item.useWithoutBattle = int.Parse(e.InnerText) == 1 ? true : false;
+                        break;
+                    case "des":
+                        item.des = e.InnerText;
+                        break;
+                }
+            }
+
+            itemDic.Add(id, item);
+
+            
+        }
+    }
+
+    public GameItemCfg GetGameItemCfg(int ID)
+    {
+        if(itemDic.TryGetValue(ID, out GameItemCfg data))
+        {
+            return data;
+        }
+
+        return null; 
     }
     #endregion
 

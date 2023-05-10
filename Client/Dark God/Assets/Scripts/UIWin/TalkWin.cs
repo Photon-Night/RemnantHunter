@@ -1,3 +1,4 @@
+using Game.Event;
 using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
@@ -94,14 +95,21 @@ public class TalkWin : WinRoot
 
     public void OnClickNextTalkBtn()
     {
+        if(!GetActive(btnNextTalk)) //应对使用按键触发nextbtn的情况，如按键为未激活状态，则直接退出
+        {
+            return;
+        }
+
         audioSvc.PlayUIAudio(Message.UIClickBtn);
         index += 1;
 
-        if (index == dialogArr.Length)
+        if (index >= dialogArr.Length)
         {
-            NPCManager.Instance.InteractiveNpcFunction(talkData.actID, npcID);
-            MainCitySystem.Instance.OnPlayerOverTalk(npcID);
             SetWinState(false);
+            //NPCManager.Instance.InteractiveNpcFunction(talkData.actID, npcID);
+            //MainCitySystem.Instance.OnPlayerOverTalk(npcID);
+
+            GameEventManager.TriggerEvent<int>(EventNode.Event_OnOverTalk, npcID, ((int)talkData.actID));
         }
         else
         {

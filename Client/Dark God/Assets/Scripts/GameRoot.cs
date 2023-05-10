@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using PEProtocol;
 using Game.Common;
+using EventMgr = Game.Event.GameEventManager;
+using Game.Event;
+using Game.Bag;
 
 public class GameRoot : MonoSingleton<GameRoot>
 {
@@ -13,39 +16,51 @@ public class GameRoot : MonoSingleton<GameRoot>
     void Start()
     {
         ClearUIRoot();
-        Init();
-        PECommon.Log("Game Start");
-    }
 
-    private void Init()
+        InitService();
+        InitManager();
+        InitSystem();
+
+        NPCManager.Instance.InitManager();
+        PECommon.Log("Game Start");
+        LoginSystem.Instance.OnLoginEnter();
+
+
+        dynamicWin.SetWinState();
+        EventMgr.SubscribeEvent<int>(EventNode.Event_OnNPCTaskStatusChange, UpdateTaskStatus);
+        EventMgr.SubscribeEvent<bool>(EventNode.Event_OnSetUIWinState, SetNpcTaskStatusItemState);
+    }
+    private void InitService()
     {
         IService[] services = this.GetComponents<IService>();
-        for(int i = 0; i < services.Length; i++)
+        for (int i = 0; i < services.Length; i++)
         {
             services[i].ServiceInit();
         }
-
+    }
+    private void InitSystem()
+    {
         MainCitySystem.Instance.InitSystem();
         MissionSystem.Instance.InitSystem();
         BattleSystem.Instance.InitSystem();
-
-        NPCManager.Instance.InitManager();
-
+        BagSystem.Instance.InitSystem();
         LoginSystem.Instance.InitSystem();
-        LoginSystem.Instance.OnLoginEnter();
+        
 
-        dynamicWin.SetWinState();
+    }
+    public void InitManager()
+    {
+        NPCManager.Instance.InitManager();
+        EventMgr.InitManager();
     }
 
-     private void ClearUIRoot()
+    private void ClearUIRoot()
     {
         Transform canvas = this.transform.Find("Canvas");
         for(int i = 0; i < canvas.childCount; i++)
         {
             canvas.GetChild(i).gameObject.SetActive(false);
-        }
-
-        
+        }      
     }
 
     public static void AddTips(string tip)
@@ -66,6 +81,7 @@ public class GameRoot : MonoSingleton<GameRoot>
     {
         playerData = data.playerData;
         TaskSystem.Instance.InitSystem();
+        BagSystem.Instance.InitBagManager(PlayerData.bag);
     }
 
     public void SetPlayerDataByCreate(RspRename data)
@@ -108,17 +124,14 @@ public class GameRoot : MonoSingleton<GameRoot>
         PlayerData.power = data.power;
     }
 
-    public void SetPlayerDataByTakeTaskReward(RspTakeTaskReward data)
+    public void SetPlayerDataByUseProp(RspUseProp data)
     {
-        PlayerData.coin = data.coin;
-        PlayerData.lv = data.lv;
-        PlayerData.exp = data.exp;
-        PlayerData.task = data.taskArr;
+        PlayerData.bag = data.bag;
     }
 
-    public void SetPlayerDataByTaskPrgs(PushTaskPrgs data)
+    public void SetPlayerDataByChangeEquipment(RspChangeEquipment data)
     {
-        PlayerData.task = data.taskArr;
+        PlayerData.equipment = data.equipmentStr;
     }
 
     public void SetPlayerDataByMissionEnter(RspMissionEnter data)
@@ -147,6 +160,16 @@ public class GameRoot : MonoSingleton<GameRoot>
         dynamicWin.AddHpUIItem(name, hp, trans);
     }
 
+    public void SetHpUIItemActive(string name, bool active = true)
+    {
+        dynamicWin.SetHpUIItemActive(name, active);
+    }
+
+    public void AddTaskStatusItem(int npcId, NpcTaskStatus status, Transform trans)
+    {
+        dynamicWin.AddTaskStatusItem(npcId, status, trans);
+    }
+
     public void RemoveHpUIItem(string name)
     {
         dynamicWin.ReMoveHpUIItem(name);
@@ -156,5 +179,48 @@ public class GameRoot : MonoSingleton<GameRoot>
     {
         dynamicWin.RemoveAllHPUIItem();
     }
-  
+
+    public void RemoveAllTaskUIItem()
+    {
+        dynamicWin.RemoveAllTaskUIItem();
+    }
+    private void UpdateTaskStatus(params int[] args)
+    {
+        int npcId = args[0];
+        int status = args[1];
+        dynamicWin.UpdateTaskStatus(npcId, (NpcTaskStatus)status);
+    }
+    
+    private void SetNpcTaskStatusItemState(params bool[] args)
+    {
+        bool state = args[0];
+        dynamicWin.SetNpcTaskStatusItemState(!state);
+    }
+
+    #region DynamicWin
+    public void SetHurt(string index, int hurt)
+    {
+        dynamicWin.SetHurt(index, hurt);
+    }
+
+    public void SetDodge(string index)
+    {
+        dynamicWin.SetDodge(index);
+    }
+
+    public void SetCritical(string index)
+    {
+        dynamicWin.SetCritical(index);
+    }
+
+    public void SetHpVal(string index, int oldHp, int newHp)
+    {
+        dynamicWin.SetHpVal(index, oldHp, newHp);
+    }
+
+    public void SetDodgePlayer()
+    {
+        dynamicWin.SetDodgePlayer();
+    }
+    #endregion
 }

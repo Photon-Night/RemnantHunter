@@ -5,7 +5,7 @@
 		<entityID>102</entityID>
 		<dialogArr>你好#最近如何</dialogArr>
 		<type>0</type>
-		<selectLst>1|2</selectLst>
+		<selectLst>1|2|7</selectLst>
 		<nextTalkID>0</nextTalkID>
 		<actID>0</actID>
 		<nextIndex>0</nextIndex>
@@ -72,6 +72,26 @@
 		<nextIndex>0</nextIndex>
 		<isRoot>0</isRoot>
 	</item>
+	<item ID="100001">
+		<index>7</index>
+		<entityID>0</entityID>
+		<dialogArr>前往副本</dialogArr>
+		<type>1</type>
+		<nextTalkID>100001</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>8</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100001">
+		<index>8</index>
+		<entityID>102</entityID>
+		<dialogArr>愿吾皇，常胜利</dialogArr>
+		<type>0</type>
+		<nextTalkID>0</nextTalkID>
+		<actID>3</actID>
+		<nextIndex>0</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
 	<item ID="100002">
 		<index>0</index>
 		<entityID>101</entityID>
@@ -179,7 +199,7 @@
 		<entityID>104</entityID>
 		<dialogArr>你好#有什么需要帮助的吗</dialogArr>
 		<type>0</type>
-		<selectLst>1|2</selectLst>
+		<selectLst>1|2|5</selectLst>
 		<nextTalkID>0</nextTalkID>
 		<actID>0</actID>
 		<nextIndex>0</nextIndex>
@@ -222,6 +242,26 @@
 		<type>0</type>
 		<nextTalkID>0</nextTalkID>
 		<actID>0</actID>
+		<nextIndex>0</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100004">
+		<index>5</index>
+		<entityID>0</entityID>
+		<dialogArr>强化装备</dialogArr>
+		<type>1</type>
+		<nextTalkID>100004</nextTalkID>
+		<actID>0</actID>
+		<nextIndex>6</nextIndex>
+		<isRoot>0</isRoot>
+	</item>
+	<item ID="100004">
+		<index>6</index>
+		<entityID>104</entityID>
+		<dialogArr>强化虽好，可不要贪心了</dialogArr>
+		<type>0</type>
+		<nextTalkID>0</nextTalkID>
+		<actID>2</actID>
 		<nextIndex>0</nextIndex>
 		<isRoot>0</isRoot>
 	</item>

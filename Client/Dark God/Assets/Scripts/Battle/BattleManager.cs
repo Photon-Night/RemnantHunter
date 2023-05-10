@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Game.Monster;
+using Cinemachine;
 
 public class BattleManager : MonoBehaviour
 {
@@ -20,20 +21,37 @@ public class BattleManager : MonoBehaviour
 
     private Dictionary<string, EntityMonster> monstersDic = new Dictionary<string, EntityMonster>();
     private List<MonsterGroup> groups;
-    private MonsterAIController monsterAI;
+    private List<EntityMonster> activeMonsterLst = new List<EntityMonster>();
 
     private Transform camTrans;
-     void Update()
-    {
-        if (monsterAI != null) return;
+    private CinemachineFreeLook freeLookCam;
+    private CinemachineVirtualCamera battleEndCam;
+    private bool runAI = false;
 
-        foreach (var group in groups)
+    private float skillInputSpace = .1f;
+    private float skillInputTimeOrigin = .1f;
+    void Update()
+    {
+        if (!runAI) return;
+
+        for(int i = 0; i < groups.Count; i++)
         {
-            monsterAI.LogicRoot(group);
+            groups[i].TickGroupLogic(ep.GetTrans());
+        }
+
+        if(skillInputTimeOrigin < skillInputSpace)
+        {
+            skillInputTimeOrigin += Time.deltaTime;
         }
     }
 
-    
+    private void FixedUpdate()
+    {
+        ep?.RecoverPower(Time.fixedDeltaTime);
+        ep?.RecoverSkillPoint(Time.fixedDeltaTime);
+    }
+
+
     public void InitManager(int mapId, Action CB = null)
     {
         PECommon.Log("BattleManager Loading");
@@ -45,26 +63,25 @@ public class BattleManager : MonoBehaviour
         skillMgr.InitManager();
         stateMgr = gameObject.AddComponent<StateManager>();
         stateMgr.InitManager();
+    
 
         mapData = resSvc.GetMapCfgData(mapId);
         resSvc.LoadSceneAsync(mapData.sceneName, () =>
         {
-            GameObject map = GameObject.FindGameObjectWithTag("MapRoot");
+            //GameObject map = GameObject.FindGameObjectWithTag("MapRoot");
 
             //mapMgr = map.gameObject.GetComponent<MapManager>();
             //mapMgr.InitManager(this);
 
-            map.transform.position = Vector3.zero;
-            map.transform.localScale = Vector3.one;
+            //map.transform.position = Vector3.zero;
+            //map.transform.localScale = Vector3.one;
 
-            Camera.main.transform.position =mapData.mainCamPos;
-            Camera.main.transform.localEulerAngles = mapData.mainCamRote;
-            camTrans = Camera.main.transform;
+            //Camera.main.transform.position =mapData.mainCamPos;
+            //Camera.main.transform.localEulerAngles = mapData.mainCamRote;
+            //camTrans = Camera.main.transform;
             LoadPlayer();
-            LoadGroup();
-
-            monsterAI = new MonsterAIController();
-            ActiveCurrentBatchMonsters();
+            LoadCam();
+            LoadGroup();           
 
             audioSvc.PlayBGMusic(Message.BGHuangYe);
 
@@ -78,12 +95,12 @@ public class BattleManager : MonoBehaviour
     #region Loading Seting
     public void LoadPlayer()
     {
-        GameObject player = resSvc.LoadPrefab(PathDefine.DogKnight, true);
+        GameObject player = resSvc.LoadPrefab(PathDefine.DogStandard, true);
         player.transform.localPosition = mapData.playerBornPos;
         player.transform.localEulerAngles = mapData.playerBornRote;
 
-        Camera.main.transform.position = mapData.mainCamPos;
-        Camera.main.transform.localEulerAngles = mapData.mainCamRote;
+        //Camera.main.transform.position = mapData.mainCamPos;
+        //Camera.main.transform.localEulerAngles = mapData.mainCamRote;
 
         PlayerController pc = player.GetComponent<PlayerController>();
         pc.Init();
@@ -91,6 +108,7 @@ public class BattleManager : MonoBehaviour
         PlayerData pd = GameRoot.Instance.PlayerData;
         BattleProps props = new BattleProps
         {
+            power = 100 + pd.lv - 1, 
             hp = pd.hp,
             ad = pd.ad,
             ap = pd.ap,
@@ -101,25 +119,39 @@ public class BattleManager : MonoBehaviour
             pierce = pd.critical,
         };
 
-        ep = new EntityPlayer(pc, props);
-        ep.InitPlayer(this, skillMgr, stateMgr, pd.name);
+        ep = new EntityPlayer(this, stateMgr, pc, props, pd.name);
 
+    }
+    private void LoadCam()
+    {
+        freeLookCam = resSvc.LoadPrefab(PathDefine.FreeLookCam1).GetComponent<CinemachineFreeLook>();
+        freeLookCam.LookAt = ep.GetTrans();
+        freeLookCam.Follow = ep.GetTrans();
+
+        camTrans = Camera.main.transform;
     }
 
     public void LoadGroup()
     {
+        groups = new List<MonsterGroup>();
+
         List<GroupData> groupLst = mapData.monsterGroups;
         for (int i = 0; i < groupLst.Count; i++)
         {
             MonsterGroup group = new MonsterGroup();
-            group.InitGroup(groupLst[i], ep.GetTrans());
-            group.AddMonsters(LoadMonsterByGroup(groupLst[i].monsters));
+            group.InitGroup(groupLst[i], ep, stateMgr);
 
+            GameObject go = new GameObject($"group{groupLst[i].ID}");
+            go.transform.position = group.GroupPos;
+
+            group.AddMonsters(LoadMonsterByGroup(groupLst[i].monsters, go.transform, group.GroupID));
             groups.Add(group);
-        }      
+        }
+
+        runAI = true;
     }
 
-    private List<EntityMonster> LoadMonsterByGroup(List<MonsterData> monsters)
+    private List<EntityMonster> LoadMonsterByGroup(List<MonsterData> monsters, Transform parent, int groupID)
     {
         List<EntityMonster> entityMonsters = new List<EntityMonster>();
         for(int i = 0; i < monsters.Count; i++)
@@ -127,32 +159,37 @@ public class BattleManager : MonoBehaviour
             MonsterData data = monsters[i];
             MonsterCfg cfg = data.mCfg;
             GameObject go = resSvc.LoadPrefab(cfg.resPath, true);
-            go.name = $"{cfg.mName}_{i}";
-            go.transform.position = data.mBornPos;
+            go.name = $"{cfg.mName}_{parent.name}_{i}";
+            go.transform.SetParent(parent);
+            go.transform.localPosition = data.mBornPos;
             go.transform.localEulerAngles = data.mBornRote;
 
-            MonsterController mc = go.AddComponent<MonsterController>();
+            MonsterController mc = go.GetComponent<MonsterController>();
             mc.Init();
 
-            EntityMonster em = new EntityMonster(mc, cfg.bps, cfg.ID);
-            em.InitMonster(this, skillMgr, stateMgr, data);
+            EntityMonster em = new EntityMonster(this, stateMgr, mc, cfg.bps, cfg.ID);
+            em.InitMonster(data, ep, groupID);
+            
+            monstersDic.Add(em.Name, em);
 
-            if (em.md.mCfg.mType == Message.MonsterType.Normal)
+            if (em.md.mCfg.mType == MonsterType.Normal)
                 GameRoot.Instance.AddHpUIItem(go.name, em.Props.hp, mc.hpRoot);
-            else if (em.md.mCfg.mType == Message.MonsterType.Boss)
+            else if (em.md.mCfg.mType == MonsterType.Boss)
                 BattleSystem.Instance.SetMonsterHPState(true);
 
             entityMonsters.Add(em);
         }
 
         return entityMonsters;
+
     }
     public void RemoveMonster(string name)
     {
-        EntityMonster _monster = null;
-        if(monstersDic.TryGetValue(name, out _monster))
+        if(monstersDic.ContainsKey(name))
         {
+            Debug.Log(name);
             monstersDic.Remove(name);
+            
             GameRoot.Instance.RemoveHpUIItem(name);
         }
         
@@ -164,19 +201,19 @@ public class BattleManager : MonoBehaviour
     }
     public void ActiveCurrentBatchMonsters()
     {
-        TimerService.Instance.AddTimeTask((int tid) =>
-        {
-            foreach (var monster in monstersDic)
-            {
-                monster.Value.GetTrans().gameObject.SetActive(true);
-                monster.Value.Born();
-
-                TimerService.Instance.AddTimeTask((int tid) =>
-                {
-                    monster.Value.Idle();
-                }, 1000);
-            }
-        }, 500);
+        //TimerService.Instance.AddTimeTask((int tid) =>
+        //{
+        //    foreach (var monster in monstersDic)
+        //    {
+        //        monster.Value.GetTrans().gameObject.SetActive(true);
+        //        monster.Value.Born();
+        //
+        //        TimerService.Instance.AddTimeTask((int tid) =>
+        //        {
+        //            monster.Value.Idle();
+        //        }, 1000);
+        //    }
+        //}, 500);
     }
     #endregion
 
@@ -199,40 +236,41 @@ public class BattleManager : MonoBehaviour
 
     #region Action Interface
 
-    public List<EntityMonster> GetMonsterLst()
+    public List<EntityMonster> GetActiveMonsters()
     {
-        List<EntityMonster> monsterLst = new List<EntityMonster>();
-        var e = monstersDic.GetEnumerator();
-        while(e.MoveNext())
+        activeMonsterLst.Clear();
+
+        for(int i=  0; i < groups.Count; i++)
         {
-            monsterLst.Add(e.Current.Value);
-        }
-
-        e.Dispose();
-        return monsterLst;
-    }
-
-    public EntityMonster FindClosedMonster(Transform centerTran, float distance = 0f)
-    {
-        float closedDis = float.MaxValue;
-        float _dis = 0f;
-        List<EntityMonster> monsters = GetMonsterLst();
-        EntityMonster target = null;
-
-        if (monsters == null || monsters.Count == 0)
-            return null;
-
-        for (int i = 0; i < monsters.Count; i++)
-        {
-            _dis = Vector3.Distance(centerTran.position, monsters[i].GetPos());
-            if(_dis < closedDis)
+            if(groups[i].IsActive)
             {
-                closedDis = _dis;
-                target = monsters[i];
+                activeMonsterLst.AddRange(groups[i].MonsterLst);
             }
         }
 
-        return target;
+        return activeMonsterLst;
+    }
+    public EntityMonster FindClosedMonster(float distance = 0f)
+    {
+        float min_dis = float.MaxValue;
+        EntityMonster cloest = null;
+
+        for(int i = 0; i < groups.Count; i++)
+        {
+            if(groups[i].IsActive)
+            {
+                float dis = 0;
+                var monster = groups[i].GetClosestMonsterToPlayer(out dis);
+
+                if(dis < min_dis)
+                {
+                    cloest = monster;
+                    min_dis = dis;
+                }
+
+            }
+        }
+        return distance < min_dis ? null : cloest;
     }
 
     public bool isPlayerAttack()
@@ -244,28 +282,28 @@ public class BattleManager : MonoBehaviour
     {
         BattleSystem.Instance.SetHPUI(hp);
     }
-    
-    public void OnTargetDie(int targetId)
-    {
-        BattleSystem.Instance.onTargetDie(targetId);
-    }
 
     #endregion
 
+    #region Player Control
     public void SetMove(float ver, float hor)
     {
-        var dir = (camTrans.forward * ver + camTrans.right * hor).normalized;
-        ep?.SetMove(dir);
+        var dir = (camTrans.forward * ver + camTrans.right * hor).normalized;     
+        ep.SetMove(dir);
     }
 
     public void SetNormalAttack()
     {
-        ep?.SetAttack();
+        ep.SetAttack();
     }
 
     public void SetCombo()
     {
-        ep?.SetCombo();
+        if(skillInputTimeOrigin >= skillInputSpace)
+        {
+            ep.SetCombo();
+            skillInputTimeOrigin = 0f;
+        }     
     }
 
     public void SetJump()
@@ -283,8 +321,31 @@ public class BattleManager : MonoBehaviour
 
     public void SetSprint(bool isSprint)
     {
-        ep.SetSprint(isSprint);
+        ep?.SetSprint(isSprint);
     }
 
+    #endregion
+
+    
+
+    public void SkillAttack(EntityBase entity, SkillData skill, int dmgIndex)
+    {
+        skillMgr.SkillAttack(entity, skill, dmgIndex);
+    }
+
+    public void ChangePlayerEquipment(int itemID)
+    {
+        ep?.ChangePlayerEquipment(resSvc.GetGameItemCfg(itemID));
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        if(groups != null)
+        {
+            Gizmos.DrawWireSphere(groups[0].GroupPos, groups[0].range1);
+            
+            Gizmos.DrawWireSphere(groups[0].GroupPos, groups[1].range2);
+        }
+    }
 }
 

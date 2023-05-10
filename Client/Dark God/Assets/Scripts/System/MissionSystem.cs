@@ -1,3 +1,4 @@
+using Game.Event;
 using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ public class MissionSystem : SystemRoot<MissionSystem>
     public override void InitSystem()
     {
         base.InitSystem();
-        
+        GameEventManager.SubscribeEvent<int>(EventNode.Event_OnOverTalk, OpenMissionWin_EventAction);
         PECommon.Log("MissionSystem Loading");
     }
 
@@ -20,6 +21,14 @@ public class MissionSystem : SystemRoot<MissionSystem>
         missionWin.SetWinState();
     }
 
+    private void OpenMissionWin_EventAction(params int[] args)
+    {
+        int actionId = args[1];
+        if(actionId == (int)NPCFunction.OpenMissionWin)
+        {
+            OpenMissionWin();
+        }
+    }
     public void RspMissionEnter(GameMsg msg)
     {
         RspMissionEnter data = msg.rspMissionEnter;
@@ -27,6 +36,6 @@ public class MissionSystem : SystemRoot<MissionSystem>
 
         missionWin.SetWinState(false);
         MainCitySystem.Instance.CloseMainCityWin();
-        BattleSystem.Instance.StartBattle(data.mid);
+        BattleSystem.Instance.StartBattle(10008);
     }
 }

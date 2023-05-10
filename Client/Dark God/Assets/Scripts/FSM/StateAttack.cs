@@ -8,7 +8,6 @@ public class StateAttack : IState
     public void OnEnter(EntityBase entity, params object[] args)
     {
         entity.CurrentAniState = AniState.Attack;
-        
     }
 
     public void OnExit(EntityBase entity, params object[] args)
@@ -18,6 +17,7 @@ public class StateAttack : IState
 
     public void Process(EntityBase entity, params object[] args)
     {
+        entity.StopMove();
         entity.SetAttack();
     }
 }

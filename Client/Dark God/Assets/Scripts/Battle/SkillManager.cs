@@ -1,3 +1,4 @@
+using Game.Event;
 using PEProtocol;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,83 +19,59 @@ public class SkillManager : MonoBehaviour
         PECommon.Log("SkillManager Loading");
     }
 
-    public void SkillAttack(EntityBase entity, int skillId)
+    public void SkillAttack(EntityBase entity, SkillData skill, int dmgIndex)
     {
-        entity?.ResetSkillActionEffectCBIndex();
-        AttackEffect(entity, skillId);
-        AttackDamage(entity, skillId);
+        //entity?.ResetSkillActionEffectCBIndex();
+        //AttackEffect(entity, skill);
+        AttackDamage(entity, skill, dmgIndex);
 
     }
 
-    private void AttackDamage(EntityBase entity, int skillId)
+    private void AttackDamage(EntityBase entity, SkillData skill, int dmgIndex)
     {
         if (entity == null)
             return;
+        SkillActionData action_data = resSvc.GetSkillActionData(skill.skillActionLst[dmgIndex]);
+        int damge = skill.skillDamageLst[dmgIndex];
 
-        SkillCfg data_skill = resSvc.GetSkillData(skillId);
-        List<int> skillActionLst = data_skill.skillActionLst;
-        float sum = 0f;
-        for (int i = 0; i < skillActionLst.Count; i++)
+        if(entity.entityType == EntityType.Player)
         {
-            SkillActionCfg data_skillAction = resSvc.GetSkillActionCfg(skillActionLst[i]);
-            sum += data_skillAction.delayTime;
-            int index = i;
-            if (sum > 0)
+            List<EntityMonster> monsters = entity.bm.GetActiveMonsters();
+            for(int i = 0; i < monsters.Count; i++)
             {
-                int actionID = timer.AddTimeTask((int tid) =>
+                if (monsters[i].IsDie) continue;
+
+                var target = monsters[i];
+                if(ActionCheck(entity, target, action_data))
                 {
-                    SkillAction(entity, data_skill, index);
-                    entity?.RemoveSkillActionCBItem(tid);
-                    entity?.PlayEntityAttackAudio(AttackType.Heavy);
-                }, sum);
-
-                entity.skillActionCBLst.Add(actionID);
-            }
-            else
-            {
-                SkillAction(entity, data_skill, index);
-            }
-        }
-    }
-
-    private void SkillAction(EntityBase entity, SkillCfg data_skill, int index)
-    {
-        if (entity == null)
-            return;
-
-        SkillActionCfg data = resSvc.GetSkillActionCfg(data_skill.skillActionLst[index]);
-        int damage = data_skill.skillDamageLst[index];
-
-        if (entity.entityType == Message.EntityType.Player)
-        {
-            List<EntityMonster> monsterLst = entity.battleMgr.GetMonsterLst();
-            for (int i = 0; i < monsterLst.Count; i++)
-            {
-                var target = monsterLst[i];
-                if (RangeCheck(entity.GetPos(), target.GetPos(), data.radius)
-                    && CheckAngle(entity.GetTrans(), target.GetPos(), data.angle))
-                {
-                    CalcDamage(entity, target, data_skill, damage);
+                    CalcDamage(entity, target, skill, damge);
                 }
             }
         }
-        else if (entity.entityType == Message.EntityType.Monster)
+        else if(entity.entityType == EntityType.Monster)
         {
-            EntityBase target = entity.battleMgr.ep;
-            if (RangeCheck(entity.GetPos(), target.GetPos(), data.radius)
-                    && CheckAngle(entity.GetTrans(), target.GetPos(), data.angle))
+            var target = entity.Target;
+            
+            if (ActionCheck(entity, target, action_data))
             {
-
-                CalcDamage(entity, target, data_skill, damage);
+                CalcDamage(entity, target, skill, damge);
             }
         }
     }
 
+    private bool ActionCheck(EntityBase attacker, EntityBase target, SkillActionData action)
+    {
+        return RangeCheck(attacker.GetPos(), target.GetPos(), action.radius) && CheckAngle(attacker.GetTrans(), target.GetPos(), action.angle);
+    }
+
+
     System.Random rd = new System.Random();
-    private void CalcDamage(EntityBase attacker, EntityBase target, SkillCfg data_skill, int damage)
+    private void CalcDamage(EntityBase attacker, EntityBase target, SkillData data_skill, int damage)
     {
         if (attacker == null || target == null)
             return;
+        
+        if (!target.CanHurt) return;
 
         int dmgSum = damage;
         if (data_skill.dmgType == DmgType.AD)
@@ -105,31 +82,31 @@ public class SkillManager : MonoBehaviour
                 target.SetDodge();
                 return;
             }
-
-            dmgSum += target.Props.ad;
-
+        
+            dmgSum += attacker.Props.ad + attacker.EquipmentADAtk;
+        
             int cirticalNum = PETools.RdInt(1, 100, rd);
             int addef = target.Props.addef;
-
-
+        
+        
             if (cirticalNum < attacker.Props.critical)
             {
                 float cirticalRate = 1 + (PETools.RdInt(1, 100, rd) / 100);
                 dmgSum = (int)cirticalRate * dmgSum;
                 attacker.SetCritical();
             }
-
-            dmgSum -= (int)((1 - target.Props.pierce / 100) * addef);
-
+        
+            dmgSum -= (int)((1 - target.Props.pierce / 100) * addef) + target.EquipmentADDef;
+        
         }
         else if (data_skill.dmgType == DmgType.AP)
         {
             dmgSum += attacker.Props.ap;
-
+        
             dmgSum -= target.Props.apdef;
-
+        
         }
-
+        
         if (dmgSum < 0)
         {
             dmgSum = 0;
@@ -138,29 +115,30 @@ public class SkillManager : MonoBehaviour
         {
             target.HP = 0;
             target.SetHurt(dmgSum);
-            target.Die();
-
-            target.battleMgr.OnTargetDie(target.EntityId);
-            if (target.entityType == Message.EntityType.Monster)
+            target.SetDie();
+            
+            if (target.entityType == EntityType.Monster)
             {
-                target.battleMgr.RemoveMonster(target.Name);
+                target.bm.RemoveMonster(target.Name);
             }
-            else if (target.entityType == Message.EntityType.Player)
+            else if (target.entityType == EntityType.Player)
             {
-                target.battleMgr.StopBattle(false, 0);
-                target.battleMgr.ep = null;
+                target.bm.StopBattle(false, 0);
+                target.bm.ep = null;
             }
+        
+            GameEventManager.TriggerEvent<int>(EventNode.Event_OnKillMonster, (int)TaskType.Kill, target.EntityID);
         }
         else
         {
             target.HP -= dmgSum;
             target.SetHurt(dmgSum);
-            if (target.entityState == Message.EntityState.None && target.GetBreakState())
+            if (target.entityState == EntityState.None && target.GetBreakState())
             {
-                target.Hit();
+                target.SetHit();
             }
         }
-
+        
         target.PlayEntityHitAudio();
 
     }
@@ -190,46 +168,46 @@ public class SkillManager : MonoBehaviour
         return false;
     }
 
-    public void AttackEffect(EntityBase entity, int skillId)
+    public void AttackEffect(EntityBase entity, SkillData skill)
     {
-        //if (entity == null)
-        //    return;
-        //
-        //if (entity.entityType == Message.EntityType.Player)
-        //{
-        //    if (entity.GetInputDir() == Vector2.zero)
-        //    {
-        //        entity.SetAtkRotation(entity.GetClosedTarget());
-        //    }
-        //    else
-        //    {
-        //        entity.SetAtkRotation(entity.GetInputDir(), true);
-        //    }
-        //}
-        //
-        //SkillCfg data_skill = resSvc.GetSkillData(skillId);
-        //
-        //if (data_skill.isCollide)
+        if (entity == null)
+            return;
+        
+        if (entity.entityType == EntityType.Player)
+        {
+            if (entity.GetInputDir() == Vector3.zero)
+            {
+                entity.SetAtkRotation(entity.GetClosedTarget());
+            }
+            else
+            {
+                entity.SetAtkRotation(entity.GetInputDir());
+            }
+        }
+        
+        
+        
+        //if (skill.isCollide)
         //{
         //    //Debug.Log(LayerMask.NameToLayer("Player"));
         //    Physics.IgnoreLayerCollision(7, 8);
         //    timer.AddTimeTask((tid) =>
         //    {
         //        Physics.IgnoreLayerCollision(7, 8, false);
-        //    }, data_skill.skillTime);
+        //    }, skill.skillTime);
         //}
-        //
-        //if (!data_skill.isBreak)
+        
+        //if (!skill.isBreak)
         //{
-        //    entity.entityState = Message.EntityState.BatiState;
+        //    entity.entityState = EntityState.BatiState;
         //}
-        //
+        
         //entity.Lock();
         //entity.SetDir(Vector2.zero);
         //entity.SetAction(data_skill.aniAction);
         //entity.SetFX(data_skill.fx, data_skill.skillTime);
         //SetSkillMove(entity, data_skill);
-        //
+        
         //entity.skillEndCBIndex = timer.AddTimeTask((int tid) =>
         //{
         //    entity?.Idle();
