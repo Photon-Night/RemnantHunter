@@ -11,6 +11,9 @@
 /Client/Dark God/Assets/Resources/ResImages
 /Client/Dark God/Assets/Resources/ResScenes
 /Client/Dark God/Assets/Resources/UIAnimation
+/Client/Dark God/Assets/Resources
+/Client/Dark God/Assets/Scenes
+/Client/Dark God/ProjectSettings
 *.prefab
 *.meta
 *.json
