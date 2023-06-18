@@ -38,8 +38,8 @@
 		<isStop>1</isStop>
 		<resPath>PrefabMonster/Black_Knight</resPath>
 		<atkDis>3</atkDis>
-		<hp>800</hp>
-		<ad>250</ad>
+		<hp>1600</hp>
+		<ad>400</ad>
 		<ap>180</ap>
 		<addef>55</addef>
 		<apdef>60</apdef>
@@ -53,8 +53,8 @@
 		<isStop>1</isStop>
 		<resPath>PrefabMonster/Lizard_Warrior</resPath>
 		<atkDis>3</atkDis>
-		<hp>200</hp>
-		<ad>100</ad>
+		<hp>800</hp>
+		<ad>300</ad>
 		<ap>80</ap>
 		<addef>5</addef>
 		<apdef>10</apdef>

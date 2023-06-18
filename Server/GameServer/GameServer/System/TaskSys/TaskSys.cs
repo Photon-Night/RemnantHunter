@@ -44,16 +44,22 @@ namespace GameServer
                     {
                         pd.coin += task.coin;
                         PECommon.CalcExp(pd, task.exp);
-
-
-                        if (dbMgr.UpdateTaskInfo(pd.id, info))
+                        
+                        for(int i = 0; i < task.item.Length; i++)
+                        {
+                            var arr = task.item[i].Split('#');
+                            BagSys.Instance.AddItem(pack.session, int.Parse(arr[0]), int.Parse(arr[1]));
+                        }
+                        
+                        if (dbMgr.UpdateTaskInfo(pd.id, info) && BagSys.Instance.UpdateBagArrBySession(pack.session))
                         {
                             msg.rspUpdateTaskInfo = new RspUpdateTaskInfo
                             {
                                 info = info,
                                 coin = pd.coin ,
                                 exp = pd.exp,
-                                lv = pd.lv
+                                lv = pd.lv,
+                                newBagArr  = pd.bag,
                             };
                         }
                         else

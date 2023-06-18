@@ -18,6 +18,44 @@ namespace GameServer
             cacheSvc = CacheSvc.Instance;
             cfgSvc = CfgSvc.Instance;
         }
+        public void AddItem(ServerSession session, int itemID, int count)
+        {
+            
+            
+            if(clientBagDic.TryGetValue(session, out var bag))
+            {
+                if(bag.ContainsKey(itemID))
+                {
+                    bag[itemID] += count;                   
+                }
+                else
+                {
+                    bag[itemID] = count;
+                }
+            }
+        }    
+        
+        public bool UpdateBagArrBySession(ServerSession session)
+        {
+            if (clientBagDic.TryGetValue(session, out var bag))
+            {
+                var pd = cacheSvc.GetPlayerDataBySession(session);
+                var bagArr = pd.bag;
+                StringBuilder builder = new StringBuilder();
+                var e = bag.GetEnumerator();
+                while (e.MoveNext())
+                {
+                    builder.Append($"{e.Current.Key}#{e.Current.Value}|");
+                }
+                PECommon.Log(builder.ToString());
+                builder.Remove(builder.Length - 1, 1);
+                pd.bag = builder.ToString().Split('|');
+                return cacheSvc.UpdatePlayerData(pd.id, pd);
+
+            }
+
+            return false;
+        }
 
         public void ReqUseProp(MsgPack pack)
         {

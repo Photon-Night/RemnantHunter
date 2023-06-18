@@ -84,6 +84,8 @@ namespace Game.Monster
         }
         private void TickAILogic_Active(EntityMonster entity)
         {
+            if (entity.IsDie) return;
+
             entity.TickMonsterAILogic_Active(player.GetPos(), out canActiveAllMonster);
             if(canActiveAllMonster)
             {
@@ -95,12 +97,15 @@ namespace Game.Monster
         {
             for (int i = 0; i < monsters.Count; i++)
             {
+                if (monsters[i].IsDie) continue;
                 monsters[i].IsBattle = true;
             }
         }
 
         private void TickAILogic_Standby(EntityMonster entity)
         {
+            if (entity.IsDie) return;
+
             entity.TickMonsterAILogic_Standby(GroupPos, CheckRange_Sqr);
         }
         public void AddMonsters(List<EntityMonster> monsters)

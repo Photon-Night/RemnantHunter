@@ -16,6 +16,9 @@ public class EntityPlayer : EntityBase
     private bool canCombo;
     private GameItemCfg weaponData;
     private GameItemCfg shieldData;
+
+    public bool CanUsePotion_ADAtk { get; private set; }
+    public bool CanUsePotion_AdDef { get; private set; }
     public override int EquipmentADAtk => weaponData.funcType == ItemFunction.ADAtk ? (int)weaponData.funcNum : base.EquipmentADAtk;
     public override int EquipmentADDef => shieldData.funcType == ItemFunction.ADDef ? (int)shieldData.funcNum : base.EquipmentADDef;
     public float Power
@@ -31,6 +34,9 @@ public class EntityPlayer : EntityBase
             power = value;
         }
     }
+
+    public override int ADAtk => base.ADAtk + (int)weaponData.funcNum;
+    public override int ADDef => base.ADDef + (int)shieldData.funcNum;
     private int skillPointCount = 5;
     public int SkillPointCount
     {
@@ -45,15 +51,15 @@ public class EntityPlayer : EntityBase
         }
     }
 
-    public EntityPlayer(BattleManager bm, StateManager sm, PlayerController pc, BattleProps bps, string name) : base(bm, sm, pc, bps)
+    public EntityPlayer(BattleManager bm, StateManager sm, PlayerController pc, BattleProps bps, string name, int weaponID, int shieldID) : base(bm, sm, pc, bps)
     {
         entityType =EntityType.Player;
         power = Props.power;
-        InitPlayer(name);
+        InitPlayer(name, weaponID, shieldID);
     }
 
     #region Base Setting
-    public void InitPlayer(string name)
+    public void InitPlayer(string name, int weaponID, int shieldID)
     {
         base.InitEntity();
         this.name = name;
@@ -63,9 +69,10 @@ public class EntityPlayer : EntityBase
         canCombo = true;
         currentComboIndex = 0;
         dodgeTime = GetAnimationClipLength("Roll");
-        shieldData = ResService.Instance.GetGameItemCfg(controller.ShieldID);
-        weaponData = ResService.Instance.GetGameItemCfg(controller.WeaponID);
-        
+        shieldData = ResService.Instance.GetGameItemCfg(shieldID);
+        weaponData = ResService.Instance.GetGameItemCfg(weaponID);
+        CanUsePotion_ADAtk = true;
+        CanUsePotion_AdDef = true;
     }
 
     #endregion
@@ -74,7 +81,6 @@ public class EntityPlayer : EntityBase
 
     public override Vector3 GetClosedTarget()
     {
-        Debug.Log(Props.atkDis);
         EntityMonster target = BattleSystem.Instance.FindClosedMonster(25f);
         
         if (target != null)
@@ -220,6 +226,8 @@ public class EntityPlayer : EntityBase
     }
     public override void SetJump()
     {
+        return;
+
         if (controller is null)
             return;
 
@@ -228,7 +236,10 @@ public class EntityPlayer : EntityBase
             //ÌøÔ¾Âß¼­
         }
     }
-
+    public override void SetHurt(int hurt)
+    {
+        GameRoot.Instance.SetHurtPlayer(hurt);
+    }
     #endregion
 
     public void RecoverPower(float delta)
@@ -250,6 +261,43 @@ public class EntityPlayer : EntityBase
                 spRecoverTimeOrigin = 0;
             }
         }     
+    }
+
+    public void SetADAtkByPotion(int ad, float duration)
+    {
+        Props.ad += ad;
+        if(duration > 0)
+        {
+            CanUsePotion_ADAtk = false;
+            timer.AddTimeTask((tid) =>
+            {
+                if(Props != null)
+                {
+                    Props.ad -= ad;
+                    CanUsePotion_ADAtk = true;
+                    Debug.Log("endpotion");
+                }               
+            }, duration);
+        }
+
+    }
+
+    public void SetADDefByPotion(int addef, float duration)
+    {
+        Props.addef += addef;
+        if (duration > 0)
+        {
+            CanUsePotion_AdDef = false;
+            timer.AddTimeTask((tid) =>
+            {
+                if (Props != null)
+                {
+                    Props.addef -= addef;
+                    CanUsePotion_AdDef = true;
+                    Debug.Log("endpotion");
+                }
+            }, duration);
+        }
     }
 
     public void ChangePlayerEquipment(GameItemCfg equipmentData)

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class MonsterController : EntityController
 {
-    public NavMeshAgent Agent { get; private set; }
+    public NavMeshAgent Agent;
 
     public float checkRange;
 
@@ -13,7 +13,8 @@ public class MonsterController : EntityController
     public override void Init()
     {
         base.Init();
-        Agent = GetComponent<NavMeshAgent>();
+        Agent.enabled = true;
+        
     }
 
     public override bool SetAttack(string animName)

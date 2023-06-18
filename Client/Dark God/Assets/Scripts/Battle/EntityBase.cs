@@ -20,6 +20,11 @@ public class EntityBase
         }
     }
     public bool CanHurt { get; protected set; }
+
+    public virtual int ADAtk => Props.ad;
+    public virtual int ADDef => Props.addef;
+    public virtual int Dodge => Props.dodge;
+
     protected string name;
     protected float hitTime;
 
@@ -74,12 +79,11 @@ public class EntityBase
 
         set
         {
+            if (value > Props.hp)
+                value = Props.hp;
+
             SetHpVal(hp, value);
             hp = value;
-            if(hp <= 0)
-            {
-                IsDie = true;
-            }
         }
     }
     public bool LockCtrl
@@ -223,7 +227,6 @@ public class EntityBase
 
         if(!IsHit)
         {
-            Debug.Log("hit");
             controller.SetHit();
             IsHit = true;
             timer.AddTimeTask((tid) =>
@@ -233,7 +236,11 @@ public class EntityBase
         }
        
     }
-    public virtual void SetDie() { controller.SetDie(); }
+    public virtual void SetDie()
+    {
+        IsDie = true;
+        controller.SetDie(); 
+    }
     public virtual void SetSprint(bool isSprint)
     {
         controller.SetSprint(isSprint);
@@ -288,7 +295,7 @@ public class EntityBase
         GameRoot.Instance.SetDodge(controller.name);
     }
 
-    public void SetHurt(int hurt)
+    public virtual void SetHurt(int hurt)
     {
         GameRoot.Instance.SetHurt(controller.name, hurt);
     }

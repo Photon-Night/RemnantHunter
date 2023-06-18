@@ -1,5 +1,7 @@
 ﻿using Cinemachine;
+using Game.Bag;
 using Game.Common;
+using Game.Event;
 using Game.Manager;
 using PEProtocol;
 using System.Collections;
@@ -7,7 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
+public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet,ICommonInputSet
 {
     public BattleWin battleWin;
     public BattleEndWin battleEndWin;
@@ -20,47 +22,71 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
 
     public static bool IsEnterBattle { get; private set; }
 
+    public bool isUIWinOpen;
+
     public override void InitSystem()
     {
         base.InitSystem();
         PECommon.Log("BattleSystem Loading");
         IsEnterBattle = false;
+        GameEventManager.SubscribeEvent<bool>(EventNode.Event_OnSetUIWinState, OnSetUIWinState);
     }
     #region Input Interface
     public void Move(float ver, float hor)
     {
-        bm.SetMove(ver, hor);
+        if (isUIWinOpen)
+        {
+            bm?.SetMove(0,0);
+            return;
+        }
+
+        bm?.SetMove(ver, hor);
     }
 
     public void Attack()
     {
-        bm.SetNormalAttack();
+        if (isUIWinOpen) return;
+        bm?.SetNormalAttack();
     }
 
     public void Jump()
     {
-        bm.SetJump();
+        if (isUIWinOpen) return;
+        bm?.SetJump();
     }
 
     public void Sprint(bool isSprint)
     {
-        bm.SetSprint(isSprint);
+        if (isUIWinOpen) return;
+        bm?.SetSprint(isSprint);
     }
 
     public void Combo()
     {
-        bm.SetCombo();
+        if (isUIWinOpen) return;
+        bm?.SetCombo();
     }
 
     public void Roll()
     {
-        bm.SetRoll();
+        if (isUIWinOpen) return;
+        bm?.SetRoll();
     }
     #endregion
     #region Battle Interface
     public bool isPlayerAttack()
     {
         return bm.isPlayerAttack();
+    }
+
+    public void SetPlayerPropByPotion(ItemFunction type, float funcNum, float duration)
+    {
+        bm.SetPlayerPropsByPotion(type, funcNum, duration);
+    }
+
+    public bool GetPotionUseStatus(ItemFunction type)
+    {
+        return bm.GetPotionUseStatus(type);
     }
 
     public void SetHPUI(int hp)
@@ -90,7 +116,7 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
 
     public void SkillAttack(EntityBase entity, SkillData skill, int dmgIndex)
     {
-        bm.SkillAttack(entity, skill, dmgIndex);
+        bm?.SkillAttack(entity, skill, dmgIndex);
     }
     #endregion
 
@@ -109,6 +135,7 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
         {
             startTime = timeSvc.GetCurrentTime();
             InputManager.Instance.SetPlayerInputRoot(this);
+            InputManager.Instance.SetCommonInputRoot(this);
         });
         fid = mapId;
 
@@ -120,7 +147,7 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
         battleWin.SetWinState(isActive);
     }
 
-    public void EndBattle(bool isWin, int restHP)
+    public void EndBattle(bool isWin, int restHP = 0)
     {
 
         battleWin.SetWinState(false);
@@ -148,7 +175,7 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
             SetBattleEndWinState(FBEndType.Lose);
         }
 
-        IsEnterBattle = false;
+        
     }
 
     public void SetBattleEndWinState(FBEndType endType, bool isActive = true)
@@ -159,10 +186,13 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
 
     public void DestroyBattle()
     {
+        IsEnterBattle = false;
         SetBattleEndWinState(FBEndType.None, false);
         SetBattleWinState(false);
         GameRoot.Instance.RemoveAllHPUIItem();
+        BagSystem.Instance.CloseBagWin();
         Destroy(bm.gameObject);
+        bm = null;
     }
     #endregion
 
@@ -176,15 +206,7 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
         SetBattleEndWinState(FBEndType.Win);
     }
 
-    public void SetCamLock(bool state)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void SetInteraction()
-    {
-        throw new System.NotImplementedException();
-    }
+    
 
 
     #endregion
@@ -199,6 +221,40 @@ public class BattleSystem : SystemRoot<BattleSystem>, IPlayerInputSet
     public void ChangePlayerEquipment(int itemID)
     {
         bm?.ChangePlayerEquipment(itemID);
+    }
+
+    public void SetScrollInteraction(float axis)
+    {
+        
+    }
+
+    public void SetOpenMenu()
+    {
+        BagSystem.Instance.OpenBagWin();
+    }
+    public void SetCamLock(bool state)
+    {
+        if (isUIWinOpen)
+            return;
+        bm.SetLockCam(state);
+    }
+
+    public void SetInteraction()
+    {
+        
+    }
+
+    public void OnSetUIWinState(params bool[] args)
+    {
+        bool isLock = args[0];
+        isUIWinOpen = isLock;
+
+        bm?.SetLockCam(isLock);
+    }
+
+    public void CheckOut()
+    {
+        SetBattleEndWinState(FBEndType.Stop);
     }
 }
 

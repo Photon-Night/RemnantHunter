@@ -182,6 +182,23 @@ public class DynamicWin : WinRoot
 
     public void SetDodgePlayer()
     {
+        SetText(txtPlayerDodge, "…¡±‹");
+        SetActive(txtPlayerDodge);
+        playerDodge.Stop();
+        playerDodge.Play();
+    }
+
+    public void SetDefinePlayer()
+    {
+        SetText(txtPlayerDodge, "∏Òµ≤");
+        SetActive(txtPlayerDodge);
+        playerDodge.Stop();
+        playerDodge.Play();
+    }
+
+    public void SetHurtPlayer(int num)
+    {
+        SetText(txtPlayerDodge, Message.Color($"-{num}", Message.ColorRed));
         SetActive(txtPlayerDodge);
         playerDodge.Stop();
         playerDodge.Play();

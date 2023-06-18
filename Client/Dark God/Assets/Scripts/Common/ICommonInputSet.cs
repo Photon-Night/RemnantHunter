@@ -16,5 +16,7 @@ namespace Game.Common
 
         public void SetOpenMenu();
 
+        public void CheckOut();
+
     }
 }

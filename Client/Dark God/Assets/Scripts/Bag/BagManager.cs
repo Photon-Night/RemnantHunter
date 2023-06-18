@@ -30,6 +30,8 @@ namespace Game.Bag
                     int ID = int.Parse(itemData[0]);
                     int count = int.Parse(itemData[1]);
 
+                    if (count == 0) continue;
+
                     var cfg = resSvc.GetGameItemCfg(ID);
                     if(cfg != null)
                     {                                              
@@ -67,12 +69,18 @@ namespace Game.Bag
             }
         }
 
+        public void AddBagItem(int itemID, int count)
+        {
+            var cfg = resSvc.GetGameItemCfg(itemID);
+            AddBagItem(cfg, count);
+        }
+
         public void AddBagItem(GameItemCfg cfg, int count)
         {
             if (count == 0) return;
 
 
-            if (bagItemDic.ContainsKey(cfg.ItemType))
+            if (!bagItemDic.ContainsKey(cfg.ItemType))
             {
                 bagItemDic[cfg.ItemType] = new Dictionary<int, BagItemData>();
             }

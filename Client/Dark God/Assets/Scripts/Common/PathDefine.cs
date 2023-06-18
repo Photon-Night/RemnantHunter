@@ -9,7 +9,7 @@ public class PathDefine
     public const string MapCfg = "ResCfgs/map";
     public const string GuideCfg = "ResCfgs/guide";
     public const string StrongCfg = "ResCfgs/strong";
-    public const string TaskCfg = "ResCfgs/task1";
+    public const string TaskCfg = "ResCfgs/task";
     public const string SkillCfg = "ResCfgs/skill";
     public const string SkillMoveCfg = "ResCfgs/skillmove";
     public const string MonsterCfg = "ResCfgs/monster";

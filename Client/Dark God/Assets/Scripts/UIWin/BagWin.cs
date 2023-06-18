@@ -30,6 +30,7 @@ namespace Game.UIWin
         public Button btnEquip;
 
         public Transform bagItemContent;
+        public Transform rightPanel;
 
         private List<BagItemData> currentItemLst = new List<BagItemData>();
         private BagItemType currentType = BagItemType.Potion;
@@ -94,6 +95,8 @@ namespace Game.UIWin
 
             BagSystem.Instance.GetBagItemLstByItemType(currentType, currentItemLst);
 
+            if (currentItemLst.Count == 0) SetActive(rightPanel, false);
+            else SetActive(rightPanel);
 
             for (int i = 0; i < currentItemLst.Count; i++)
             {
@@ -117,7 +120,7 @@ namespace Game.UIWin
                 if (currentType == BagItemType.Equipment)
                 {
                     bool isEquipped = BagSystem.Instance.isEquiped(currentItemLst[i].cfg.ID);
-                    uiItem.InitItem(currentItemLst[i].count, currentItemLst[i].cfg.iconPath, togGroupitem, isEquipped);
+                    uiItem.InitItem(currentItemLst[i].count, currentItemLst[i].cfg.name, currentItemLst[i].cfg.iconPath, togGroupitem, isEquipped);
                     if(isEquipped)
                     {
                         switch (currentItemLst[i].cfg.equipmentType)
@@ -137,7 +140,7 @@ namespace Game.UIWin
 
                 }
                 else
-                    uiItem.InitItem(currentItemLst[i].count, currentItemLst[i].cfg.iconPath, togGroupitem);
+                    uiItem.InitItem(currentItemLst[i].count, currentItemLst[i].cfg.name, currentItemLst[i].cfg.iconPath, togGroupitem);
 
                 uiItem.togItem.onValueChanged.AddListener((isOn) =>
                 {
@@ -255,7 +258,7 @@ namespace Game.UIWin
         {
             audioSvc.PlayUIAudio(Message.UIClickBtn);
             if (currentItemData.CanUse)
-                BagSystem.Instance.UseProp(currentItemData.cfg.ID);
+                BagSystem.Instance.UseProp(currentItemData);
             else
                 GameRoot.AddTips($"{Message.Color(currentItemData.cfg.name, Message.ColorOrange)}只能在战斗中使用");
         }

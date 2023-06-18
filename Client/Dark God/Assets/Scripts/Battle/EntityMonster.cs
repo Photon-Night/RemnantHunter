@@ -52,7 +52,10 @@ public class EntityMonster : EntityBase
     float distance = 0;
     public void TickMonsterAILogic_Active(Vector3 targetPos, out bool canActiveAllMonster)
     {
+
+
         canActiveAllMonster = false;
+        if (IsDie) return;
 
         if (CurrentAniState == AniState.Back)
         {
@@ -103,6 +106,8 @@ public class EntityMonster : EntityBase
     }
     public void TickMonsterAILogic_Standby(in Vector3 groupPos, float groupRange)
     {
+        if (IsDie) return;
+
         if (!RunAI)
             return;
         if (IsBattle)
@@ -200,18 +205,20 @@ public class EntityMonster : EntityBase
 
     public override void SetDie()
     {
+        IsBattle = false;
+
         base.SetDie();
         CloseCollider();
 
         timer.AddTimeTask((int id) =>
         {
             SetActive(false);
-        }, Message.DieAniLength);
+        }, Message.DieAniLength - 100);
     }
 
     public override void SetAttack()
     {
-        attackCoolDownTime = Random.Range(1f, 4f);
+        attackCoolDownTime = Random.Range(1f, 3f);
 
         float r = Random.Range(0, .5f);
         int tid = timer.AddTimeTask((tid) =>

@@ -26,7 +26,7 @@ public class LoginSystem : SystemRoot<LoginSystem>
     public void OnLoginRsp(GameMsg msg)
     {
         GameRoot.AddTips("登入成功");
-
+        loginWin.SetCover();
         GameRoot.Instance.SetPlayerData(msg.rspLogin);
         
 

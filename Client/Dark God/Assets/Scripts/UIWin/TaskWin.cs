@@ -26,6 +26,13 @@ public class TaskWin : WinRoot
     public Text txtTaskName;
     public Text txtSubmit;
 
+    public Text txtWeaponName;
+    public Text txtShieldName;
+    public Text txtPotionCount;
+
+    public GameObject goWeapon;
+    public GameObject goShield;
+
     private List<TaskItem> taskList;
     private List<TaskItem> ownerTasks_InComplete = new List<TaskItem>();
     private List<TaskItem> ownerTasks_Result = new List<TaskItem>();
@@ -171,7 +178,7 @@ public class TaskWin : WinRoot
         }
         ownerTasks_Result.AddRange(ownerTasks_InComplete);
         taskList = ownerTasks_Result;
-
+        Debug.Log(taskList.Count);
         for (int i = 0; i < taskList.Count; i++)
         {
             GameObject taskGo = resSvc.LoadPrefab(PathDefine.TogTaskItem);
@@ -206,9 +213,11 @@ public class TaskWin : WinRoot
                     case TaskStatus.None:
                         break;
                     case TaskStatus.InProgress:
+                        SetActive(btnFinish, false);
                         SetActive(btnCancel);
                         break;
                     case TaskStatus.Complated:
+                        SetActive(btnCancel, false);
                         SetActive(btnFinish);
                         break;
                 }
@@ -274,10 +283,12 @@ public class TaskWin : WinRoot
             }
             else if (currentStatus == NpcTaskStatus.Complete)
             {
+                SetActive(btnCancel, false);
                 SetActive(btnFinish);
             }
             else if (currentStatus == NpcTaskStatus.Incomplete)
             {
+                SetActive(btnFinish, false);
                 SetActive(btnCancel);
             }
         }
@@ -307,6 +318,35 @@ public class TaskWin : WinRoot
         SetText(txtCoin, taskData.data.coin.ToString());
         SetText(txtExp, taskData.data.exp.ToString());
         SetText(txtDes, taskData.data.description);
+
+        var item = taskData.data.item;
+        SetActive(goShield, false);
+        SetActive(goWeapon, false);
+
+        for(int i = 0; i < item.Length; i++)
+        {
+            var arr = item[i].Split('#');
+            int itemID = int.Parse(arr[0]);
+            int count = int.Parse(arr[1]);
+
+            var itemData = resSvc.GetGameItemCfg(itemID);
+            var type = itemData.equipmentType;
+            if (type == EquipmentType.Shield)
+            {
+                SetActive(goShield);
+                SetText(txtShieldName, itemData.name);
+            }
+            else if(type == EquipmentType.Weapon)
+            {
+                SetActive(goWeapon);
+                SetText(txtWeaponName, itemData.name);
+            }
+            else
+            {
+                SetText(txtPotionCount, count);
+            }
+
+        }
     }
 
     public void OnClickCloseBtn()

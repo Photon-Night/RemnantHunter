@@ -30,6 +30,10 @@ namespace Game.Event
             RegisterEvent<int>(EventNode.Event_OnBattleStart, EventNode.Group_Battle);
             RegisterEvent<int>(EventNode.Event_OnChangeEquipment, EventNode.Group_UI);
             RegisterEvent<int>(EventNode.Event_OnGetBagItem, EventNode.Group_Task);
+            RegisterEvent<int>(EventNode.Event_OnStrong, EventNode.Group_Task);
+            RegisterEvent<int>(EventNode.Event_OnBuyCoin, EventNode.Group_Task);
+            RegisterEvent<int>(EventNode.Event_OnBattleWin, EventNode.Group_Task);
+
         }
 
         public static void RegisterEvent(GameEventNode eventBase, EventNode groupName)

@@ -11,91 +11,31 @@
 		<coin>0</coin>
 		<crystal>0</crystal>
 	</item>
-	<item ID="10001">
-		<mapName>荒野遗迹</mapName>
-		<sceneName>SceneOrge</sceneName>
-		<power>5</power>
-		<mainCamPos>-13.19,18.87,14.69</mainCamPos>
-		<mainCamRote>45,135,0</mainCamRote>
-		<playerBornPos>-10,13.2,11.5</playerBornPos>
-		<playerBornRote>0,145,0</playerBornRote>
-		<exp>1250</exp>
-		<coin>980</coin>
-		<crystal>48</crystal>
-	</item>
-	<item ID="10002">
-		<mapName>荒野遗迹</mapName>
-		<sceneName>SceneOrge</sceneName>
-		<power>5</power>
-		<mainCamPos>-13.19,18.87,14.69</mainCamPos>
-		<mainCamRote>45,135,0</mainCamRote>
-		<playerBornPos>-10,13.2,11.5</playerBornPos>
-		<playerBornRote>0,145,0</playerBornRote>
-		<exp>1350</exp>
-		<coin>1080</coin>
-		<crystal>58</crystal>
-	</item>
-	<item ID="10003">
-		<mapName>荒野遗迹</mapName>
-		<sceneName>SceneOrge</sceneName>
-		<power>5</power>
-		<mainCamPos>-13.19,18.87,14.69</mainCamPos>
-		<mainCamRote>45,135,0</mainCamRote>
-		<playerBornPos>-10,13.2,11.5</playerBornPos>
-		<playerBornRote>0,145,0</playerBornRote>
-		<exp>1450</exp>
-		<coin>1180</coin>
-		<crystal>68</crystal>
-	</item>
-	<item ID="10004">
-		<mapName>荒野遗迹</mapName>
-		<sceneName>SceneOrge</sceneName>
-		<power>5</power>
-		<mainCamPos>-13.19,18.87,14.69</mainCamPos>
-		<mainCamRote>45,135,0</mainCamRote>
-		<playerBornPos>-10,13.2,11.5</playerBornPos>
-		<playerBornRote>0,145,0</playerBornRote>
-		<exp>1550</exp>
-		<coin>1280</coin>
-		<crystal>78</crystal>
-	</item>
-	<item ID="10005">
-		<mapName>荒野遗迹</mapName>
-		<sceneName>SceneOrge</sceneName>
-		<power>5</power>
-		<mainCamPos>-13.19,18.87,14.69</mainCamPos>
-		<mainCamRote>45,135,0</mainCamRote>
-		<playerBornPos>-10,13.2,11.5</playerBornPos>
-		<playerBornRote>0,145,0</playerBornRote>
-		<exp>1650</exp>
-		<coin>1380</coin>
-		<crystal>88</crystal>
-	</item>
-	<item ID="10006">
-		<mapName>荒野遗迹</mapName>
-		<sceneName>SceneOrge</sceneName>
-		<power>5</power>
-		<mainCamPos>-13.19,18.87,14.69</mainCamPos>
-		<mainCamRote>45,135,0</mainCamRote>
-		<playerBornPos>-10,13.2,11.5</playerBornPos>
-		<playerBornRote>0,145,0</playerBornRote>
-		<exp>1750</exp>
-		<coin>1480</coin>
-		<crystal>98</crystal>
-	</item>
 	<item ID="10007">
 		<mapName>矮人城遗迹</mapName>
 		<sceneName>Demo_Dungeon_01</sceneName>
 		<power>5</power>
 		<playerBornPos>-3.58,8,-47</playerBornPos>
 		<playerBornRote>0,0,0</playerBornRote>
+		<monsterLst>20004|20005|20006|20007|20008|20009</monsterLst>
 	</item>
 	<item ID="10008">
 		<mapName>战斗测试场景1</mapName>
 		<sceneName>SceneMission1</sceneName>
 		<power>0</power>
-		<playerBornPos>-25,-0,-25</playerBornPos>
-		<playerBornRote>0,0,0</playerBornRote>
+		<playerBornPos>-25,0,-25</playerBornPos>
+		<playerBornRote>0,1,0</playerBornRote>
 		<monsterLst>20001|20002|20003</monsterLst>
+	</item>
+	<item ID="10001">
+		<mapName>荒野遗迹</mapName>
+		<sceneName>SceneOrge</sceneName>
+		<power>5</power>
+		<playerBornPos>-9.5,13.1,11.6</playerBornPos>
+		<playerBornRote>0,157,0</playerBornRote>
+		<monsterLst>20010|20011|20012</monsterLst>
+		<exp>1350</exp>
+		<coin>1080</coin>
+		<crystal>58</crystal>
 	</item>
 </root>

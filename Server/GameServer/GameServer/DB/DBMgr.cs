@@ -213,7 +213,7 @@ namespace GameServer
                         mission = 10001,
                         taskDatas = { },
                         modle = "",
-                        bag = new string[] { "10000001#5", "10000002#5", "10000016#1", "10000005#1" },
+                        bag = new string[] { "10000001#5", "10000016#1", "10000005#1" },
                         equipment = "10000016|10000005",
                     };
 

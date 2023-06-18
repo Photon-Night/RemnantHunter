@@ -95,9 +95,7 @@ public class SkillManager : MonoBehaviour
                 dmgSum = (int)cirticalRate * dmgSum;
                 attacker.SetCritical();
             }
-        
             dmgSum -= (int)((1 - target.Props.pierce / 100) * addef) + target.EquipmentADDef;
-        
         }
         else if (data_skill.dmgType == DmgType.AP)
         {
@@ -107,9 +105,13 @@ public class SkillManager : MonoBehaviour
         
         }
         
-        if (dmgSum < 0)
+        if (dmgSum <= 0)
         {
             dmgSum = 0;
+            if(target.entityType == EntityType.Player)
+            {
+                GameRoot.Instance.SetDefinePlayer();
+            }
         }
         else if (dmgSum >= target.HP)
         {

@@ -1,3 +1,4 @@
+using Game.Event;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -68,6 +69,8 @@ public class BattleEndWin : WinRoot
                         }, 270);
                     }, 325);
                 }, 1000);
+
+                GameEventManager.TriggerEvent<int>(EventNode.Event_OnBattleWin);
 
                 break;
             case FBEndType.Lose:

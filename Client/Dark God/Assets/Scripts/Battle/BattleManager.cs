@@ -30,9 +30,10 @@ public class BattleManager : MonoBehaviour
 
     private float skillInputSpace = .1f;
     private float skillInputTimeOrigin = .1f;
+
     void Update()
     {
-        if (!runAI) return;
+        if (!runAI || ep == null) return;
 
         for(int i = 0; i < groups.Count; i++)
         {
@@ -102,10 +103,15 @@ public class BattleManager : MonoBehaviour
         //Camera.main.transform.position = mapData.mainCamPos;
         //Camera.main.transform.localEulerAngles = mapData.mainCamRote;
 
-        PlayerController pc = player.GetComponent<PlayerController>();
-        pc.Init();
-
         PlayerData pd = GameRoot.Instance.PlayerData;
+        PlayerController pc = player.GetComponent<PlayerController>();
+        var equipmentArr = pd.equipment.Split('|');
+        int weaponID = int.Parse(equipmentArr[0]);
+        int shieldID = int.Parse(equipmentArr[1]);
+        var index_weapon = resSvc.GetGameItemCfg(weaponID).objPath;
+        var index_shield = resSvc.GetGameItemCfg(shieldID).objPath;
+        pc.InitPlayer(pd.modle, $"{index_weapon}|{index_shield}");
+
         BattleProps props = new BattleProps
         {
             power = 100 + pd.lv - 1, 
@@ -119,8 +125,8 @@ public class BattleManager : MonoBehaviour
             pierce = pd.critical,
         };
 
-        ep = new EntityPlayer(this, stateMgr, pc, props, pd.name);
-
+        ep = new EntityPlayer(this, stateMgr, pc, props, pd.name, weaponID, shieldID);
+        
     }
     private void LoadCam()
     {
@@ -129,6 +135,26 @@ public class BattleManager : MonoBehaviour
         freeLookCam.Follow = ep.GetTrans();
 
         camTrans = Camera.main.transform;
+    }
+
+    public void SetLockCam(bool state)
+    {
+        if (state)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            freeLookCam.m_XAxis.m_InputAxisName = "";
+            freeLookCam.m_YAxis.m_InputAxisName = "";
+            freeLookCam.m_XAxis.m_InputAxisValue = 0f;
+            freeLookCam.m_YAxis.m_InputAxisValue = 0f;
+
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            freeLookCam.m_XAxis.m_InputAxisName = "Mouse X";
+            freeLookCam.m_YAxis.m_InputAxisName = "Mouse Y";
+
+        }
     }
 
     public void LoadGroup()
@@ -162,6 +188,7 @@ public class BattleManager : MonoBehaviour
             go.name = $"{cfg.mName}_{parent.name}_{i}";
             go.transform.SetParent(parent);
             go.transform.localPosition = data.mBornPos;
+            Debug.Log(data.mBornPos);
             go.transform.localEulerAngles = data.mBornRote;
 
             MonsterController mc = go.GetComponent<MonsterController>();
@@ -192,8 +219,8 @@ public class BattleManager : MonoBehaviour
             
             GameRoot.Instance.RemoveHpUIItem(name);
         }
-        
 
+        Debug.Log(monstersDic.Count);
         if(monstersDic.Count == 0)
         {
             OnBattleOver();
@@ -220,11 +247,7 @@ public class BattleManager : MonoBehaviour
     #region Battle Setting
     private void OnBattleOver()
     {
-        //bool isExit = mapMgr.SetNextTrigger();
-        //if(isExit)
-        //{
-        //    StopBattle(true, ep.HP);
-        //}
+        StopBattle(true, ep.HP);
     }
 
     public void StopBattle(bool isWin, int restHP)
@@ -289,31 +312,31 @@ public class BattleManager : MonoBehaviour
     public void SetMove(float ver, float hor)
     {
         var dir = (camTrans.forward * ver + camTrans.right * hor).normalized;     
-        ep.SetMove(dir);
+        ep?.SetMove(dir);
     }
 
     public void SetNormalAttack()
     {
-        ep.SetAttack();
+        ep?.SetAttack();
     }
 
     public void SetCombo()
     {
         if(skillInputTimeOrigin >= skillInputSpace)
         {
-            ep.SetCombo();
+            ep?.SetCombo();
             skillInputTimeOrigin = 0f;
         }     
     }
 
     public void SetJump()
     {
-        ep.SetJump();
+        ep?.SetJump();
     }
 
     public void SetRoll()
     {
-        if(ep.SetRoll())
+        if (ep != null && ep.SetRoll())
         {
 
         }
@@ -326,7 +349,60 @@ public class BattleManager : MonoBehaviour
 
     #endregion
 
-    
+    #region Battle interface
+    public void SetPlayerPropsByPotion(ItemFunction type, float funcNum, float duration)
+    {
+        switch (type)
+        {                    
+            case ItemFunction.Health:
+                ep.HP += (int)funcNum;
+                break;
+            case ItemFunction.ADAtk:
+                ep.SetADAtkByPotion((int)funcNum, duration);
+                break;
+            case ItemFunction.Stamina:
+                break;
+            case ItemFunction.ADDef:
+                ep.SetADDefByPotion((int)funcNum, duration);
+                break;
+            case ItemFunction.Dodge:
+                break;
+            case ItemFunction.APAtk:
+                break;
+            case ItemFunction.APDef:
+                break;
+            default:
+                break;
+        }
+    } 
+
+    public bool GetPotionUseStatus(ItemFunction type)
+    {
+        bool res = false;
+        switch (type)
+        {
+            case ItemFunction.Health:
+                res = ep.HP < ep.Props.hp;
+                break;
+            case ItemFunction.ADAtk:
+                res = ep.CanUsePotion_ADAtk;
+                break;
+            case ItemFunction.Stamina:
+                break;
+            case ItemFunction.ADDef:
+                res = ep.CanUsePotion_AdDef;
+                break;
+            case ItemFunction.Dodge:
+                break;
+            case ItemFunction.APAtk:
+                break;
+            case ItemFunction.APDef:
+                break;
+        }
+
+        return res;
+    }
+    #endregion
 
     public void SkillAttack(EntityBase entity, SkillData skill, int dmgIndex)
     {

@@ -11,6 +11,7 @@ public class GameRoot : MonoSingleton<GameRoot>
 {
     public LoadingWin loadingWin;  
     public DynamicWin dynamicWin;
+    public CheckOutWin checkOutWin;
 
     // Start is called before the first frame update
     void Start()
@@ -153,6 +154,7 @@ public class GameRoot : MonoSingleton<GameRoot>
         PlayerData.coin = data.coin;
         PlayerData.lv = data.lv;
         PlayerData.exp = data.exp;
+        PlayerData.bag = data.newBagArr;
     }
  
     public void AddHpUIItem(string name, int hp, Transform trans)
@@ -221,6 +223,21 @@ public class GameRoot : MonoSingleton<GameRoot>
     public void SetDodgePlayer()
     {
         dynamicWin.SetDodgePlayer();
+    }
+
+    public void SetDefinePlayer()
+    {
+        dynamicWin.SetDefinePlayer();
+    }
+
+    public void SetHurtPlayer(int num)
+    {
+        dynamicWin.SetHurtPlayer(num);
+    }
+
+    public void OpenCheckOutWin()
+    {
+        checkOutWin.SetWinState();
     }
     #endregion
 }

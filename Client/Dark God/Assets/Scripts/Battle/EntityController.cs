@@ -125,7 +125,7 @@ public abstract class EntityController : MonoBehaviour
     public virtual void SetDie()
     {
         bodyCollider.enabled = false;
-        anim.SetBool("die", true);
+        anim.CrossFade("Die", .1f);
     }
     #endregion
 

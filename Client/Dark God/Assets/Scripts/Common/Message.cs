@@ -169,6 +169,9 @@ public enum EventNode
     Event_OnBattleStart = 210,
     Event_OnGetBagItem = 211,
     Event_OnChangeEquipment = 212,
+    Event_OnStrong = 213,
+    Event_OnBuyCoin = 214,
+    Event_OnBattleWin = 215,
 }
 public enum NPCFunction
 {

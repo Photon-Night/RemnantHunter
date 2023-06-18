@@ -5,12 +5,12 @@
 		<ItemType>3</ItemType>
 		<equipmentType>0</equipmentType>
 		<funcType>2</funcType>
-		<funcNum>50</funcNum>
+		<funcNum>500</funcNum>
 		<duration>0</duration>
 		<objPath>0</objPath>
 		<iconPath>ResIcon/potion_01</iconPath>
 		<useWithoutBattle>0</useWithoutBattle>
-		<des>使用后恢复50点生命(仅能在副本中使用)</des>
+		<des>使用后恢复500点生命(仅能在副本中使用)</des>
 	</item>
 	<item ID="10000002">
 		<name>体力恢复药</name>

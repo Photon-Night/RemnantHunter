@@ -7,15 +7,17 @@
 		<isAutoGetNextTask>0</isAutoGetNextTask>
 		<acceptNpcID>102</acceptNpcID>
 		<submitNpcID>102</submitNpcID>
-		<accTalkID>-1</accTalkID>
-		<subTalkID>-1</subTalkID>
+		<accTalkID>1002</accTalkID>
+		<subTalkID>1002</subTalkID>
 		<limitLevel>0</limitLevel>
-		<targetID>1001</targetID>
+		<targetID>1003</targetID>
 		<targetCount>3</targetCount>
-		<description>进入副本并击杀3只铁甲战士</description>
+		<targetPos>0</targetPos>
+		<description>进入副本并击杀3只蜥蜴人</description>
 		<exp>100</exp>
 		<coin>1000</coin>
 		<diomand>0</diomand>
+		<item>10000001#5|10000006#1|10000017#1</item>
 	</item>
 	<item ID="10002">
 		<taskName>击杀Boss</taskName>
@@ -29,10 +31,12 @@
 		<limitLevel>0</limitLevel>
 		<targetID>1002</targetID>
 		<targetCount>1</targetCount>
-		<description>进入副本并击杀1只Boss</description>
+		<targetPos>0</targetPos>
+		<description>进入副本并击杀3只黑骑士</description>
 		<exp>100</exp>
 		<coin>1000</coin>
 		<diomand>0</diomand>
+		<item>10000001#5|10000008#1|10000018#1</item>
 	</item>
 	<item ID="10003">
 		<taskName>击杀怪物2</taskName>
@@ -44,11 +48,184 @@
 		<accTalkID>-1</accTalkID>
 		<subTalkID>-1</subTalkID>
 		<limitLevel>0</limitLevel>
-		<targetID>1001</targetID>
+		<targetID>1003</targetID>
 		<targetCount>5</targetCount>
-		<description>进入副本并击杀5只铁甲战士</description>
+		<targetPos>0</targetPos>
+		<description>进入副本并击杀5只蜥蜴人</description>
 		<exp>200</exp>
 		<coin>2000</coin>
 		<diomand>0</diomand>
+		<item>10000001#5|10000009#1|10000019#1</item>
+	</item>
+	<item ID="10004">
+		<taskName>击杀Boss2</taskName>
+		<taskType>1</taskType>
+		<preTaskID>10002</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>102</acceptNpcID>
+		<submitNpcID>102</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>1002</targetID>
+		<targetCount>5</targetCount>
+		<targetPos>0</targetPos>
+		<description>进入副本并击杀5只黑骑士</description>
+		<exp>200</exp>
+		<coin>2000</coin>
+		<diomand>0</diomand>
+		<item>10000001#5|10000010#1|10000020#1</item>
+	</item>
+	<item ID="10005">
+		<taskName>通关副本</taskName>
+		<taskType>4</taskType>
+		<preTaskID>-1</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>101</acceptNpcID>
+		<submitNpcID>101</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>0</targetID>
+		<targetCount>1</targetCount>
+		<targetPos>0</targetPos>
+		<description>通关一次副本</description>
+		<exp>200</exp>
+		<coin>2000</coin>
+		<diomand>0</diomand>
+		<item>10000001#5|10000013#1|10000021#1</item>
+	</item>
+	<item ID="10006">
+		<taskName>通关副本2</taskName>
+		<taskType>4</taskType>
+		<preTaskID>10005</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>101</acceptNpcID>
+		<submitNpcID>101</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>0</targetID>
+		<targetCount>2</targetCount>
+		<targetPos>0</targetPos>
+		<description>通关两次副本</description>
+		<exp>300</exp>
+		<coin>3000</coin>
+		<diomand>0</diomand>
+		<item>10000001#5|10000014#1|10000022#1</item>
+	</item>
+	<item ID="10007">
+		<taskName>强化数值</taskName>
+		<taskType>6</taskType>
+		<preTaskID>-1</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>104</acceptNpcID>
+		<submitNpcID>104</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>1</targetID>
+		<targetCount>1</targetCount>
+		<targetPos>0</targetPos>
+		<description>强化一次</description>
+		<exp>100</exp>
+		<coin>1000</coin>
+		<diomand>0</diomand>
+		<item>10000001#5|10000007#1</item>
+	</item>
+	<item ID="10008">
+		<taskName>铸造金币</taskName>
+		<taskType>7</taskType>
+		<preTaskID>-1</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>103</acceptNpcID>
+		<submitNpcID>103</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>2</targetID>
+		<targetCount>1</targetCount>
+		<targetPos>0</targetPos>
+		<description>铸造一次金币</description>
+		<exp>100</exp>
+		<coin>1000</coin>
+		<diomand>0</diomand>
+		<item>10000001#5|10000011#1</item>
+	</item>
+	<item ID="10009">
+		<taskName>更换装备</taskName>
+		<taskType>8</taskType>
+		<preTaskID>-1</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>101</acceptNpcID>
+		<submitNpcID>101</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>3</targetID>
+		<targetCount>1</targetCount>
+		<targetPos>0</targetPos>
+		<description>更换一次装备</description>
+		<exp>100</exp>
+		<coin>1000</coin>
+		<diomand>0</diomand>
+		<item>10000001#5|10000012#1|10000028#1</item>
+	</item>
+	<item ID="10010">
+		<taskName>击杀怪物3</taskName>
+		<taskType>1</taskType>
+		<preTaskID>10003</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>102</acceptNpcID>
+		<submitNpcID>102</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>1003</targetID>
+		<targetCount>10</targetCount>
+		<targetPos>0</targetPos>
+		<description>击杀10只蜥蜴人</description>
+		<exp>600</exp>
+		<coin>6000</coin>
+		<diomand>0</diomand>
+		<item>10000001#5|10000015#1|10000023#1</item>
+	</item>
+	<item ID="10011">
+		<taskName>击杀Boss3</taskName>
+		<taskType>1</taskType>
+		<preTaskID>10004</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>102</acceptNpcID>
+		<submitNpcID>102</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>1002</targetID>
+		<targetCount>10</targetCount>
+		<targetPos>0</targetPos>
+		<description>击杀10只黑骑士</description>
+		<exp>600</exp>
+		<coin>6000</coin>
+		<diomand>0</diomand>
+		<item>10000001#5|10000024#1|10000025#1</item>
+	</item>
+	<item ID="10012">
+		<taskName>通关副本3</taskName>
+		<taskType>4</taskType>
+		<preTaskID>10006</preTaskID>
+		<isAutoGetNextTask>0</isAutoGetNextTask>
+		<acceptNpcID>101</acceptNpcID>
+		<submitNpcID>101</submitNpcID>
+		<accTalkID>-1</accTalkID>
+		<subTalkID>-1</subTalkID>
+		<limitLevel>0</limitLevel>
+		<targetID>0</targetID>
+		<targetCount>3</targetCount>
+		<targetPos>0</targetPos>
+		<description>通关三次副本</description>
+		<exp>600</exp>
+		<coin>6000</coin>
+		<diomand>0</diomand>
+		<item>10000001#5|10000026#1|10000027#1</item>
 	</item>
 </root>

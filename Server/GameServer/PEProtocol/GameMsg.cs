@@ -233,6 +233,7 @@ namespace PEProtocol
         public int coin = 0;
         public int exp = 0;
         public int lv = 0;
+        public string[] newBagArr;
     }
 
     [Serializable]

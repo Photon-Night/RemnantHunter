@@ -127,7 +127,7 @@ public class ChatWin : WinRoot
     }
     public void AddChatMsg(PushChat data)
     {
-        string chat = Message.Color(data.name, Message.ColorBlue) + ": " + data.chat;
+        string chat = Message.Color(data.name, Message.ColorOrange) + ": " + data.chat;
         chatLst.Add(chat);
         if(chatLst.Count > 12)
         {

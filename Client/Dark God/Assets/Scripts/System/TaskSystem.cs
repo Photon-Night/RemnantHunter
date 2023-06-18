@@ -1,3 +1,4 @@
+using Game.Bag;
 using Game.Event;
 using PEProtocol;
 using System.Collections;
@@ -27,6 +28,10 @@ public class TaskSystem : SystemRoot<TaskSystem>
         //NPCManager.Instance.RegisterNPCEvent(NPCFunction.OpenTaskWin, OpenTaskWin);
         GameEventManager.SubscribeEvent<int>(EventNode.Event_OnOverTalk, OpenTaskWin_EventAction);
         GameEventManager.SubscribeEvent<int>(EventNode.Event_OnKillMonster, ChangeKillTaskPrg);
+        GameEventManager.SubscribeEvent<int>(EventNode.Event_OnBattleWin, OnBattleWin);
+        GameEventManager.SubscribeEvent<int>(EventNode.Event_OnBuyCoin, OnBuyCoin);
+        GameEventManager.SubscribeEvent<int>(EventNode.Event_OnStrong, OnStrong);
+        GameEventManager.SubscribeEvent<int>(EventNode.Event_OnChangeEquipment, OnChangeEquipment);
     }
 
     private void OpenTaskWin_EventAction(params int[] args)
@@ -73,6 +78,8 @@ public class TaskSystem : SystemRoot<TaskSystem>
         {
             TaskDefine taskData = resSvc.GetTaskData(data.info.taskID);
             GameRoot.Instance.SetPlayerDataByFinishTask(data);
+            TaskDefine task = resSvc.GetTaskData(data.info.taskID);
+            BagSystem.Instance.UpdateBagInfo(task.item);
             GameRoot.AddTips("½ð±Ò+" + taskData.coin);
             GameRoot.AddTips("¾­Ñé+" + taskData.exp);
         }
@@ -167,6 +174,94 @@ public class TaskSystem : SystemRoot<TaskSystem>
 
         NetService.Instance.SendMessage(msg);
     }
+
+    private void OnBattleWin(params int[] args)
+    {
+        TaskItem task = taskMgr.GetPlayerTask(0, TaskType.Win);
+
+        if (task == null || task.npcInfo.prg == task.data.targetCount)
+            return;
+
+        GameMsg msg = new GameMsg
+        {
+            cmd = (int)CMD.ReqUpdateTaskPrg
+        };
+
+        msg.reqUpdateTaskPrg = new ReqUpdateTaskPrg
+        {
+            taskId = task.data.ID,
+            count = 1,
+        };
+
+
+        NetService.Instance.SendMessage(msg);
+    }
+
+    private void OnStrong(params int[] args)
+    {
+        TaskItem task = taskMgr.GetPlayerTask(1, TaskType.Strong);
+
+        if (task == null || task.npcInfo.prg == task.data.targetCount)
+            return;
+
+        GameMsg msg = new GameMsg
+        {
+            cmd = (int)CMD.ReqUpdateTaskPrg
+        };
+
+        msg.reqUpdateTaskPrg = new ReqUpdateTaskPrg
+        {
+            taskId = task.data.ID,
+            count = 1,
+        };
+
+
+        NetService.Instance.SendMessage(msg);
+    }
+
+    private void OnBuyCoin(params int[] args)
+    {
+        TaskItem task = taskMgr.GetPlayerTask(2, TaskType.Buy);
+
+        if (task == null || task.npcInfo.prg == task.data.targetCount)
+            return;
+
+        GameMsg msg = new GameMsg
+        {
+            cmd = (int)CMD.ReqUpdateTaskPrg
+        };
+
+        msg.reqUpdateTaskPrg = new ReqUpdateTaskPrg
+        {
+            taskId = task.data.ID,
+            count = 1,
+        };
+
+
+        NetService.Instance.SendMessage(msg);
+    }
+
+    private void OnChangeEquipment(params int[] args)
+    {
+        TaskItem task = taskMgr.GetPlayerTask(3, TaskType.ChangeEquipment);
+
+        if (task == null || task.npcInfo.prg == task.data.targetCount)
+            return;
+
+        GameMsg msg = new GameMsg
+        {
+            cmd = (int)CMD.ReqUpdateTaskPrg
+        };
+
+        msg.reqUpdateTaskPrg = new ReqUpdateTaskPrg
+        {
+            taskId = task.data.ID,
+            count = 1,
+        };
+
+
+        NetService.Instance.SendMessage(msg);
+    }
 }
 
 public enum NpcTaskStatus
@@ -183,6 +278,11 @@ public enum TaskType
     Kill = 1,
     Talk = 2,
     Gather = 3,
+    Win = 4,
+    Damage = 5,
+    Strong = 6,
+    Buy = 7,
+    ChangeEquipment = 8,
 }
 
 

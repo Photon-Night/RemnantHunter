@@ -33,6 +33,7 @@ namespace Game.Manager
         public bool lockCam;
         public bool interaction;
         public bool openUI;
+        public bool checkOut;
         private void Update()
         {
             GetInput();
@@ -56,6 +57,7 @@ namespace Game.Manager
             interaction = Input.GetKeyDown(KeyCode.F);
             mouseAxis = Input.GetAxis("Mouse ScrollWheel");
             openUI = Input.GetKeyDown(KeyCode.Q);
+            checkOut = Input.GetKeyDown(KeyCode.Escape);
         }
 
         private void SetPlayerStates()
@@ -111,6 +113,11 @@ namespace Game.Manager
             if(openUI)
             {
                 commonInputRoot?.SetOpenMenu();
+            }
+
+            if(checkOut)
+            {
+                commonInputRoot.CheckOut();
             }
 
             playerInputRoot.Move(vertical, horizontal);

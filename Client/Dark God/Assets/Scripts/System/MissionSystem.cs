@@ -36,6 +36,6 @@ public class MissionSystem : SystemRoot<MissionSystem>
 
         missionWin.SetWinState(false);
         MainCitySystem.Instance.CloseMainCityWin();
-        BattleSystem.Instance.StartBattle(10008);
+        BattleSystem.Instance.StartBattle(data.mid);
     }
 }

@@ -21,4 +21,67 @@
 		<battleRange>15</battleRange>
 		<monsters>1002,0,0,3.8,50|1003,1,0,0.6,50</monsters>
 	</item>
+	<item ID="20004">
+		<pos>-3.5,8,-100</pos>
+		<lv>1</lv>
+		<normalRange>8</normalRange>
+		<battleRange>15</battleRange>
+		<monsters>1002,0,0,3.8,50|1003,1,0,0.6,50</monsters>
+	</item>
+	<item ID="20005">
+		<pos>30.67,8,-89</pos>
+		<lv>1</lv>
+		<normalRange>8</normalRange>
+		<battleRange>15</battleRange>
+		<monsters>1002,0,0,3.8,50|1003,1,0,0.6,50</monsters>
+	</item>
+	<item ID="20006">
+		<pos>-37.5,8,-100</pos>
+		<lv>1</lv>
+		<normalRange>8</normalRange>
+		<battleRange>15</battleRange>
+		<monsters>1002,0,0,3.8,50|1003,1,0,0.6,50</monsters>
+	</item>
+	<item ID="20007">
+		<pos>3.5,13,-164</pos>
+		<lv>1</lv>
+		<normalRange>8</normalRange>
+		<battleRange>15</battleRange>
+		<monsters>1002,0,0,3.8,50|1003,1,0,0.6,50</monsters>
+	</item>
+	<item ID="20008">
+		<pos>-3.7,-14.5,-180</pos>
+		<lv>1</lv>
+		<normalRange>8</normalRange>
+		<battleRange>15</battleRange>
+		<monsters>1002,0,0,3.8,50|1003,1,0,0.6,50</monsters>
+	</item>
+	<item ID="20009">
+		<pos>-3.7,18,-229</pos>
+		<lv>1</lv>
+		<normalRange>8</normalRange>
+		<battleRange>15</battleRange>
+		<monsters>1002,0,0,3.8,50|1003,1,0,0.6,50</monsters>
+	</item>
+	<item ID="20010">
+		<pos>-7.2,13.2,5.9</pos>
+		<lv>1</lv>
+		<normalRange>5</normalRange>
+		<battleRange>9</battleRange>
+		<monsters>1002,1,0,2.37,-102|1003,-1.7,0,-0.85,0</monsters>
+	</item>
+	<item ID="20011">
+		<pos>17,13.2,6.36</pos>
+		<lv>1</lv>
+		<normalRange>5</normalRange>
+		<battleRange>9</battleRange>
+		<monsters>1002,1,0,2.37,-102|1003,-1.7,0,-0.85,0</monsters>
+	</item>
+	<item ID="20012">
+		<pos>7.57,8.928,31.4</pos>
+		<lv>1</lv>
+		<normalRange>5</normalRange>
+		<battleRange>9</battleRange>
+		<monsters>1002,2.86,0,2.31,-102|1003,2.42,0,-2.78,0</monsters>
+	</item>
 </root>

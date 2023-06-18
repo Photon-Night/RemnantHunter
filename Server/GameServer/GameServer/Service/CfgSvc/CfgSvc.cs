@@ -160,7 +160,7 @@ namespace GameServer
         {
 
             XmlDocument doc = new XmlDocument();
-            doc.Load(@"D:\UnityProject\Dark God\Dark-God\Client\Dark God\Assets\Resources\ResCfgs\task1.xml");
+            doc.Load(@"D:\UnityProject\Dark God\Dark-God\Client\Dark God\Assets\Resources\ResCfgs\task.xml");
             if (doc == null)
             {
                 PECommon.Log("Task cfg is not exist");
@@ -219,6 +219,10 @@ namespace GameServer
                         case "diomand":
                             tf.diomand = int.Parse(e.InnerText);
                             break;
+                        case "item":
+                            tf.item = e.InnerText.Split('|');
+                            break;
+
                     }
                 }
 
@@ -376,6 +380,7 @@ public class TaskDefine : BaseData
     public int exp;
     public int coin;
     public int diomand;
+    public string[] item;
 }
 
 

@@ -1012,7 +1012,7 @@ public class ResService : MonoSingleton<ResService>, IService
                             break;
                         case "targetPos":
                             string[] posArr = e.InnerText.Split(',');
-                            if(posArr.Length > 0)
+                            if(posArr.Length > 2)
                             {
                                 tf.targetPos = new Vector3(float.Parse(posArr[0]), float.Parse(posArr[1]), float.Parse(posArr[2]));
                             }
@@ -1028,6 +1028,9 @@ public class ResService : MonoSingleton<ResService>, IService
                             break;
                         case "diomand":
                             tf.diomand = int.Parse(e.InnerText);
+                            break;
+                        case "item":
+                            tf.item = e.InnerText.Split('|');
                             break;
                     }
                 }

@@ -38,12 +38,12 @@ public class TaskManager
         return ownerTaskList;
     }
 
-    public TaskItem GetPlayerTask(int taskId, TaskType type)
+    public TaskItem GetPlayerTask(int targetID, TaskType type)
     {
         if(ownerTaskDic.ContainsKey(type))
         {
             TaskItem item = null;
-            if(ownerTaskDic[type].TryGetValue(taskId, out item))
+            if(ownerTaskDic[type].TryGetValue(targetID, out item))
             {
                 return item;
             }
@@ -93,12 +93,14 @@ public class TaskManager
 
     public void AddPlayerTaskData(TaskItem task)
     {
+        if (task.npcInfo.taskState == TaskStatus.Finished) return;
+
         if(!ownerTaskDic.ContainsKey(task.data.taskType))
         {
             ownerTaskDic[task.data.taskType] = new Dictionary<int, TaskItem>();
         }
 
-        if(!ownerTaskDic[task.data.taskType].ContainsKey(task.data.ID))
+        if(!ownerTaskDic[task.data.taskType].ContainsKey(task.data.targetID))
         {
             ownerTaskDic[task.data.taskType][task.data.targetID] = task;
             ownerTaskList.Add(task);
@@ -236,16 +238,18 @@ public class TaskManager
 
         if(info.taskState == TaskStatus.InProgress)
         {
+            Debug.Log(info.taskID + "take");
             AddPlayerTaskData(result);
         }
         else if(info.taskState == TaskStatus.Finished)
         {
-            ownerTaskDic[result.data.taskType].Remove(info.taskID);
+            ownerTaskDic[result.data.taskType].Remove(result.data.targetID);
             ownerTaskList.Remove(result);
         }
         else if(info.taskState == TaskStatus.Failed)
         {
-            ownerTaskDic[result.data.taskType].Remove(info.taskID);
+            Debug.Log(info.taskID + "fail");
+            ownerTaskDic[result.data.taskType].Remove(result.data.targetID);
             ownerTaskList.Remove(result);
         }
         CheckAvailableTask();

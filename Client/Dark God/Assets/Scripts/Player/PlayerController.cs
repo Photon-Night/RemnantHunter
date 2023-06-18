@@ -214,6 +214,7 @@ public class PlayerController : EntityController
 
     public override bool SetJump()
     {
+        return false;
 
         if (onGround && CanMove)
         {

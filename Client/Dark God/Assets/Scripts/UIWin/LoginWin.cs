@@ -33,7 +33,7 @@ public class LoginWin : WinRoot
     public void ClickEnterBtn()
     {
         audioSvc.PlayUIAudio(Message.UILoginBtn);
-        SetActive(cover);
+        //SetActive(cover);
         string _acc = accInput.text;
         string _pas = pasInput.text;
 
@@ -57,5 +57,20 @@ public class LoginWin : WinRoot
         else
             GameRoot.AddTips("请输入完整账号信息");
     }
-   
+
+    public void SetCover(bool state = true)
+    {
+        SetActive(cover, state);
+    }
+
+    public void OnClickCheckOutBtn()
+    {
+        audioSvc.PlayUIAudio(Message.UIClickBtn);
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
 }

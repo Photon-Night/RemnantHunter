@@ -66,14 +66,6 @@ public class TaskRewardData : BaseData
     public bool taked;
 }
 
-public class TaskCfg : BaseData
-{
-    public string taskName;
-    public int count;
-    public int coin;
-    public int exp;
-}
-
 public class SkillCfg : BaseData
 {
     public string skillName;
@@ -220,6 +212,7 @@ public class TaskDefine : BaseData
     public int exp;
     public int coin;
     public int diomand;
+    public string[] item;
 }
 
 

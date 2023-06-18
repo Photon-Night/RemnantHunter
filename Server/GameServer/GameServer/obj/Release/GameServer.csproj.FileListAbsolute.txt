@@ -1,0 +1,13 @@
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\bin\Release\GameServer.exe.config
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\bin\Release\GameServer.exe
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\bin\Release\GameServer.pdb
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\bin\Release\MySql.Data.dll
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\bin\Release\PEProtocol.dll
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\bin\Release\PESocket.dll
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\bin\Release\PETimer.dll
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\bin\Release\PEProtocol.pdb
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\obj\Release\GameServer.csproj.AssemblyReference.cache
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\obj\Release\GameServer.csproj.CoreCompileInputs.cache
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\obj\Release\GameServer.csproj.CopyComplete
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\obj\Release\GameServer.exe
+D:\UnityProject\Dark God\Dark-God\Server\GameServer\GameServer\obj\Release\GameServer.pdb

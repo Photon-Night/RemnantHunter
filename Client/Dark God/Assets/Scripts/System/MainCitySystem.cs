@@ -392,10 +392,12 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet, IComm
         GameRoot.Instance.SetPlayerDataByStrong(msg.rspStrong);
         int currentFight = PECommon.GetFightByProps(GameRoot.Instance.PlayerData);
 
-        GameRoot.AddTips(Message.Color("战力增加   " + (currentFight - lastFight), Message.ColorBlue));
+        GameRoot.AddTips(Message.Color("战力增加   " + (currentFight - lastFight), Message.ColorOrange));
 
         strongWin.RefreshUI();
         mainCityWin.RefreshUI();
+
+        GameEventManager.TriggerEvent<int>(EventNode.Event_OnStrong);
     }
 
     #endregion
@@ -414,7 +416,10 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet, IComm
         GameRoot.Instance.SetPlayerDataByBuy(msg.rspBuy);
         mainCityWin.RefreshUI();
         buyWin.SetWinState(false);
-
+        if(msg.rspBuy.buyType == 0)
+        {
+            GameEventManager.TriggerEvent<int>(EventNode.Event_OnBuyCoin);
+        }
         //if(msg.pushTaskPrgs != null)
         //{
         //    PushTaskPrgs(msg);
@@ -505,6 +510,9 @@ public class MainCitySystem : SystemRoot<MainCitySystem>, IPlayerInputSet, IComm
         return pc?.GetModleIndex_Str();
     }
 
-
+    public void CheckOut()
+    {
+        GameRoot.Instance.OpenCheckOutWin();
+    }
 
 }

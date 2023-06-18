@@ -25,9 +25,27 @@ namespace Game.Bag
             bagWin.SetWinState();
         }
 
+        public void CloseBagWin()
+        {
+            bagWin.SetWinState(false);
+        }
+
         public void InitBagManager(string[] itemArr)
         {
             bagMgr = new BagManager(itemArr);
+        }
+
+        public void UpdateBagInfo(string[] itemArr)
+        {
+            for(int i = 0; i < itemArr.Length; i++)
+            {
+                var itemInfo = itemArr[i].Split('#');
+                int itemID = int.Parse(itemInfo[0]);
+                int count = int.Parse(itemInfo[1]);
+                var data = resSvc.GetGameItemCfg(itemID);
+                GameRoot.AddTips($"获得{Message.Color(data.name, Message.ColorOrange)}");
+                bagMgr.AddBagItem(data, count);
+            }
         }
 
         public void GetBagItemLstByItemType(BagItemType type, List<BagItemData> itemLst)
@@ -35,14 +53,23 @@ namespace Game.Bag
             bagMgr.GetBagItemLstByItemType(type, itemLst);
         }
 
-        public void UseProp(int itemID)
+        public void UseProp(BagItemData data)
         {
+            if (!CanUsePotion(data.cfg.funcType))
+            {
+                if (data.cfg.funcType == ItemFunction.Health)
+                    GameRoot.AddTips($"血量已满，无法使用{Message.Color(data.cfg.name, Message.ColorOrange)}");
+                else
+                    GameRoot.AddTips($"{Message.Color(data.cfg.name, Message.ColorOrange)}已生效，无法重复使用");
+                return;
+            }
+
             GameMsg msg = new GameMsg
             {
                 cmd = (int)CMD.ReqUseProp,
                 reqUseProp = new ReqUseProp
                 {
-                    itemID = itemID,
+                    itemID = data.cfg.ID,
                 },
             };
 
@@ -57,6 +84,11 @@ namespace Game.Bag
             bagMgr.UpdateBagItemCount(cfg.ItemType, data.itemID, data.count);
             bagWin.RefreshUI(data.itemID);
             GameRoot.AddTips($"使用{Message.Color(cfg.name, Message.ColorOrange)}");
+
+            if(cfg.ItemType == BagItemType.Potion && BattleSystem.IsEnterBattle)
+            {
+                BattleSystem.Instance.SetPlayerPropByPotion(cfg.funcType, cfg.funcNum, cfg.duration);
+            }
         }
 
         public void ChangeEquipment(int itemID, EquipmentType type)
@@ -83,6 +115,11 @@ namespace Game.Bag
             else return false;
         }
 
+        public bool CanUsePotion(ItemFunction type)
+        {
+            return BattleSystem.Instance.GetPotionUseStatus(type);
+        }
+
         public void RspChangeEquipment(GameMsg msg)
         {
             var data = msg.rspChangeEquipment;
@@ -100,6 +137,9 @@ namespace Game.Bag
 
             bagWin.RefreshUI(data.itemID);
             GameRoot.AddTips($"{Message.Color(cfg.name, Message.ColorOrange)}已装备");
+            GameEventManager.TriggerEvent<int>(EventNode.Event_OnChangeEquipment);
         }
+
+
     }
 }
